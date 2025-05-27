@@ -62,23 +62,4 @@ export class AlertService {
 
   }
 
-
-  private joinValidationErrorArray(res: Array<Array<string>>): IAppResponse {
-
-    let result: IAppResponse = { ErrorMessage: DialogMessage.BadRequest };
-
-    let msgStr: string = '';
-
-    if (res == null)
-      return result;
-
-    for (var prop in res) {
-      msgStr += `${prop}:${res[prop][0]}<br>`;
-    }
-
-    result.ErrorMessage = msgStr;
-
-    return result;
-
-  }
 }
