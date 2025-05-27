@@ -12,23 +12,23 @@ export const routes: Routes = [
     pathMatch: 'full',
     canActivate: [RedirectGuard]
   },
-  {
-    path: '',
-    component: AuthLayoutComponent,
-    children: [
-      {
-        path: 'sessions',
-        loadChildren: () => import('./views/sessions/sessions.module').then(m => m.SessionsModule),
-        data: { title: 'Session' }
-      }
-    ]
-  },
+  // {
+  //   path: '',
+  //   component: AuthLayoutComponent,
+  //   children: [
+  //     {
+  //       path: 'sessions',
+  //       loadChildren: () => import('./views/sessions/sessions.module').then(m => m.SessionsModule),
+  //       data: { title: 'Session' }
+  //     }
+  //   ]
+  // },
   {
     path: '',
     component: DashboardLayoutComponent,
     children: [
       {
-       canActivateChild: [AuthGuard],
+      //  canActivateChild: [AuthGuard],
         path: 'dashboard',
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule),
       },
