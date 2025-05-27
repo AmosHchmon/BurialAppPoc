@@ -1,0 +1,19 @@
+<div class="form-group">
+  <!--<a style="color:dodgerblue" target="_blank" href="https://combinepdf.com/">קישור לצורך מיזוג קבצים</a>-->
+  <div>
+    <button mat-raised-button class="extend" [hidden]="(IsExistFile && !Multiple) || ReadOnly" (click)="onAdd()"
+      color="primary"><i class="fa fa-file-pdf-o fa-lg"></i> {{Title}}</button>
+    <button mat-raised-button class="extend" [hidden]="!IsExistFile || ReadOnly || Multiple" (click)="onDelete()"
+      color="primary"><i class="fa fa-trash fa-lg"></i> {{Title}}</button>
+  </div>
+  <div class="pt-1">
+    <input #fileInput type="file" name="{{Name}}" accept="application/pdf" hidden="hidden"
+      (change)="onUploadFile($event)" [hidden]="true" />
+    <div class="d-flex" [ngClass]="Layout">
+      <div *ngFor="let file of FileArray">
+        <a href="javascript:;;" style="color:dodgerblue" (click)="onDownload(file)">{{file?.Name}}<i
+            [hidden]="!Multiple" (click)="onDelete(file?.FileId)" class="fa fa-trash fa-lg p-1"></i></a>
+      </div>
+    </div>
+  </div>
+</div>

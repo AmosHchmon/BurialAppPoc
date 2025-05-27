@@ -1,0 +1,97 @@
+<mat-drawer-container class="h-100">
+  <mat-drawer #drawer mode="side" [opened]="isMenuOpen">
+    <div class="p-3 d-flex flex-column mb-5 rounded">
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="mr-3">ניווט בין הסעיפים</span>
+        <mat-icon color="primary" class="fw-bold fs-5 d-flex align-items-center justify-content-center cursor-pointer"
+                  (click)="toggleMenu()"
+                  *ngIf="isMenuOpen">arrow_forward_ios
+        </mat-icon>
+      </div>
+      <div class="root h-100 p-3 d-flex flex-column rounded" *ngIf="isMenuOpen">
+        <mat-accordion #accordion="matAccordion">
+          <mat-expansion-panel hideToggle *ngFor="let item of menuItems"
+                               class="w-100 bg-light my-0">
+            <mat-expansion-panel-header class="d-flex justify-content-between px-2 category-header">
+              <div *ngIf="item.Text === 'הכנסות'" class="w-100 d-flex justify-content-between align-items-center">
+          <span class="d-flex align-items-center">
+            <mat-icon class="ml-2 fs-4 d-flex align-items-center justify-content-center">add_shopping_cart</mat-icon>
+            {{ item.Text }}
+          </span>
+                {{ total?.income.toLocaleString() + " ₪" }}
+              </div>
+              <div *ngIf="item.Text === 'הוצאות'" class="w-100 d-flex justify-content-between align-items-center">
+          <span class="d-flex align-items-center">
+            <mat-icon
+              class="ml-2 fs-4 d-flex align-items-center justify-content-center">shopping_cart_checkout</mat-icon>
+            {{ item.Text }}
+          </span>
+                {{ total?.expense.toLocaleString() + " ₪" }}
+              </div>
+            </mat-expansion-panel-header>
+            <mat-panel-title *ngIf="item.IsCollapse" class="d-flex flex-column w-100 px-0">
+              <mat-expansion-panel *ngFor="let subItem of item.MenuItems" class="w-100 bg-light">
+                <mat-expansion-panel-header class="d-flex px-2 subCategory-header">
+                  {{ subItem.Text }}
+                  <ng-container *ngFor="let subCategory of planBudget?.SubCategories">
+                    <div *ngIf="subCategory.SubCategoryId === parseInt(subItem.Id)">
+
+                      <span class="ml-2">{{ subCategory.Total?.toLocaleString() + " ₪" }}</span>
+                    </div>
+                  </ng-container>
+                </mat-expansion-panel-header>
+                <div *ngFor="let form of subItem.MenuItems" class="d-flex mt-1">
+                  <a class="text-end mb-2 mx-1 px-3 pe-auto d-flex d-block w-100 text-decoration-none"
+                     routerLink="/report/{{form.FormPath}}/{{form.Id}}"
+                     [routerLinkActive]="'active-link'">
+                    {{ form.Text }}
+                  </a>
+                </div>
+              </mat-expansion-panel>
+            </mat-panel-title>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <mat-card appearance="outlined" class="p-2 d-flex flex-column justify-content-between mt-3">
+          <div class="fw-bold">עודף (גרעון) לשנת {{ currentYear }}:</div>
+          <b class="pr-2 dir-ltr text-end fs-4"
+             [ngClass]="getExcessColor()">₪{{ (total?.income - total?.expense).toLocaleString() }}</b>
+          <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center justify-content-center" *ngIf="planBudget?.IsBalanced">
+              <span class="mr-1">הצעה מאוזנת</span>
+              <mat-icon class="pt-1 text-success fs-4">check_small</mat-icon>
+            </div>
+            <div class="d-flex align-items-center justify-content-center" *ngIf="!planBudget?.IsBalanced">
+              <span class="mr-1">הצעה אינה מאוזנת</span>
+              <mat-icon class="pt-1 text-danger fs-4">close</mat-icon>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </mat-drawer>
+
+  <div class="d-flex flex-column justify-content-start bg-white" *ngIf="!isMenuOpen">
+    <div class="d-flex justify-content-end w-100">
+      <mat-icon color="primary"
+                class="fw-bold fs-5 mt-3 d-flex align-items-center justify-content-center cursor-pointer"
+                (click)="toggleMenu()"
+                *ngIf="!isMenuOpen">arrow_back_ios
+      </mat-icon>
+    </div>
+    <div class="rounded shadow-sm border-white p-2 d-flex mt-3 flex-column w-100 mx-3 small-menu">
+      <mat-icon class="ml-2 fs-4 d-flex align-items-center justify-content-center">add_shopping_cart</mat-icon>
+      <div>הכנסות</div>
+      <div>{{ total?.income.toLocaleString() + " ₪" }}</div>
+    </div>
+    <div class="rounded shadow-sm p-2 d-flex mt-3 flex-column w-100 mx-3 small-menu">
+      <mat-icon class="ml-2 fs-4 d-flex align-items-center justify-content-center">shopping_cart_checkout</mat-icon>
+      <div>הוצאות</div>
+      <div class="w-100">{{ total?.expense.toLocaleString() + " ₪" }}</div>
+    </div>
+    <div class="mt-3 mr-2 fw-bold">
+      עודף (גרעון)
+    </div>
+    <b class="pr-2 dir-ltr text-end fs-6"
+       [ngClass]="getExcessColor()">₪{{ (total?.income - total?.expense).toLocaleString() }}</b>
+  </div>
+</mat-drawer-container>
