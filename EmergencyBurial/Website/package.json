@@ -30,7 +30,6 @@
     "lodash": "^4.17.21",
     "material-icons": "^1.13.6",
     "ng-http-loader": "^13.0.0",
-    "ng2-currency-mask": "^13.0.3",
     "ngx-toastr": "^16.1.1",
     "ngx-webstorage": "^11.1.1",
     "pdfjs": "^2.5.0",
