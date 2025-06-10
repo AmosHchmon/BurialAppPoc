@@ -96,7 +96,6 @@ import {MatChipsModule} from '@angular/material/chips';
   declarations: [
     MatConvertTimezoneDirective,
   ],
-  entryComponents: [],
   providers: [
     FileService,
     {provide: MAT_DATE_LOCALE, useValue: 'he-IL'},
