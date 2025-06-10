@@ -3,7 +3,8 @@ import { NgModel } from '@angular/forms';
 import { OnChanges } from '@angular/core';
 
 @Directive({
-  selector: '[appConvertTimezone]'
+    selector: '[appConvertTimezone]',
+    standalone: false
 })
 export class MatConvertTimezoneDirective implements OnChanges {
   constructor(public el: ElementRef, public model: NgModel) {

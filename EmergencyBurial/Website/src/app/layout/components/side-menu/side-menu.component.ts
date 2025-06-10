@@ -11,9 +11,10 @@ import {IBudgetTotal} from '../../../views/report/model/plan-budget-total';
 import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'app-side-menu',
-  templateUrl: './side-menu.component.html',
-  styleUrls: ['./side-menu.component.scss'],
+    selector: 'app-side-menu',
+    templateUrl: './side-menu.component.html',
+    styleUrls: ['./side-menu.component.scss'],
+    standalone: false
 })
 export class SideMenuComponent implements OnInit, OnDestroy {
 

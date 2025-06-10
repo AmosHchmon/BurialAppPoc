@@ -6,9 +6,10 @@ import {IMember} from '../../../shared/model/member';
 import {constants} from '../../../shared/static/constants';
 
 @Component( {
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: [ './header.component.scss' ],
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    standalone: false
 } )
 export class HeaderComponent implements OnInit {
 
