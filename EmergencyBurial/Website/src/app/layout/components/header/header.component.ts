@@ -4,12 +4,15 @@ import { AuthContextService } from 'src/app/shared/services/auth-context.service
 import { MatDialog } from '@angular/material/dialog';
 import {IMember} from '../../../shared/model/member';
 import {constants} from '../../../shared/static/constants';
+import {CommonModule} from '@angular/common';
+import {SharedModule} from '../../../shared/shared.module';
 
 @Component( {
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, SharedModule],
 } )
 export class HeaderComponent implements OnInit {
 

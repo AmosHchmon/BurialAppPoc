@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2, Output, EventEmitter } from '@angular/core';
 import { IFileResult } from '../../model/file-result.model';
 import { FileService } from '../../services/file.service';
 import { AlertService } from '../../../services/alert.service';
-import * as _ from 'lodash';
-import { AppDocumentType } from '../../../enum/document-type.enum';
+import * as _ from 'lodash-es';
 
 @Component({
     selector: 'app-file-upload',

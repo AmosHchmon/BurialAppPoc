@@ -5,12 +5,6 @@
       <span>{{member.FullName}}</span>
     </div>
     <mat-menu #menu="matMenu" class="w-auto" >
-      <button mat-menu-item
-        class="d-flex justify-content-start"
-        (click)="openProfile()">
-        <mat-icon class="d-flex align-items-center justify-content-center">manage_accounts</mat-icon>
-        <span class="ml-3">פרופיל אישי</span>
-      </button>
       @if (officials.length > 1) {
         <button mat-menu-item
           class="d-flex justify-content-start"
