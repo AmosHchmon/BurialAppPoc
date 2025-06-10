@@ -5,7 +5,7 @@ import { MediaMatcher, LayoutModule } from '@angular/cdk/layout';
 import { CoreModule } from '../core/core.module';
 import { RouterModule } from '@angular/router';
 import { UiComponentsModule } from './ui-components/ui-components.module';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ValidFormDirective } from './directives/valid-form.directive';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { FileService } from './file-upload/services/file.service';
@@ -16,43 +16,36 @@ import { AlertService } from './services/alert.service';
 import { SideMenuService } from './services/side-menu.service';
 import {ValidationModule} from "./validation/validation.module";
 
-@NgModule({
-  imports: [
-    RouterModule,
-    CommonModule,
-    ReactiveFormsModule,
-    CoreModule,
-    UiComponentsModule,
-    ValidationModule,
-    LayoutModule,
-    HttpClientModule,
-    FileUploadModule,
-    ToastrModule.forRoot(), // ToastrModule added
-    NgxWebstorageModule.forRoot(),
-  ],
-  exports: [
-    RouterModule,
-    CommonModule,
-    ReactiveFormsModule,
-    ValidationModule,
-    CoreModule,
-    UiComponentsModule,
-    LayoutModule,
-    HttpClientModule,
-    ValidFormDirective,
-    FileUploadModule,
-  ],
-  providers: [
-    MediaMatcher,
-    FileService,
-    AlertService,
-    SideMenuService,
-  ],
-  declarations: [
-    ValidFormDirective,
-    NgxTimepickerPipe,
-  ],
-
-})
+@NgModule({ exports: [
+        RouterModule,
+        CommonModule,
+        ReactiveFormsModule,
+        ValidationModule,
+        CoreModule,
+        UiComponentsModule,
+        LayoutModule,
+        HttpClientModule,
+        ValidFormDirective,
+        FileUploadModule,
+    ],
+    declarations: [
+        ValidFormDirective,
+        NgxTimepickerPipe,
+    ], imports: [RouterModule,
+        CommonModule,
+        ReactiveFormsModule,
+        CoreModule,
+        UiComponentsModule,
+        ValidationModule,
+        LayoutModule,
+        FileUploadModule,
+        ToastrModule.forRoot(), // ToastrModule added
+        NgxWebstorageModule.forRoot()], providers: [
+        MediaMatcher,
+        FileService,
+        AlertService,
+        SideMenuService,
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class SharedModule {
 }

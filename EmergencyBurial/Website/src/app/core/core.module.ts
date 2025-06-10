@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS} from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TrimPipe } from './pipes/trim';
 import { ErrorServerInterceptor } from './interceptors/error-server-interceptor.service';
 import { MatConvertTimezoneDirective } from './directives/mat-convert-timezone.directive';
