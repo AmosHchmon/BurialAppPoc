@@ -1,19 +1,29 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app.routing';
-import { AppComponent } from './app.component';
-import { LayoutModule } from './layout/layout.module';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { NgHttpLoaderModule } from 'ng-http-loader';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {provideRouter} from '@angular/router';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgHttpLoaderComponent, pendingRequestsInterceptor$} from 'ng-http-loader';
+import {provideHttpClient, withInterceptors} from '@angular/common/http';
 
+import {AppRoutingModule} from './app.routing';
+import {routes} from './app.routing';
+import {AppComponent} from './app.component';
 
-@NgModule({ declarations: [
-        AppComponent
-    ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        AppRoutingModule,
-        LayoutModule,
-        BrowserAnimationsModule,
-        NgHttpLoaderModule.forRoot()], providers: [provideHttpClient(withInterceptorsFromDi())] })
-export class AppModule { }
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    NgHttpLoaderComponent,
+  ],
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([pendingRequestsInterceptor$])),
+  ],
+  bootstrap: [AppComponent],
+})
+export class AppModule {
+}

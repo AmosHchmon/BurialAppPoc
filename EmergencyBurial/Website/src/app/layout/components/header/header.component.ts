@@ -15,7 +15,6 @@ export class HeaderComponent implements OnInit {
 
   isOpen: boolean = true;
   public officials: IMember[] = [];
-  @Input() isShowMenu: boolean = true;
   public member: IMember = {};
 
   constructor( public authCtx: AuthContextService,
