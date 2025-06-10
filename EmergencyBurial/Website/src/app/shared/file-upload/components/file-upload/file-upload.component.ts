@@ -3,6 +3,7 @@ import { IFileResult } from '../../model/file-result.model';
 import { FileService } from '../../services/file.service';
 import { AlertService } from '../../../services/alert.service';
 import * as _ from 'lodash-es';
+import {AppDocumentType} from '../../../enum/document-type.enum';
 
 @Component({
     selector: 'app-file-upload',
