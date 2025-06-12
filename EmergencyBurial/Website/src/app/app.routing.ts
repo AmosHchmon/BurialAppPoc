@@ -6,33 +6,8 @@ import { RedirectGuard } from './shared/guards/redirect.guard';
 export const routes: Routes = [
   {
     path: '',
-    children: [],
-    pathMatch: 'full',
-    canActivate: [RedirectGuard]
-  },
-  // {
-  //   path: '',
-  //   component: AuthLayoutComponent,
-  //   children: [
-  //     {
-  //       path: 'sessions',
-  //       loadChildren: () => import('./views/sessions/sessions.module').then(m => m.SessionsModule),
-  //       data: { title: 'Session' }
-  //     }
-  //   ]
-  // },
-  {
-    path: '',
-    component: DashboardLayoutComponent,
-    children: [
-      {
-      //  canActivateChild: [AuthGuard],
-        path: 'dashboard',
-        loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule),
-      },
-
-    ]
-  },
+    component: DashboardLayoutComponent
+  }
 ];
 
 @NgModule({

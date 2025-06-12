@@ -10,7 +10,6 @@ import {FileUploadModule} from './file-upload/file-upload.module';
 import {FileService} from './file-upload/services/file.service';
 import {NgxTimepickerPipe} from '../core/pipes/ngx-timepicker.pipe';
 import {ToastrModule} from 'ngx-toastr';
-import {provideNgxWebstorage} from 'ngx-webstorage';
 import {AlertService} from './services/alert.service';
 import {ValidationModule} from './validation/validation.module';
 
@@ -24,7 +23,7 @@ import {ValidationModule} from './validation/validation.module';
     ValidationModule,
     LayoutModule,
     FileUploadModule,
-    ToastrModule.forRoot(), // ToastrModule added
+    ToastrModule.forRoot()
   ],
   exports: [
     RouterModule,
@@ -41,7 +40,6 @@ import {ValidationModule} from './validation/validation.module';
     MediaMatcher,
     FileService,
     AlertService,
-    provideNgxWebstorage(),
   ],
   declarations: [
     ValidFormDirective,

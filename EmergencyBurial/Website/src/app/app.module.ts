@@ -8,6 +8,7 @@ import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {AppRoutingModule} from './app.routing';
 import {routes} from './app.routing';
 import {AppComponent} from './app.component';
+import {provideNgxWebstorage, withLocalStorage, withNgxWebstorageConfig, withSessionStorage} from 'ngx-webstorage';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,11 @@ import {AppComponent} from './app.component';
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptors([pendingRequestsInterceptor$])),
+    provideNgxWebstorage(
+      withNgxWebstorageConfig({ separator: ':', caseSensitive: true }),
+      withLocalStorage(),
+      withSessionStorage()
+    )
   ],
   bootstrap: [AppComponent],
 })

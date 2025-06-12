@@ -1,9 +1,10 @@
-import { Injectable, Input, Inject } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import {LocalStorageService, SessionStorageService} from 'ngx-webstorage';
 import { IMember } from "../model/member";
 
 const jwtHelper = new JwtHelperService();
+
 @Injectable({
   providedIn: "root",
 })
@@ -29,8 +30,7 @@ export class AuthContextService {
   }
 
   constructor(
-    private storage: LocalStorageService,
-    private session: SessionStorageService,
+    private session: SessionStorageService
   ) {}
 
 

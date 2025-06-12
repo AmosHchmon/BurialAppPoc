@@ -1,38 +1,5 @@
 <header dir="ltr" class="d-flex justify-content-between h-100">
-  <div class="d-flex justify-content-between align-items-center ml-5">
-    <div [matMenuTriggerFor]="menu" class="cursor-pointer d-flex justify-content-center align-items-center">
-      <mat-icon class="d-flex align-items-center justify-content-center">keyboard_arrow_down</mat-icon>
-      <span>{{member.FullName}}</span>
-    </div>
-    <mat-menu #menu="matMenu" class="w-auto" >
-      @if (officials.length > 1) {
-        <button mat-menu-item
-          class="d-flex justify-content-start"
-          (click)="changeCouncil()">
-          <mat-icon class="d-flex align-items-center justify-content-center">other_houses</mat-icon>
-          <span class="ml-3">החלפת מועצה</span>
-        </button>
-      }
-      <button mat-menu-item class="d-flex justify-content-start">
-        <mat-icon class="d-flex align-items-center justify-content-center">mail</mat-icon>
-        <span class="ml-3">
-          <a class="text-decoration-none text-black" href="mailto:TakzivSupp@dat.gov.il">תמיכה</a>
-        </span>
-      </button>
-      <button mat-menu-item class="d-flex justify-content-start" (click)="signOut()">
-        <mat-icon class="d-flex align-items-center justify-content-center">logout</mat-icon>
-        <span class="ml-3">התנתק</span>
-      </button>
-    </mat-menu>
-    <mat-icon class="ml-3 d-flex align-items-center justify-content-center">account_circle</mat-icon>
-  </div>
   <div class="d-flex align-items-center cursor-pointer" routerLink="/dashboard/home">
-    <h4 class="w-100 text-center mr-3">מערכת תקציב</h4>
-    <img class="img-fluid h-75 w-25 mr-2"
-      [ngSrc]="constants.headerLogoPath"
-      width="80"
-      height="80"
-      priority
-      alt="israelLogo">
-    </div>
-  </header>
+    <h4 class="w-100 text-center mr-3">קבורה בחירום</h4>
+  </div>
+</header>
