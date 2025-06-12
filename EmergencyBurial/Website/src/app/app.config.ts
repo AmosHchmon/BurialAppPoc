@@ -1,12 +1,13 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import {provideRouter, withHashLocation} from '@angular/router';
-import {routes} from './app.routes';
 import {provideNgxWebstorage, withLocalStorage, withNgxWebstorageConfig, withSessionStorage} from 'ngx-webstorage';
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors} from '@angular/common/http';
 import {pendingRequestsInterceptor$} from 'ng-http-loader';
+import {MAT_DATE_LOCALE} from '@angular/material/core';
+
 import {ErrorServerInterceptor} from './core/interceptors/error-server-interceptor.service';
 import {TokenInterceptor} from './shared/interceptors/token-interceptor.service';
-import {MAT_DATE_LOCALE} from '@angular/material/core';
+import {routes} from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
