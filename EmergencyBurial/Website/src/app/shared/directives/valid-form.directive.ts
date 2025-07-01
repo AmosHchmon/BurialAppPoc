@@ -3,7 +3,8 @@ import { Directive, Output, Renderer2, ElementRef, EventEmitter } from '@angular
 import { NgForm } from '@angular/forms';
 
 @Directive({
-  selector: '[form.valid.event]'
+    selector: '[form.valid.event]',
+    standalone: false
 })
 export class ValidFormDirective {
   @Output("form.valid.event") stopPropEvent = new EventEmitter();

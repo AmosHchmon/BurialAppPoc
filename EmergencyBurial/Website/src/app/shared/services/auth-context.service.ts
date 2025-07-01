@@ -1,10 +1,10 @@
-import { Injectable, Input, Inject } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import {LocalStorageService, SessionStorageService} from 'ngx-webstorage';
 import { IMember } from "../model/member";
-import { enmMemberType } from "../enum/list-type.enum";
 
 const jwtHelper = new JwtHelperService();
+
 @Injectable({
   providedIn: "root",
 })
@@ -29,21 +29,8 @@ export class AuthContextService {
     return jwtHelper.decodeToken(this.Token);
   }
 
-  public get hasReportPermission(): boolean {
-    return this.Member.MemberTypeId == enmMemberType.OfficeBudgetDepartment;
-  }
-
-  public get hasPlanPermission():boolean{
-    return this.Member.MemberTypeId == enmMemberType.CouncilResponsible;
-  }
-
-  public get isFirstAuthorized():boolean{
-    return this.Member.MemberTypeId == enmMemberType.FirstAuthorizedSignatory;
-  }
-
   constructor(
-    private storage: LocalStorageService,
-    private session: SessionStorageService,
+    private session: SessionStorageService
   ) {}
 
 

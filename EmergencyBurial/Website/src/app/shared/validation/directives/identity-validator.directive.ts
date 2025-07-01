@@ -8,14 +8,15 @@ import {
 import { ValidationService } from '../services/validation.service';
 
 @Directive({
-  selector: '[identityvalidator]',
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: IdentityValidatorDirective,
-      multi: true
-    }
-  ]
+    selector: '[identityvalidator]',
+    providers: [
+        {
+            provide: NG_VALIDATORS,
+            useExisting: IdentityValidatorDirective,
+            multi: true
+        }
+    ],
+    standalone: false
 })
 
 export class IdentityValidatorDirective implements Validator {

@@ -1,4 +1,4 @@
-import { AppDocumentType } from "../../enum/document-type.enum";
+import {AppDocumentType} from '../../enum/document-type.enum';
 
 export interface IFileResult {
   Name: string,

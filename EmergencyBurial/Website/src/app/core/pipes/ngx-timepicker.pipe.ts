@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import * as _ from 'lodash';
 
 @Pipe({
-  name: 'ngxTimepicker',
+    name: 'ngxTimepicker',
+    standalone: false
 })
 export class NgxTimepickerPipe implements PipeTransform {
 
