@@ -1,13 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {AuthContextService} from 'src/app/shared/services/auth-context.service';
 import {NgOptimizedImage} from '@angular/common';
-import {MatTab, MatTabGroup} from '@angular/material/tabs';
+import {MatTab, MatTabGroup, MatTabLink, MatTabNav, MatTabNavPanel} from '@angular/material/tabs';
 import {constants} from '../../../shared/static/constants';
 import {MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
+
+interface ILink {
+  label: string,
+  path: string
+}
 
 @Component({
   selector: 'app-header',
@@ -25,11 +30,22 @@ import {FormsModule} from '@angular/forms';
     MatIconButton,
     FormsModule,
     MatSuffix,
+    RouterLink,
+    MatTabNav,
+    MatTabLink,
+    RouterLinkActive,
+    MatTabNavPanel,
+    RouterOutlet,
   ],
 })
 export class HeaderComponent implements OnInit {
 
-  public searchValue: string;
+  searchValue: string;
+  links: ILink[] = [
+    {label: 'עמוד הבית', path: '/home'},
+    {label: 'שק חלל', path: '/deceased'},
+    {label: 'שינוע', path: '/transport'},
+  ];
 
   constructor(public authCtx: AuthContextService,
               private router: Router,
@@ -44,8 +60,6 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['sessions/login']);
   }
 
-  protected readonly constants = constants;
-
   applyFilter(value: any){
 
   }
@@ -53,4 +67,7 @@ export class HeaderComponent implements OnInit {
   clearSearchField(){
     this.searchValue = null;
   }
+
+  protected readonly constants = constants;
+
 }
