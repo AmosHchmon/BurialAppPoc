@@ -1,9 +1,19 @@
+/*
 mat-icon{
   font-size: 2rem !important;
   height: 2rem !important;
   width: 2rem !important;
 }
+*/
 
+mat-icon{
+  scale: 0.8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2rem !important;
+  width: 2rem !important;
+}
 
 mat-icon.bar{
   font-size: 2.5rem !important;
@@ -42,4 +52,9 @@ button[color="success"]{
 button[color="error"]{
   background-color: #DC3545 !important;
   color: white !important;
+}
+
+.mat-mdc-form-field-infix{
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }

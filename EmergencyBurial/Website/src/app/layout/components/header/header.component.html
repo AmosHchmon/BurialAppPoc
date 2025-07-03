@@ -1,5 +1,5 @@
-<header class="d-flex justify-content-between align-items-center pt-2 px-5 border border-bottom-1">
-  <div class="d-flex gap-5 mx-5">
+<header class="d-flex justify-content-between align-items-center pt-4 px-5 border border-bottom-1">
+  <div class="d-flex gap-5 mx-5 mt">
     <div class="h-50">
       <img class="img-fluid"
            [ngSrc]="constants.israelLogo"
@@ -17,25 +17,27 @@
   </div>
   <div class="d-flex gap-3 mx-5">
     <mat-form-field appearance="outline">
-      <mat-label>...חיפוש</mat-label>
-      <input matInput
-             type="text"
-             (keyup)="applyFilter($event.target.value)"
-             [(ngModel)]="searchValue">
-      <button [@If]="searchValue"
-              matSuffix
-              mat-icon-button
-              aria-label="Clear"
-              class="delete-btn d-flex align-items-center justify-content-center"
-              (click)="clearSearchField()">
-        <mat-icon>close</mat-icon>
-      </button>
+      <mat-label>חיפוש</mat-label>
+      <div class="d-flex align-items-center">
+        <input matInput
+               type="text"
+               (keyup)="applyFilter($event.target.value)"
+               [(ngModel)]="searchValue">
+        <div matSuffix class="d-flex">
+          <button mat-icon-button
+                  aria-label="Clear"
+                  class="icon-bg"
+                  (click)="clearSearchField()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
     </mat-form-field>
     <button mat-icon-button>
-      <mat-icon color="primary">notifications</mat-icon>
+      <mat-icon>notifications</mat-icon>
     </button>
     <button mat-icon-button>
-      <mat-icon color="primary">account_circle</mat-icon>
+      <mat-icon>account_circle</mat-icon>
     </button>
   </div>
 </header>

@@ -4,8 +4,7 @@ import {AuthContextService} from 'src/app/shared/services/auth-context.service';
 import {NgOptimizedImage} from '@angular/common';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {constants} from '../../../shared/static/constants';
-import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
-import {MatFormFieldControl} from '@angular/material/form-field';
+import {MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
@@ -25,6 +24,7 @@ import {FormsModule} from '@angular/forms';
     MatIcon,
     MatIconButton,
     FormsModule,
+    MatSuffix,
   ],
 })
 export class HeaderComponent implements OnInit {

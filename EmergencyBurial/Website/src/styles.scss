@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 //@import 'ngx-toastr/toastr';
-//@import 'assets/css/app.scss';
+@import 'assets/css/app.scss';
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 html,body{
@@ -22,6 +22,7 @@ html,body{
   direction: ltr;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
+  color: black;
 }
 
 input::-webkit-outer-spin-button,
@@ -62,10 +63,11 @@ td{
   height: 3rem;
 }
 
-.delete-btn{
-  scale: 0.7;
-}
-
 .mat-drawer-backdrop{
   background-color: transparent !important;
 }
+
+button[mat-icon-button]{
+  scale: 0.8;
+}
+
