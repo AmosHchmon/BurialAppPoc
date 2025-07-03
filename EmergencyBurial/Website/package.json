@@ -29,6 +29,7 @@
     "lodash-es": "^4.17.21",
     "material-icons": "^1.13.14",
     "ng-http-loader": "^17.3.0",
+    "ng2-charts": "^8.0.0",
     "ngx-bootstrap": "^19.0.2",
     "ngx-toastr": "^16.2.0",
     "ngx-webstorage": "^19.0.1",
