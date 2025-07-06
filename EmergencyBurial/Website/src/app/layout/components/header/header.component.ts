@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {AuthContextService} from 'src/app/shared/services/auth-context.service';
 import {NgOptimizedImage} from '@angular/common';
 import {MatTab, MatTabGroup, MatTabLink, MatTabNav, MatTabNavPanel} from '@angular/material/tabs';
@@ -21,8 +21,6 @@ interface ILink {
   standalone: true,
   imports: [
     NgOptimizedImage,
-    MatTabGroup,
-    MatTab,
     MatFormField,
     MatLabel,
     MatInput,
@@ -35,7 +33,6 @@ interface ILink {
     MatTabLink,
     RouterLinkActive,
     MatTabNavPanel,
-    RouterOutlet,
   ],
 })
 export class HeaderComponent implements OnInit {
@@ -69,5 +66,4 @@ export class HeaderComponent implements OnInit {
   }
 
   protected readonly constants = constants;
-
 }

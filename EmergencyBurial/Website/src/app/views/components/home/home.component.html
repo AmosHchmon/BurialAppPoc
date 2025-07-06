@@ -1,1 +1,10 @@
-<p>home works!</p>
+<div class="d-flex flex-column mt-4">
+  <h2>לוח מחוונים - המשרד לשירותי דת</h2>
+  <div class="d-flex flex-wrap justify-content-center align-items-center gap-5">
+    @for (card of dashboardCards; track card.labels.at(1)) {
+      <app-dashboard-card
+        [chartData]="card"
+      ></app-dashboard-card>
+    }
+  </div>
+</div>

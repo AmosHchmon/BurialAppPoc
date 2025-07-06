@@ -8,9 +8,11 @@ import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {ErrorServerInterceptor} from './core/interceptors/error-server-interceptor.service';
 import {TokenInterceptor} from './shared/interceptors/token-interceptor.service';
 import {routes} from './app.routes';
+import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideCharts(withDefaultRegisterables()),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withInterceptors([pendingRequestsInterceptor$])),
