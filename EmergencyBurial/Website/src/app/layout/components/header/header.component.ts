@@ -2,12 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {AuthContextService} from 'src/app/shared/services/auth-context.service';
 import {NgOptimizedImage} from '@angular/common';
-import {MatTab, MatTabGroup, MatTabLink, MatTabNav, MatTabNavPanel} from '@angular/material/tabs';
+import {MatTabLink, MatTabNav, MatTabNavPanel} from '@angular/material/tabs';
 import {constants} from '../../../shared/static/constants';
-import {MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
+import {MdbFormsModule} from 'mdb-angular-ui-kit/forms';
+import {FloatLabel} from 'primeng/floatlabel';
+import {InputText} from 'primeng/inputtext';
 
 interface ILink {
   label: string,
@@ -21,18 +23,17 @@ interface ILink {
   standalone: true,
   imports: [
     NgOptimizedImage,
-    MatFormField,
-    MatLabel,
-    MatInput,
     MatIcon,
     MatIconButton,
     FormsModule,
-    MatSuffix,
     RouterLink,
     MatTabNav,
     MatTabLink,
     RouterLinkActive,
     MatTabNavPanel,
+    MdbFormsModule,
+    FloatLabel,
+    InputText,
   ],
 })
 export class HeaderComponent implements OnInit {

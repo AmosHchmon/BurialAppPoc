@@ -1,4 +1,4 @@
-mat-icon{
+.mat-icon{
   scale: 0.9;
   display: flex;
   justify-content: center;
@@ -44,9 +44,4 @@ button[color="success"]{
 button[color="error"]{
   background-color: #DC3545 !important;
   color: white !important;
-}
-
-.mat-mdc-form-field-infix{
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
 }
