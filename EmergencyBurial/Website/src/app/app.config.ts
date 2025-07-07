@@ -8,9 +8,23 @@ import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {ErrorServerInterceptor} from './core/interceptors/error-server-interceptor.service';
 import {TokenInterceptor} from './shared/interceptors/token-interceptor.service';
 import {routes} from './app.routes';
+import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+import {providePrimeNG} from 'primeng/config';
+import Material from '@primeuix/themes/Material';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: Material,
+        options: {
+          darkModeSelector: '.my-app-dark'
+        }
+      }
+    }),
+    provideCharts(withDefaultRegisterables()),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withInterceptors([pendingRequestsInterceptor$])),

@@ -2,6 +2,7 @@
 //@import 'ngx-toastr/toastr';
 //@import 'assets/css/app.scss';
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
+@import "primeicons/primeicons.css";
 
 html,body{
   height: 100%;
@@ -22,6 +23,7 @@ html,body{
   direction: ltr;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
+  color: black;
 }
 
 input::-webkit-outer-spin-button,
@@ -62,10 +64,13 @@ td{
   height: 3rem;
 }
 
-.delete-btn{
-  scale: 0.7;
-}
-
 .mat-drawer-backdrop{
   background-color: transparent !important;
+}
+
+.mat-icon{
+  width: 2rem !important;
+  height: 2rem !important;
+  font-size: 1.7rem;
+  cursor: pointer;
 }
