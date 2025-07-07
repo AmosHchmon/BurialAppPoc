@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MatCard, MatCardActions, MatCardHeader} from '@angular/material/card';
+import {MatCard, MatCardActions} from '@angular/material/card';
 import {ChartData, ChartOptions, ChartType} from 'chart.js';
 import {BaseChartDirective} from 'ng2-charts';
 
@@ -9,7 +9,7 @@ import {BaseChartDirective} from 'ng2-charts';
   templateUrl: './dashboard-card.component.html',
   styleUrl: './dashboard-card.component.scss',
   standalone: true,
-  imports: [CommonModule, MatCard, MatCardHeader, MatCardActions, BaseChartDirective],
+  imports: [CommonModule, MatCard, MatCardActions, BaseChartDirective],
 })
 export class DashboardCardComponent implements OnInit {
 
@@ -22,6 +22,7 @@ export class DashboardCardComponent implements OnInit {
   chartLegend = true;
 
   // TODO: Remove "skipLibCheck": true from tsconfig when ng2-charts is updated to support angular 20
+  basicOptions: any;
 
   ngOnInit(): void{
 

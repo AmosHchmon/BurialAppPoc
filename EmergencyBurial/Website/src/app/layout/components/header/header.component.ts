@@ -10,6 +10,8 @@ import {FormsModule} from '@angular/forms';
 import {MdbFormsModule} from 'mdb-angular-ui-kit/forms';
 import {FloatLabel} from 'primeng/floatlabel';
 import {InputText} from 'primeng/inputtext';
+import {IconField} from 'primeng/iconfield';
+import {InputIcon} from 'primeng/inputicon';
 
 interface ILink {
   label: string,
@@ -34,6 +36,8 @@ interface ILink {
     MdbFormsModule,
     FloatLabel,
     InputText,
+    IconField,
+    InputIcon,
   ],
 })
 export class HeaderComponent implements OnInit {

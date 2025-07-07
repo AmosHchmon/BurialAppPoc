@@ -2,6 +2,7 @@
 //@import 'ngx-toastr/toastr';
 //@import 'assets/css/app.scss';
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
+@import "primeicons/primeicons.css";
 
 html,body{
   height: 100%;
@@ -67,11 +68,9 @@ td{
   background-color: transparent !important;
 }
 
-button[mat-icon-button]{
-  scale: 0.7;
-}
-
 .mat-icon{
   width: 2rem !important;
   height: 2rem !important;
+  font-size: 1.7rem;
+  cursor: pointer;
 }
