@@ -1,22 +1,26 @@
 import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
-import {FloatLabel} from 'primeng/floatlabel';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {Message} from 'primeng/message';
 import {ButtonDirective} from 'primeng/button';
+import {IUserOtp} from '../../../shared/model/user-otp';
+import {MatCard, MatCardContent, MatCardHeader} from '@angular/material/card';
 
 @Component({
   selector: 'app-login',
   imports: [
     InputText,
-    FloatLabel,
     IconField,
     InputIcon,
     ReactiveFormsModule,
     Message,
     ButtonDirective,
+    FormsModule,
+    MatCardContent,
+    MatCardHeader,
+    MatCard,
   ],
   templateUrl: './login.component.html',
   standalone: true,
@@ -24,13 +28,9 @@ import {ButtonDirective} from 'primeng/button';
 })
 export class LoginComponent {
 
-  signInForm: FormGroup;
+  public user: IUserOtp = {UserName: '', Mail: '', PhoneNumber: '', OtpNumber: '', IsSmsMethod: false};
 
-  constructor(private fb: FormBuilder){
-    this.signInForm = this.fb.group({
+  constructor(){
 
-      username: ['', Validators.required],
-      mail: ['', [Validators.required]],
-    });
   }
 }

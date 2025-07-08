@@ -1,39 +1,62 @@
 <div class="page-wrap h-full slate">
   <div class="session-form-hold d-flex h-100 justify-content-center align-items-center">
-    <div class="card p-4">
-      <h2 class="text-center mb-5">קבורה בחירום - התחברות</h2>
-      <form [formGroup]="signInForm" class="d-flex flex-column align-items-center justify-content-center">
+    <mat-card class="card p-4">
+      <mat-card-header>
+        <h2 class="text-center mb-5">קבורה בחירום - התחברות</h2>
+      </mat-card-header>
 
-        <p-floatlabel class="mb-3" variant="on">
-          <p-iconfield>
-            <p-inputicon class="pi pi-user"/>
-            <input pInputText
-                   id="username"
-                   pSize="small"
-                   formControlName="username"
-                   autocomplete="off"/>
-          </p-iconfield>
-          @if (signInForm.controls['username'].hasError('required') && signInForm.controls['username'].touched) {
-            <p-message severity="error" size="small" variant="simple">שדה חובה</p-message>
-          }
-          <label for="username">שם משתמש</label>
-        </p-floatlabel>
+      <mat-card-content>
+        <form #form="ngForm"
+              class="d-flex flex-column gap-4 w-100 sm:w-56">
+          <div class="d-flex flex-column gap-1">
+            <p-iconfield>
+              <p-inputicon class="pi pi-user"/>
+              <input pInputText
+                     type="text"
+                     id="username"
+                     placeholder="שם משתמש"
+                     class="w-100"
+                     name="username"
+                     [(ngModel)]="user.UserName"
+                     #username="ngModel"
+                     [invalid]="username.invalid && (username.touched || form.submitted)" required/>
+            </p-iconfield>
+            @if (username.invalid && (username.touched || form.submitted)) {
+              <p-message severity="error"
+                         size="small"
+                         variant="simple">שם משתמש חובה.</p-message>
+            }
+          </div>
+          <div class="d-flex flex-column gap-1">
+            <p-iconfield>
+              <p-inputicon class="pi pi-lock"/>
+              <input pInputText
+                     type="email"
+                     id="email"
+                     name="email"
+                     placeholder="אימייל"
+                     [(ngModel)]="user.Mail"
+                     class="w-100"
+                     #email="ngModel"
+                     required
+                     email
+                     [invalid]="email.invalid && (email.touched || form.submitted)"/>
+            </p-iconfield>
+            @if (email.invalid && (email.touched || form.submitted)) {
+              <p-message severity="error" size="small" variant="simple">
+                @if (email.hasError('required')) {
+                  אמייל חובה.
+                }
+                @if (email.hasError('email')) {
+                  הכנס אימייל תקין
+                }
+              </p-message>
+            }
+          </div>
+          <button pButton class="w-100">התחברות</button>
+        </form>
+      </mat-card-content>
 
-        <p-floatlabel class="mb-4 mt-4" variant="on">
-          <p-iconfield>
-            <p-inputicon class="pi pi-lock"/>
-            <input pInputText
-                   id="mail"
-                   pSize="small"
-                   formControlName="mail"
-                   autocomplete="off"/>
-          </p-iconfield>
-          @if (signInForm.controls['mail'].hasError('required') && signInForm.controls['mail'].touched) {
-            <p-message severity="error" size="small" variant="simple">שדה חובה</p-message>
-          }
-          <label for="mail">סיסמה</label></p-floatlabel>
-        <button pButton class="w-75">התחברות</button>
-      </form>
-    </div>
+    </mat-card>
   </div>
 </div>
