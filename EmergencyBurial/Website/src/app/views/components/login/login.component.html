@@ -1,0 +1,39 @@
+<div class="page-wrap h-full slate">
+  <div class="session-form-hold d-flex h-100 justify-content-center align-items-center">
+    <div class="card p-4">
+      <h2 class="text-center mb-5">קבורה בחירום - התחברות</h2>
+      <form [formGroup]="signInForm" class="d-flex flex-column align-items-center justify-content-center">
+
+        <p-floatlabel class="mb-3" variant="on">
+          <p-iconfield>
+            <p-inputicon class="pi pi-user"/>
+            <input pInputText
+                   id="username"
+                   pSize="small"
+                   formControlName="username"
+                   autocomplete="off"/>
+          </p-iconfield>
+          @if (signInForm.controls['username'].hasError('required') && signInForm.controls['username'].touched) {
+            <p-message severity="error" size="small" variant="simple">שדה חובה</p-message>
+          }
+          <label for="username">שם משתמש</label>
+        </p-floatlabel>
+
+        <p-floatlabel class="mb-4 mt-4" variant="on">
+          <p-iconfield>
+            <p-inputicon class="pi pi-lock"/>
+            <input pInputText
+                   id="mail"
+                   pSize="small"
+                   formControlName="mail"
+                   autocomplete="off"/>
+          </p-iconfield>
+          @if (signInForm.controls['mail'].hasError('required') && signInForm.controls['mail'].touched) {
+            <p-message severity="error" size="small" variant="simple">שדה חובה</p-message>
+          }
+          <label for="mail">סיסמה</label></p-floatlabel>
+        <button pButton class="w-75">התחברות</button>
+      </form>
+    </div>
+  </div>
+</div>

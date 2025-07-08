@@ -3,10 +3,27 @@ import {DashboardLayoutComponent} from './layout/components/dashboard-layout/das
 import {HomeComponent} from './views/components/home/home.component';
 import {DeceasedComponent} from './views/components/deceased/deceased.component';
 import {TransportComponent} from './views/components/transport/transport.component';
+import {AuthLayoutComponent} from './layout/components/auth-layout/auth-layout.component';
+import {LoginComponent} from './views/components/login/login.component';
 
 export const routes: Routes = [
   {
     path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'login',
+    component: AuthLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: LoginComponent,
+      },
+    ],
+  },
+  {
+    path: 'dashboard',
     component: DashboardLayoutComponent,
     children: [
       {
@@ -28,6 +45,8 @@ export const routes: Routes = [
       },
     ],
   },
-  // You might want a wildcard route for 404s outside the layout
-  {path: '**', redirectTo: ''}, // Redirects any unmatched routes to the base
+  {
+    path: '**',
+    redirectTo: 'login',
+  },
 ];

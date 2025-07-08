@@ -1,22 +1,18 @@
-import { Directive, Attribute, HostListener } from '@angular/core';
-import {
-  NG_VALIDATORS,
-  FormControl,
-  ValidatorFn,
-  Validator
-} from '@angular/forms';
-import { ValidationService } from '../services/validation.service';
+import {Directive} from '@angular/core';
+import {FormControl, NG_VALIDATORS, Validator, ValidatorFn} from '@angular/forms';
+import {ValidationService} from '../services/validation.service';
 
 @Directive({
-    selector: '[identityvalidator]',
-    providers: [
-        {
-            provide: NG_VALIDATORS,
-            useExisting: IdentityValidatorDirective,
-            multi: true
-        }
-    ],
-    standalone: false
+  selector: '[identityvalidator]',
+  providers: [
+    {
+      provide: NG_VALIDATORS,
+      useExisting: IdentityValidatorDirective,
+      multi: true,
+    },
+  ],
+  standalone: true,
+  standalone: false,
 })
 
 export class IdentityValidatorDirective implements Validator {
