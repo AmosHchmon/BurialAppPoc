@@ -1,47 +1,54 @@
 <div class="page-wrap h-full slate">
   <div class="session-form-hold d-flex h-100 justify-content-center align-items-center">
-    <mat-card class="card p-4">
+    <mat-card class="p-3">
+
       <mat-card-header>
-        <h2 class="text-center mb-5">קבורה בחירום - התחברות</h2>
+        <h3 class="text-center mb-5">קבורה בחירום - התחברות</h3>
       </mat-card-header>
 
       <mat-card-content>
-        <form #form="ngForm"
-              class="d-flex flex-column gap-4 w-100 sm:w-56">
-          <div class="d-flex flex-column gap-1">
-            <p-iconfield>
-              <p-inputicon class="pi pi-user"/>
-              <input pInputText
-                     type="text"
-                     id="username"
-                     placeholder="שם משתמש"
-                     class="w-100"
-                     name="username"
-                     [(ngModel)]="user.UserName"
-                     #username="ngModel"
-                     [invalid]="username.invalid && (username.touched || form.submitted)" required/>
-            </p-iconfield>
-            @if (username.invalid && (username.touched || form.submitted)) {
+        <form #form="ngForm" class="d-flex flex-column gap-4 w-100 sm:w-56">
+          <div>
+            <p-inputgroup>
+              <p-inputgroup-addon>
+                <i class="pi pi-user"></i>
+              </p-inputgroup-addon>
+              <p-floatlabel variant="on">
+                <input pInputText
+                       type="text"
+                       id="username"
+                       name="username"
+                       [(ngModel)]="user.UserName"
+                       #username="ngModel"
+                       [invalid]="username.invalid && (username.touched || form.submitted)" required/>
+                <label for="username">שם משתמש</label>
+              </p-floatlabel>
+            </p-inputgroup>
+            @if (username.invalid && (username.dirty || username.touched)) {
               <p-message severity="error"
                          size="small"
-                         variant="simple">שם משתמש חובה.</p-message>
+                         variant="simple">שם משתמש חובה.
+              </p-message>
             }
           </div>
-          <div class="d-flex flex-column gap-1">
-            <p-iconfield>
-              <p-inputicon class="pi pi-lock"/>
-              <input pInputText
-                     type="email"
-                     id="email"
-                     name="email"
-                     placeholder="אימייל"
-                     [(ngModel)]="user.Mail"
-                     class="w-100"
-                     #email="ngModel"
-                     required
-                     email
-                     [invalid]="email.invalid && (email.touched || form.submitted)"/>
-            </p-iconfield>
+          <div class="mt-2">
+            <p-inputgroup>
+              <p-inputgroup-addon>
+                <i class="pi pi-lock"></i>
+              </p-inputgroup-addon>
+              <p-floatlabel variant="on">
+                <input pInputText
+                       type="email"
+                       id="email"
+                       name="email"
+                       [(ngModel)]="user.Mail"
+                       #email="ngModel"
+                       required
+                       email
+                       [invalid]="email.invalid && (email.touched || form.submitted)"/>
+                <label for="email">אימייל</label>
+              </p-floatlabel>
+            </p-inputgroup>
             @if (email.invalid && (email.touched || form.submitted)) {
               <p-message severity="error" size="small" variant="simple">
                 @if (email.hasError('required')) {
@@ -56,7 +63,6 @@
           <button pButton class="w-100">התחברות</button>
         </form>
       </mat-card-content>
-
     </mat-card>
   </div>
 </div>

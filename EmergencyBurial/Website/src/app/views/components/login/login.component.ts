@@ -1,26 +1,27 @@
 import {Component} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
-import {IconField} from 'primeng/iconfield';
-import {InputIcon} from 'primeng/inputicon';
 import {Message} from 'primeng/message';
 import {ButtonDirective} from 'primeng/button';
 import {IUserOtp} from '../../../shared/model/user-otp';
 import {MatCard, MatCardContent, MatCardHeader} from '@angular/material/card';
+import {InputGroup} from 'primeng/inputgroup';
+import {InputGroupAddon} from 'primeng/inputgroupaddon';
+import {FloatLabel} from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-login',
   imports: [
+    MatCard,
+    MatCardHeader,
+    MatCardContent,
+    FormsModule,
+    InputGroup,
+    InputGroupAddon,
+    FloatLabel,
     InputText,
-    IconField,
-    InputIcon,
-    ReactiveFormsModule,
     Message,
     ButtonDirective,
-    FormsModule,
-    MatCardContent,
-    MatCardHeader,
-    MatCard,
   ],
   templateUrl: './login.component.html',
   standalone: true,
@@ -31,6 +32,5 @@ export class LoginComponent {
   public user: IUserOtp = {UserName: '', Mail: '', PhoneNumber: '', OtpNumber: '', IsSmsMethod: false};
 
   constructor(){
-
   }
 }
