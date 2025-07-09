@@ -21,14 +21,14 @@ public class AuthService
 
     public User VerifyUser(User user)
     {
-        if (user.UserName == "testuser" && user.Mail == "password123")
+        if (user.UserName == "testuser" && user.Mail == "ozs@dat.gov.il")
         {
             return new User
             {
                 Id = Guid.NewGuid(),
                 UserName = "testuser",
                 FullName = "Test User",
-                Mail = "test@example.com",
+                Mail = "ozs@dat.gov.il",
                 PhoneNumber = "0501234567",
                 OtpNumber = null,
                 OtpExpired = null,

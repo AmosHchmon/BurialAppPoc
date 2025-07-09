@@ -12,9 +12,11 @@ import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {providePrimeNG} from 'primeng/config';
 import Material from '@primeuix/themes/Material';
+import {provideToastr} from "ngx-toastr";
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideToastr(),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
