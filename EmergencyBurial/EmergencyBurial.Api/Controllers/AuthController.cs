@@ -31,7 +31,7 @@ public class AuthController : ControllerBase
 
         var userObj = mapper.Map<User>(userDto);
 
-        var user = authService.VerifyMember(userObj);
+        var user = authService.VerifyUser(userObj);
 
         if (user == null)
             return Unauthorized();

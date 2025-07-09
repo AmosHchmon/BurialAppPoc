@@ -17,20 +17,20 @@ namespace EmergencyBurial.Services.DbServices
             this.ctx = ctx;
         }
 
-        public async Task<Member> GetMemberById(Guid? id)
+        /*public async Task<User> GetMemberById(Guid? id)
         {
             return await ctx.Members.FindAsync(id);
         }
 
-        public async Task<Member> CreateMember(Member member)
+        public async Task<User> CreateMember(User user)
         {
             try
             {
-                await ctx.Members.AddAsync(member);
+                await ctx.Members.AddAsync(user);
 
                 await ctx.SaveChangesAsync();
 
-                return member;
+                return user;
             }
             catch (Exception ex)
             {
@@ -38,11 +38,11 @@ namespace EmergencyBurial.Services.DbServices
             }
         }
 
-        public async Task UpdateMember(Member member)
+        public async Task UpdateMember(User user)
         {
             try
             {
-                ctx.Members.Update(member);
+                ctx.Members.Update(user);
 
                 await ctx.SaveChangesAsync();
             }
@@ -66,6 +66,6 @@ namespace EmergencyBurial.Services.DbServices
             {
                 throw new ApplicationException(UserMessage.ErrorDelete, ex);
             }
-        }
+        }*/
     }
 }

@@ -12,9 +12,14 @@ namespace EmergencyBurial.Services.DbServices;
 
 public class AuthService
 {
-    readonly AuthConfiguration authConfig;
+    private readonly AuthConfiguration authConfig;
+    
+    public AuthService(AuthConfiguration authConfig)
+    {
+        this.authConfig = authConfig;
+    }
 
-    public User VerifyMember(User user)
+    public User VerifyUser(User user)
     {
         if (user.UserName == "testuser" && user.Mail == "password123")
         {

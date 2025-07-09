@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
-using DataModel.Entities;
-using EmergencyBurial.Api.ViewModel;
+﻿using AutoMapper;
 using EmergencyBurial.Services.DbServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +20,7 @@ namespace EmergencyBurial.Api.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("{id}")]
+        /*[HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetMember(string id)
         {
             var memberId = new Guid(id);
@@ -75,6 +70,7 @@ namespace EmergencyBurial.Api.Controllers
 
             return Ok();
         }
+        */
 
     }
 }
