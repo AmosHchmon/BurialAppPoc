@@ -60,7 +60,10 @@
               </p-message>
             }
           </div>
-          <button pButton class="w-100">התחברות</button>
+          <button pButton
+                  (click)="onLogin()"
+                  class="w-100"
+          >התחברות</button>
         </form>
       </mat-card-content>
     </mat-card>

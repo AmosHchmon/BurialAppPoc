@@ -43,7 +43,7 @@ namespace EmergencyBurial.Api.Controllers
                 return BadRequest();
             }
 
-            var member = mapper.Map<Member>(item);
+            var member = mapper.Map<User>(item);
 
             await memberService.CreateMember(member);
 
@@ -58,7 +58,7 @@ namespace EmergencyBurial.Api.Controllers
                 return BadRequest();
             }
 
-            var member = mapper.Map<Member>(item);
+            var member = mapper.Map<User>(item);
 
             await memberService.UpdateMember(member);
 

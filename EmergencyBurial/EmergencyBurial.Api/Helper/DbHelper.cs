@@ -25,7 +25,7 @@ public class DbHelper
 
                     //InitListItems();
 
-                    InitMembers();
+                    InitUsers();
 
                     //InitFormsMenu();
 
@@ -76,17 +76,17 @@ public class DbHelper
             db.SaveChanges();
         }
 
-        private void InitMembers()
+        private void InitUsers()
         {
-            var list = new List<Member>
+            var list = new List<User>
             {
-                new Member
+                new User
                 {
                     FullName = "עוז שורקי", UserName = "308015205", Mail = "OzS@dat.gov.il",
                 }
             };
 
-            db.Members.AddRange(list);
+            db.Users.AddRange(list);
 
             db.SaveChanges();
         }

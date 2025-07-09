@@ -71,6 +71,7 @@ namespace EmergencyBurial.Api
             services.AddScoped<SmsHandler>();
             services.AddScoped<ListService>();
             services.AddScoped<MemberService>();
+            services.AddScoped<AuthService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>
