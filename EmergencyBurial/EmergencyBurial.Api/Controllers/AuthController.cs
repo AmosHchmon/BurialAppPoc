@@ -7,10 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmergencyBurial.Api.Controllers;
 
+[Produces("application/json")]
+[Route("[controller]")]
+[ApiController]
+[Authorize]
 public class AuthController : ControllerBase
 {
-    private AuthService authService;
-    private IMapper mapper;
+    private readonly AuthService authService;
+    private readonly IMapper mapper;
 
     public AuthController(AuthService authService, IMapper mapper)
     {
@@ -22,7 +26,7 @@ public class AuthController : ControllerBase
 
     [HttpPut("login")]
     [AllowAnonymous]
-    public ActionResult Login([FromBody] UserDto userDto)
+    public ActionResult Login(UserDto userDto)
     {
         if (userDto == null)
         {

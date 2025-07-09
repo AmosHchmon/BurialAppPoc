@@ -17,7 +17,6 @@ namespace EmergencyBurial.Api.ViewModel
         public int? MemberTypeId { get; set; }
 
         public bool IsActive { get; set; }
-
         public string MemberTypeDescription { get; set; }
     }
 }

@@ -12,6 +12,7 @@ import {AlertService} from "../../../shared/services/alert.service";
 import {TokenResponse} from "../../../shared/model/token-response";
 import {AuthService} from "../../../shared/services/auth.service";
 import {AuthContextService} from "../../../shared/services/auth-context.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -37,7 +38,8 @@ export class LoginComponent {
 
   constructor(private authService: AuthService,
               private alertService: AlertService,
-              private authCtx: AuthContextService,) {
+              private authCtx: AuthContextService,
+              private router: Router) {
 
     this.authService = authService;
     this.alertService = alertService;
@@ -50,6 +52,8 @@ export class LoginComponent {
       const token: TokenResponse = await this.authService.login(this.user);
 
       this.authCtx.Token = token.Token;
+
+      this.router.navigate( [ '/dashboard/home' ] );
 
     } catch (error) {
       this.alertService.error(error);
