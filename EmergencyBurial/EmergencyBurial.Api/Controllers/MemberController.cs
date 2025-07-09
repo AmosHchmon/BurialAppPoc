@@ -26,17 +26,17 @@ namespace EmergencyBurial.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<MemberDto>> GetMember(string id)
+        public async Task<ActionResult<UserDto>> GetMember(string id)
         {
             var memberId = new Guid(id);
 
             var result = await memberService.GetMemberById(memberId);
 
-            return Ok(mapper.Map<MemberDto>(result));
+            return Ok(mapper.Map<UserDto>(result));
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateMember([FromBody] MemberDto item)
+        public async Task<ActionResult> CreateMember([FromBody] UserDto item)
         {
             if (item == null)
             {
@@ -51,7 +51,7 @@ namespace EmergencyBurial.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateMember([FromBody] MemberDto item)
+        public async Task<ActionResult> UpdateMember([FromBody] UserDto item)
         {
             if (item == null)
             {

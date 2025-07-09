@@ -2,15 +2,11 @@
 
 namespace EmergencyBurial.Api.ViewModel
 {
-    public class MemberDto
+    public class UserDto
     {
         public Guid? Id { get; set; }
 
         public string UserName { get; set; }
-
-        public string CouncilName { get; set; }
-
-        public int? CouncilId { get; set; }
 
         public string FullName { get; set; }
 

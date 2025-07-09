@@ -8,7 +8,7 @@ namespace EmergencyBurial.Api.Config
     {
         public MappingProfile()
         {
-            CreateMap<Member, MemberDto>()
+            CreateMap<Member, UserDto>()
                 .ForMember(x => x.MemberTypeDescription,
                     opt => opt.MapFrom(x => x.MemberType == null ? string.Empty : x.MemberType.Text))
                 .ReverseMap()
