@@ -5,7 +5,6 @@ import {NgOptimizedImage} from '@angular/common';
 import {MatTabLink, MatTabNav, MatTabNavPanel} from '@angular/material/tabs';
 import {constants} from '../../../shared/static/constants';
 import {MatIcon} from '@angular/material/icon';
-import {MatIconButton} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
 import {MdbFormsModule} from 'mdb-angular-ui-kit/forms';
 import {FloatLabel} from 'primeng/floatlabel';
@@ -26,7 +25,6 @@ interface ILink {
   imports: [
     NgOptimizedImage,
     MatIcon,
-    MatIconButton,
     FormsModule,
     RouterLink,
     MatTabNav,
