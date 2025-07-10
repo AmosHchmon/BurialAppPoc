@@ -8,7 +8,6 @@ import {FloatLabel} from 'primeng/floatlabel';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {FormsModule} from '@angular/forms';
-import {MatIcon} from '@angular/material/icon';
 import {InputText} from 'primeng/inputtext';
 
 interface ILink {
@@ -32,7 +31,6 @@ interface ILink {
     FloatLabel,
     InputIcon,
     FormsModule,
-    MatIcon,
     InputText,
   ],
 })
@@ -55,7 +53,7 @@ export class HeaderComponent implements OnInit {
 
   signOut(){
     this.authCtx.Token = null;
-    this.router.navigate(['sessions/login']);
+    this.router.navigate(['/login']);
   }
 
   applyFilter(value: any){
