@@ -38,9 +38,9 @@ export class HeaderComponent implements OnInit {
 
   searchValue: string;
   links: ILink[] = [
-    {label: 'עמוד הבית', path: '/home'},
-    {label: 'שק חלל', path: '/deceased'},
-    {label: 'שינוע', path: '/transport'},
+    {label: 'עמוד הבית', path: '/dashboard/home'},
+    {label: 'שק חלל', path: '/dashboard/deceased'},
+    {label: 'שינוע', path: '/dashboard/transport'},
   ];
 
   constructor(public authCtx: AuthContextService,
