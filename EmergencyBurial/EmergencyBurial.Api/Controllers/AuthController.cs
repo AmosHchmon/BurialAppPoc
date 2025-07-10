@@ -26,7 +26,7 @@ public class AuthController : ControllerBase
 
     [HttpPut("login")]
     [AllowAnonymous]
-    public ActionResult Login(UserDto userDto)
+    public ActionResult Login([FromBody]UserDto userDto)
     {
         if (userDto == null)
         {
