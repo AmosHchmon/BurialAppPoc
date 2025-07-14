@@ -14,19 +14,16 @@ import {BaseChartDirective} from 'ng2-charts';
 export class DashboardCardComponent implements OnInit {
 
   @Input() chartData: ChartData;
+  @Input() chartOptions: ChartOptions;
 
-  chartOptions: ChartOptions = {
-    responsive: true,
-  };
   chartType: ChartType = 'bar';
   chartLegend = true;
 
   // TODO: Remove "skipLibCheck": true from tsconfig when ng2-charts is updated to support angular 20
-  basicOptions: any;
 
-  ngOnInit(): void{
+  ngOnInit(): void {
 
-    if(!this.chartOptions || Object.keys(this.chartOptions).length === 0){
+    if (!this.chartOptions) {
       this.chartOptions = {
         responsive: true,
         maintainAspectRatio: false,

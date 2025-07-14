@@ -1,14 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, RouterLink, RouterLinkActive} from '@angular/router';
+import {Router, RouterLinkActive} from '@angular/router';
 import {AuthContextService} from 'src/app/shared/services/auth-context.service';
 import {NgOptimizedImage} from '@angular/common';
 import {MatTabLink, MatTabNav, MatTabNavPanel} from '@angular/material/tabs';
 import {constants} from '../../../shared/static/constants';
-import {FloatLabel} from 'primeng/floatlabel';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
-import {FormsModule} from '@angular/forms';
-import {InputText} from 'primeng/inputtext';
 
 interface ILink {
   label: string,
@@ -24,14 +21,10 @@ interface ILink {
     NgOptimizedImage,
     MatTabNav,
     MatTabLink,
-    RouterLink,
     RouterLinkActive,
     MatTabNavPanel,
     IconField,
-    FloatLabel,
     InputIcon,
-    FormsModule,
-    InputText,
   ],
 })
 export class HeaderComponent implements OnInit {
