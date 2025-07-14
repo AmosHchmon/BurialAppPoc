@@ -10,7 +10,6 @@ import {InputGroupAddon} from 'primeng/inputgroupaddon';
 import {FloatLabel} from 'primeng/floatlabel';
 import {AlertService} from "../../../shared/services/alert.service";
 import {AuthService} from "../../../shared/services/auth.service";
-import {AuthContextService} from "../../../shared/services/auth-context.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -37,7 +36,6 @@ export class LoginComponent {
 
   constructor(private authService: AuthService,
               private alertService: AlertService,
-              private authCtx: AuthContextService,
               private router: Router) {
 
     this.authService = authService;

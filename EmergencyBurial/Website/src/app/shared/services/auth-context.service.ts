@@ -33,7 +33,8 @@ export class AuthContextService {
   }
 
   constructor(
-    private session: SessionStorageService
+    private session: SessionStorageService,
+    private cookieService: CookieService,
   ) {
   }
 
