@@ -16,6 +16,15 @@ export class AuthContextService {
     return this.cookieService.get('user_token') || null;
   }
 
+  set Token(val: string) {
+
+    if (val) {
+      this.cookieService.set('user_token', val, {secure: true, sameSite: 'Lax'});
+    } else {
+      this.cookieService.delete('user_token');
+    }
+  }
+
   isAuthenticated(): boolean {
     return this.isLoggedIn();
   }
