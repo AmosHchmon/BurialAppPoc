@@ -25,7 +25,7 @@ public class DbHelper
 
                     //InitListItems();
 
-                    InitUsers();
+                    InitAccounts();
 
                     //InitFormsMenu();
 
@@ -76,11 +76,11 @@ public class DbHelper
             db.SaveChanges();
         }
 
-        private void InitUsers()
+        private void InitAccounts()
         {
-            var list = new List<User>
+            var list = new List<Account>
             {
-                new User
+                new Account
                 {
                     FullName = "עוז שורקי", UserName = "308015205", Mail = "OzS@dat.gov.il",
                 }

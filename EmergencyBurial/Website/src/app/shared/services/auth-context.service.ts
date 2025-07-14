@@ -3,7 +3,6 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 import {SessionStorageService} from 'ngx-webstorage';
 import {CookieService} from 'ngx-cookie-service';
 import {IMember} from "../model/member";
-import {constants} from "../static/constants";
 
 const jwtHelper = new JwtHelperService();
 
@@ -17,12 +16,8 @@ export class AuthContextService {
     return this.cookieService.get('user_token') || null;
   }
 
-  set Token(val: string) {
-    this.cookieService.set('user_token', val, constants.tokenExpirationDays);
-  }
-
   isAuthenticated(): boolean {
-    return this.cookieService.check('user_token');
+    return this.isLoggedIn();
   }
 
   get Member(): IMember {
@@ -38,12 +33,11 @@ export class AuthContextService {
   }
 
   constructor(
-    private session: SessionStorageService,
-    private cookieService: CookieService,
+    private session: SessionStorageService
   ) {
   }
 
-  isLoggedIn(): Boolean {
+  isLoggedIn(): boolean {
     return !!this.Token && !jwtHelper.isTokenExpired(this.Token);
   }
 }

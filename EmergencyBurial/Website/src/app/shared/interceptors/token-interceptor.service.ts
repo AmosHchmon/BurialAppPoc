@@ -1,26 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpHandler, HttpEvent, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AuthContextService } from '../services/auth-context.service';
+import {HttpHandlerFn, HttpRequest} from '@angular/common/http';
 
-@Injectable()
-export class TokenInterceptor implements HttpInterceptor {
+export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
 
-  constructor(public authCtx: AuthContextService) {
-  }
+  const clonedRequest = req.clone({
+    withCredentials: true,
+  })
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    if (this.authCtx.Token != null) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: 'Bearer ' + this.authCtx.Token,
-          'Cache-Control': 'no-cache',
-          Pragma: 'no-cache',
-          Expires: 'Sat, 01 Jan 2000 00:00:00 GMT'
-        }
-      });
-    }
-    return next.handle(request);
-  }
+  return next(clonedRequest);
 }

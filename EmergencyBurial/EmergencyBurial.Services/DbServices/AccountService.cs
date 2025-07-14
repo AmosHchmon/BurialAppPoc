@@ -10,20 +10,20 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace EmergencyBurial.Services.DbServices;
 
-public class AuthService
+public class AccountService
 {
     private readonly AuthConfiguration authConfig;
     
-    public AuthService(AuthConfiguration authConfig)
+    public AccountService(AuthConfiguration authConfig)
     {
         this.authConfig = authConfig;
     }
 
-    public User VerifyUser(User user)
+    public Account VerifyUser(Account account)
     {
-        if (user.UserName == "test" && user.Mail.ToLower() == "ozs@dat.gov.il")
+        if (account.UserName == "test" && account.Mail.ToLower() == "ozs@dat.gov.il")
         {
-            return new User
+            return new Account
             {
                 Id = Guid.NewGuid(),
                 UserName = "test",
@@ -41,7 +41,7 @@ public class AuthService
         return null;
     }
 
-    public string CreateToken(User user)
+    public string CreateToken(Account account)
     {
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authConfig.SecurityKey));
 
@@ -49,9 +49,9 @@ public class AuthService
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimHelper.UserId, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Email, user.Mail)
+            new Claim(ClaimHelper.UserId, account.Id.ToString()),
+            new Claim(ClaimTypes.Name, account.UserName),
+            new Claim(ClaimTypes.Email, account.Mail)
         };
 
         var tokeOptions = new JwtSecurityToken(

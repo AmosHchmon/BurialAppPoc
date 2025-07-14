@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using Task = System.Threading.Tasks.Task;
 
 namespace EmergencyBurial.Api
 {
@@ -70,8 +71,7 @@ namespace EmergencyBurial.Api
             services.AddScoped<EmailHandler>();
             services.AddScoped<SmsHandler>();
             services.AddScoped<ListService>();
-            services.AddScoped<MemberService>();
-            services.AddScoped<AuthService>();
+            services.AddScoped<AccountService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>
@@ -86,6 +86,14 @@ namespace EmergencyBurial.Api
                    ValidAudience = authConfig.Audience,
                    ClockSkew = TimeSpan.Zero,
                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authConfig.SecurityKey)),
+               };
+               options.Events = new JwtBearerEvents()
+               {
+                   OnMessageReceived = context =>
+                   {
+                       context.Token = context.Request.Cookies["user_token"];
+                       return Task.CompletedTask;
+                   }
                };
            });
 
@@ -117,18 +125,16 @@ namespace EmergencyBurial.Api
             app.UseRouting();
 
             app.UseCors(x => x
-             .AllowAnyMethod()
-             .AllowAnyHeader()
-             .SetIsOriginAllowed(origin => true) // allow any origin
-             .AllowCredentials()); // allow credentials
+                .WithOrigins("http://localhost:3000")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
 
             app.UseAuthentication();
 
             app.UseAuthorization();
 
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

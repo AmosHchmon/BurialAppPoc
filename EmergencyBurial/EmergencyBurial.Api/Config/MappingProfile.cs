@@ -8,7 +8,7 @@ namespace EmergencyBurial.Api.Config
     {
         public MappingProfile()
         {
-            CreateMap<User, UserDto>()
+            CreateMap<Account, AccountDto>()
                 .ReverseMap();
         }
     }

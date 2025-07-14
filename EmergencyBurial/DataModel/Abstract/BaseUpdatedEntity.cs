@@ -12,10 +12,10 @@ namespace DataModel.Abstract
         public Guid? UpdateBy { get; set; }
 
         [ForeignKey(nameof(UpdateBy))]
-        public virtual User UpdateUser { get; set; }
+        public virtual Account UpdateAccount { get; set; }
 
         [ForeignKey(nameof(CreatedBy))]
-        public virtual User CreateUser { get; set; }
+        public virtual Account CreateAccount { get; set; }
 
         [Column(Order = 101)]
         public DateTime? UpdateOn { get; set; }

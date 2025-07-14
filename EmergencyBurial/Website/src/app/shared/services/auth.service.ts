@@ -9,7 +9,7 @@ import {TokenResponse} from "../model/token-response";
 export class AuthService extends BaseService {
 
   constructor(protected injector: Injector) {
-    super("AuthService", injector);
+    super("AccountService", injector);
   }
 
   login(userOtp: IUserOtp): Promise<TokenResponse> {

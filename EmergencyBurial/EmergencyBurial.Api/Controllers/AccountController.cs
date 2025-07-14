@@ -1,24 +1,25 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using DataModel.Entities;
 using EmergencyBurial.Api.ViewModel;
 using EmergencyBurial.Services.DbServices;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 namespace EmergencyBurial.Api.Controllers;
 
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
 [Authorize]
-public class AuthController : ControllerBase
+public class AccountController : ControllerBase
 {
-    private readonly AuthService authService;
+    private readonly AccountService accountService;
     private readonly IMapper mapper;
 
-    public AuthController(AuthService authService, IMapper mapper)
+    public AccountController(AccountService accountService, IMapper mapper)
     {
-        this.authService = authService;
+        this.accountService = accountService;
         this.mapper = mapper;
     }
 
@@ -26,26 +27,33 @@ public class AuthController : ControllerBase
 
     [HttpPut("login")]
     [AllowAnonymous]
-    public ActionResult Login([FromBody]UserDto userDto)
+    public ActionResult Login([FromBody]AccountDto accountDto)
     {
-        if (userDto == null)
+        if (accountDto == null)
         {
             return BadRequest();
         }
 
-        var userObj = mapper.Map<User>(userDto);
+        var userObj = mapper.Map<Account>(accountDto);
 
-        var user = authService.VerifyUser(userObj);
+        var user = accountService.VerifyUser(userObj);
 
         if (user == null)
             return Unauthorized();
 
-        var token = authService.CreateToken(user);
-
-        return Ok(new
+        var token = accountService.CreateToken(user);
+        
+        var cookieOptions = new CookieOptions
         {
-            Token = token
-        });
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Lax,
+            Expires = DateTimeOffset.UtcNow.AddDays(7)
+        };
+        
+        Response.Cookies.Append("user_token", token, cookieOptions);
+
+        return Ok();
     }
 
     /*[HttpPut("otp")]

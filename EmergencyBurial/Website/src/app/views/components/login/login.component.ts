@@ -9,7 +9,6 @@ import {InputGroup} from 'primeng/inputgroup';
 import {InputGroupAddon} from 'primeng/inputgroupaddon';
 import {FloatLabel} from 'primeng/floatlabel';
 import {AlertService} from "../../../shared/services/alert.service";
-import {TokenResponse} from "../../../shared/model/token-response";
 import {AuthService} from "../../../shared/services/auth.service";
 import {AuthContextService} from "../../../shared/services/auth-context.service";
 import {Router} from "@angular/router";
@@ -49,9 +48,7 @@ export class LoginComponent {
 
     try {
 
-      const token: TokenResponse = await this.authService.login(this.user);
-
-      this.authCtx.Token = token.Token;
+      await this.authService.login(this.user);
 
       this.router.navigate( [ '/dashboard/home' ] );
 
