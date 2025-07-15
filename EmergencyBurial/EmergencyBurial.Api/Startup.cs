@@ -57,7 +57,7 @@ namespace EmergencyBurial.Api
             services.AddDbContext<EmergencyBurialContext>(options =>
             {
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-                options.UseSqlServer(Configuration.GetConnectionString("EmergencyBurialContextDbConfig"))
+                options.UseSqlServer(Configuration.GetConnectionString("EmergencyBurialDbConfig"))
                     .UseTriggers(triggerOption =>
                     {
                         triggerOption.AddTrigger<SaveMembersTrigger>();
@@ -70,7 +70,8 @@ namespace EmergencyBurial.Api
             services.AddScoped<EmailHandler>();
             services.AddScoped<SmsHandler>();
             services.AddScoped<ListService>();
-            services.AddScoped<MemberService>();
+            services.AddScoped<AccountService>();
+            services.AddScoped<DeceasedsService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>

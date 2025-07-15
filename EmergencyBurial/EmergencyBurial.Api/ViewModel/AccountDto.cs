@@ -2,15 +2,11 @@
 
 namespace EmergencyBurial.Api.ViewModel
 {
-    public class MemberDto
+    public class AccountDto
     {
         public Guid? Id { get; set; }
 
         public string UserName { get; set; }
-
-        public string CouncilName { get; set; }
-
-        public int? CouncilId { get; set; }
 
         public string FullName { get; set; }
 
@@ -21,7 +17,7 @@ namespace EmergencyBurial.Api.ViewModel
         public int? MemberTypeId { get; set; }
 
         public bool IsActive { get; set; }
-
+        
         public string MemberTypeDescription { get; set; }
     }
 }

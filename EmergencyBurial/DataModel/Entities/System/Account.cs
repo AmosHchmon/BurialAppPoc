@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace DataModel.Entities
 {
-    public class Member
+    public class Account
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -28,7 +27,7 @@ namespace DataModel.Entities
         [MaxLength(10)]
         public string PhoneNumber { get; set; }
 
-        [MaxLength(6)]
+        /*[MaxLength(6)]
         public string OtpNumber { get; set; }
 
         public DateTime? OtpExpired { get; set; }
@@ -42,6 +41,6 @@ namespace DataModel.Entities
         public int? CouncilId { get; set; }
 
         [ForeignKey(nameof(MemberTypeId))]
-        public virtual ListItem MemberType { get; set; }
+        public virtual ListItem MemberType { get; set; }*/
     }
 }
