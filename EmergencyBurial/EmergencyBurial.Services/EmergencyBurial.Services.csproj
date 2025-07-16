@@ -6,6 +6,7 @@
   </PropertyGroup>
 
  <ItemGroup>
+   <PackageReference Include="Coravel" Version="6.0.2" />
    <PackageReference Include="EFCore.BulkExtensions" Version="8.0.3" />
  </ItemGroup>
 

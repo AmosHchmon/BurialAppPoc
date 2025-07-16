@@ -1,10 +1,12 @@
 using System;
 using System.Text;
 using Common.Helpers;
+using Coravel;
 using Core.Config;
 using Core.Middleware;
 using DataModel;
 using DataModel.Triggers;
+using EmergencyBurial.Api.Jobs;
 using EmergencyBurial.Services.DbServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -28,7 +30,6 @@ namespace EmergencyBurial.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -72,35 +73,40 @@ namespace EmergencyBurial.Api
             services.AddScoped<ListService>();
             services.AddScoped<AccountService>();
             services.AddScoped<DeceasedsService>();
+            
+            services.AddTransient<CreateCasualtyJob>();
+            services.AddScheduler();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-           .AddJwtBearer(options =>
-           {
-               options.TokenValidationParameters = new TokenValidationParameters
-               {
-                   ValidateIssuer = true,
-                   ValidateAudience = true,
-                   ValidateLifetime = true,
-                   ValidateIssuerSigningKey = true,
-                   ValidIssuer = authConfig.Issuer,
-                   ValidAudience = authConfig.Audience,
-                   ClockSkew = TimeSpan.Zero,
-                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authConfig.SecurityKey)),
-               };
-           });
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = authConfig.Issuer,
+                        ValidAudience = authConfig.Audience,
+                        ClockSkew = TimeSpan.Zero,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authConfig.SecurityKey)),
+                    };
+                });
 
             services.AddControllers()
-            .AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-            })
-            .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                })
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "System.Api", Version = "v1" });
             });
         }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -115,6 +121,16 @@ namespace EmergencyBurial.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.ApplicationServices.UseScheduler(scheduler =>
+            {
+                var interval = Configuration.GetValue<int>("Scheduler:CasualtyCreationIntervalMinutes", 3);
+                
+                scheduler
+                    .Schedule<CreateCasualtyJob>()
+                    .Cron($"*/{interval} * * * *")
+                    .Zoned(TimeZoneInfo.FindSystemTimeZoneById("Israel Standard Time"));
+            });
 
             app.UseCors(x => x
              .AllowAnyMethod()
