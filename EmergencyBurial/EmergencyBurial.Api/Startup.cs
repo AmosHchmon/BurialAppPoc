@@ -73,32 +73,40 @@ namespace EmergencyBurial.Api
             services.AddScoped<ListService>();
             services.AddScoped<AccountService>();
             services.AddScoped<DeceasedsService>();
-            
+
         services.AddHangfire(config => config
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                 .UseSimpleAssemblyNameTypeSerializer()
                 .UseRecommendedSerializerSettings()
                 .UseSqlServerStorage(Configuration.GetConnectionString("EmergencyBurialDbConfig")));
- 
+
             services.AddHangfireServer();
-            
+
             services.AddTransient<CreateCasualtyJob>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = authConfig.Issuer,
-                        ValidAudience = authConfig.Audience,
-                        ClockSkew = TimeSpan.Zero,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authConfig.SecurityKey)),
-                    };
-                });
+           .AddJwtBearer(options =>
+           {
+               options.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuer = true,
+                   ValidateAudience = true,
+                   ValidateLifetime = true,
+                   ValidateIssuerSigningKey = true,
+                   ValidIssuer = authConfig.Issuer,
+                   ValidAudience = authConfig.Audience,
+                   ClockSkew = TimeSpan.Zero,
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authConfig.SecurityKey)),
+               };
+               options.Events = new JwtBearerEvents()
+               {
+                   OnMessageReceived = context =>
+                   {
+                       context.Token = context.Request.Cookies["user_token"];
+                       return Task.CompletedTask;
+                   }
+               };
+           });
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -113,8 +121,6 @@ namespace EmergencyBurial.Api
             });
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -124,15 +130,15 @@ namespace EmergencyBurial.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmergencyBurial.Api v1"));
             }
-            
+
             app.UseHangfireDashboard("/hangfire"); // You can access the dashboard at /hangfire URL
-            
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            
+
             var interval = Configuration.GetValue<int>("Scheduler:CasualtyCreationIntervalMinutes", 3);
-            
+
             RecurringJob.AddOrUpdate<CreateCasualtyJob>(
                 "create-new-casualty",
                 job => job.Invoke(),
@@ -140,10 +146,10 @@ namespace EmergencyBurial.Api
                 TimeZoneInfo.FindSystemTimeZoneById("Israel Standard Time"));
 
             app.UseCors(x => x
-             .AllowAnyMethod()
-             .AllowAnyHeader()
-             .SetIsOriginAllowed(origin => true) // allow any origin
-             .AllowCredentials()); // allow credentials
+                .WithOrigins("http://localhost:3000")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
 
             app.UseAuthentication();
 

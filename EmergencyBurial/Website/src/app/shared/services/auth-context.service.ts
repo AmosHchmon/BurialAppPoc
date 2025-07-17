@@ -11,6 +11,7 @@ const jwtHelper = new JwtHelperService();
 export class AuthContextService {
   // #region [properties]
 
+
   get Member(): IMember {
     return this.session.retrieve("member");
   }
@@ -23,5 +24,4 @@ export class AuthContextService {
     private session: SessionStorageService
   ) {
   }
-
 }

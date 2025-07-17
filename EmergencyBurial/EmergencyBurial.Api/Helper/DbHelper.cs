@@ -12,72 +12,71 @@ public class DbHelper
 {
     private readonly EmergencyBurialContext db;
     private readonly IWebHostEnvironment env;
-    
-    public DbHelper(EmergencyBurialContext db, IWebHostEnvironment env)
-    {
-        this.db = db;
-        this.env = env;
-    }
 
-    public void InitDB()
-    {
-        using (var transaction = db.Database.BeginTransaction())
+    public DbHelper(EmergencyBurialContext db)
         {
-            try
+            this.db = db;
+        }
+
+        public void InitDB()
+        {
+            using (var transaction = db.Database.BeginTransaction())
             {
-                //InitListType();
+                try
+                {
+                    //InitListType();
 
-                //InitListItems();
+                    //InitListItems();
 
-                InitAccounts();
+                    InitAccounts();
 
                 InitDeceasedTestData();
 
                 //InitFormsMenu();
 
-                transaction.Commit();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
             }
-            catch (Exception ex)
+        }
+
+
+        #region [private methods]
+
+        private void InitListType()
+        {
+            foreach (EntityType type in (EntityType[])Enum.GetValues(typeof(EntityType)))
             {
-                transaction.Rollback();
-                throw;
+                var obj = new ListType()
+                {
+                    Id = (int)type,
+                    Text = type.GetEnumDescription()
+                };
+
+                db.ListTypes.Add(obj);
             }
+
+            db.SaveChanges();
         }
-    }
 
-
-    #region [private methods]
-
-    private void InitListType()
-    {
-        foreach (EntityType type in (EntityType[])Enum.GetValues(typeof(EntityType)))
+        private void InitListItems()
         {
-            var obj = new ListType()
+            var count = 1;
+            foreach (MemberType type in (MemberType[])Enum.GetValues(typeof(MemberType)))
             {
-                Id = (int)type,
-                Text = type.GetEnumDescription()
-            };
+                var obj = new ListItem()
+                {
+                    Key = (int)EntityType.MemberType + count++,
+                    ListTypeId = (int)EntityType.MemberType,
+                    Text = type.GetEnumDescription()
+                };
 
-            db.ListTypes.Add(obj);
-        }
-
-        db.SaveChanges();
-    }
-
-    private void InitListItems()
-    {
-        var count = 1;
-        foreach (MemberType type in (MemberType[])Enum.GetValues(typeof(MemberType)))
-        {
-            var obj = new ListItem()
-            {
-                Key = (int)EntityType.MemberType + count++,
-                ListTypeId = (int)EntityType.MemberType,
-                Text = type.GetEnumDescription()
-            };
-
-            db.ListItems.Add(obj);
-        }
+                db.ListItems.Add(obj);
+            }
 
         db.SaveChanges();
     }

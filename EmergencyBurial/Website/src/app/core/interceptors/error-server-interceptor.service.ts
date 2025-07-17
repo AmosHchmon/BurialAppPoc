@@ -1,8 +1,8 @@
-import { throwError as observableThrowError, Observable, throwError } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { catchError } from 'rxjs/internal/operators/catchError';
+import {Observable, throwError} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {catchError} from 'rxjs/internal/operators/catchError';
 
 @Injectable()
 export class ErrorServerInterceptor implements HttpInterceptor {
@@ -14,7 +14,7 @@ export class ErrorServerInterceptor implements HttpInterceptor {
 
       switch (error.status) {
         case 401://Unauthorized
-          this.router.navigate(['sessions/login'], { queryParams: { returnUrl: this.router.url } });
+          this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
         return null;
         case 500://InternalServerError
         case 403://Forbidden
