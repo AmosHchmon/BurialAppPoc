@@ -14,20 +14,8 @@ using RSExecutionReferenceAgent;
 
 namespace EmergencyBurial.Services
 {
-    public class ReportHandler
+    public class ReportHandler(EnvConfiguration config, EmergencyBurialContext ctx, ILogger<ReportHandler> logger)
     {
-
-        private readonly EnvConfiguration config;
-        readonly EmergencyBurialContext ctx;
-        readonly ILogger logger;
-
-        public ReportHandler(EnvConfiguration config, EmergencyBurialContext ctx, ILogger<ReportHandler> logger)
-        {
-            this.config = config;
-            this.logger = logger;
-            this.ctx = ctx;
-        }
-
         public async Task<byte[]> RenderReport(ReportRequest renderedReport)
         {
             try

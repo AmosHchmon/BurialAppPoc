@@ -15,16 +15,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace EmergencyBurial.Services
 {
-    public class FileService
+    public class FileService(StorageConfiguration config, EmergencyBurialContext ctx)
     {
-        private readonly StorageConfiguration config;
-        readonly EmergencyBurialContext ctx;
-        public FileService(StorageConfiguration config, EmergencyBurialContext ctx)
-        {
-            this.config = config;
-            this.ctx = ctx;
-        }
-
         public List<FileResult> UploadFiles(List<IFormFile> files)
         {
             var result = new List<FileResult>();

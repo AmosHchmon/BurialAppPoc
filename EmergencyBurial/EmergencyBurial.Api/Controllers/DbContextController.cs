@@ -39,7 +39,7 @@ public class DbContextController(EmergencyBurialContext db, ILogger logger) : Co
     {
         try
         {
-            new DbHelper(db, env).InitDB();
+            new DbHelper(db).InitDB();
         }
         catch (Exception)
         {

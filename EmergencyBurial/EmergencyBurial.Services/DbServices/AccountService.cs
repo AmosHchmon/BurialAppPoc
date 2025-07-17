@@ -10,15 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace EmergencyBurial.Services.DbServices;
 
-public class AccountService
+public class AccountService(AuthConfiguration authConfig)
 {
-    private readonly AuthConfiguration authConfig;
-    
-    public AccountService(AuthConfiguration authConfig)
-    {
-        this.authConfig = authConfig;
-    }
-
     public Member VerifyMember(Member member)
     {
         if (member.UserName == "test" && member.Mail.ToLower() == "ozs@dat.gov.il")

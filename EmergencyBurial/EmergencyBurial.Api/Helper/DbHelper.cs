@@ -28,7 +28,7 @@ public class DbHelper
 
                     //InitListItems();
 
-                    InitAccounts();
+                    InitMembers();
 
                 InitDeceasedTestData();
 
@@ -129,7 +129,7 @@ public class DbHelper
         db.SaveChanges();
     }
 
-    private void InitAccounts()
+    private void InitMembers()
     {
         var list = new List<Member>
         {
@@ -139,7 +139,7 @@ public class DbHelper
             }
         };
 
-        db.Accounts.AddRange(list);
+        db.Members.AddRange(list);
 
         db.SaveChanges();
     }
