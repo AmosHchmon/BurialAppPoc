@@ -17,4 +17,8 @@ export class AuthService extends BaseService {
     return super.put({path: '/login', body: userOtp});
 
   }
+
+  test(): Promise<any> {
+    return super.get({path: '/protected-data'});
+  }
 }

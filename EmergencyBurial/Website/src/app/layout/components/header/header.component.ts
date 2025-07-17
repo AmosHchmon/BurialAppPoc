@@ -52,7 +52,7 @@ export class HeaderComponent implements OnInit {
   }
 
   signOut(){
-    this.authCtx.Token = null;
+
     this.router.navigate(['/login']);
   }
 

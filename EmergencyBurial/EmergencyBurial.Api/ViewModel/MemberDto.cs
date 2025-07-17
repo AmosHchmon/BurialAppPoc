@@ -2,7 +2,7 @@
 
 namespace EmergencyBurial.Api.ViewModel
 {
-    public class AccountDto
+    public class MemberDto
     {
         public Guid? Id { get; set; }
 

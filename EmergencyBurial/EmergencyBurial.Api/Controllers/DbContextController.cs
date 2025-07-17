@@ -13,11 +13,8 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-public class DbContextController : ControllerBase
+public class DbContextController(EmergencyBurialContext db, ILogger logger) : ControllerBase
 {
-    private readonly EmergencyBurialContext db;
-    private readonly ILogger logger;
-    
     [HttpPost]
     //[ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> CreateDbSchema()

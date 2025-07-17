@@ -6,35 +6,28 @@ using EmergencyBurial.Services.DbServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+
 namespace EmergencyBurial.Api.Controllers;
 
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
 [Authorize]
-public class AccountController : ControllerBase
+public class AccountController(AccountService accountService, IMapper mapper) : ControllerBase
 {
-    private readonly AccountService accountService;
-    private readonly IMapper mapper;
-
-    public AccountController(AccountService accountService, IMapper mapper)
-    {
-        this.accountService = accountService;
-        this.mapper = mapper;
-    }
-
     #region [Anonymous]
 
     [HttpPut("login")]
     [AllowAnonymous]
-    public ActionResult Login([FromBody]AccountDto accountDto)
+    public ActionResult Login([FromBody]MemberDto memberDto)
     {
-        if (accountDto == null)
+        if (memberDto == null)
         {
             return BadRequest();
         }
 
-        var userObj = mapper.Map<Account>(accountDto);
+        var userObj = mapper.Map<Member>(memberDto);
 
         var user = accountService.VerifyUser(userObj);
 
@@ -54,6 +47,22 @@ public class AccountController : ControllerBase
         Response.Cookies.Append("user_token", token, cookieOptions);
 
         return Ok();
+    }
+    
+    [HttpGet("protected-data")]
+    public ActionResult GetProtectedData()
+    {
+        var userName = User.Identity.IsAuthenticated ? User.Identity.Name : "Unknown";
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+        return Ok(new
+        {
+            Message = $"Hello, {userName}! You successfully accessed protected data.",
+            UserId = userId,
+            Role = role,
+            Timestamp = DateTime.UtcNow
+        });
     }
 
     /*[HttpPut("otp")]
