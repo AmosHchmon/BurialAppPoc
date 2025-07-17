@@ -12,7 +12,6 @@ import {ValidationService} from '../services/validation.service';
     },
   ],
   standalone: true,
-  standalone: false,
 })
 
 export class IdentityValidatorDirective implements Validator {
