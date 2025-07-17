@@ -56,7 +56,7 @@ export class HeaderComponent implements OnInit {
   }
 
   signOut(){
-    this.authCtx.Token = null;
+    //this.authCtx.Token = null;
     this.router.navigate(['sessions/login']);
   }
 

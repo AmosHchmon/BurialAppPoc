@@ -1,13 +1,13 @@
 using System;
 using System.Text;
 using Common.Helpers;
-using Coravel;
 using Core.Config;
 using Core.Middleware;
 using DataModel;
 using DataModel.Triggers;
 using EmergencyBurial.Api.Jobs;
 using EmergencyBurial.Services.DbServices;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -74,8 +74,15 @@ namespace EmergencyBurial.Api
             services.AddScoped<AccountService>();
             services.AddScoped<DeceasedsService>();
             
+        services.AddHangfire(config => config
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(Configuration.GetConnectionString("EmergencyBurialDbConfig")));
+ 
+            services.AddHangfireServer();
+            
             services.AddTransient<CreateCasualtyJob>();
-            services.AddScheduler();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -117,20 +124,20 @@ namespace EmergencyBurial.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmergencyBurial.Api v1"));
             }
-
+            
+            app.UseHangfireDashboard("/hangfire"); // You can access the dashboard at /hangfire URL
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
             
-            app.ApplicationServices.UseScheduler(scheduler =>
-            {
-                var interval = Configuration.GetValue<int>("Scheduler:CasualtyCreationIntervalMinutes", 3);
-                
-                scheduler
-                    .Schedule<CreateCasualtyJob>()
-                    .Cron($"*/{interval} * * * *")
-                    .Zoned(TimeZoneInfo.FindSystemTimeZoneById("Israel Standard Time"));
-            });
+            var interval = Configuration.GetValue<int>("Scheduler:CasualtyCreationIntervalMinutes", 3);
+            
+            RecurringJob.AddOrUpdate<CreateCasualtyJob>(
+                "create-new-casualty",
+                job => job.Invoke(),
+                $"*/{interval} * * * *",
+                TimeZoneInfo.FindSystemTimeZoneById("Israel Standard Time"));
 
             app.UseCors(x => x
              .AllowAnyMethod()

@@ -132,9 +132,9 @@ public class DbHelper
 
     private void InitAccounts()
     {
-        var list = new List<Account>
+        var list = new List<Member>
         {
-            new Account
+            new Member
             {
                 FullName = "עוז שורקי", UserName = "308015205", Mail = "OzS@dat.gov.il",
             }

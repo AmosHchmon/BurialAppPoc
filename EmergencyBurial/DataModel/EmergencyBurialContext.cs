@@ -9,7 +9,7 @@ namespace DataModel
         public virtual DbSet<ListItem> ListItems { get; set; }
         public virtual DbSet<ListType> ListTypes { get; set; }
         public virtual DbSet<AppFile> Files { get; set; }
-        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Member> Accounts { get; set; }
         
         public virtual DbSet<Deceased> Deceaseds { get; set; }
         public EmergencyBurialContext(DbContextOptions<EmergencyBurialContext> options) : base(options)
@@ -17,7 +17,7 @@ namespace DataModel
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>().HasIndex(m => m.UserName).IsUnique(true);
+            modelBuilder.Entity<Member>().HasIndex(m => m.UserName).IsUnique(true);
             
             modelBuilder.Entity<ListType>().HasIndex(u => u.Text);
             

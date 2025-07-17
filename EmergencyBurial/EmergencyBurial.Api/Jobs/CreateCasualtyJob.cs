@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Coravel.Invocable;
 using DataModel;
 using DataModel.Entities;
 using Microsoft.Extensions.Logging;
@@ -7,7 +6,7 @@ using System;
 
 namespace EmergencyBurial.Api.Jobs
 {
-    public class CreateCasualtyJob(EmergencyBurialContext ctx, ILogger<CreateCasualtyJob> logger) : IInvocable
+    public class CreateCasualtyJob(EmergencyBurialContext ctx, ILogger<CreateCasualtyJob> logger)
     {
         public async Task Invoke()
         {

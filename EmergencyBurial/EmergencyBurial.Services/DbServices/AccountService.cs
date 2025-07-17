@@ -19,11 +19,11 @@ public class AccountService
         this.authConfig = authConfig;
     }
 
-    public Account VerifyUser(Account account)
+    public Member VerifyMember(Member member)
     {
-        if (account.UserName == "test" && account.Mail.ToLower() == "ozs@dat.gov.il")
+        if (member.UserName == "test" && member.Mail.ToLower() == "ozs@dat.gov.il")
         {
-            return new Account
+            return new Member
             {
                 Id = Guid.NewGuid(),
                 UserName = "test",
@@ -36,7 +36,7 @@ public class AccountService
         return null;
     }
 
-    public string CreateToken(Account account)
+    public string CreateToken(Member member)
     {
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authConfig.SecurityKey));
 
@@ -44,9 +44,9 @@ public class AccountService
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimHelper.UserId, account.Id.ToString()),
-            new Claim(ClaimTypes.Name, account.UserName),
-            new Claim(ClaimTypes.Email, account.Mail)
+            new Claim(ClaimHelper.UserId, member.Id.ToString()),
+            new Claim(ClaimTypes.Name, member.UserName),
+            new Claim(ClaimTypes.Email, member.Mail)
         };
 
         var tokeOptions = new JwtSecurityToken(

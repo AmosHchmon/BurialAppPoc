@@ -5,9 +5,9 @@ using EntityFrameworkCore.Triggered;
 
 namespace DataModel.Triggers
 {
-    public class SaveMembersTrigger : IBeforeSaveTrigger<Account>
+    public class SaveMembersTrigger : IBeforeSaveTrigger<Member>
     {
-        public Task BeforeSave(ITriggerContext<Account> context, CancellationToken cancellationToken)
+        public Task BeforeSave(ITriggerContext<Member> context, CancellationToken cancellationToken)
         {
             if (context.ChangeType == ChangeType.Added)
             {

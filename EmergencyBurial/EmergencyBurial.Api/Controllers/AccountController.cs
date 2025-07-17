@@ -19,16 +19,16 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
 
     [HttpPut("login")]
     [AllowAnonymous]
-    public ActionResult Login([FromBody]AccountDto accountDto)
+    public ActionResult Login([FromBody]MemberDto memberDto)
     {
-        if (accountDto == null)
+        if (memberDto == null)
         {
             return BadRequest();
         }
 
-        var userObj = mapper.Map<Account>(accountDto);
+        var userObj = mapper.Map<Member>(memberDto);
 
-        var user = accountService.VerifyUser(userObj);
+        var user = accountService.VerifyMember(userObj);
 
         if (user == null)
             return Unauthorized();
@@ -39,7 +39,7 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
         {
             HttpOnly = true,
             Secure = true,
-            SameSite = SameSiteMode.Lax,
+            SameSite = SameSiteMode.None,
             Expires = DateTimeOffset.UtcNow.AddDays(7)
         };
         
