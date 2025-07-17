@@ -40,7 +40,7 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
         {
             HttpOnly = true,
             Secure = true,
-            SameSite = SameSiteMode.Lax,
+            SameSite = SameSiteMode.None,
             Expires = DateTimeOffset.UtcNow.AddDays(7)
         };
         
