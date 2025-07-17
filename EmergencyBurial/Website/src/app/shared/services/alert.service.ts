@@ -7,7 +7,9 @@ import { AppResponse } from '../../core/model/app.response';
 import { DialogMessage } from '../static/messages';
 import { ToastrService } from 'ngx-toastr';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlertService {
   private toastrConfig = { timeOut: 10000, tapToDismiss: true, positionClass: 'toast-bottom-center' };
 

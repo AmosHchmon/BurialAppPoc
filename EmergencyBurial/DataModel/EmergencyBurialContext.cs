@@ -10,7 +10,7 @@ namespace DataModel
         public virtual DbSet<ListItem> ListItems { get; set; }
         public virtual DbSet<ListType> ListTypes { get; set; }
         public virtual DbSet<AppFile> Files { get; set; }
-        public virtual DbSet<Member> Members { get; set; }
+        public virtual DbSet<Member> Users { get; set; }
         public EmergencyBurialContext(DbContextOptions<EmergencyBurialContext> options) : base(options)
         { }
 

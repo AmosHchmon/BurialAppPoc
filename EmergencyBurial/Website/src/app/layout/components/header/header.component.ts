@@ -4,13 +4,11 @@ import {AuthContextService} from 'src/app/shared/services/auth-context.service';
 import {NgOptimizedImage} from '@angular/common';
 import {MatTabLink, MatTabNav, MatTabNavPanel} from '@angular/material/tabs';
 import {constants} from '../../../shared/static/constants';
-import {MatIcon} from '@angular/material/icon';
-import {FormsModule} from '@angular/forms';
-import {MdbFormsModule} from 'mdb-angular-ui-kit/forms';
-import {FloatLabel} from 'primeng/floatlabel';
-import {InputText} from 'primeng/inputtext';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
+import {FormsModule} from "@angular/forms";
+import {FloatLabel} from "primeng/floatlabel";
+import {InputText} from "primeng/inputtext";
 
 interface ILink {
   label: string,
@@ -24,27 +22,25 @@ interface ILink {
   standalone: true,
   imports: [
     NgOptimizedImage,
-    MatIcon,
-    FormsModule,
-    RouterLink,
     MatTabNav,
     MatTabLink,
     RouterLinkActive,
     MatTabNavPanel,
-    MdbFormsModule,
-    FloatLabel,
-    InputText,
     IconField,
     InputIcon,
+    FormsModule,
+    FloatLabel,
+    RouterLink,
+    InputText,
   ],
 })
 export class HeaderComponent implements OnInit {
 
   searchValue: string;
   links: ILink[] = [
-    {label: 'עמוד הבית', path: '/home'},
-    {label: 'שק חלל', path: '/deceased'},
-    {label: 'שינוע', path: '/transport'},
+    {label: 'עמוד הבית', path: '/dashboard/home'},
+    {label: 'שק חלל', path: '/dashboard/deceased'},
+    {label: 'שינוע', path: '/dashboard/transport'},
   ];
 
   constructor(public authCtx: AuthContextService,
@@ -56,8 +52,8 @@ export class HeaderComponent implements OnInit {
   }
 
   signOut(){
-    this.authCtx.Token = null;
-    this.router.navigate(['sessions/login']);
+
+    this.router.navigate(['/login']);
   }
 
   applyFilter(value: any){

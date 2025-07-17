@@ -8,10 +8,6 @@ namespace EmergencyBurial.Api.ViewModel
 
         public string UserName { get; set; }
 
-        public string CouncilName { get; set; }
-
-        public int? CouncilId { get; set; }
-
         public string FullName { get; set; }
 
         public string Mail { get; set; }
@@ -21,7 +17,7 @@ namespace EmergencyBurial.Api.ViewModel
         public int? MemberTypeId { get; set; }
 
         public bool IsActive { get; set; }
-
+        
         public string MemberTypeDescription { get; set; }
     }
 }

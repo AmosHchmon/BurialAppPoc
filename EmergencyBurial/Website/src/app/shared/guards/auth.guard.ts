@@ -1,10 +1,6 @@
-import { Injectable } from "@angular/core";
-import {
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  Router,
-} from "@angular/router";
-import { AuthContextService } from "../services/auth-context.service";
+import {Injectable} from "@angular/core";
+import {ActivatedRouteSnapshot, Router, RouterStateSnapshot,} from "@angular/router";
+import {AuthContextService} from "../services/auth-context.service";
 
 @Injectable({providedIn: 'root'})
 export class AuthGuard {
@@ -17,7 +13,7 @@ export class AuthGuard {
     if (this.authCtx.isLoggedIn()) {
       return true;
     } else {
-      this.router.navigate(["/sessions/login"], {
+      this.router.navigate(["/login"], {
         queryParams: {
           return: state.url
         }
@@ -33,7 +29,7 @@ export class AuthGuard {
     if (this.authCtx.isLoggedIn()) {
       return true;
     } else {
-      this.router.navigate(["/sessions/login"], {
+      this.router.navigate(["/login"], {
         queryParams: {
           return: state.url
         }
