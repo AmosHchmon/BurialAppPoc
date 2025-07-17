@@ -51,7 +51,8 @@ public class AccountService
         {
             new Claim(ClaimHelper.UserId, member.Id.ToString()),
             new Claim(ClaimTypes.Name, member.UserName),
-            new Claim(ClaimTypes.Email, member.Mail)
+            new Claim(ClaimTypes.Email, member.Mail),
+            new Claim(ClaimTypes.Role, "Admin"),
         };
 
         var tokeOptions = new JwtSecurityToken(

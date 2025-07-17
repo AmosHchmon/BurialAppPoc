@@ -50,6 +50,7 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
     }
     
     [HttpGet("protected-data")]
+    [Authorize(Roles = "Admin")]
     public ActionResult GetProtectedData()
     {
         var userName = User.Identity.IsAuthenticated ? User.Identity.Name : "Unknown";
