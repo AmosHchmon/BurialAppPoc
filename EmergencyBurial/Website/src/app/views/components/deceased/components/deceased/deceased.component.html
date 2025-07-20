@@ -49,11 +49,17 @@
           </td>
         }
         <td>
-          <p-button icon="pi pi-info-circle d-flex justify-content-center align-items-center"
+          <!--<p-button icon="pi pi-info-circle d-flex justify-content-center align-items-center"
                     label="פרטים"
                     [rounded]="true"
                     [outlined]="true"
-                    (click)="showDetails(rowData)"/>
+                    (click)="showDetails(rowData)"/>-->
+          <div class="d-flex justify-content-start align-items-center cursor-pointer gap-2"
+               (click)="showDetails(rowData)">
+            <span>מידע נוסף</span>
+            <span class="pi pi-info-circle"></span>
+          </div>
+
         </td>
       </tr>
     </ng-template>

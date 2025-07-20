@@ -12,6 +12,7 @@ import {Dialog} from "primeng/dialog";
 import {DeceasedDialogComponent} from "../deceased-dialog/deceased-dialog.component";
 import {IColumn} from "../../../../../shared/ui-components/model/column";
 import {FormsModule} from "@angular/forms";
+import {Message} from "primeng/message";
 
 @Component({
   selector: 'app-deceased',
@@ -24,7 +25,8 @@ import {FormsModule} from "@angular/forms";
     Button,
     Dialog,
     DeceasedDialogComponent,
-    FormsModule
+    FormsModule,
+    Message
   ],
   templateUrl: './deceased.component.html',
   standalone: true,
