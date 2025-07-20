@@ -1,20 +1,28 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, WritableSignal} from '@angular/core';
 import {Card} from "primeng/card";
 import {TableModule} from "primeng/table";
 import {Deceased} from "../../model/deceased";
 import {AlertService} from "../../../../../shared/services/alert.service";
 import {DeceasedService} from "../../services/deceased.service";
-
-interface IColumn {
-  field: string;
-  header: string;
-}
+import {IconField} from "primeng/iconfield";
+import {InputIcon} from "primeng/inputicon";
+import {InputText} from "primeng/inputtext";
+import {Button} from "primeng/button";
+import {Dialog} from "primeng/dialog";
+import {DeceasedDialogComponent} from "../deceased-dialog/deceased-dialog.component";
+import {IColumn} from "../../../../../shared/ui-components/model/column";
 
 @Component({
   selector: 'app-deceased',
   imports: [
     Card,
-    TableModule
+    TableModule,
+    IconField,
+    InputIcon,
+    InputText,
+    Button,
+    Dialog,
+    DeceasedDialogComponent
   ],
   templateUrl: './deceased.component.html',
   standalone: true,
@@ -24,8 +32,11 @@ export class DeceasedComponent implements OnInit {
 
   cols: IColumn[] = [];
   deceasedList: Deceased[] = [];
+  selectedDeceased: Deceased;
+  detailsDialogVisible: boolean | WritableSignal<boolean>;
 
-  constructor(private deceasedService: DeceasedService, private alertService: AlertService) {
+  constructor(private deceasedService: DeceasedService,
+              private alertService: AlertService) {
 
     this.deceasedService = deceasedService;
     this.alertService = alertService;
@@ -64,4 +75,22 @@ export class DeceasedComponent implements OnInit {
       {field: 'Notes', header: 'הערות'}
     ];
   }
+
+  getGlobalFilterFields(): string[] {
+
+    return this.cols.map(col => col.field);
+  }
+
+  showDetails(selectedRow: Deceased) {
+
+    this.selectedDeceased = {...selectedRow};
+    this.detailsDialogVisible = true;
+  }
+
+  hideDetailsDialog() {
+
+    this.detailsDialogVisible = false;
+    this.selectedDeceased = null; // Clear selected data
+  }
+
 }

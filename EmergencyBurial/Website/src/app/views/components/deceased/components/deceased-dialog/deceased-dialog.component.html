@@ -1,0 +1,18 @@
+<div>
+  @if (deceased) {
+    <div class="d-flex flex-column gap-3">
+      @for (col of cols; track col.field) {
+        <div>
+          <label class="d-block fw-bold mb-1">{{ col.header }}:</label>
+          <div>{{ deceased[col.field] ?? 'לא מצויין' }}</div>
+        </div>
+      } @empty {
+        <div>אין עמודות להצגה.</div>
+      }
+    </div>
+  } @else {
+    <div>
+      <p>אין פרטים להצגה.</p>
+    </div>
+  }
+</div>
