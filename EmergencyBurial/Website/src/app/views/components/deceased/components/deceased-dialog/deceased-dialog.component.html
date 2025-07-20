@@ -1,37 +1,38 @@
-<div> @if (deceased) {
-  <div class="d-flex justify-content-start gap-5">
-    <div class="m-0">
-      <h3>פרטים כלליים</h3>
-      <div class="d-flex flex-column gap-3">
-        @for (col of colsPart1; track col.field) {
-          <div>
-            <label class="d-block fw-bold mb-1">{{ col.header }}:</label>
-            <div>{{ deceased[col.field] ?? 'לא מצויין' }}</div>
-          </div>
-        } @empty {
-          <div>אין עמודות בחלק הראשון להצגה.</div>
-        }
+<div class="p-3">
+  @if (deceased) {
+    <div class="d-flex justify-content-start gap-5">
+      <div class="m-0">
+        <h3>פרטים כלליים</h3>
+        <div class="d-flex flex-column gap-3">
+          @for (col of colsPart1; track col.field) {
+            <div>
+              <label class="d-block fw-bold mb-1">{{ col.header }}:</label>
+              <div>{{ deceased[col.field] ?? 'לא מצויין' }}</div>
+            </div>
+          } @empty {
+            <div>אין עמודות בחלק הראשון להצגה.</div>
+          }
+        </div>
       </div>
-    </div>
 
+      <div>
+        <h3>פרטים נוספים</h3>
+        <div class="d-flex flex-column gap-3">
+          @for (col of colsPart2; track col.field) {
+            <div>
+              <label class="d-block fw-bold mb-1">{{ col.header }}:</label>
+              <div>{{ deceased[col.field] ?? 'לא מצויין' }}</div>
+            </div>
+          } @empty {
+            <div>אין עמודות בחלק השני להצגה.</div>
+          }
+        </div>
+      </div>
+
+    </div>
+  } @else {
     <div>
-      <h3>פרטים נוספים</h3>
-      <div class="d-flex flex-column gap-3">
-        @for (col of colsPart2; track col.field) {
-          <div>
-            <label class="d-block fw-bold mb-1">{{ col.header }}:</label>
-            <div>{{ deceased[col.field] ?? 'לא מצויין' }}</div>
-          </div>
-        } @empty {
-          <div>אין עמודות בחלק השני להצגה.</div>
-        }
-      </div>
+      <p>אין פרטים להצגה.</p>
     </div>
-
-  </div>
-} @else {
-  <div>
-    <p>אין פרטים להצגה.</p>
-  </div>
-}
+  }
 </div>
