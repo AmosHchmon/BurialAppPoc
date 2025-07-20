@@ -47,21 +47,21 @@ export class DeceasedComponent implements OnInit{
 
   initCols() {
     this.cols = [
-      {field: 'HalalNumber', header: 'HalalNumber'},
-      {field: 'IdentityNumber', header: 'IdentityNumber'},
-      {field: 'FirstName', header: 'FirstName'},
-      {field: 'LastName', header: 'LastName'},
-      {field: 'FatherName', header: 'FatherName'},
-      {field: 'Gender', header: 'Gender'},
-      {field: 'Nationality', header: 'Nationality'},
-      {field: 'HomeCity', header: 'HomeCity'},
-      {field: 'HomeAddress', header: 'HomeAddress'},
-      {field: 'CurrentStatusId', header: 'CurrentStatusId'},
-      {field: 'CurrentLocationId', header: 'CurrentLocationId'},
-      {field: 'IsLinkedToOtherCasesValue', header: 'IsLinkedToOtherCasesValue'},
-      {field: 'BurialCity', header: 'BurialCity'},
-      {field: 'IsCivilBurialValue', header: 'IsCivilBurialValue'},
-      {field: 'Notes', header: 'Notes'}
+      {field: 'HalalNumber', header: 'מספר חלל'},
+      {field: 'IdentityNumber', header: 'מספר זהות'},
+      {field: 'FirstName', header: 'שם פרטי'},
+      {field: 'LastName', header: 'שם משפחה'},
+      {field: 'FatherName', header: 'שם האב'},
+      {field: 'Gender', header: 'מין'},
+      {field: 'Nationality', header: 'לאום'},
+      {field: 'HomeCity', header: 'עיר מגורים'},
+      {field: 'HomeAddress', header: 'כתובת'},
+      {field: 'CurrentStatusId', header: 'סטטוס'},
+      {field: 'CurrentLocationId', header: 'מיקום'},
+      {field: 'IsLinkedToOtherCasesValue', header: 'מקושר למקרים'},
+      {field: 'BurialCity', header: 'עיר קבורה'},
+      {field: 'IsCivilBurialValue', header: 'קבורה אזרחית'},
+      {field: 'Notes', header: 'הערות'}
     ];
   }
 }
