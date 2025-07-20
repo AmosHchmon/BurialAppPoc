@@ -8,7 +8,7 @@
            priority="true"
            alt="israelLogo">
     </div>
-    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+    <!--<nav mat-tab-nav-bar [tabPanel]="tabPanel">
       @for (link of links; track link) {
         <a mat-tab-link
            [routerLink]="link.path"
@@ -18,7 +18,22 @@
           {{ link.label }}
         </a>
       }
-    </nav>
+    </nav>-->
+    <div class="pb-3">
+      <p-tabs>
+        <p-tablist>
+          @for(tab of tabs; track tab.route){
+            <p-tab [value]="tab.route"
+                   [routerLink]="tab.route"
+                   routerLinkActive="p-tab-active"
+                   class="d-flex align-items-center gap-2">
+              <i [class]="tab.icon"></i>
+              <span>{{ tab.label }}</span>
+            </p-tab>
+          }
+        </p-tablist>
+      </p-tabs>
+    </div>
     <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
   </div>
   <div class="d-flex gap-3 w-auto justify-content-evenly align-items-center">
@@ -30,7 +45,7 @@
                (keyup)="applyFilter($event.target.value)"
                [(ngModel)]="searchValue"
                autocomplete="off"/>
-        <p-inputicon class="pi pi-times cursor-pointer" (click)="clearSearch()"/>
+        <p-inputicon class="pi pi-times cursor-pointer" (click)="clearSearchField()"/>
       </p-iconfield>
       <label for="on_label">חיפוש</label>
     </p-floatlabel>

@@ -2,17 +2,19 @@ import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {AuthContextService} from 'src/app/shared/services/auth-context.service';
 import {NgOptimizedImage} from '@angular/common';
-import {MatTabLink, MatTabNav, MatTabNavPanel} from '@angular/material/tabs';
+import {MatTabNavPanel} from '@angular/material/tabs';
 import {constants} from '../../../shared/static/constants';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {FormsModule} from "@angular/forms";
 import {FloatLabel} from "primeng/floatlabel";
 import {InputText} from "primeng/inputtext";
+import {Tab, TabList, Tabs} from "primeng/tabs";
 
 interface ILink {
+  route: string,
   label: string,
-  path: string
+  icon: string
 }
 
 @Component({
@@ -22,9 +24,6 @@ interface ILink {
   standalone: true,
   imports: [
     NgOptimizedImage,
-    MatTabNav,
-    MatTabLink,
-    RouterLinkActive,
     MatTabNavPanel,
     IconField,
     InputIcon,
@@ -32,16 +31,27 @@ interface ILink {
     FloatLabel,
     RouterLink,
     InputText,
+    Tabs,
+    TabList,
+    Tab,
+    RouterLinkActive,
+
+
   ],
 })
 export class HeaderComponent implements OnInit {
 
   searchValue: string;
-  links: ILink[] = [
+  tabs: ILink[] = [
+    {route: '/dashboard/home', label: 'עמוד הבית', icon: 'pi pi-home'},
+    {route: '/dashboard/deceased', label: 'שק חלל', icon: 'pi pi-user'},
+    {route: '/dashboard/transport', label: 'שינוע', icon: 'pi pi-truck'},
+  ];
+/*  links: ILink[] = [
     {label: 'עמוד הבית', path: '/dashboard/home'},
     {label: 'שק חלל', path: '/dashboard/deceased'},
     {label: 'שינוע', path: '/dashboard/transport'},
-  ];
+  ];*/
 
   constructor(public authCtx: AuthContextService,
               private router: Router,
@@ -49,6 +59,7 @@ export class HeaderComponent implements OnInit {
   }
 
   async ngOnInit(){
+
   }
 
   signOut(){
@@ -66,7 +77,4 @@ export class HeaderComponent implements OnInit {
 
   protected readonly constants = constants;
 
-  clearSearch() {
-    this.searchValue = ''
-  }
 }
