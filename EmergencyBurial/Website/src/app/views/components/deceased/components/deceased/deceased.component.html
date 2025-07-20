@@ -1,7 +1,7 @@
 <p-card class="h-auto">
   <p-table #dt
            [columns]="cols"
-           showGridlines
+           showGridlines="true"
            [value]="deceasedList"
            [tableStyle]="{ 'min-width': '50rem' }"
            [size]="'small'"
@@ -77,6 +77,9 @@
   </ng-template>
 
   <ng-template #footer>
-    <p-button label="סגור" icon="pi pi-times" text (click)="hideDetailsDialog()" dir="rtl"/>
+    <p-button label="סגור"
+              icon="pi pi-times"
+              text="true"
+              (click)="hideDetailsDialog()"/>
   </ng-template>
 </p-dialog>
