@@ -48,7 +48,7 @@ export class LoginComponent {
 
       await this.authService.login(this.user);
 
-      //this.router.navigate( [ '/dashboard/home' ] );
+      this.router.navigate( [ '/dashboard/home' ] );
 
     } catch (error) {
       this.alertService.error(error);

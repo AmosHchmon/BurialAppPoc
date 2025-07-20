@@ -31,12 +31,11 @@ public class DeceasedDto
     public int CurrentStatusId { get; set; }
         
     public int CurrentLocationId { get; set; }
+    public string IsLinkedToOtherCasesValue { get; set; }
 
-    public bool IsLinkedToOtherCases { get; set; }
-
-    public string? BurialCity { get; set; }
+    public string BurialCity { get; set; }
         
-    public bool IsCivilBurial { get; set; }
+    public string IsCivilBurialValue { get; set; }
         
     [MaxLength(1000)]
     public string? Notes { get; set; }

@@ -12,7 +12,7 @@ namespace EmergencyBurial.Api.Jobs
         {
             try
             {
-                logger.LogInformation("CreateCasualtyJob is running.");
+                /*logger.LogInformation("CreateCasualtyJob is running.");
 
                 var randomId = new Random().Next(1000, 9999);
                 var newCasualty = new Deceased
@@ -32,7 +32,7 @@ namespace EmergencyBurial.Api.Jobs
                 ctx.Deceaseds.Add(newCasualty);
                 await ctx.SaveChangesAsync();
 
-                logger.LogInformation("Successfully created a new casualty with HalalNumber: {halalNumber}", newCasualty.HalalNumber);
+                logger.LogInformation("Successfully created a new casualty with HalalNumber: {halalNumber}", newCasualty.HalalNumber);*/
             }
             catch (Exception ex)
             {

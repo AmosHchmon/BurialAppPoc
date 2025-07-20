@@ -7,7 +7,7 @@ import {routes} from './app.routes';
 import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {providePrimeNG} from 'primeng/config';
-import Material from '@primeuix/themes/Material';
+import Aura from '@primeuix/themes/Aura';
 import {provideToastr} from "ngx-toastr";
 import {authInterceptor} from "./shared/interceptors/token-interceptor.service";
 
@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: Material,
+        preset: Aura,
         options: {
           darkModeSelector: '.my-app-dark'
         }

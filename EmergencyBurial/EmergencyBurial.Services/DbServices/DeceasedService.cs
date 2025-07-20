@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EmergencyBurial.Services.DbServices;
 
-public class DeceasedsService(EmergencyBurialContext ctx, ILogger<DeceasedsService> logger)
+public class DeceasedService(EmergencyBurialContext ctx, ILogger<DeceasedService> logger)
 {
     public async Task<List<Deceased>> GetDeceaseds()
     {

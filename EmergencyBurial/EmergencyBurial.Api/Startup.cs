@@ -73,7 +73,7 @@ namespace EmergencyBurial.Api
             services.AddScoped<SmsHandler>();
             services.AddScoped<ListService>();
             services.AddScoped<AccountService>();
-            services.AddScoped<DeceasedsService>();
+            services.AddScoped<DeceasedService>();
 
         services.AddHangfire(config => config
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)

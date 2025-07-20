@@ -12,12 +12,12 @@ namespace EmergencyBurial.Api.Controllers;
 [Route("[controller]")]
 [ApiController]
 //[Authorize]
-public class DeceasedsController(DeceasedsService deceasedsService, IMapper mapper) : ControllerBase
+public class DeceasedsController(DeceasedService deceasedService, IMapper mapper) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<DeceasedDto>>> GetDeceaseds()
     {
-        var res = await deceasedsService.GetDeceaseds();
+        var res = await deceasedService.GetDeceaseds();
 
         return Ok(mapper.Map<List<DeceasedDto>>(res));
     }
@@ -28,7 +28,7 @@ public class DeceasedsController(DeceasedsService deceasedsService, IMapper mapp
         if (!int.TryParse(id, out var idValue))
             return BadRequest();
 
-        var res = await deceasedsService.GetDeceased(idValue);
+        var res = await deceasedService.GetDeceased(idValue);
 
         if (res == null)
             return NotFound();
