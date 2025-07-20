@@ -11,16 +11,16 @@ import {IColumn} from "../../../../../shared/ui-components/model/column";
 export class DeceasedDialogComponent implements OnInit {
 
   @Input() deceased: Deceased;
-  @Input() cols: IColumn[] = [];
+  @Input() fields: IColumn[] = [];
 
-  colsPart1: IColumn[] = [];
-  colsPart2: IColumn[] = [];
+  fieldsPart1: IColumn[] = [];
+  fieldsPart2: IColumn[] = [];
 
   ngOnInit() {
 
     const splitIndex = 4; // שנה את זה למספר העמודות הרצוי בחלק הראשון
-    this.colsPart1 = this.cols.slice(0, splitIndex);
-    this.colsPart2 = this.cols.slice(splitIndex);
+    this.fieldsPart1 = this.fields.slice(0, splitIndex);
+    this.fieldsPart2 = this.fields.slice(splitIndex);
 
   }
 

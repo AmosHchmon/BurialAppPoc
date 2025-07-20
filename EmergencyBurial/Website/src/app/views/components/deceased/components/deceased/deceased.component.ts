@@ -35,6 +35,7 @@ export class DeceasedComponent implements OnInit {
   @ViewChild('dt') dt: Table<Deceased> | undefined;
 
   cols: IColumn[] = [];
+  fields: IColumn[] = [];
   deceasedList: Deceased[] = [];
   selectedDeceased: Deceased;
   detailsDialogVisible: boolean | WritableSignal<boolean>;
@@ -62,7 +63,8 @@ export class DeceasedComponent implements OnInit {
   }
 
   initCols() {
-    this.cols = [
+
+    this.fields = [
       {field: 'HalalNumber', header: 'מספר חלל'},
       {field: 'IdentityNumber', header: 'מספר זהות'},
       {field: 'FirstName', header: 'שם פרטי'},
@@ -79,6 +81,14 @@ export class DeceasedComponent implements OnInit {
       {field: 'IsCivilBurialValue', header: 'קבורה אזרחית'},
       {field: 'Notes', header: 'הערות'}
     ];
+
+    this.cols=[
+      {field: 'HalalNumber', header: 'מספר חלל'},
+      {field: 'IdentityNumber', header: 'מספר זהות'},
+      {field: 'FirstName', header: 'שם פרטי'},
+      {field: 'LastName', header: 'שם משפחה'},
+      {field: 'FatherName', header: 'שם האב'},
+    ]
   }
 
   getGlobalFilterFields(): string[] {

@@ -68,12 +68,12 @@
 </p-card>
 
 <p-dialog [(visible)]="detailsDialogVisible"
-          [style]="{ height: 'auto'}"
+          [style]="{ height: 'auto', width: '35%'}"
           header="פרטי חלל"
           [modal]="true">
 
   <ng-template #content>
-    <app-deceased-dialog [deceased]="selectedDeceased" [cols]="cols"></app-deceased-dialog>
+    <app-deceased-dialog [deceased]="selectedDeceased" [fields]="fields"></app-deceased-dialog>
   </ng-template>
 
   <ng-template #footer>
