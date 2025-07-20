@@ -1,6 +1,6 @@
-import {Component, OnInit, WritableSignal} from '@angular/core';
+import {Component, OnInit, ViewChild, WritableSignal} from '@angular/core';
 import {Card} from "primeng/card";
-import {TableModule} from "primeng/table";
+import {Table, TableModule} from "primeng/table";
 import {Deceased} from "../../model/deceased";
 import {AlertService} from "../../../../../shared/services/alert.service";
 import {DeceasedService} from "../../services/deceased.service";
@@ -11,6 +11,7 @@ import {Button} from "primeng/button";
 import {Dialog} from "primeng/dialog";
 import {DeceasedDialogComponent} from "../deceased-dialog/deceased-dialog.component";
 import {IColumn} from "../../../../../shared/ui-components/model/column";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-deceased',
@@ -22,7 +23,8 @@ import {IColumn} from "../../../../../shared/ui-components/model/column";
     InputText,
     Button,
     Dialog,
-    DeceasedDialogComponent
+    DeceasedDialogComponent,
+    FormsModule
   ],
   templateUrl: './deceased.component.html',
   standalone: true,
@@ -30,10 +32,13 @@ import {IColumn} from "../../../../../shared/ui-components/model/column";
 })
 export class DeceasedComponent implements OnInit {
 
+  @ViewChild('dt') dt: Table<Deceased> | undefined;
+
   cols: IColumn[] = [];
   deceasedList: Deceased[] = [];
   selectedDeceased: Deceased;
   detailsDialogVisible: boolean | WritableSignal<boolean>;
+  searchText: string;
 
   constructor(private deceasedService: DeceasedService,
               private alertService: AlertService) {
@@ -93,4 +98,11 @@ export class DeceasedComponent implements OnInit {
     this.selectedDeceased = null; // Clear selected data
   }
 
+  clearSearch() {
+    this.searchText = ''; // Clear the ngModel bound to the input
+    if (this.dt) {
+      this.dt.filterGlobal(null, 'contains'); // Clear the table's global filter
+      // Alternatively, you can use: this.dt.reset(); to reset all filters and sorting
+    }
+  }
 }

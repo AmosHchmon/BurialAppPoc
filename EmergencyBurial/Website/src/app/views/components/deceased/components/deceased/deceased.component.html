@@ -1,7 +1,7 @@
 <p-card class="h-auto">
   <p-table #dt
            [columns]="cols"
-           showGridlines="true"
+           showGridlines
            [value]="deceasedList"
            [tableStyle]="{ 'min-width': '50rem' }"
            [size]="'small'"
@@ -20,7 +20,9 @@
           <input pInputText
                  type="text"
                  (input)="dt.filterGlobal($event.target.value, 'contains')"
+                 [(ngModel)]="searchText"
                  placeholder="חפש חלל..."/>
+          <p-inputicon class="pi pi-times cursor-pointer" (click)="clearSearch()"/>
         </p-iconfield>
       </div>
     </ng-template>
@@ -35,7 +37,7 @@
             </div>
           </th>
         }
-        <th class="px-4">פעולות</th>
+        <th class="px-4"></th>
       </tr>
     </ng-template>
 
@@ -72,5 +74,9 @@
 
   <ng-template #content>
     <app-deceased-dialog [deceased]="selectedDeceased" [cols]="cols"></app-deceased-dialog>
+  </ng-template>
+
+  <ng-template #footer>
+    <p-button label="סגור" icon="pi pi-times" text (click)="hideDetailsDialog()" dir="rtl"/>
   </ng-template>
 </p-dialog>

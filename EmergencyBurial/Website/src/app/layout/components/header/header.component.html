@@ -30,6 +30,7 @@
                (keyup)="applyFilter($event.target.value)"
                [(ngModel)]="searchValue"
                autocomplete="off"/>
+        <p-inputicon class="pi pi-times cursor-pointer" (click)="clearSearch()"/>
       </p-iconfield>
       <label for="on_label">חיפוש</label>
     </p-floatlabel>

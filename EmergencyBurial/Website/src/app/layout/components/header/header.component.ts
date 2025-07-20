@@ -65,4 +65,8 @@ export class HeaderComponent implements OnInit {
   }
 
   protected readonly constants = constants;
+
+  clearSearch() {
+    this.searchValue = ''
+  }
 }
