@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {AuthContextService} from 'src/app/shared/services/auth-context.service';
 import {NgOptimizedImage} from '@angular/common';
-import {MatTabNavPanel} from '@angular/material/tabs';
 import {constants} from '../../../shared/static/constants';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
@@ -24,7 +23,6 @@ interface ILink {
   standalone: true,
   imports: [
     NgOptimizedImage,
-    MatTabNavPanel,
     IconField,
     InputIcon,
     FormsModule,
