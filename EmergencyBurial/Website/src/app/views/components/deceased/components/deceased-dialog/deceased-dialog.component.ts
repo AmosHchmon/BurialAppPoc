@@ -18,7 +18,7 @@ export class DeceasedDialogComponent implements OnInit {
 
   ngOnInit() {
 
-    const splitIndex = 4; // שנה את זה למספר העמודות הרצוי בחלק הראשון
+    const splitIndex = 4;
     this.fieldsPart1 = this.fields.slice(0, splitIndex);
     this.fieldsPart2 = this.fields.slice(splitIndex);
 

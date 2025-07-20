@@ -105,14 +105,15 @@ export class DeceasedComponent implements OnInit {
   hideDetailsDialog() {
 
     this.detailsDialogVisible = false;
-    this.selectedDeceased = null; // Clear selected data
+    this.selectedDeceased = null;
   }
 
   clearSearch() {
-    this.searchText = ''; // Clear the ngModel bound to the input
+
+    this.searchText = '';
+
     if (this.dt) {
-      this.dt.filterGlobal(null, 'contains'); // Clear the table's global filter
-      // Alternatively, you can use: this.dt.reset(); to reset all filters and sorting
+      this.dt.filterGlobal(null, 'contains');
     }
   }
 }
