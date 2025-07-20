@@ -1,4 +1,5 @@
 export interface Deceased {
+
   HalalNumber: string;
 
   IdentityNumber: string;

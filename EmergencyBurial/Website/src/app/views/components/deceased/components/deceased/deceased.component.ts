@@ -82,13 +82,13 @@ export class DeceasedComponent implements OnInit {
       {field: 'Notes', header: 'הערות'}
     ];
 
-    this.cols=[
+    this.cols = [
       {field: 'HalalNumber', header: 'מספר חלל'},
       {field: 'IdentityNumber', header: 'מספר זהות'},
       {field: 'FirstName', header: 'שם פרטי'},
       {field: 'LastName', header: 'שם משפחה'},
       {field: 'FatherName', header: 'שם האב'},
-    ]
+    ];
   }
 
   getGlobalFilterFields(): string[] {
