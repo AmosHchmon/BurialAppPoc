@@ -1,11 +1,11 @@
-import {Component, OnInit, ViewChild, WritableSignal} from '@angular/core';
-import {Card} from "primeng/card";
+import {ChangeDetectorRef, Component, OnInit, ViewChild, WritableSignal} from '@angular/core';
+import {CardModule} from "primeng/card";
 import {Table, TableModule} from "primeng/table";
 import {Deceased} from "../../model/deceased";
 import {AlertService} from "../../../../../shared/services/alert.service";
 import {DeceasedService} from "../../services/deceased.service";
-import {IconField} from "primeng/iconfield";
-import {InputIcon} from "primeng/inputicon";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
 import {InputText} from "primeng/inputtext";
 import {Button} from "primeng/button";
 import {Dialog} from "primeng/dialog";
@@ -16,10 +16,10 @@ import {FormsModule} from "@angular/forms";
 @Component({
   selector: 'app-deceased',
   imports: [
-    Card,
     TableModule,
-    IconField,
-    InputIcon,
+    CardModule,
+    IconFieldModule,
+    InputIconModule,
     InputText,
     Button,
     Dialog,
@@ -42,7 +42,8 @@ export class DeceasedComponent implements OnInit {
   searchText: string;
 
   constructor(private deceasedService: DeceasedService,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              private cdr: ChangeDetectorRef) {
 
     this.deceasedService = deceasedService;
     this.alertService = alertService;
@@ -55,6 +56,8 @@ export class DeceasedComponent implements OnInit {
       this.deceasedList = await this.deceasedService.getDeceaseds();
 
       this.initCols();
+
+      this.cdr.detectChanges();
 
     } catch (err) {
       this.alertService.error(err);

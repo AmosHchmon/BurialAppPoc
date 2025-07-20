@@ -47,11 +47,6 @@ export class HeaderComponent implements OnInit {
     {route: '/dashboard/deceased', label: 'שק חלל', icon: 'pi pi-user'},
     {route: '/dashboard/transport', label: 'שינוע', icon: 'pi pi-truck'},
   ];
-/*  links: ILink[] = [
-    {label: 'עמוד הבית', path: '/dashboard/home'},
-    {label: 'שק חלל', path: '/dashboard/deceased'},
-    {label: 'שינוע', path: '/dashboard/transport'},
-  ];*/
 
   constructor(public authCtx: AuthContextService,
               private router: Router,
