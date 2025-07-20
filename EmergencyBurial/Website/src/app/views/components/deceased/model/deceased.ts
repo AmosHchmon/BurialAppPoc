@@ -31,6 +31,6 @@ export interface Deceased {
 
   IsLinkedToOtherCasesValue?: string;
 
-  IsCivilBurialValue?: string
+  IsCivilBurialValue?: string;
 
 }

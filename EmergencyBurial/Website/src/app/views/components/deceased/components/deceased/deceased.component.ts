@@ -20,7 +20,7 @@ interface IColumn {
   standalone: true,
   styleUrl: './deceased.component.scss',
 })
-export class DeceasedComponent implements OnInit{
+export class DeceasedComponent implements OnInit {
 
   cols: IColumn[] = [];
   deceasedList: Deceased[] = [];
