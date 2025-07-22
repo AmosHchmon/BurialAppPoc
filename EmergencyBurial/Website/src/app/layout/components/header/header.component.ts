@@ -42,7 +42,7 @@ export class HeaderComponent implements OnInit {
   searchValue: string;
   tabs: ILink[] = [
     {route: '/dashboard/home', label: 'עמוד הבית', icon: 'pi pi-home'},
-    {route: '/dashboard/deceased', label: 'שק חלל', icon: 'pi pi-user'},
+    {route: '/dashboard/deceaseds', label: 'שק חלל', icon: 'pi pi-user'},
     {route: '/dashboard/transport', label: 'שינוע', icon: 'pi pi-truck'},
   ];
 

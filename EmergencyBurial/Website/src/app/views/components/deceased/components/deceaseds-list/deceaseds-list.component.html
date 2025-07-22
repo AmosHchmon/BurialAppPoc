@@ -41,25 +41,19 @@
       </tr>
     </ng-template>
 
-    <ng-template #body let-rowData let-columns="columns">
+    <ng-template #body let-deceased let-columns="columns">
       <tr>
         @for (col of columns; track col.field) {
           <td>
-            {{ rowData[col.field] }}
+            {{ deceased[col.field] }}
           </td>
         }
         <td>
-          <p-button icon="pi pi-info-circle d-flex justify-content-center align-items-center"
-                    label="מידע נוסף"
-                    [rounded]="true"
-                    [outlined]="true"
-                    (click)="showDetails(rowData)"/>
-          <!--<div class="d-flex justify-content-start align-items-center cursor-pointer gap-2"
-               (click)="showDetails(rowData)">
+          <div class="d-flex justify-content-start align-items-center cursor-pointer gap-2"
+               (click)="showDeceased(deceased)">
             <span>מידע נוסף</span>
             <span class="pi pi-info-circle"></span>
-          </div>-->
-
+          </div>
         </td>
       </tr>
     </ng-template>
@@ -72,20 +66,3 @@
 
   </p-table>
 </p-card>
-
-<p-dialog [(visible)]="detailsDialogVisible"
-          [style]="{ height: 'auto', width: '35%'}"
-          header="פרטי חלל"
-          [modal]="true">
-
-  <ng-template #content>
-    <app-deceased-dialog [deceased]="selectedDeceased" [fields]="fields"></app-deceased-dialog>
-  </ng-template>
-
-  <ng-template #footer>
-    <p-button label="סגור"
-              icon="pi pi-times"
-              text="true"
-              (click)="hideDetailsDialog()"/>
-  </ng-template>
-</p-dialog>

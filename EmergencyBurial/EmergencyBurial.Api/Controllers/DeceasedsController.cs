@@ -25,10 +25,7 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
     [HttpGet("{id}")]
     public async Task<ActionResult<DeceasedDto>> GetDeceased(string id)
     {
-        if (!int.TryParse(id, out var idValue))
-            return BadRequest();
-
-        var res = await deceasedService.GetDeceased(idValue);
+        var res = await deceasedService.GetDeceased(id);
 
         if (res == null)
             return NotFound();

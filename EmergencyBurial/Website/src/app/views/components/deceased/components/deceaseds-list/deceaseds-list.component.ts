@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild, WritableSignal} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {CardModule} from "primeng/card";
 import {Table, TableModule} from "primeng/table";
 import {Deceased} from "../../model/deceased";
@@ -7,42 +7,36 @@ import {DeceasedService} from "../../services/deceased.service";
 import {IconFieldModule} from "primeng/iconfield";
 import {InputIconModule} from "primeng/inputicon";
 import {InputText} from "primeng/inputtext";
-import {Button} from "primeng/button";
-import {Dialog} from "primeng/dialog";
-import {DeceasedDialogComponent} from "../deceased-dialog/deceased-dialog.component";
 import {IColumn} from "../../../../../shared/ui-components/model/column";
 import {FormsModule} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-deceased',
+  selector: 'app-deceaseds-list',
   imports: [
     TableModule,
     CardModule,
     IconFieldModule,
     InputIconModule,
     InputText,
-    Button,
-    Dialog,
-    DeceasedDialogComponent,
     FormsModule
   ],
-  templateUrl: './deceased.component.html',
+  templateUrl: './deceaseds-list.component.html',
   standalone: true,
-  styleUrl: './deceased.component.scss',
+  styleUrl: './deceaseds-list.component.scss',
 })
-export class DeceasedComponent implements OnInit {
+export class DeceasedsListComponent implements OnInit {
 
   @ViewChild('dt') dt: Table<Deceased> | undefined;
 
   cols: IColumn[] = [];
   fields: IColumn[] = [];
   deceasedList: Deceased[] = [];
-  selectedDeceased: Deceased;
-  detailsDialogVisible: boolean | WritableSignal<boolean>;
   searchText: string;
 
   constructor(private deceasedService: DeceasedService,
               private alertService: AlertService,
+              private router: Router,
               private cdr: ChangeDetectorRef) {
 
     this.deceasedService = deceasedService;
@@ -99,16 +93,9 @@ export class DeceasedComponent implements OnInit {
     return this.cols.map(col => col.field);
   }
 
-  showDetails(selectedRow: Deceased) {
+  showDeceased(deceased: Deceased): void {
 
-    this.selectedDeceased = {...selectedRow};
-    this.detailsDialogVisible = true;
-  }
-
-  hideDetailsDialog() {
-
-    this.detailsDialogVisible = false;
-    this.selectedDeceased = null;
+    this.router.navigate(['/dashboard/deceaseds', deceased.HalalNumber]);
   }
 
   clearSearch() {
