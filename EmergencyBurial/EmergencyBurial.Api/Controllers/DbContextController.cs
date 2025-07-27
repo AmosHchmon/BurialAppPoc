@@ -14,7 +14,7 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-public class DbContextController(EmergencyBurialContext db, ILogger logger) : ControllerBase
+public class DbContextController(EmergencyBurialContext db, ILogger<DbContextController> logger) : ControllerBase
 {
     [HttpPost]
     //[ApiExplorerSettings(IgnoreApi = true)]

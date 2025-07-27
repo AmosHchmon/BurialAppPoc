@@ -11,7 +11,7 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-//[Authorize]
+[Authorize]
 public class DeceasedsController(DeceasedService deceasedService, IMapper mapper) : ControllerBase
 {
     [HttpGet]
