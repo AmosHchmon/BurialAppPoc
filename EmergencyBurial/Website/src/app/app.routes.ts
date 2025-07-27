@@ -1,10 +1,11 @@
 import {Routes} from '@angular/router';
 import {DashboardLayoutComponent} from './layout/components/dashboard-layout/dashboard-layout.component';
 import {HomeComponent} from './views/components/home/home.component';
-import {DeceasedComponent} from './views/components/deceased/deceased.component';
+import {DeceasedsListComponent} from './views/components/deceased/components/deceaseds-list/deceaseds-list.component';
 import {TransportComponent} from './views/components/transport/transport.component';
 import {AuthLayoutComponent} from './layout/components/auth-layout/auth-layout.component';
 import {LoginComponent} from './views/components/login/login.component';
+import {DeceasedDetailComponent} from "./views/components/deceased/components/deceased-detail/deceased-detail.component";
 
 export const routes: Routes = [
   {
@@ -36,8 +37,12 @@ export const routes: Routes = [
         component: HomeComponent,
       },
       {
-        path: 'deceased',
-        component: DeceasedComponent,
+        path: 'deceaseds',
+        component: DeceasedsListComponent,
+      },
+      {
+        path: 'deceaseds/:id',
+        component: DeceasedDetailComponent,
       },
       {
         path: 'transport',

@@ -1,10 +1,13 @@
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using Common.Helpers;
+using Coravel;
 using Core.Config;
 using Core.Middleware;
 using DataModel;
 using DataModel.Triggers;
+using EmergencyBurial.Api.Jobs;
 using EmergencyBurial.Services.DbServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -16,7 +19,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
-using Task = System.Threading.Tasks.Task;
 
 namespace EmergencyBurial.Api
 {
@@ -29,7 +31,6 @@ namespace EmergencyBurial.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -58,7 +59,7 @@ namespace EmergencyBurial.Api
             services.AddDbContext<EmergencyBurialContext>(options =>
             {
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-                options.UseSqlServer(Configuration.GetConnectionString("EmergencyBurialContextDbConfig"))
+                options.UseSqlServer(Configuration.GetConnectionString("EmergencyBurialDbConfig"))
                     .UseTriggers(triggerOption =>
                     {
                         triggerOption.AddTrigger<SaveMembersTrigger>();
@@ -72,6 +73,11 @@ namespace EmergencyBurial.Api
             services.AddScoped<SmsHandler>();
             services.AddScoped<ListService>();
             services.AddScoped<AccountService>();
+            services.AddScoped<DeceasedService>();
+            
+            services.AddScheduler();
+
+            services.AddTransient<CreateCasualtyJob>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>
@@ -98,11 +104,11 @@ namespace EmergencyBurial.Api
            });
 
             services.AddControllers()
-            .AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-            })
-            .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                })
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>
             {
@@ -119,10 +125,19 @@ namespace EmergencyBurial.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmergencyBurial.Api v1"));
             }
-
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.ApplicationServices.UseScheduler(scheduler =>
+            {
+                var interval = Configuration.GetValue<int>("Scheduler:CasualtyCreationIntervalMinutes", 3);
+                scheduler
+                    .Schedule<CreateCasualtyJob>()
+                    .Cron($"*/{interval} * * * *")
+                    .Zoned(TimeZoneInfo.FindSystemTimeZoneById("Israel Standard Time"));
+            });
 
             app.UseCors(x => x
                 .WithOrigins("http://localhost:3000")
@@ -135,6 +150,8 @@ namespace EmergencyBurial.Api
             app.UseAuthorization();
 
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

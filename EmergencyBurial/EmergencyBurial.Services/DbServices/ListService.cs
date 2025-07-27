@@ -8,15 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EmergencyBurial.Services.DbServices
 {
-    public class ListService
+    public class ListService(EmergencyBurialContext ctx)
     {
-
-        readonly EmergencyBurialContext ctx;
-        public ListService(EmergencyBurialContext ctx)
-        {
-            this.ctx = ctx;
-        }
-
         #region [ListItem Methods]
         public async Task<List<ListItem>> GetListItems()
         {

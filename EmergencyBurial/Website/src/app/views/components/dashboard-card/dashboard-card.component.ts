@@ -1,15 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MatCard, MatCardActions} from '@angular/material/card';
 import {ChartData, ChartOptions, ChartType} from 'chart.js';
 import {BaseChartDirective} from 'ng2-charts';
+import {CardModule} from "primeng/card";
 
 @Component({
   selector: 'app-dashboard-card',
   templateUrl: './dashboard-card.component.html',
   styleUrl: './dashboard-card.component.scss',
   standalone: true,
-  imports: [CommonModule, MatCard, MatCardActions, BaseChartDirective],
+  imports: [CommonModule, BaseChartDirective, CardModule],
 })
 export class DashboardCardComponent implements OnInit {
 

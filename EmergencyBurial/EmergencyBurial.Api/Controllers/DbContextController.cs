@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Core.Helpers;
 using DataModel;
 using EmergencyBurial.Api.Helper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -13,7 +14,7 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-public class DbContextController(EmergencyBurialContext db, ILogger logger) : ControllerBase
+public class DbContextController(EmergencyBurialContext db, ILogger<DbContextController> logger) : ControllerBase
 {
     [HttpPost]
     //[ApiExplorerSettings(IgnoreApi = true)]

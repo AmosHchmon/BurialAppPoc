@@ -29,7 +29,7 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
 
         var userObj = mapper.Map<Member>(memberDto);
 
-        var user = accountService.VerifyUser(userObj);
+        var user = accountService.VerifyMember(userObj);
 
         if (user == null)
             return Unauthorized();
@@ -48,7 +48,7 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
 
         return Ok();
     }
-    
+
     [HttpGet("protected-data")]
     [Authorize(Roles = "Admin")]
     public ActionResult GetProtectedData()

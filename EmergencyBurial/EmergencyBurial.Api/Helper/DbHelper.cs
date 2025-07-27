@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using Core.Helpers;
 using DataModel;
 using DataModel.Entities;
+using Microsoft.AspNetCore.Hosting;
+using System.Linq;
 
 namespace EmergencyBurial.Api.Helper;
 
 public class DbHelper
 {
     private readonly EmergencyBurialContext db;
-    
+    private readonly IWebHostEnvironment env;
+
     public DbHelper(EmergencyBurialContext db)
         {
             this.db = db;
@@ -25,9 +28,11 @@ public class DbHelper
 
                     //InitListItems();
 
-                    InitAccounts();
+                    InitMembers();
 
-                    //InitFormsMenu();
+                InitDeceasedTestData();
+
+                //InitFormsMenu();
 
                     transaction.Commit();
                 }
@@ -73,23 +78,71 @@ public class DbHelper
                 db.ListItems.Add(obj);
             }
 
-            db.SaveChanges();
-        }
-
-        private void InitAccounts()
+        db.SaveChanges();
+    }
+    
+    private void InitDeceasedTestData()
+    {
+        // Check if there is already data to prevent duplicates on multiple runs
+        if (db.Deceaseds.Any())
         {
-            var list = new List<Member>
-            {
-                new Member
-                {
-                    FullName = "עוז שורקי", UserName = "308015205", Mail = "OzS@dat.gov.il",
-                }
-            };
-
-            db.Users.AddRange(list);
-
-            db.SaveChanges();
+            return;
         }
 
-        #endregion
+        var list = new List<Deceased>
+        {
+            new Deceased
+            {
+                HalalNumber = "C-1001",
+                IdentityNumber = "123456789",
+                FirstName = "ישראל",
+                LastName = "ישראלי",
+                FatherName = "אברהם",
+                Gender = "זכר",
+                Nationality = "ישראלי",
+                HomeCity = "ירושלים",
+                CurrentStatusId = 1, // Example Status ID
+                CurrentLocationId = 1, // Example Location ID
+                IsLinkedToOtherCases = false,
+                IsCivilBurial = false,
+                Notes = "נפטר ראשון במערכת לצורכי בדיקה."
+            },
+            new Deceased
+            {
+                HalalNumber = "C-1002",
+                IdentityNumber = "987654321",
+                FirstName = "יעל",
+                LastName = "כהן",
+                FatherName = "משה",
+                Gender = "נקבה",
+                Nationality = "ישראלי",
+                HomeCity = "תל אביב",
+                CurrentStatusId = 2, // Example Status ID
+                CurrentLocationId = 1, // Example Location ID
+                IsLinkedToOtherCases = false,
+                IsCivilBurial = true,
+                Notes = "בדיקת קבורה אזרחית."
+            }
+        };
+
+        db.Deceaseds.AddRange(list);
+        db.SaveChanges();
+    }
+
+    private void InitMembers()
+    {
+        var list = new List<Member>
+        {
+            new Member
+            {
+                FullName = "עוז שורקי", UserName = "308015205", Mail = "OzS@dat.gov.il",
+            }
+        };
+
+        db.Members.AddRange(list);
+
+        db.SaveChanges();
+    }
+
+    #endregion
 }

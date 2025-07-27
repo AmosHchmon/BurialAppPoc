@@ -27,7 +27,7 @@ namespace DataModel.Entities
         [MaxLength(10)]
         public string PhoneNumber { get; set; }
 
-        [MaxLength(6)]
+        /*[MaxLength(6)]
         public string OtpNumber { get; set; }
 
         public DateTime? OtpExpired { get; set; }
@@ -41,6 +41,6 @@ namespace DataModel.Entities
         public int? CouncilId { get; set; }
 
         [ForeignKey(nameof(MemberTypeId))]
-        public virtual ListItem MemberType { get; set; }
+        public virtual ListItem MemberType { get; set; }*/
     }
 }

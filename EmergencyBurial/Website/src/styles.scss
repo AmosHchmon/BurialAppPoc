@@ -2,13 +2,13 @@
 //@import 'ngx-toastr/toastr';
 //@import 'assets/css/app.scss';
 @import "primeicons/primeicons.css";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 html,body{
   height: 100%;
-  font-family: 'Roboto', sans-serif;
 }
 
-.material-icons {
+/*.material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
@@ -23,7 +23,7 @@ html,body{
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
   color: black;
-}
+}*/
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -39,10 +39,6 @@ input::-webkit-inner-spin-button {
 
 #toast-container{
   top: 50%;
-}
-
-td{
-  direction: ltr;
 }
 
 .cursor-pointer {

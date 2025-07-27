@@ -1,10 +1,11 @@
-<mat-card appearance="outlined" class="h-100">
-  <mat-card-actions class="d-flex justify-content-center align-items-center h-100">
+<p-card class="h-100">
+  <div class="d-flex justify-content-center align-items-center h-100">
     <canvas baseChart
+            height="250px"
             [data]="chartData"
             [options]="chartOptions"
             [type]="chartType"
             [legend]="chartLegend">
     </canvas>
-  </mat-card-actions>
-</mat-card>
+  </div>
+</p-card>

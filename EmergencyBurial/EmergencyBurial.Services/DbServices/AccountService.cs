@@ -10,16 +10,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace EmergencyBurial.Services.DbServices;
 
-public class AccountService
+public class AccountService(AuthConfiguration authConfig)
 {
-    private readonly AuthConfiguration authConfig;
-    
-    public AccountService(AuthConfiguration authConfig)
-    {
-        this.authConfig = authConfig;
-    }
-
-    public Member VerifyUser(Member member)
+    public Member VerifyMember(Member member)
     {
         if (member.UserName == "test" && member.Mail.ToLower() == "ozs@dat.gov.il")
         {
@@ -30,11 +23,6 @@ public class AccountService
                 FullName = "Test User",
                 Mail = "ozs@dat.gov.il",
                 PhoneNumber = "0501234567",
-                OtpNumber = null,
-                OtpExpired = null,
-                IsActive = true,
-                MemberTypeId = 1,
-                CouncilId = 1
             };
         }
 
