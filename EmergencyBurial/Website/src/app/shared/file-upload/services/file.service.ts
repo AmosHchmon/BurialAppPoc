@@ -1,7 +1,7 @@
-import { Injectable, Injector } from '@angular/core';
-import { IFileResult } from '../model/file-result.model';
-import { BaseService } from 'src/app/core/abstract/base-service';
-import { AuthContextService } from '../../services/auth-context.service';
+import {Injectable, Injector} from '@angular/core';
+import {IFileResult} from '../model/file-result.model';
+import {BaseService} from 'src/app/core/abstract/base-service';
+import {AuthContextService} from '../../services/auth-context.service';
 
 @Injectable()
 export class FileService extends BaseService {
@@ -20,7 +20,7 @@ export class FileService extends BaseService {
 
   }
 
-  download(fileId: string): Promise<any> {
+  /*download(fileId: string): Promise<any> {
 
     return fetch(this.backendPath + `/download/${fileId}`, {
       method: 'GET',
@@ -30,7 +30,7 @@ export class FileService extends BaseService {
       },
     });
 
-  }
+  }*/
 
 
 }

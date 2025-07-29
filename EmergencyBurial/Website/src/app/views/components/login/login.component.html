@@ -1,75 +1,74 @@
 <div class="page-wrap h-full slate">
   <div class="session-form-hold d-flex h-100 justify-content-center align-items-center">
-    <mat-card class="p-3">
+    <p-card class="p-3">
 
-      <mat-card-header>
+      <ng-template #header>
         <h3 class="text-center mb-5">קבורה בחירום - התחברות</h3>
-      </mat-card-header>
+      </ng-template>
 
-      <mat-card-content>
-        <form #form="ngForm" class="d-flex flex-column gap-4 w-100 sm:w-56">
-          <div>
-            <p-inputgroup>
-              <p-inputgroup-addon>
-                <i class="pi pi-user"></i>
-              </p-inputgroup-addon>
-              <p-floatlabel variant="on">
-                <input pInputText
-                       type="text"
-                       id="username"
-                       name="username"
-                       [(ngModel)]="user.UserName"
-                       #username="ngModel"
-                       [invalid]="username.invalid && (username.touched || form.submitted)" required/>
-                <label for="username">שם משתמש</label>
-              </p-floatlabel>
-            </p-inputgroup>
-            @if (username.invalid && (username.dirty || username.touched)) {
-              <p-message severity="error"
-                         size="small"
-                         variant="simple">שם משתמש חובה.
-              </p-message>
-            }
-          </div>
-          <div class="mt-2">
-            <p-inputgroup>
-              <p-inputgroup-addon>
-                <i class="pi pi-lock"></i>
-              </p-inputgroup-addon>
-              <p-floatlabel variant="on">
-                <input pInputText
-                       type="email"
-                       id="email"
-                       name="email"
-                       [(ngModel)]="user.Mail"
-                       #email="ngModel"
-                       required
-                       email
-                       [invalid]="email.invalid && (email.touched || form.submitted)"/>
-                <label for="email">אימייל</label>
-              </p-floatlabel>
-            </p-inputgroup>
-            @if (email.invalid && (email.touched || form.submitted)) {
-              <p-message severity="error" size="small" variant="simple">
-                @if (email.hasError('required')) {
-                  אמייל חובה.
-                }
-                @if (email.hasError('email')) {
-                  הכנס אימייל תקין
-                }
-              </p-message>
-            }
-          </div>
-          <button pButton
-                  (click)="onLogin()"
-                  class="w-100"
-          >התחברות</button>
-          <button pButton
-                  (click)="onTest()"
-                  class="w-100"
-          >בדיקה</button>
-        </form>
-      </mat-card-content>
-    </mat-card>
+      <form #form="ngForm" class="d-flex flex-column gap-4 w-100 sm:w-56">
+        <div>
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-user"></i>
+            </p-inputgroup-addon>
+            <p-floatlabel variant="on">
+              <input pInputText
+                     type="text"
+                     id="username"
+                     name="username"
+                     [(ngModel)]="user.UserName"
+                     #username="ngModel"
+                     [invalid]="username.invalid && (username.touched || form.submitted)" required/>
+              <label for="username">שם משתמש</label>
+            </p-floatlabel>
+          </p-inputgroup>
+          @if (username.invalid && (username.dirty || username.touched)) {
+            <p-message severity="error"
+                       size="small"
+                       variant="simple">שם משתמש חובה.
+            </p-message>
+          }
+        </div>
+        <div class="mt-2">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-lock"></i>
+            </p-inputgroup-addon>
+            <p-floatlabel variant="on">
+              <input pInputText
+                     type="email"
+                     id="email"
+                     name="email"
+                     [(ngModel)]="user.Mail"
+                     #email="ngModel"
+                     required
+                     email
+                     [invalid]="email.invalid && (email.touched || form.submitted)"/>
+              <label for="email">אימייל</label>
+            </p-floatlabel>
+          </p-inputgroup>
+          @if (email.invalid && (email.touched || form.submitted)) {
+            <p-message severity="error" size="small" variant="simple">
+              @if (email.hasError('required')) {
+                אמייל חובה.
+              }
+              @if (email.hasError('email')) {
+                הכנס אימייל תקין
+              }
+            </p-message>
+          }
+        </div>
+        <button pButton
+                (click)="onLogin()"
+                class="w-100"
+        >התחברות</button>
+        <button pButton
+                (click)="onTest()"
+                class="w-100"
+        >בדיקה</button>
+      </form>
+
+    </p-card>
   </div>
 </div>
