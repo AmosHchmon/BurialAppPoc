@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {IUserOtp} from '../../../shared/model/user-otp';
-import {AlertService} from "../../../shared/services/alert.service";
-import {AuthService} from "../../../shared/services/auth.service";
-import {SharedModule} from "../../../shared/shared.module";
 import {Router} from "@angular/router";
+import {SharedModule} from "../../shared/shared.module";
+import {IUserOtp} from "../../shared/model/user-otp";
+import {AuthService} from "../../shared/services/auth.service";
+import {AlertService} from "../../shared/services/alert.service";
 
 @Component({
   selector: 'app-login',

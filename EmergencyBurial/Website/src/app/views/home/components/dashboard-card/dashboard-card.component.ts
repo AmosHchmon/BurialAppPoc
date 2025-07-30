@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ChartData, ChartOptions, ChartType} from 'chart.js';
 import {BaseChartDirective} from 'ng2-charts';
-import {SharedModule} from "../../../shared/shared.module";
+import {SharedModule} from "../../../../shared/shared.module";
 
 @Component({
   selector: 'app-dashboard-card',
