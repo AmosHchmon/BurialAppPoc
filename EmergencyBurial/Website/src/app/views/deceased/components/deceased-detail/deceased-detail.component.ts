@@ -27,8 +27,8 @@ export class DeceasedDetailComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-    this.loadDeceasedData();
+  ngOnInit(){
+   this.loadDeceasedData();
   }
 
   async loadDeceasedData(): Promise<void> {

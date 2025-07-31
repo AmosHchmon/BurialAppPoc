@@ -11,6 +11,7 @@ import Aura from '@primeuix/themes/Aura';
 import {provideToastr} from "ngx-toastr";
 import {authInterceptor} from "./shared/interceptors/token-interceptor.service";
 import {MessageService} from "primeng/api";
+import {loaderInterceptor} from "./shared/interceptors/loader.interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,7 +31,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(
-      withInterceptors([authInterceptor]),
+      withInterceptors([authInterceptor, loaderInterceptor]),
     ),
     provideRouter(routes, withHashLocation()),
     provideNgxWebstorage(

@@ -1,5 +1,9 @@
 <router-outlet></router-outlet>
-<ng-http-loader></ng-http-loader>
+@if (loaderService.isLoading | async) {
+  <div class="spinner-overlay">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+}
 
 <p-toast key="centerBottomToast" position="bottom-center"></p-toast>
 <p-toast key="centerToast" position="center"></p-toast>

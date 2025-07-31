@@ -38,7 +38,6 @@ export class DeceasedsListComponent implements OnInit {
   async ngOnInit() {
 
     try {
-      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.SuccessSave})
 
       this.deceasedList = await this.deceasedService.getDeceaseds();
 
