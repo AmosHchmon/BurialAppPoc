@@ -1,11 +1,7 @@
 import {Routes} from '@angular/router';
+
 import {DashboardLayoutComponent} from './layout/components/dashboard-layout/dashboard-layout.component';
-import {HomeComponent} from './views/components/home/home.component';
-import {DeceasedsListComponent} from './views/components/deceased/components/deceaseds-list/deceaseds-list.component';
-import {TransportComponent} from './views/components/transport/transport.component';
-import {AuthLayoutComponent} from './layout/components/auth-layout/auth-layout.component';
-import {LoginComponent} from './views/components/login/login.component';
-import {DeceasedDetailComponent} from "./views/components/deceased/components/deceased-detail/deceased-detail.component";
+import {AuthLayoutComponent} from "./layout/components/auth-layout/auth-layout.component";
 
 export const routes: Routes = [
   {
@@ -19,7 +15,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: LoginComponent,
+        loadChildren: () => import('./views/login/login.routing').then(m => m.LoginRouting)
       },
     ],
   },
@@ -34,19 +30,15 @@ export const routes: Routes = [
       },
       {
         path: 'home',
-        component: HomeComponent,
+        loadChildren: () => import('./views/home/home.routing').then(m => m.HomesRoutes)
       },
       {
         path: 'deceaseds',
-        component: DeceasedsListComponent,
-      },
-      {
-        path: 'deceaseds/:id',
-        component: DeceasedDetailComponent,
+        loadChildren: () => import('./views/deceased/deceased.routing').then(m => m.DeceasedRouting)
       },
       {
         path: 'transport',
-        component: TransportComponent,
+        loadChildren: () => import('./views/transport/transport.routing').then(m => m.TransportRouting)
       },
     ],
   },
