@@ -42,7 +42,7 @@ export class DeceasedDetailComponent implements OnInit {
       this.initializeFields();
 
     } catch (error) {
-      this.alertService.error(error);
+      this.alertService.alert(error);
     }
   }
 

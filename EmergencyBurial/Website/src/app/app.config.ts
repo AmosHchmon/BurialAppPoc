@@ -10,6 +10,7 @@ import {providePrimeNG} from 'primeng/config';
 import Aura from '@primeuix/themes/Aura';
 import {provideToastr} from "ngx-toastr";
 import {authInterceptor} from "./shared/interceptors/token-interceptor.service";
+import {MessageService} from "primeng/api";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
       },
       ripple: true
     }),
+    MessageService,
     provideCharts(withDefaultRegisterables()),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),

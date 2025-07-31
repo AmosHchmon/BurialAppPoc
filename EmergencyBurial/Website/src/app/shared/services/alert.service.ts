@@ -1,67 +1,66 @@
-import { Injectable } from '@angular/core';
-import { AlertType } from '../../core/enums/alert.enum';
-import { IAppResponse } from '../../core/model/app.error-response';
-import { IAlertModel } from '../../core/model/alert.model';
-import { HttpErrorResponse } from '@angular/common/http';
-import { AppResponse } from '../../core/model/app.response';
-import { DialogMessage } from '../static/messages';
-import { ToastrService } from 'ngx-toastr';
+import {Injectable} from '@angular/core';
+import {AlertType} from '../../core/enums/alert.enum';
+import {IAppResponse} from '../../core/model/app.error-response';
+import {IAlertModel} from '../../core/model/alert.model';
+import {HttpErrorResponse} from '@angular/common/http';
+import {AppResponse} from '../../core/model/app.response';
+import {DialogMessage} from '../static/messages';
+import {MessageService} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlertService {
-  private toastrConfig = { timeOut: 10000, tapToDismiss: true, positionClass: 'toast-bottom-center' };
 
-  constructor(private toasterService: ToastrService) {
+  private TOAST_LIFE_MS = 3000;
 
-  }
-
-  error(errRes: HttpErrorResponse, alertType: AlertType = AlertType.Error) {
-
-    let errorAppRes: IAppResponse;
-
-    errorAppRes = <IAppResponse>(<HttpErrorResponse>errRes).error;
-
-    console.log(errorAppRes);
-
-    let alertModel: IAlertModel = {
-      Title: errorAppRes?.Title == undefined ? DialogMessage.SystemMessage : errorAppRes?.Title,
-      ClientMessage: errorAppRes.ErrorMessage == undefined ? DialogMessage.GeneralMessage : errorAppRes.ErrorMessage
-    }
-
-    this.toasterService.error(alertModel.ClientMessage, alertModel.Title, this.toastrConfig);
+  constructor(private messageService: MessageService) {
 
   }
 
-  alert(alertType: AlertType, appRes: AppResponse) {
+  alert(alertType: AlertType = AlertType.Error, appRes?: AppResponse, errRes?: HttpErrorResponse) {
 
     let alertModel: IAlertModel = {
-      Title: appRes ==  appRes?.Title ? DialogMessage.SystemMessage : appRes?.Title,
+      Title: appRes == appRes?.Title ? DialogMessage.SystemMessage : appRes?.Title,
       ClientMessage: appRes?.ClientMessage == undefined ? DialogMessage.GeneralMessage : appRes?.ClientMessage
     }
 
     switch (alertType) {
+
       case AlertType.Success:
-        this.toasterService.success(alertModel.ClientMessage, alertModel.Title, this.toastrConfig);
+        this.showMessage('success', alertModel.Title, alertModel.ClientMessage, 'centerBottomToast')
         break;
-        case AlertType.Info:
+
+      case AlertType.Info:
+        this.showMessage('info', alertModel.Title, alertModel.ClientMessage)
+        break;
+
       case AlertType.Warning:
-        this.toasterService.warning(alertModel.ClientMessage, alertModel.Title, this.toastrConfig);
+        this.showMessage('warn', alertModel.Title, alertModel.ClientMessage)
         break;
-        case AlertType.Error:
-        this.toasterService.error(alertModel.ClientMessage, alertModel.Title, this.toastrConfig);
+
+      case AlertType.Error:
+        let errorAppRes: IAppResponse;
+        errorAppRes = <IAppResponse>(<HttpErrorResponse>errRes).error;
+        console.log(errorAppRes);
+        this.showMessage('error', alertModel.Title, alertModel.ClientMessage)
         break;
+
       default:
-        this.toasterService.info('info Message', 'info', this.toastrConfig);
+        this.showMessage('info', 'הודעת מידע', 'סוג התראה לא סופק, הודעה כללית')
+
     }
 
   }
 
-  warning(alertType:AlertType, message: string, titleClass: string){
+  private showMessage(severity: string, summary: string, detail: string, key: string = 'centerToast') {
 
-    this.toasterService.warning(message, alertType ,{...this.toastrConfig, titleClass: titleClass});
-
+    this.messageService.add({
+      severity: severity,
+      summary: summary,
+      detail: detail,
+      life: this.TOAST_LIFE_MS,
+      key: key
+    });
   }
-
 }

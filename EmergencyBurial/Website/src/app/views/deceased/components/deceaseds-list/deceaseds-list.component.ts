@@ -7,6 +7,8 @@ import {DeceasedService} from "../../services/deceased.service";
 import {SharedModule} from "../../../../shared/shared.module";
 import {IColumn} from "../../../../shared/ui-components/model/column";
 import {AlertService} from "../../../../shared/services/alert.service";
+import {AlertType} from "../../../../core/enums/alert.enum";
+import {DialogMessage} from "../../../../shared/static/messages";
 
 @Component({
   selector: 'app-deceaseds-list',
@@ -36,6 +38,7 @@ export class DeceasedsListComponent implements OnInit {
   async ngOnInit() {
 
     try {
+      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.SuccessSave})
 
       this.deceasedList = await this.deceasedService.getDeceaseds();
 
@@ -44,7 +47,7 @@ export class DeceasedsListComponent implements OnInit {
       this.cdr.detectChanges();
 
     } catch (err) {
-      this.alertService.error(err);
+      this.alertService.alert(err);
     }
 
   }

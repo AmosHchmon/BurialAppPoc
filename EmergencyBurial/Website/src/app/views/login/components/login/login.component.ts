@@ -33,7 +33,7 @@ export class LoginComponent {
       this.router.navigate(['/dashboard/home']);
 
     } catch (error) {
-      this.alertService.error(error);
+      this.alertService.alert(error);
     }
   }
 
@@ -44,7 +44,7 @@ export class LoginComponent {
       await this.authService.test();
 
     } catch (error) {
-      this.alertService.error(error);
+      this.alertService.alert(error);
     }
 
   }
