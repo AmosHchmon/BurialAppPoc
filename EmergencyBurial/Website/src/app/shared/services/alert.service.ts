@@ -40,15 +40,11 @@ export class AlertService {
         break;
 
       case AlertType.Error:
+        this.showMessage('error', alertModel.Title, alertModel.ClientMessage)
         let errorAppRes: IAppResponse;
         errorAppRes = <IAppResponse>(<HttpErrorResponse>errRes).error;
         console.log(errorAppRes);
-        this.showMessage('error', alertModel.Title, alertModel.ClientMessage)
         break;
-
-      default:
-        this.showMessage('info', 'הודעת מידע', 'סוג התראה לא סופק, הודעה כללית')
-
     }
 
   }
