@@ -32,4 +32,11 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
 
         return Ok(mapper.Map<DeceasedDto>(res));
     }
+    
+    [HttpGet("force")]
+    public IActionResult ForceError()
+    {
+        // Returns a 500 Internal Server Error with a custom message
+        return StatusCode(500, "This is a test server error from the API.");
+    }
 }
