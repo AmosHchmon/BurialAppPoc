@@ -54,7 +54,7 @@ export class DeceasedsListComponent implements OnInit {
       this.cdr.detectChanges();
 
     } catch (err) {
-      this.alertService.error(err);
+      this.alertService.alert(err);
     }
 
   }

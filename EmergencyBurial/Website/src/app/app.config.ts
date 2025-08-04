@@ -1,4 +1,9 @@
-import {ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection} from '@angular/core';
+import {
+  ApplicationConfig,
+  ErrorHandler,
+  provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection
+} from '@angular/core';
 import {provideRouter, withHashLocation} from '@angular/router';
 import {provideNgxWebstorage, withLocalStorage, withNgxWebstorageConfig, withSessionStorage} from 'ngx-webstorage';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
@@ -10,6 +15,8 @@ import {providePrimeNG} from 'primeng/config';
 import Aura from '@primeuix/themes/Aura';
 import {provideToastr} from "ngx-toastr";
 import {authInterceptor} from "./shared/interceptors/token-interceptor.service";
+import {GlobalErrorHandlerService} from "./shared/services/global-error-handler.service";
+import {MessageService} from "primeng/api";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,18 +31,23 @@ export const appConfig: ApplicationConfig = {
       },
       ripple: true
     }),
+    MessageService,
     provideCharts(withDefaultRegisterables()),
     provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideZoneChangeDetection({eventCoalescing: true}),
     provideHttpClient(
       withInterceptors([authInterceptor]),
     ),
     provideRouter(routes, withHashLocation()),
     provideNgxWebstorage(
-      withNgxWebstorageConfig({ separator: ':', caseSensitive: true }),
+      withNgxWebstorageConfig({separator: ':', caseSensitive: true}),
       withLocalStorage(),
-      withSessionStorage()
+      withSessionStorage(),
     ),
-    { provide: MAT_DATE_LOCALE, useValue: 'he-IL' },
+    {provide: MAT_DATE_LOCALE, useValue: 'he-IL'},
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandlerService
+    }
   ]
 };
