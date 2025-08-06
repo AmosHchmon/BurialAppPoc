@@ -64,6 +64,7 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'BurialCity', header: 'עיר קבורה'},
       {field: 'IsLinkedToOtherCasesValue', header: 'מקושר למקרים'},
       {field: 'IsCivilBurialValue', header: 'קבורה אזרחית'},
+      {field: 'CreatedOn', header: 'נוצר בתאריך'},
       {field: 'Notes', header: 'הערות'}
     ];
 

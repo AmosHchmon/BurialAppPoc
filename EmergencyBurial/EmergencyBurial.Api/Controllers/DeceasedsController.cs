@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using DataModel.Entities;
 using EmergencyBurial.Api.ViewModel;
 using EmergencyBurial.Services.DbServices;
+using EmergencyBurial.Services.RealTime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +14,10 @@ namespace EmergencyBurial.Api.Controllers;
 [Route("[controller]")]
 [ApiController]
 [Authorize]
-public class DeceasedsController(DeceasedService deceasedService, IMapper mapper) : ControllerBase
+public class DeceasedsController(
+    DeceasedService deceasedService,
+    NotificationService notificationService,
+    IMapper mapper) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<DeceasedDto>>> GetDeceaseds()
@@ -31,5 +36,15 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
             return NotFound();
 
         return Ok(mapper.Map<DeceasedDto>(res));
+    }
+
+    [HttpPost("send-test-deceased")]
+    public async Task<ActionResult<string>> SendTestDeceased([FromBody] DeceasedDto deceasedDto)
+    {
+        var deceased = mapper.Map<Deceased>(deceasedDto);
+
+        await notificationService.SendDeceasedNotificationAsync(deceased);
+
+        return Ok("ok");
     }
 }

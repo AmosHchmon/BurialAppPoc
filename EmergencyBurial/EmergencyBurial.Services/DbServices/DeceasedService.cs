@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Core.Resources;
 using DataModel;
@@ -13,7 +14,9 @@ public class DeceasedService(EmergencyBurialContext ctx, ILogger<DeceasedService
 {
     public async Task<List<Deceased>> GetDeceaseds()
     {
-        var deceaseds = await ctx.Deceaseds.ToListAsync();
+        var deceaseds = await ctx.Deceaseds
+            .OrderByDescending(d => d.CreatedOn)
+            .ToListAsync();
 
         return deceaseds;
     }

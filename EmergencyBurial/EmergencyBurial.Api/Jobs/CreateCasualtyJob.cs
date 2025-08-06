@@ -37,13 +37,15 @@ namespace EmergencyBurial.Api.Jobs
                     CurrentLocationId = 1,
                     IsCivilBurial = false,
                     IsLinkedToOtherCases = false,
+                    CreatedOn = DateTime.Now,
                     Notes = $"נוצר אוטומטית על ידי משימת Coravel ב-{DateTime.Now}"
                 };
 
                 context.Deceaseds.Add(newCasualty);
                 await context.SaveChangesAsync();
 
-                logger.LogInformation("Successfully created a new casualty with HalalNumber: {halalNumber}", newCasualty.HalalNumber);
+                logger.LogInformation("Successfully created a new casualty with HalalNumber: {halalNumber}",
+                    newCasualty.HalalNumber);
             }
             catch (Exception ex)
             {

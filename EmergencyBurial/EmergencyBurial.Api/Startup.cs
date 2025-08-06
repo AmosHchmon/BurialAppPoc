@@ -9,6 +9,7 @@ using DataModel;
 using DataModel.Triggers;
 using EmergencyBurial.Api.Jobs;
 using EmergencyBurial.Services.DbServices;
+using EmergencyBurial.Services.RealTime;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,7 +34,6 @@ namespace EmergencyBurial.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             var storageConfig = new StorageConfiguration();
             var emailConfig = new EmailConfiguration();
             var smsConfig = new SmsConfiguration();
@@ -52,7 +52,22 @@ namespace EmergencyBurial.Api
             services.AddSingleton(authConfig);
             services.AddSingleton(envConfig);
 
-            services.AddCors();
+            services.AddSignalR().AddJsonProtocol(options =>
+            {
+                options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+            });
+            ;
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -60,10 +75,7 @@ namespace EmergencyBurial.Api
             {
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                 options.UseSqlServer(Configuration.GetConnectionString("EmergencyBurialDbConfig"))
-                    .UseTriggers(triggerOption =>
-                    {
-                        triggerOption.AddTrigger<SaveMembersTrigger>();
-                    });
+                    .UseTriggers(triggerOption => { triggerOption.AddTrigger<SaveMembersTrigger>(); });
             });
 
             //inject services
@@ -74,41 +86,43 @@ namespace EmergencyBurial.Api
             services.AddScoped<ListService>();
             services.AddScoped<AccountService>();
             services.AddScoped<DeceasedService>();
-            
+            services.AddScoped<NotificationService>();
+
             services.AddScheduler();
 
             services.AddTransient<CreateCasualtyJob>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-           .AddJwtBearer(options =>
-           {
-               options.TokenValidationParameters = new TokenValidationParameters
-               {
-                   ValidateIssuer = true,
-                   ValidateAudience = true,
-                   ValidateLifetime = true,
-                   ValidateIssuerSigningKey = true,
-                   ValidIssuer = authConfig.Issuer,
-                   ValidAudience = authConfig.Audience,
-                   ClockSkew = TimeSpan.Zero,
-                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authConfig.SecurityKey)),
-               };
-               options.Events = new JwtBearerEvents()
-               {
-                   OnMessageReceived = context =>
-                   {
-                       context.Token = context.Request.Cookies["user_token"];
-                       return Task.CompletedTask;
-                   }
-               };
-           });
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = authConfig.Issuer,
+                        ValidAudience = authConfig.Audience,
+                        ClockSkew = TimeSpan.Zero,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authConfig.SecurityKey)),
+                    };
+                    options.Events = new JwtBearerEvents()
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            context.Token = context.Request.Cookies["user_token"];
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 })
-                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                .AddNewtonsoftJson(x =>
+                    x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>
             {
@@ -125,11 +139,11 @@ namespace EmergencyBurial.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmergencyBurial.Api v1"));
             }
-            
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            
+
             app.ApplicationServices.UseScheduler(scheduler =>
             {
                 var interval = Configuration.GetValue<int>("Scheduler:CasualtyCreationIntervalMinutes", 3);
@@ -156,6 +170,7 @@ namespace EmergencyBurial.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<NotificationHub>("/notifications");
             });
         }
     }

@@ -1,15 +1,20 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {CardModule} from "primeng/card";
 import {Table, TableModule} from "primeng/table";
-import {Deceased} from "../../model/deceased";
-import {AlertService} from "../../../../../shared/services/alert.service";
-import {DeceasedService} from "../../services/deceased.service";
 import {IconFieldModule} from "primeng/iconfield";
 import {InputIconModule} from "primeng/inputicon";
 import {InputText} from "primeng/inputtext";
-import {IColumn} from "../../../../../shared/ui-components/model/column";
 import {FormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
+import {Subscription} from "rxjs";
+
+import {SignalRService} from "../../../../../shared/services/signalR.service";
+import {IColumn} from "../../../../../shared/ui-components/model/column";
+import {AlertType} from "../../../../../core/enums/alert.enum";
+import {Deceased} from "../../model/deceased";
+import {AlertService} from "../../../../../shared/services/alert.service";
+import {DeceasedService} from "../../services/deceased.service";
+import {DialogMessage} from "../../../../../shared/static/messages";
 
 @Component({
   selector: 'app-deceaseds-list',
@@ -34,10 +39,13 @@ export class DeceasedsListComponent implements OnInit {
   deceasedList: Deceased[] = [];
   searchText: string;
 
+  private deceasedSubscription: Subscription | undefined;
+
   constructor(private deceasedService: DeceasedService,
               private alertService: AlertService,
               private router: Router,
-              private cdr: ChangeDetectorRef) {
+              private cdr: ChangeDetectorRef,
+              private signalRService: SignalRService) {
 
     this.deceasedService = deceasedService;
     this.alertService = alertService;
@@ -52,6 +60,8 @@ export class DeceasedsListComponent implements OnInit {
       this.initCols();
 
       this.cdr.detectChanges();
+
+      this.listenForNewDeceaseds();
 
     } catch (err) {
       this.alertService.error(err);
@@ -105,5 +115,26 @@ export class DeceasedsListComponent implements OnInit {
     if (this.dt) {
       this.dt.filterGlobal(null, 'contains');
     }
+  }
+
+  ngOnDestroy(): void {
+
+    if (this.deceasedSubscription) {
+      this.deceasedSubscription.unsubscribe();
+    }
+  }
+
+  private listenForNewDeceaseds(): void {
+
+    this.deceasedSubscription = this.signalRService.deceased.subscribe(
+      (newDeceased: Deceased) => {
+
+        this.deceasedList.unshift(newDeceased);
+
+        this.cdr.detectChanges();
+
+        this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.newDeceasedAdded});
+      }
+    );
   }
 }

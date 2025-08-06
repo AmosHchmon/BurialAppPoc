@@ -36,4 +36,6 @@ export interface Deceased {
 
   IsCivilBurialValue?: string;
 
+  CreatedOn?: Date;
+
 }
