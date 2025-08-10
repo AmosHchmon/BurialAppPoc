@@ -56,18 +56,6 @@ namespace EmergencyBurial.Api
             {
                 options.PayloadSerializerOptions.PropertyNamingPolicy = null;
             });
-            ;
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll", builder =>
-                {
-                    builder.WithOrigins("http://localhost:3000")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-                });
-            });
 
             services.AddAutoMapper(typeof(Startup));
 
