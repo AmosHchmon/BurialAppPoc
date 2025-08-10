@@ -4,19 +4,12 @@ using DataModel;
 using DataModel.Entities;
 using Microsoft.Extensions.Logging;
 using System;
+using EmergencyBurial.Services.RealTime;
 
 namespace EmergencyBurial.Api.Jobs
 {
-    public class CreateCasualtyJob : IInvocable
+    public class CreateCasualtyJob(EmergencyBurialContext context, ILogger<CreateCasualtyJob> logger, NotificationService notificationService) : IInvocable
     {
-        private readonly EmergencyBurialContext context;
-        private readonly ILogger<CreateCasualtyJob> logger;
-
-        public CreateCasualtyJob(EmergencyBurialContext context, ILogger<CreateCasualtyJob> logger)
-        {
-            this.context = context;
-            this.logger = logger;
-        }
 
         // The Invoke method remains the same
         public async Task Invoke()
@@ -46,6 +39,8 @@ namespace EmergencyBurial.Api.Jobs
 
                 logger.LogInformation("Successfully created a new casualty with HalalNumber: {halalNumber}",
                     newCasualty.HalalNumber);
+                
+                await notificationService.SendDeceasedNotificationAsync(newCasualty);
             }
             catch (Exception ex)
             {
