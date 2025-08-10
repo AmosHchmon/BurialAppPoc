@@ -6,7 +6,6 @@ import {AccordionModule} from 'primeng/accordion';
 import {Deceased} from '../../model/deceased';
 import {DeceasedService} from '../../services/deceased.service';
 import {IColumn} from "../../../../../shared/ui-components/model/column";
-import {AlertService} from "../../../../../shared/services/alert.service";
 
 @Component({
   selector: 'app-deceased-detail',
@@ -23,8 +22,7 @@ export class DeceasedDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private deceasedService: DeceasedService,
-    private alertService: AlertService
+    private deceasedService: DeceasedService
   ) {
   }
 
