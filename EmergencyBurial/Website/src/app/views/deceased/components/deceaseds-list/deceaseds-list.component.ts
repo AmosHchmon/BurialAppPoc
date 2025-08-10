@@ -4,15 +4,13 @@ import {Router} from "@angular/router";
 
 import {Deceased} from "../../model/deceased";
 import {DeceasedService} from "../../services/deceased.service";
-import {SharedModule} from "../../../../shared/shared.module";
 import {IColumn} from "../../../../shared/ui-components/model/column";
 import {AlertService} from "../../../../shared/services/alert.service";
-import {AlertType} from "../../../../core/enums/alert.enum";
-import {DialogMessage} from "../../../../shared/static/messages";
+import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 
 @Component({
   selector: 'app-deceaseds-list',
-  imports: [SharedModule],
+  imports: [UiComponentsModule],
   templateUrl: './deceaseds-list.component.html',
   standalone: true,
   styleUrl: './deceaseds-list.component.scss',

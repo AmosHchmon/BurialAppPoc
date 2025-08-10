@@ -5,12 +5,12 @@ import {Deceased} from '../../model/deceased';
 import {DeceasedService} from '../../services/deceased.service';
 import {IColumn} from "../../../../shared/ui-components/model/column";
 import {AlertService} from "../../../../shared/services/alert.service";
-import {SharedModule} from "../../../../shared/shared.module";
+import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [SharedModule],
+  imports: [UiComponentsModule],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
@@ -27,8 +27,8 @@ export class DeceasedDetailComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(){
-   this.loadDeceasedData();
+  ngOnInit() {
+    this.loadDeceasedData();
   }
 
   async loadDeceasedData(): Promise<void> {

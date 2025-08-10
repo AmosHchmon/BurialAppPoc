@@ -1,14 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ChartData, ChartOptions, ChartType} from 'chart.js';
 import {BaseChartDirective} from 'ng2-charts';
-import {SharedModule} from "../../../../shared/shared.module";
+
+import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 
 @Component({
   selector: 'app-dashboard-card',
   templateUrl: './dashboard-card.component.html',
   styleUrl: './dashboard-card.component.scss',
   standalone: true,
-  imports: [SharedModule, BaseChartDirective],
+  imports: [UiComponentsModule, BaseChartDirective],
 })
 export class DashboardCardComponent implements OnInit {
 

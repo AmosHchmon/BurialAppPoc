@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ChartData, ChartOptions} from 'chart.js';
 
 import {DashboardCardComponent} from '../dashboard-card/dashboard-card.component';
-import {SharedModule} from "../../../../shared/shared.module";
+import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 
 interface DashboardCard {
   data: ChartData;
@@ -14,7 +14,7 @@ interface DashboardCard {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   standalone: true,
-  imports: [SharedModule, DashboardCardComponent],
+  imports: [UiComponentsModule, DashboardCardComponent],
 })
 export class HomeComponent implements OnInit {
 

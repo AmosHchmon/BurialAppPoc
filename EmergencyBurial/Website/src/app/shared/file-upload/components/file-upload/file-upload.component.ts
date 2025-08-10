@@ -6,10 +6,9 @@ import * as _ from 'lodash-es';
 import {AppDocumentType} from '../../../enum/document-type.enum';
 
 @Component({
-    selector: 'app-file-upload',
-    templateUrl: './file-upload.component.html',
-    styleUrls: ['./file-upload.component.scss'],
-    standalone: false
+  selector: 'app-file-upload',
+  templateUrl: './file-upload.component.html',
+  styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent implements OnInit {
 
@@ -76,7 +75,7 @@ export class FileUploadComponent implements OnInit {
 
     } catch (e) {
 
-      this.alertService.error(e);
+      this.alertService.alert(e);
 
     }
 
@@ -84,15 +83,15 @@ export class FileUploadComponent implements OnInit {
 
   onDownload(file: IFileResult) {
 
-    this.fileUploadService.download(file.FileId)
+    /*this.fileUploadService.download(file.FileId)
       .then(response => response.blob())
       .then(blob => URL.createObjectURL(blob))
       .then(url => {
         window.open(url, '_blank');
       })
       .catch((e) => {
-        this.alertService.error(e);
-      });
+        this.alertService.alert(e);
+      });*/
 
   }
 

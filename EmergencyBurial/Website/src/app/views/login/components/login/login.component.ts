@@ -1,13 +1,14 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
-import {SharedModule} from "../../../../shared/shared.module";
+
 import {IUserOtp} from "../../../../shared/model/user-otp";
 import {AuthService} from "../../../../shared/services/auth.service";
 import {AlertService} from "../../../../shared/services/alert.service";
+import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 
 @Component({
   selector: 'app-login',
-  imports: [SharedModule],
+  imports: [UiComponentsModule],
   templateUrl: './login.component.html',
   standalone: true,
   styleUrl: './login.component.scss',

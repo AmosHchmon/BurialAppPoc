@@ -5,10 +5,11 @@ import {AuthContextService} from "../services/auth-context.service";
 @Injectable({providedIn: 'root'})
 export class AuthGuard {
 
-  constructor(private router: Router,private authCtx:AuthContextService,) {}
+  constructor(private router: Router, private authCtx: AuthContextService,) {
+  }
 
   canActivate(route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot) {
+              state: RouterStateSnapshot) {
 
     if (this.authCtx.isLoggedIn()) {
       return true;
@@ -21,7 +22,6 @@ export class AuthGuard {
       return false;
     }
   }
-
 
 
   canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
