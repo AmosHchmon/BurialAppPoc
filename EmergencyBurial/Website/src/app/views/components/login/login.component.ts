@@ -44,26 +44,15 @@ export class LoginComponent {
 
   async onLogin() {
 
-    try {
+    await this.authService.login(this.user);
 
-      await this.authService.login(this.user);
+    this.router.navigate(['/dashboard/home']);
 
-      this.router.navigate( [ '/dashboard/home' ] );
-
-    } catch (error) {
-      this.alertService.alert(error);
-    }
   }
 
   async onTest() {
 
-    try {
-
-      await this.authService.test();
-
-    } catch (error) {
-      this.alertService.alert(error);
-    }
+    await this.authService.test();
 
   }
 }

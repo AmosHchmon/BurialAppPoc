@@ -45,17 +45,11 @@ export class DeceasedsListComponent implements OnInit {
 
   async ngOnInit() {
 
-    try {
+    this.deceasedList = await this.deceasedService.getDeceaseds();
 
-      this.deceasedList = await this.deceasedService.getDeceaseds();
+    this.initCols();
 
-      this.initCols();
-
-      this.cdr.detectChanges();
-
-    } catch (err) {
-      this.alertService.alert(err);
-    }
+    this.cdr.detectChanges();
 
   }
 
