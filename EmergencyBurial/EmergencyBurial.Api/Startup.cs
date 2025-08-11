@@ -12,6 +12,7 @@ using EmergencyBurial.Services.DbServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -99,6 +100,13 @@ namespace EmergencyBurial.Api
                    {
                        context.Token = context.Request.Cookies["user_token"];
                        return Task.CompletedTask;
+                   },
+                   OnChallenge = context =>
+                   {
+                       context.HandleResponse();
+                       context.Response.StatusCode = 401;
+                       context.Response.ContentType = "application/json";
+                       return context.Response.WriteAsync("{\"error\": \"Unauthorized\"}");
                    }
                };
            });

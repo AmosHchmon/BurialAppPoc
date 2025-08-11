@@ -48,6 +48,12 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
 
         return Ok();
     }
+    
+    [HttpGet("status")]
+    public ActionResult CheckAuthStatus()
+    {
+        return Ok(new { authenticated = true });
+    }
 
     [HttpGet("protected-data")]
     [Authorize(Roles = "Admin")]

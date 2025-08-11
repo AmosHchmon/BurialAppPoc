@@ -7,6 +7,7 @@ import {TokenResponse} from "../model/token-response";
   providedIn: 'root'
 })
 export class AuthService extends BaseService {
+  private authStatus: boolean | null = null;
 
   constructor(protected injector: Injector) {
     super("AccountService", injector);
@@ -14,8 +15,33 @@ export class AuthService extends BaseService {
 
   login(userOtp: IUserOtp): Promise<TokenResponse> {
 
+    this.authStatus = null;
     return super.put({path: '/login', body: userOtp});
+  }
 
+  async isAuthenticated(): Promise<boolean> {
+
+    if (this.authStatus !== null) {
+      return this.authStatus;
+    }
+
+    try {
+
+      const res = await super.get<{ authenticated: boolean }>({path: '/status'});
+
+      this.authStatus = res?.authenticated ?? false;
+
+      return this.authStatus;
+
+    } catch (err) {
+
+      this.authStatus = false;
+      return false;
+    }
+  }
+
+  clearAuthCache(): void {
+    this.authStatus = null;
   }
 
   test(): Promise<any> {
