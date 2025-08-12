@@ -59,16 +59,24 @@ export class FileUploadComponent implements OnInit {
 
   async onUploadFile(event: Event) {
 
-    const target = (<HTMLInputElement>event.target);
+    try {
 
-    let result = await this.fileUploadService.upload(target.files)
+      const target = (<HTMLInputElement>event.target);
 
-    for (var item of result) {
-      let file: IFileResult = Object.assign({}, item, {FileType: this.Type});
+      let result = await this.fileUploadService.upload(target.files)
 
-      this.FileArray.push(file);
+      for (var item of result) {
+        let file: IFileResult = Object.assign({}, item, {FileType: this.Type});
 
-      this.FileArrayChange.emit(this.FileArray);
+        this.FileArray.push(file);
+
+        this.FileArrayChange.emit(this.FileArray);
+      }
+
+    } catch (e) {
+
+      this.alertService.alert(e);
+
     }
   }
 
@@ -79,7 +87,9 @@ export class FileUploadComponent implements OnInit {
       .then(blob => URL.createObjectURL(blob))
       .then(url => {
         window.open(url, '_blank');
-      });
+      }).catch((e) => {
+      this.alertService.alert(e);
+    });
   }
 
   private InitModel() {
