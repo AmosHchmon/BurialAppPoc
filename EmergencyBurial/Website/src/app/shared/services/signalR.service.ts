@@ -9,7 +9,7 @@ import {Deceased} from "../../views/components/deceased/model/deceased";
 export class SignalRService {
 
   private hubConnection: signalR.HubConnection;
-  private deceasedSubject = new Subject<any>();
+  private deceasedSubject = new Subject<Deceased>();
   private url = 'https://localhost:44349/notifications';
 
   public deceased = this.deceasedSubject.asObservable();
