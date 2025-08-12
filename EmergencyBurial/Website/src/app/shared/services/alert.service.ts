@@ -49,13 +49,13 @@ export class AlertService {
 
   }
 
-  private showMessage(severity: string, summary: string, detail: string, key: string = 'centerToast') {
+  private showMessage(severity: string, summary: string, detail: string, key: string = 'centerToast', life: number = this.TOAST_LIFE_MS) {
 
     this.messageService.add({
       severity: severity,
       summary: summary,
       detail: detail,
-      life: this.TOAST_LIFE_MS,
+      life: life,
       key: key
     });
   }

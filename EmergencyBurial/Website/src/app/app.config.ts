@@ -12,7 +12,7 @@ import {MessageService} from "primeng/api";
 import {pendingRequestsInterceptor$} from "ng-http-loader";
 
 import {routes} from './app.routes';
-import {authInterceptor} from "./shared/interceptors/token-interceptor.service";
+import {httpInterceptor} from "./shared/interceptors/http-interceptor.service";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,7 +32,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(
-      withInterceptors([authInterceptor, pendingRequestsInterceptor$]),
+      withInterceptors([httpInterceptor, pendingRequestsInterceptor$]),
     ),
     provideRouter(routes, withHashLocation()),
     provideNgxWebstorage(

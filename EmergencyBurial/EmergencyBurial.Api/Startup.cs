@@ -100,13 +100,6 @@ namespace EmergencyBurial.Api
                    {
                        context.Token = context.Request.Cookies["user_token"];
                        return Task.CompletedTask;
-                   },
-                   OnChallenge = context =>
-                   {
-                       context.HandleResponse();
-                       context.Response.StatusCode = 401;
-                       context.Response.ContentType = "application/json";
-                       return context.Response.WriteAsync("{\"error\": \"Unauthorized\"}");
                    }
                };
            });

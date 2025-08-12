@@ -1,21 +1,45 @@
 import {Injectable} from '@angular/core';
-import {
-  CanActivate, Router, UrlTree,
-} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
-import {AuthService} from '../services/auth.service';
+import {AuthContextService} from "../services/auth-context.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class RedirectGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authCtx: AuthContextService, private router: Router) {
   }
 
-  async canActivate(): Promise<boolean | UrlTree> {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-    const isAuth = await this.authService.isAuthenticated();
+    if (!this.authCtx.isLoggedIn()) {
 
-    return isAuth ? this.router.createUrlTree(['/dashboard/home']) : true;
+      this.router.navigate(["/login"], {
+        queryParams: {
+          return: state.url
+        }
+      });
+
+      this.router.navigate(['login']);
+
+      return false;
+
+    } else {
+
+      /*switch (parseInt(claims['RoleId'])) {
+        case enmMemberType.SystemManager:
+        case enmMemberType.CouncilAccountant:
+        case enmMemberType.FirstAuthorizedSignatory:
+        case enmMemberType.SecondAuthorizedSignatory:
+        case enmMemberType.AccompanyingAccountant:
+        case enmMemberType.OfficeBudgetDepartment:
+        case enmMemberType.OfficeAdministraion:
+        default:
+          this.router.navigate(['/report']);
+      }*/
+
+      return true;
+
+    }
   }
 }
