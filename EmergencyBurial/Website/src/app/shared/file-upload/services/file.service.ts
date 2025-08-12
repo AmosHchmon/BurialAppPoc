@@ -20,17 +20,16 @@ export class FileService extends BaseService {
 
   }
 
-  /*download(fileId: string): Promise<any> {
+  download(fileId: string): Promise<any> {
 
     return fetch(this.backendPath + `/download/${fileId}`, {
       method: 'GET',
       headers : {
         'Content-type': 'application/json',
-        'Authorization': `Bearer ${this.authCtx.Token}`,
       },
+      credentials: 'include',
     });
 
-  }*/
-
+  }
 
 }

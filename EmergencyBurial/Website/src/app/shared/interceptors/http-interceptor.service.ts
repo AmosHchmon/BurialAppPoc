@@ -13,6 +13,7 @@ export function httpInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
   })
 
   return next(clonedRequest).pipe(
+
     catchError((error: HttpErrorResponse) => {
 
       switch (error.status) {

@@ -3,7 +3,6 @@ import {Routes} from '@angular/router';
 import {DashboardLayoutComponent} from './layout/components/dashboard-layout/dashboard-layout.component';
 import {AuthLayoutComponent} from "./layout/components/auth-layout/auth-layout.component";
 import {AuthGuard} from "./shared/guards/auth.guard";
-import {RedirectGuard} from "./shared/guards/redirect.guard";
 
 export const routes: Routes = [
   {
@@ -18,9 +17,8 @@ export const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./views/login/login.routing').then(m => m.LoginRouting)
-      },
-    ],
-    canActivate: [RedirectGuard],
+      }
+    ]
   },
   {
     path: 'dashboard',
