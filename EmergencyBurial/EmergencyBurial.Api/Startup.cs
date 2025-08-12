@@ -8,10 +8,12 @@ using Core.Middleware;
 using DataModel;
 using DataModel.Triggers;
 using EmergencyBurial.Api.Jobs;
+using EmergencyBurial.Services;
 using EmergencyBurial.Services.DbServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -74,6 +76,7 @@ namespace EmergencyBurial.Api
             services.AddScoped<ListService>();
             services.AddScoped<AccountService>();
             services.AddScoped<DeceasedService>();
+            services.AddScoped<FileService>();
             
             services.AddScheduler();
 

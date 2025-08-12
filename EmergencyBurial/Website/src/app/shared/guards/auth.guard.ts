@@ -1,41 +1,19 @@
-import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, Router, RouterStateSnapshot,} from "@angular/router";
+import {Injectable} from '@angular/core';
+import {CanActivate, Router, UrlTree} from '@angular/router';
+
 import {AuthContextService} from "../services/auth-context.service";
 
-@Injectable({providedIn: 'root'})
-export class AuthGuard {
-
-  constructor(private router: Router,private authCtx:AuthContextService,) {}
-
-  canActivate(route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot) {
-
-    if (this.authCtx.isLoggedIn()) {
-      return true;
-    } else {
-      this.router.navigate(["/login"], {
-        queryParams: {
-          return: state.url
-        }
-      });
-      return false;
-    }
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthGuard implements CanActivate {
+  constructor(private authCtx: AuthContextService, private router: Router) {
   }
 
+  async canActivate(): Promise<boolean | UrlTree> {
 
+    const isAuth = this.authCtx.isLoggedIn();
 
-  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-
-    if (this.authCtx.isLoggedIn()) {
-      return true;
-    } else {
-      this.router.navigate(["/login"], {
-        queryParams: {
-          return: state.url
-        }
-      });
-      return false;
-    }
-
+    return isAuth ? true : this.router.createUrlTree(['/login']);
   }
 }

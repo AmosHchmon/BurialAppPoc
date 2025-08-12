@@ -2,6 +2,7 @@ import {Injectable, Injector} from '@angular/core';
 import {BaseService} from "../../core/abstract/base-service";
 import {IUserOtp} from "../model/user-otp";
 import {TokenResponse} from "../model/token-response";
+import {IMember} from "../model/member";
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,9 @@ export class AuthService extends BaseService {
     super("AccountService", injector);
   }
 
-  login(userOtp: IUserOtp): Promise<TokenResponse> {
+  login(userOtp: IUserOtp): Promise<IMember> {
 
     return super.put({path: '/login', body: userOtp});
-
   }
 
-  test(): Promise<any> {
-    return super.get({path: '/protected-data'});
-  }
 }

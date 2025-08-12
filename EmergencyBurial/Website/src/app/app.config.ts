@@ -3,13 +3,16 @@ import {provideRouter, withHashLocation} from '@angular/router';
 import {provideNgxWebstorage, withLocalStorage, withNgxWebstorageConfig, withSessionStorage} from 'ngx-webstorage';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {MAT_DATE_LOCALE} from '@angular/material/core';
-import {routes} from './app.routes';
 import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {providePrimeNG} from 'primeng/config';
 import Aura from '@primeuix/themes/Aura';
 import {provideToastr} from "ngx-toastr";
-import {authInterceptor} from "./shared/interceptors/token-interceptor.service";
+import {MessageService} from "primeng/api";
+import {pendingRequestsInterceptor$} from "ng-http-loader";
+
+import {routes} from './app.routes';
+import {httpInterceptor} from "./shared/interceptors/http-interceptor.service";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,11 +27,12 @@ export const appConfig: ApplicationConfig = {
       },
       ripple: true
     }),
+    MessageService,
     provideCharts(withDefaultRegisterables()),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(
-      withInterceptors([authInterceptor]),
+      withInterceptors([httpInterceptor, pendingRequestsInterceptor$]),
     ),
     provideRouter(routes, withHashLocation()),
     provideNgxWebstorage(

@@ -15,4 +15,5 @@ export let DialogMessage = {
   BirthDateError: 'תאריך לידה לא תקין',
   ShouldDelete: 'האם ברצונך למחוק את הרשומה?',
   ItemNotComplete: 'יש למלא את כל פרטי הרשומה.',
+  SuccessSave: 'השמירה התבצעה בהצלחה',
 };
