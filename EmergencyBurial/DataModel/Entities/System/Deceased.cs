@@ -5,15 +5,19 @@ namespace DataModel.Entities
 {
     public class Deceased
     {
-        [Key] public int Id { get; set; }
+        [Key]
+        public int Id { get; set; }
 
-        [Required] public string HalalNumber { get; set; }
+        [Required]
+        public string HalalNumber { get; set; }
 
         public string IdentityNumber { get; set; }
 
-        [Required] public string FirstName { get; set; }
+        [Required]
+        public string FirstName { get; set; }
 
-        [Required] public string LastName { get; set; }
+        [Required]
+        public string LastName { get; set; }
 
         public string? FatherName { get; set; }
 
@@ -35,7 +39,8 @@ namespace DataModel.Entities
 
         public bool IsCivilBurial { get; set; }
 
-        [MaxLength(1000)] public string? Notes { get; set; }
+        [MaxLength(1000)]
+        public string? Notes { get; set; }
 
         public DateTime? CreatedOn { get; set; }
     }

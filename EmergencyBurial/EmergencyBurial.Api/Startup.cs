@@ -78,7 +78,7 @@ namespace EmergencyBurial.Api
 
             services.AddScheduler();
 
-            services.AddTransient<CreateCasualtyJob>();
+            services.AddTransient<TaskCreateCasualtyJob>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -136,7 +136,7 @@ namespace EmergencyBurial.Api
             {
                 var interval = Configuration.GetValue<int>("Scheduler:CasualtyCreationIntervalMinutes", 3);
                 scheduler
-                    .Schedule<CreateCasualtyJob>()
+                    .Schedule<TaskCreateCasualtyJob>()
                     .Cron($"*/{interval} * * * *")
                     .Zoned(TimeZoneInfo.FindSystemTimeZoneById("Israel Standard Time"));
             });

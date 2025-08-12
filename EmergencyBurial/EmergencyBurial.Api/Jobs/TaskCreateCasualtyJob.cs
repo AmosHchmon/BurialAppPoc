@@ -8,7 +8,7 @@ using EmergencyBurial.Services.RealTime;
 
 namespace EmergencyBurial.Api.Jobs
 {
-    public class CreateCasualtyJob(EmergencyBurialContext context, ILogger<CreateCasualtyJob> logger, NotificationService notificationService) : IInvocable
+    public class TaskCreateCasualtyJob(EmergencyBurialContext context, ILogger<TaskCreateCasualtyJob> logger, NotificationService notificationService) : IInvocable
     {
 
         // The Invoke method remains the same

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CardModule} from "primeng/card";
 import {Table, TableModule} from "primeng/table";
 import {IconFieldModule} from "primeng/iconfield";
@@ -30,7 +30,7 @@ import {DialogMessage} from "../../../../../shared/static/messages";
   standalone: true,
   styleUrl: './deceaseds-list.component.scss',
 })
-export class DeceasedsListComponent implements OnInit {
+export class DeceasedsListComponent implements OnInit, OnDestroy {
 
   @ViewChild('dt') dt: Table<Deceased> | undefined;
 
@@ -61,7 +61,7 @@ export class DeceasedsListComponent implements OnInit {
 
       this.cdr.detectChanges();
 
-      this.listenForNewDeceaseds();
+      this.subscribeToHubEvents();
 
     } catch (err) {
       this.alertService.error(err);
@@ -117,14 +117,7 @@ export class DeceasedsListComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(): void {
-
-    if (this.deceasedSubscription) {
-      this.deceasedSubscription.unsubscribe();
-    }
-  }
-
-  private listenForNewDeceaseds(): void {
+  private subscribeToHubEvents(): void {
 
     this.deceasedSubscription = this.signalRService.deceased.subscribe(
       (newDeceased: Deceased) => {
@@ -136,5 +129,19 @@ export class DeceasedsListComponent implements OnInit {
         this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.newDeceasedAdded});
       }
     );
+  }
+
+  unSubscribeToHubEvents() {
+
+    if (this.deceasedSubscription) {
+      this.deceasedSubscription.unsubscribe();
+    }
+
+  }
+
+  ngOnDestroy(): void {
+
+    this.unSubscribeToHubEvents();
+
   }
 }

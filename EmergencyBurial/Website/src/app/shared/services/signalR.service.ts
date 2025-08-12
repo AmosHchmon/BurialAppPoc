@@ -12,8 +12,6 @@ export class SignalRService {
   private deceasedSubject = new Subject<any>();
   private url = 'https://localhost:44349/notifications';
 
-  public deceased = this.deceasedSubject.asObservable();
-
   constructor() {
 
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -21,6 +19,7 @@ export class SignalRService {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })
+      .withAutomaticReconnect()
       .build();
 
     this.startConnection();

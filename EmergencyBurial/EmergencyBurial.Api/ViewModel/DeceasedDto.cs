@@ -1,19 +1,18 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace EmergencyBurial.Api.ViewModel;
 
 public class DeceasedDto
 {
-    [Key] public int Id { get; set; }
-
-    [Required] public string HalalNumber { get; set; }
+    public int Id { get; set; }
+    
+    public string HalalNumber { get; set; }
 
     public string IdentityNumber { get; set; }
-
-    [Required] public string FirstName { get; set; }
-
-    [Required] public string LastName { get; set; }
+    
+    public string FirstName { get; set; }
+    
+    public string LastName { get; set; }
 
     public string? FatherName { get; set; }
 
@@ -35,6 +34,6 @@ public class DeceasedDto
     public string IsCivilBurialValue { get; set; }
 
     public DateTime? CreatedOn { get; set; }
-
-    [MaxLength(1000)] public string? Notes { get; set; }
+    
+    public string? Notes { get; set; }
 }
