@@ -76,6 +76,7 @@ namespace EmergencyBurial.Api
             services.AddScoped<ListService>();
             services.AddScoped<AccountService>();
             services.AddScoped<DeceasedService>();
+            services.AddScoped<TransportService>();
             services.AddScoped<FileService>();
             
             services.AddScheduler();

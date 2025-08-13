@@ -30,4 +30,9 @@ public class DeceasedService(EmergencyBurialContext ctx, ILogger<DeceasedService
 
         return deceased;
     }
+
+    public async Task<bool> DeceasedExistsAsync(string deceasedId)
+    {
+        return await ctx.Deceaseds.AnyAsync(d => d.HalalNumber == deceasedId);
+    }
 }

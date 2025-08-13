@@ -1,6 +1,6 @@
 import {Injectable, Injector} from '@angular/core';
 
-import {Deceased} from "../model/deceased";
+import {Deceased} from "../model/Deceased";
 import {BaseService} from "../../../core/abstract/base-service";
 
 @Injectable({

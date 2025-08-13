@@ -41,16 +41,15 @@ namespace EmergencyBurial.Services
             return result;
         }
 
-        public FileResult DownloadFile(string fileId)
+        public FileResult DownloadFile(Guid? id)
         {
-            var id = new Guid(fileId);
-
+            
             var file = ctx.Files.Find(id);
 
             if (file == null)
                 throw new ApplicationException(UserMessage.FileNotExist);
 
-            var content = FileHelper.ReadFile(config.Path, string.Format("{0}{1}", fileId, Path.GetExtension(file.FileName)));
+            var content = FileHelper.ReadFile(config.Path, string.Format("{0}{1}", id, Path.GetExtension(file.FileName)));
 
             return new FileResult()
             {

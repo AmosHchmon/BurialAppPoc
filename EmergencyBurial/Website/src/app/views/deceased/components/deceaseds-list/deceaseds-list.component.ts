@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {Router} from "@angular/router";
 
-import {Deceased} from "../../model/deceased";
+import {Deceased} from "../../model/Deceased";
 import {DeceasedService} from "../../services/deceased.service";
 import {IColumn} from "../../../../shared/ui-components/model/column";
 import {AlertService} from "../../../../shared/services/alert.service";

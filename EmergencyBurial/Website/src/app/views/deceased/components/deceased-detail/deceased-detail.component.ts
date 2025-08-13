@@ -1,11 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {Deceased} from '../../model/deceased';
+import {Deceased} from '../../model/Deceased';
 import {DeceasedService} from '../../services/deceased.service';
 import {IColumn} from "../../../../shared/ui-components/model/column";
 import {AlertService} from "../../../../shared/services/alert.service";
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
+import {Transport} from "../../../transport/model/transport";
+import {TransportService} from "../../../transport/services/transport.service";
 
 @Component({
   selector: 'app-deceased-detail',
@@ -19,10 +21,13 @@ export class DeceasedDetailComponent implements OnInit {
   deceased: Deceased | null = null;
   fieldsPart1: IColumn[] = [];
   fieldsPart2: IColumn[] = [];
+  transportCols: IColumn[] = [];
+  transports: Transport[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private deceasedService: DeceasedService,
+    private transportService: TransportService,
     private alertService: AlertService
   ) {
   }
@@ -38,6 +43,8 @@ export class DeceasedDetailComponent implements OnInit {
       const param = this.route.snapshot.paramMap.get('id');
 
       this.deceased = await this.deceasedService.getDeceasedById(param);
+
+      this.transports = await this.transportService.getTransportsByDeceasedId(param);
 
       this.initializeFields();
 
@@ -70,5 +77,12 @@ export class DeceasedDetailComponent implements OnInit {
 
     this.fieldsPart1 = allFields.slice(0, splitIndex);
     this.fieldsPart2 = allFields.slice(splitIndex);
+
+    this.transportCols = [
+      { field: 'id', header: 'מזהה שינוע' },
+      { field: 'startLocation', header: 'מקום התחלת שינוע' },
+      { field: 'destination', header: 'יעד שינוע' },
+      { field: 'startDateTime', header: 'מועד התחלת השינוע' }
+    ];
   }
 }

@@ -15,6 +15,9 @@ namespace EmergencyBurial.Api.Config
                 .ForMember(dest => dest.IsLinkedToOtherCasesValue, opt => opt.MapFrom(src => src.IsLinkedToOtherCases ? "כן" : "לא"))
                 .ForMember(dest => dest.IsCivilBurialValue, opt => opt.MapFrom(src => src.IsCivilBurial ? "כן" : "לא"))
                 .ReverseMap();
+            
+            CreateMap<Transport, TransportDto>()
+                .ReverseMap();
         }
     }
 }
