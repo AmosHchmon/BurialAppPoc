@@ -1,0 +1,36 @@
+<div class="p-3">
+  <p-accordion [multiple]="true">
+
+    <p-accordion-panel [value]="0">
+      <p-accordion-header>פרטים כלליים</p-accordion-header>
+      <p-accordion-content>
+        <div class="d-flex flex-column gap-3 p-3">
+          @for (field of fieldsPart1; track field.field) {
+            <div>
+              <label class="d-block fw-bold mb-1">{{ field.header }}:</label>
+              <div>{{ deceased[field.field] ?? 'לא הוזן' }}</div>
+            </div>
+          } @empty {
+            <div>אין נתונים להצגה.</div>
+          }
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+
+    <p-accordion-panel [value]="1">
+      <p-accordion-header>פרטים נוספים</p-accordion-header>
+      <p-accordion-content>
+        <div class="d-flex flex-column gap-3 p-3">
+          @for (field of fieldsPart2; track field.field) {
+            <div>
+              <label class="d-block fw-bold mb-1">{{ field.header }}:</label>
+              <div>{{ deceased[field.field] ?? 'לא הוזן' }}</div>
+            </div>
+          } @empty {
+            <div>אין נתונים להצגה.</div>
+          }
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+  </p-accordion>
+</div>

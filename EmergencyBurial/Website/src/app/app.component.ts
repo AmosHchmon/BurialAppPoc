@@ -3,6 +3,7 @@ import {RouterOutlet} from '@angular/router';
 import {NgHttpLoaderComponent} from 'ng-http-loader';
 import {Toast} from "primeng/toast";
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,5 +13,9 @@ import {Toast} from "primeng/toast";
   standalone: true,
 })
 export class AppComponent {
+
   title = 'Burial';
+
+  constructor() {
+  }
 }

@@ -1,26 +1,16 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {CardModule} from "primeng/card";
-import {Table, TableModule} from "primeng/table";
-import {Deceased} from "../../model/deceased";
-import {AlertService} from "../../../../../shared/services/alert.service";
-import {DeceasedService} from "../../services/deceased.service";
-import {IconFieldModule} from "primeng/iconfield";
-import {InputIconModule} from "primeng/inputicon";
-import {InputText} from "primeng/inputtext";
-import {IColumn} from "../../../../../shared/ui-components/model/column";
-import {FormsModule} from "@angular/forms";
+import {Table} from "primeng/table";
 import {Router} from "@angular/router";
+
+import {Deceased} from "../../model/deceased";
+import {DeceasedService} from "../../services/deceased.service";
+import {IColumn} from "../../../../shared/ui-components/model/column";
+import {AlertService} from "../../../../shared/services/alert.service";
+import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 
 @Component({
   selector: 'app-deceaseds-list',
-  imports: [
-    TableModule,
-    CardModule,
-    IconFieldModule,
-    InputIconModule,
-    InputText,
-    FormsModule
-  ],
+  imports: [UiComponentsModule],
   templateUrl: './deceaseds-list.component.html',
   standalone: true,
   styleUrl: './deceaseds-list.component.scss',

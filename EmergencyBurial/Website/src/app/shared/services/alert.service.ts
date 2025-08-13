@@ -20,26 +20,10 @@ export class AlertService {
 
   alert(alertType: AlertType = AlertType.Error, appRes?: AppResponse, errRes?: HttpErrorResponse) {
 
-    let alertModel: IAlertModel;
-
-    if (errRes !== undefined) {
-
-      let errorAppRes: IAppResponse = {};
-
-      errorAppRes.Title = errRes?.error;
-
-      alertModel = {
-        Title: errorAppRes?.Title == undefined ? DialogMessage.SystemMessage : errorAppRes?.Title,
-        ClientMessage: errorAppRes.ErrorMessage == undefined ? DialogMessage.GeneralMessage : errorAppRes.ErrorMessage
-      }
-    } else {
-
-      alertModel = {
-        Title: appRes == appRes?.Title ? DialogMessage.SystemMessage : appRes?.Title,
-        ClientMessage: appRes?.ClientMessage == undefined ? DialogMessage.GeneralMessage : appRes?.ClientMessage
-      }
+    let alertModel: IAlertModel = {
+      Title: appRes == appRes?.Title ? DialogMessage.SystemMessage : appRes?.Title,
+      ClientMessage: appRes?.ClientMessage == undefined ? DialogMessage.GeneralMessage : appRes?.ClientMessage
     }
-
 
     switch (alertType) {
 
@@ -57,31 +41,22 @@ export class AlertService {
 
       case AlertType.Error:
         this.showMessage('error', alertModel.Title, alertModel.ClientMessage)
+        let errorAppRes: IAppResponse;
+        errorAppRes = <IAppResponse>(<HttpErrorResponse>errRes).error;
+        console.log(errorAppRes);
         break;
     }
 
   }
 
-  private showMessage(severity: string, summary: string, detail: string, key: string = 'centerToast') {
+  private showMessage(severity: string, summary: string, detail: string, key: string = 'centerToast', life: number = this.TOAST_LIFE_MS) {
 
     this.messageService.add({
       severity: severity,
       summary: summary,
       detail: detail,
-      life: this.TOAST_LIFE_MS,
+      life: life,
       key: key
     });
   }
-
-  errorClientMessage(error: any) {
-
-    if (error?.message) {
-      this.alert(AlertType.Error, {ClientMessage: error?.message});
-    } else {
-      console.log(error);
-    }
-
-  }
-
-
 }

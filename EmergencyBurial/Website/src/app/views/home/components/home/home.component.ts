@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {ChartData, ChartOptions} from 'chart.js';
+
 import {DashboardCardComponent} from '../dashboard-card/dashboard-card.component';
-import {DeceasedService} from "../deceased/services/deceased.service";
-import {ButtonDirective} from "primeng/button";
+import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 
 interface DashboardCard {
   data: ChartData;
@@ -15,15 +14,9 @@ interface DashboardCard {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   standalone: true,
-  imports: [CommonModule, DashboardCardComponent, ButtonDirective],
+  imports: [UiComponentsModule, DashboardCardComponent],
 })
 export class HomeComponent implements OnInit {
-
-  private deceasedService: DeceasedService;
-
-  constructor(deceasedService: DeceasedService) {
-    this.deceasedService = deceasedService;
-  }
 
   dashboardCards: DashboardCard[] = [];
 
@@ -220,15 +213,5 @@ export class HomeComponent implements OnInit {
       {data: chart5Data, options: chart5Options},
       {data: chart6Data, options: chart6Options},
     ];
-  }
-
-  throwClientError() {
-    throw new Error('שגיאת צד-לקוח יזומה לצורך בדיקה.');
-  }
-
-  async throwServerError() {
-
-    await this.deceasedService.forceServerError();
-
   }
 }

@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {CommonModule} from '@angular/common';
-import {CardModule} from 'primeng/card';
-import {AccordionModule} from 'primeng/accordion';
+
 import {Deceased} from '../../model/deceased';
 import {DeceasedService} from '../../services/deceased.service';
-import {IColumn} from "../../../../../shared/ui-components/model/column";
+import {IColumn} from "../../../../shared/ui-components/model/column";
+import {AlertService} from "../../../../shared/services/alert.service";
+import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [CommonModule, CardModule, AccordionModule],
+  imports: [UiComponentsModule],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
@@ -26,7 +26,7 @@ export class DeceasedDetailComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.loadDeceasedData();
   }
 
