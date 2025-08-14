@@ -139,7 +139,7 @@ namespace EmergencyBurial.Api
 
             app.ApplicationServices.UseScheduler(scheduler =>
             {
-                var interval = Configuration.GetValue<int>("Scheduler:CasualtyCreationIntervalMinutes", 1);
+                var interval = Configuration.GetValue<int>("Scheduler:CasualtyCreationIntervalMinutes", 3);
                 scheduler
                     .Schedule<TaskCreateCasualtyJob>()
                     .Cron($"*/{interval} * * * *")
