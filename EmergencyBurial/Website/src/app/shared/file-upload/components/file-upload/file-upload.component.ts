@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2, Output, EventEmitter } from '@angular/core';
-import { IFileResult } from '../../model/file-result.model';
-import { FileService } from '../../services/file.service';
-import { AlertService } from '../../../services/alert.service';
+import {Component, OnInit, Input, ViewChild, ElementRef, Renderer2, Output, EventEmitter} from '@angular/core';
+import {IFileResult} from '../../model/file-result.model';
+import {FileService} from '../../services/file.service';
+import {AlertService} from '../../../services/alert.service';
 import * as _ from 'lodash-es';
 import {AppDocumentType} from '../../../enum/document-type.enum';
 
@@ -27,8 +27,8 @@ export class FileUploadComponent implements OnInit {
   }
 
   constructor(private fileUploadService: FileService,
-    private alertService: AlertService,
-    private renderer: Renderer2) {
+              private alertService: AlertService,
+              private renderer: Renderer2) {
   }
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class FileUploadComponent implements OnInit {
     this.FileArrayChange.emit(this.FileArray);
   }
 
-  async onUploadFile(event:Event) {
+  async onUploadFile(event: Event) {
 
     try {
 
@@ -66,7 +66,7 @@ export class FileUploadComponent implements OnInit {
       let result = await this.fileUploadService.upload(target.files)
 
       for (var item of result) {
-        let file: IFileResult = Object.assign({}, item, { FileType: this.Type });
+        let file: IFileResult = Object.assign({}, item, {FileType: this.Type});
 
         this.FileArray.push(file);
 
@@ -78,21 +78,18 @@ export class FileUploadComponent implements OnInit {
       this.alertService.alert(e);
 
     }
-
   }
 
   onDownload(file: IFileResult) {
 
-    /*this.fileUploadService.download(file.FileId)
+    this.fileUploadService.download(file.FileId)
       .then(response => response.blob())
       .then(blob => URL.createObjectURL(blob))
       .then(url => {
         window.open(url, '_blank');
-      })
-      .catch((e) => {
-        this.alertService.alert(e);
-      });*/
-
+      }).catch((e) => {
+      this.alertService.alert(e);
+    });
   }
 
   private InitModel() {
@@ -108,7 +105,6 @@ export class FileUploadComponent implements OnInit {
       this.Type = firstFile.FileType
 
     }
-
 
 
   }

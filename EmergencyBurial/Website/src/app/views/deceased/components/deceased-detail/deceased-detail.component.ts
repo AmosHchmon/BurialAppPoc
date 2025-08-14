@@ -43,22 +43,18 @@ export class DeceasedDetailComponent implements OnInit {
 
     private async loadDeceasedData(): Promise<void> {
 
-        try {
-
-            const param = this.route.snapshot.paramMap.get('id');
+    const param = this.route.snapshot.paramMap.get('id');
 
             const id = parseInt(param);
 
             this.deceased = await this.deceasedService.getDeceasedById(id);
 
             this.transports = await this.transportService.getTransportsByDeceasedId(id);
+    this.deceased = await this.deceasedService.getDeceasedById(param);
 
             this.initializeFields();
 
-        } catch (error) {
-            this.alertService.alert(error);
-        }
-    }
+  }
 
     private initializeFields(): void {
 

@@ -43,7 +43,7 @@ namespace EmergencyBurial.Services
 
         public FileResult DownloadFile(Guid? id)
         {
-            
+
             var file = ctx.Files.Find(id);
 
             if (file == null)

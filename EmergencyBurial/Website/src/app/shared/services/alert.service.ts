@@ -59,4 +59,14 @@ export class AlertService {
       key: key
     });
   }
+
+  errorClientMessage(error: any) {
+
+    if (error?.message) {
+      this.alert(AlertType.Error, {ClientMessage: error?.message});
+    } else {
+      console.log(error);
+    }
+
+  }
 }
