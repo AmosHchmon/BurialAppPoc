@@ -1,1 +1,65 @@
-<p>transport-form works!</p>
+<div class="w-100 p-3 d-flex flex-column">
+  <strong>אנא הזינו את פרטי השינוע:</strong>
+  <div class="d-flex">
+    <div class="w-50 d-flex flex-column gap-5">
+      <p-floatlabel class="mt-5">
+        <input pInputText
+               class="w-50"
+               [(ngModel)]="newTransport.StartLocation"
+               [pAutoFocus]="true"
+               autocomplete="off"/>
+        <label>מקום התחלת שינוע</label>
+      </p-floatlabel>
+      <p-floatlabel>
+        <input pInputText
+               class="w-50"
+               [(ngModel)]="newTransport.Purpose"
+               autocomplete="off"/>
+        <label>תכלית השינוע</label>
+      </p-floatlabel>
+      <p-floatlabel>
+        <input pInputText
+               class="w-50"
+               [(ngModel)]="newTransport.Organization"
+               autocomplete="off"/>
+        <label>ארגון משנע</label>
+      </p-floatlabel>
+      <p-floatlabel>
+        <input pInputText
+               class="w-50"
+               [(ngModel)]="newTransport.Destination"
+               autocomplete="off"/>
+        <label>מקום יעד שינוע</label>
+      </p-floatlabel>
+    </div>
+    <div class="w-50 d-flex flex-column gap-5">
+      <div class="d-flex flex-column w-50">
+        <label>שעת התחלת השינוע</label>
+        <p-datepicker
+          [(ngModel)]="newTransport.StartDateTime"
+          [showTime]="true"
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+          [hourFormat]="'24'"
+          [pAutoFocus]="false">
+        </p-datepicker>
+      </div>
+      <p-floatlabel>
+        <input pInputText
+               class="w-50"
+               [(ngModel)]="newTransport.VehicleType"
+               autocomplete="off"/>
+        <label>סוג אמצעי שינוע</label>
+      </p-floatlabel>
+      <p-floatlabel>
+        <input pInputText
+               class="w-50"
+               [(ngModel)]="newTransport.LicensePlate"
+               autocomplete="off"/>
+        <label>לוחית זיהוי רכב</label>
+      </p-floatlabel>
+    </div>
+
+  </div>
+  <p-button (click)="createTransport()" class="mt-5">יצירת שינוע</p-button>
+</div>

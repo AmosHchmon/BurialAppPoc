@@ -49,8 +49,8 @@ public class TransportsController(
 
         var transport = mapper.Map<Transport>(transportDto);
 
-        var res = await transportService.CreateTransport(transport);
+        await transportService.CreateTransport(transport);
 
-        return Ok(mapper.Map<TransportDto>(res));
+        return Ok();
     }
 }

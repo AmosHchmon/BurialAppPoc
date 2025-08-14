@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {Deceased} from '../../model/Deceased';
@@ -9,11 +9,12 @@ import {UiComponentsModule} from "../../../../shared/ui-components/ui-components
 import {Transport} from "../../../transport/model/transport";
 import {TransportService} from "../../../transport/services/transport.service";
 import {TabsModule} from "primeng/tabs";
+import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
 
 @Component({
     selector: 'app-deceased-detail',
     standalone: true,
-    imports: [UiComponentsModule, TabsModule],
+    imports: [UiComponentsModule, TabsModule, TransportFormComponent],
     templateUrl: './deceased-detail.component.html',
     styleUrl: './deceased-detail.component.scss'
 })
@@ -25,12 +26,14 @@ export class DeceasedDetailComponent implements OnInit {
     transportCols: IColumn[] = [];
     transports: Transport[] = [];
     activeTab: string = "0";
+    activeAccordionIndex: number[] | null = null;
 
     constructor(
         private route: ActivatedRoute,
         private deceasedService: DeceasedService,
         private transportService: TransportService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private cdr: ChangeDetectorRef
     ) {
     }
 
@@ -38,7 +41,7 @@ export class DeceasedDetailComponent implements OnInit {
         this.loadDeceasedData();
     }
 
-    async loadDeceasedData(): Promise<void> {
+    private async loadDeceasedData(): Promise<void> {
 
         try {
 
@@ -57,7 +60,7 @@ export class DeceasedDetailComponent implements OnInit {
         }
     }
 
-    initializeFields(): void {
+    private initializeFields(): void {
 
         const allFields = [
             {field: 'HalalNumber', header: 'מספר חלל'},
@@ -92,5 +95,26 @@ export class DeceasedDetailComponent implements OnInit {
 
     switchToTransportTab() {
         this.activeTab = "1";
+    }
+
+    async loadTransports(deceasedId: number) {
+
+        this.transports = await this.transportService.getTransportsByDeceasedId(deceasedId);
+    }
+
+    handleTransportCreated() {
+
+        if (this.deceased) {
+            this.loadTransports(this.deceased.Id);
+        }
+
+        this.activeAccordionIndex = [2];
+
+        this.activeTab = "0";
+
+        setTimeout(() => {
+            this.cdr.detectChanges();
+        }, 10)
+
     }
 }

@@ -1,25 +1,25 @@
 export interface Transport {
 
-  Id: number;
+    Id?: number;
 
-  DeceasedId: number;
+    DeceasedId?: number;
 
-  StartLocation: string;
+    StartLocation?: string;
 
-  Purpose: string;
+    Purpose?: string;
 
-  Organization: string;
+    Organization?: string;
 
-  Destination: string;
+    Destination?: string;
 
-  StartDateTime: Date;
+    StartDateTime?: Date;
 
-  VehicleType: string;
+    VehicleType?: string;
 
-  LicensePlate: string;
+    LicensePlate?: string;
 
-  HalalNumber: string;
+    HalalNumber?: string;
 
-  FirstName: string;
+    FirstName?: string;
 
 }

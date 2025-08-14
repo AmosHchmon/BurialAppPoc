@@ -1,5 +1,5 @@
 <p-tabs [(value)]="activeTab">
-    <p-tablist>
+    <p-tablist class="p-4">
         <p-tab value="0">פרטים</p-tab>
         <p-tab value="1">שינוע להכנה לקבורה</p-tab>
     </p-tablist>
@@ -99,8 +99,10 @@
                 </p-accordion>
             </div>
         </p-tabpanel>
-        <p-tabpanel>
-
+        <p-tabpanel value="1">
+            <app-transport-form [deceasedId]="deceased?.Id"
+                                (transportCreated)="handleTransportCreated()">
+            </app-transport-form>
         </p-tabpanel>
     </p-tabpanels>
 </p-tabs>
