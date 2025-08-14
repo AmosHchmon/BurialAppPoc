@@ -11,7 +11,7 @@ import {ValidationService} from '../services/validation.service';
       multi: true,
     },
   ],
-  standalone: true,
+  standalone: false,
 })
 
 export class IdentityValidatorDirective implements Validator {
@@ -20,7 +20,7 @@ export class IdentityValidatorDirective implements Validator {
   validator: ValidatorFn;
 
   constructor(private validationService: ValidationService) {
-    this.validator = this.identityValidator()
+    this.validator = this.identityValidator();
   }
 
 
@@ -43,6 +43,6 @@ export class IdentityValidatorDirective implements Validator {
         };
       }
 
-    }
+    };
   }
 }

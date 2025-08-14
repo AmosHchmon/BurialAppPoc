@@ -49,7 +49,7 @@ namespace EmergencyBurial.Services
             if (file == null)
                 throw new ApplicationException(UserMessage.FileNotExist);
 
-            var content = FileHelper.ReadFile(config.Path, string.Format("{0}{1}", id.ToString(), Path.GetExtension(file.FileName)));
+            var content = FileHelper.ReadFile(config.Path, string.Format("{0}{1}", id, Path.GetExtension(file.FileName)));
 
             return new FileResult()
             {

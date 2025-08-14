@@ -1,6 +1,7 @@
 import {Injectable, Injector} from '@angular/core';
-import {BaseService} from "../../../../core/abstract/base-service";
+
 import {Deceased} from "../model/deceased";
+import {BaseService} from "../../../core/abstract/base-service";
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +18,9 @@ export class DeceasedService extends BaseService {
 
   async getDeceasedById(id: string): Promise<Deceased> {
     return super.get({path: `/${id}`});
+  }
+
+  async forceServerError(): Promise<any>{
+    return super.get({path: '/force'});
   }
 }

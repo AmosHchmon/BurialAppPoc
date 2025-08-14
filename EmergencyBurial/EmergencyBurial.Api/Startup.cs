@@ -8,11 +8,13 @@ using Core.Middleware;
 using DataModel;
 using DataModel.Triggers;
 using EmergencyBurial.Api.Jobs;
+using EmergencyBurial.Services;
 using EmergencyBurial.Services.DbServices;
 using EmergencyBurial.Services.RealTime;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -63,7 +65,10 @@ namespace EmergencyBurial.Api
             {
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                 options.UseSqlServer(Configuration.GetConnectionString("EmergencyBurialDbConfig"))
-                    .UseTriggers(triggerOption => { triggerOption.AddTrigger<SaveMembersTrigger>(); });
+                    .UseTriggers(triggerOption =>
+                    {
+                        triggerOption.AddTrigger<SaveMembersTrigger>();
+                    });
             });
 
             //inject services

@@ -1,12 +1,11 @@
-import { Injectable, Injector } from '@angular/core';
-import { IFileResult } from '../model/file-result.model';
-import { BaseService } from 'src/app/core/abstract/base-service';
-import { AuthContextService } from '../../services/auth-context.service';
+import {Injectable, Injector} from '@angular/core';
+import {IFileResult} from '../model/file-result.model';
+import {BaseService} from 'src/app/core/abstract/base-service';
 
 @Injectable()
 export class FileService extends BaseService {
 
-  constructor(protected injector: Injector,public authCtx: AuthContextService) {
+  constructor(protected injector: Injector) {
     super("FileService",injector);
   }
 
@@ -26,11 +25,10 @@ export class FileService extends BaseService {
       method: 'GET',
       headers : {
         'Content-type': 'application/json',
-        'Authorization': `Bearer ${this.authCtx.Token}`,
       },
+      credentials: 'include',
     });
 
   }
-
 
 }

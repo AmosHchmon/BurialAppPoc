@@ -45,25 +45,8 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
         };
         
         Response.Cookies.Append("user_token", token, cookieOptions);
-
-        return Ok();
-    }
-
-    [HttpGet("protected-data")]
-    [Authorize(Roles = "Admin")]
-    public ActionResult GetProtectedData()
-    {
-        var userName = User.Identity.IsAuthenticated ? User.Identity.Name : "Unknown";
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        var role = User.FindFirst(ClaimTypes.Role)?.Value;
-
-        return Ok(new
-        {
-            Message = $"Hello, {userName}! You successfully accessed protected data.",
-            UserId = userId,
-            Role = role,
-            Timestamp = DateTime.UtcNow
-        });
+        
+        return Ok(memberDto);
     }
 
     /*[HttpPut("otp")]

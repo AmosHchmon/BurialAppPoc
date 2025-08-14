@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {ChartData, ChartOptions} from 'chart.js';
+
 import {DashboardCardComponent} from '../dashboard-card/dashboard-card.component';
+import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 
 interface DashboardCard {
   data: ChartData;
@@ -13,7 +14,7 @@ interface DashboardCard {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   standalone: true,
-  imports: [CommonModule, DashboardCardComponent],
+  imports: [UiComponentsModule, DashboardCardComponent],
 })
 export class HomeComponent implements OnInit {
 
@@ -22,7 +23,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
 
     const chart1Data: ChartData<'bar'> = {
-      labels: ['לא הוזן תר"ח','שדה תימן','תר"ח ציפורית','תר"ח שורה'],
+      labels: ['לא הוזן תר"ח', 'שדה תימן', 'תר"ח ציפורית', 'תר"ח שורה'],
       datasets: [
         {data: [4, 1, 0.5], label: 'איסוף', backgroundColor: '#008C9D'},
         {data: [17, 0, 1], label: 'זיהוי', backgroundColor: '#00B8D9'},
@@ -53,7 +54,7 @@ export class HomeComponent implements OnInit {
     };
 
     const chart2Data: ChartData<'bar'> = {
-      labels: ['לא הוזן תר"ח','שדה תימן','תר"ח ציפורית','תר"ח שורה'],
+      labels: ['לא הוזן תר"ח', 'שדה תימן', 'תר"ח ציפורית', 'תר"ח שורה'],
       datasets: [
         {data: [2, 1, 3], label: 'לא זוהה', backgroundColor: '#4BC0C0'},
         {data: [2, 5, 1], label: 'זוהה', backgroundColor: '#00B8D9'},
@@ -85,7 +86,7 @@ export class HomeComponent implements OnInit {
     };
 
     const chart3Data: ChartData<'bar'> = {
-      labels: ['לא הוזן תר"ח','שדה תימן','תר"ח ציפורית','תר"ח שורה'],
+      labels: ['לא הוזן תר"ח', 'שדה תימן', 'תר"ח ציפורית', 'תר"ח שורה'],
       datasets: [
         {data: [4, 5, 2], label: 'בתהליך הכנה לקבורה', backgroundColor: '#4BC0C0'},
         {data: [2, 5, 3], label: 'נקבר - זמנית', backgroundColor: '#A06AF9'},
@@ -117,7 +118,7 @@ export class HomeComponent implements OnInit {
     };
 
     const chart4Data: ChartData<'bar'> = {
-      labels: ['לא הוזן תר"ח','שדה תימן','תר"ח ציפורית','תר"ח שורה'],
+      labels: ['לא הוזן תר"ח', 'שדה תימן', 'תר"ח ציפורית', 'תר"ח שורה'],
       datasets: [
         {data: [8, 1, 3], label: 'כמות', backgroundColor: '#008C9D'},
       ],
@@ -145,7 +146,7 @@ export class HomeComponent implements OnInit {
     };
 
     const chart5Data: ChartData<'bar'> = {
-      labels: ['לא הוזן תר"ח','שדה תימן','תר"ח ציפורית','תר"ח שורה'],
+      labels: ['לא הוזן תר"ח', 'שדה תימן', 'תר"ח ציפורית', 'תר"ח שורה'],
       datasets: [
         {data: [2, 5, 3], label: 'זוהה', backgroundColor: '#4BC0C0'}
       ],
@@ -175,7 +176,7 @@ export class HomeComponent implements OnInit {
     };
 
     const chart6Data: ChartData<'bar'> = {
-      labels: ['לא הוזן תר"ח','שדה תימן','תר"ח ציפורית','תר"ח שורה'],
+      labels: ['לא הוזן תר"ח', 'שדה תימן', 'תר"ח ציפורית', 'תר"ח שורה'],
       datasets: [
         {data: [2, 5, 3], label: 'נתונים', backgroundColor: '#4BC0C0'}
       ],

@@ -1,43 +1,45 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { AuthContextService } from '../services/auth-context.service';
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
-@Injectable({providedIn: 'root'})
-export class RedirectGuard {
-    constructor(public router: Router,private authCtx:AuthContextService) { }
+import {AuthContextService} from "../services/auth-context.service";
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+@Injectable({
+  providedIn: 'root',
+})
+export class RedirectGuard implements CanActivate {
+  constructor(private authCtx: AuthContextService, private router: Router) {
+  }
 
-        if (!this.authCtx.isLoggedIn()) {
-             this.router.navigate(["/sessions/login"], {
-                queryParams: {
-                return: state.url
-                }
-            });
-            this.router.navigate(['sessions/login']);
-            return false;
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-        } else {
+    if (!this.authCtx.isLoggedIn()) {
 
-            const claims = this.authCtx.DecodeToken;
-
-            /* switch (parseInt(claims['RoleId'])) {
-                case enmMemberType.SystemManager:
-                case enmMemberType.CouncilAccountant:
-                case enmMemberType.FirstAuthorizedSignatory:
-                case enmMemberType.SecondAuthorizedSignatory:
-                case enmMemberType.AccompanyingAccountant:
-                case enmMemberType.OfficeBudgetDepartment:
-                case enmMemberType.OfficeAdministration:
-               default:
-                 this.router.navigate(['/report']);
-             }*/
-
-            return true;
-
+      this.router.navigate(["/login"], {
+        queryParams: {
+          return: state.url
         }
+      });
 
+      this.router.navigate(['login']);
 
+      return false;
+
+    } else {
+
+      /*switch (parseInt(claims['RoleId'])) {
+        case enmMemberType.SystemManager:
+        case enmMemberType.CouncilAccountant:
+        case enmMemberType.FirstAuthorizedSignatory:
+        case enmMemberType.SecondAuthorizedSignatory:
+        case enmMemberType.AccompanyingAccountant:
+        case enmMemberType.OfficeBudgetDepartment:
+        case enmMemberType.OfficeAdministraion:
+        default:
+          this.router.navigate(['/report']);
+      }*/
+
+      return true;
 
     }
+  }
 }
