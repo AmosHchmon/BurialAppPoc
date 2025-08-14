@@ -12,7 +12,7 @@ export class TransportService extends BaseService  {
     super("TransportsService", injector);
   }
 
-  async getTransportsByDeceasedId(id: string): Promise<Transport[]>{
+  async getTransportsByDeceasedId(id: number): Promise<Transport[]>{
 
     return super.get({path: `/deceased/${id}`});
   }

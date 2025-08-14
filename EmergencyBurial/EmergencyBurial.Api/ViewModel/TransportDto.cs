@@ -21,4 +21,8 @@ public class TransportDto
     public string VehicleType { get; set; }
 
     public string LicensePlate { get; set; }
+    
+    public string HalalNumber { get; set; }
+    
+    public string FirstName { get; set; }
 }

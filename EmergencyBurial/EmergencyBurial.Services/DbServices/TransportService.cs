@@ -15,6 +15,7 @@ public class TransportService(EmergencyBurialContext ctx)
     {
         return await ctx.Transports
             .Where(t => t.DeceasedId == deceasedId)
+            .Include(t => t.Deceased)
             .OrderByDescending(t => t.StartDateTime)
             .ToListAsync();
     }

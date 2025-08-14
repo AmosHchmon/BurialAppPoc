@@ -85,7 +85,7 @@ export class DeceasedsListComponent implements OnInit {
 
   showDeceased(deceased: Deceased): void {
 
-    this.router.navigate(['/dashboard/deceaseds', deceased.HalalNumber]);
+    this.router.navigate(['/dashboard/deceaseds', deceased.Id]);
   }
 
   clearSearch() {

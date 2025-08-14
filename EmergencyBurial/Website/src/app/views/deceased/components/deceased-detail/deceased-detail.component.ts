@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {DatePipe} from '@angular/common'
 
 import {Deceased} from '../../model/Deceased';
 import {DeceasedService} from '../../services/deceased.service';
@@ -12,7 +13,7 @@ import {TransportService} from "../../../transport/services/transport.service";
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [UiComponentsModule],
+  imports: [UiComponentsModule, DatePipe],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
@@ -42,9 +43,11 @@ export class DeceasedDetailComponent implements OnInit {
 
       const param = this.route.snapshot.paramMap.get('id');
 
-      this.deceased = await this.deceasedService.getDeceasedById(param);
+      const id = parseInt(param);
 
-      this.transports = await this.transportService.getTransportsByDeceasedId(param);
+      this.deceased = await this.deceasedService.getDeceasedById(id);
+
+      this.transports = await this.transportService.getTransportsByDeceasedId(id);
 
       this.initializeFields();
 
@@ -79,10 +82,10 @@ export class DeceasedDetailComponent implements OnInit {
     this.fieldsPart2 = allFields.slice(splitIndex);
 
     this.transportCols = [
-      { field: 'id', header: 'מזהה שינוע' },
-      { field: 'startLocation', header: 'מקום התחלת שינוע' },
-      { field: 'destination', header: 'יעד שינוע' },
-      { field: 'startDateTime', header: 'מועד התחלת השינוע' }
+      { field: 'Id', header: 'מזהה שינוע' },
+      { field: 'FirstName', header: 'שם החלל' },
+      { field: 'StartLocation', header: 'שם החלל' },
+      { field: 'StartDateTime', header: 'מועד התחלת השינוע' }
     ];
   }
 }

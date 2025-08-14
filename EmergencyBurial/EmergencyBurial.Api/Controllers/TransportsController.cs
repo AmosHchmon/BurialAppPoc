@@ -21,17 +21,22 @@ public class TransportsController(
     [HttpGet("deceased/{id}")]
     public async Task<ActionResult<IEnumerable<Transport>>> GetTransportsByDeceased(string id)
     {
+        if (!int.TryParse(id, out int idValue))
+        {
+            return BadRequest();
+        }
 
-        var deceasedExists = await deceasedService.DeceasedExistsAsync(id);
+        var deceasedExists = await deceasedService.DeceasedExistsAsync(idValue);
 
         if (!deceasedExists)
         {
             return NotFound();
         }
 
-        var transports = await transportService.GetTransportsByDeceasedId(id);
+        var transports = await transportService.GetTransportsByDeceasedId(idValue);
 
-        return Ok(mapper.Map<List<TransportDto>>(transports));
+        var res = mapper.Map<List<TransportDto>>(transports);
+        return Ok(res);
     }
 
     [HttpPost]

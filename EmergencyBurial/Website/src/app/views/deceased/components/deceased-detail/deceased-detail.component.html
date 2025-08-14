@@ -33,7 +33,7 @@
       </p-accordion-content>
     </p-accordion-panel>
 
-    <p-accordion-panel>
+    <p-accordion-panel [value]="2">
       <p-accordion-header>טבלת שינועים</p-accordion-header>
       <p-accordion-content>
         <div class="p-3">
@@ -45,7 +45,6 @@
                    [value]="transports"
                    [tableStyle]="{ 'min-width': '50rem' }"
                    [size]="'small'"
-                   [paginator]="true"
                    [rows]="10"
                    [showCurrentPageReport]="true"
                    currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"

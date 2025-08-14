@@ -18,4 +18,8 @@ export interface Transport {
 
   LicensePlate: string;
 
+  HalalNumber: string;
+
+  FirstName: string;
+
 }

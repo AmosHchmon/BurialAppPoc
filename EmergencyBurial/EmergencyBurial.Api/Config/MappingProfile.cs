@@ -17,6 +17,8 @@ namespace EmergencyBurial.Api.Config
                 .ReverseMap();
             
             CreateMap<Transport, TransportDto>()
+                .ForMember(dest => dest.HalalNumber, opt => opt.MapFrom(src => src.Deceased.HalalNumber))
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Deceased.FirstName))
                 .ReverseMap();
         }
     }

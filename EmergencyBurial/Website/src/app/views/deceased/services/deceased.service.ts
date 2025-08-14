@@ -16,7 +16,7 @@ export class DeceasedService extends BaseService {
     return super.get({path: '/'});
   }
 
-  async getDeceasedById(id: string): Promise<Deceased> {
+  async getDeceasedById(id: number): Promise<Deceased> {
     return super.get({path: `/${id}`});
   }
 }
