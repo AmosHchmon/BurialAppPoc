@@ -4,7 +4,6 @@ import {ActivatedRoute} from '@angular/router';
 import {Deceased} from '../../model/Deceased';
 import {DeceasedService} from '../../services/deceased.service';
 import {IColumn} from "../../../../shared/ui-components/model/column";
-import {AlertService} from "../../../../shared/services/alert.service";
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {Transport} from "../../../transport/model/transport";
 import {TransportService} from "../../../transport/services/transport.service";
@@ -32,7 +31,6 @@ export class DeceasedDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private deceasedService: DeceasedService,
         private transportService: TransportService,
-        private alertService: AlertService,
         private cdr: ChangeDetectorRef
     ) {
     }
@@ -43,18 +41,17 @@ export class DeceasedDetailComponent implements OnInit {
 
     private async loadDeceasedData(): Promise<void> {
 
-    const param = this.route.snapshot.paramMap.get('id');
+        const param = this.route.snapshot.paramMap.get('id');
 
-            const id = parseInt(param);
+        const id = parseInt(param);
 
-            this.deceased = await this.deceasedService.getDeceasedById(id);
+        this.deceased = await this.deceasedService.getDeceasedById(id);
 
-            this.transports = await this.transportService.getTransportsByDeceasedId(id);
-    this.deceased = await this.deceasedService.getDeceasedById(param);
+        this.transports = await this.transportService.getTransportsByDeceasedId(id);
 
-            this.initializeFields();
+        this.initializeFields();
 
-  }
+    }
 
     private initializeFields(): void {
 

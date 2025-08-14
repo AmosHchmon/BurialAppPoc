@@ -5,7 +5,6 @@ import {Router} from "@angular/router";
 import {Deceased} from "../../model/Deceased";
 import {DeceasedService} from "../../services/deceased.service";
 import {IColumn} from "../../../../shared/ui-components/model/column";
-import {AlertService} from "../../../../shared/services/alert.service";
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 
 @Component({
@@ -25,12 +24,8 @@ export class DeceasedsListComponent implements OnInit {
   searchText: string;
 
   constructor(private deceasedService: DeceasedService,
-              private alertService: AlertService,
               private router: Router,
               private cdr: ChangeDetectorRef) {
-
-    this.deceasedService = deceasedService;
-    this.alertService = alertService;
   }
 
   async ngOnInit() {
