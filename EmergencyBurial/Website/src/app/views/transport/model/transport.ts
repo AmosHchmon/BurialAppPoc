@@ -12,7 +12,7 @@ export interface Transport {
 
   Destination: string;
 
-  StartDateTime: string;
+  StartDateTime: Date;
 
   VehicleType: string;
 
