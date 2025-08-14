@@ -1,8 +1,9 @@
 ﻿import {Injectable} from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import {Subject} from 'rxjs';
-import {Deceased} from "../../views/components/deceased/model/deceased";
+
 import {environment} from "../../../environments/environment";
+import {Deceased} from "../../views/deceased/model/deceased";
 
 @Injectable({
   providedIn: 'root'
