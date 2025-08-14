@@ -2,6 +2,7 @@
 import * as signalR from '@microsoft/signalr';
 import {Subject} from 'rxjs';
 import {Deceased} from "../../views/components/deceased/model/deceased";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class SignalRService {
 
   private hubConnection: signalR.HubConnection;
   private deceasedSubject = new Subject<Deceased>();
-  private url = 'https://localhost:44349/notifications';
+  private url = environment.hubUrl;
 
   public deceased = this.deceasedSubject.asObservable();
 
@@ -21,7 +22,7 @@ export class SignalRService {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })
-      .withAutomaticReconnect()
+      .withAutomaticReconnect([0, 2000, 5000, 10000])
       .build();
 
     this.startConnection();
