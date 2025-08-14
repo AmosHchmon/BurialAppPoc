@@ -1,4 +1,9 @@
-import {ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection} from '@angular/core';
+import {
+  ApplicationConfig,
+  ErrorHandler,
+  provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection
+} from '@angular/core';
 import {provideRouter, withHashLocation} from '@angular/router';
 import {provideNgxWebstorage, withLocalStorage, withNgxWebstorageConfig, withSessionStorage} from 'ngx-webstorage';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
@@ -13,6 +18,7 @@ import {pendingRequestsInterceptor$} from "ng-http-loader";
 
 import {routes} from './app.routes';
 import {httpInterceptor} from "./shared/interceptors/http-interceptor.service";
+import {GlobalErrorHandlerService} from "./shared/services/global-error-handler.service";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,10 +42,14 @@ export const appConfig: ApplicationConfig = {
     ),
     provideRouter(routes, withHashLocation()),
     provideNgxWebstorage(
-      withNgxWebstorageConfig({ separator: ':', caseSensitive: true }),
+      withNgxWebstorageConfig({separator: ':', caseSensitive: true}),
       withLocalStorage(),
       withSessionStorage()
     ),
-    { provide: MAT_DATE_LOCALE, useValue: 'he-IL' },
+    {provide: MAT_DATE_LOCALE, useValue: 'he-IL'},
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandlerService
+    }
   ]
 };

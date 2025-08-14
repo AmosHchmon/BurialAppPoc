@@ -22,8 +22,7 @@ export class DeceasedDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private deceasedService: DeceasedService,
-    private alertService: AlertService
+    private deceasedService: DeceasedService
   ) {
   }
 
@@ -33,17 +32,12 @@ export class DeceasedDetailComponent implements OnInit {
 
   async loadDeceasedData(): Promise<void> {
 
-    try {
+    const param = this.route.snapshot.paramMap.get('id');
 
-      const param = this.route.snapshot.paramMap.get('id');
+    this.deceased = await this.deceasedService.getDeceasedById(param);
 
-      this.deceased = await this.deceasedService.getDeceasedById(param);
+    this.initializeFields();
 
-      this.initializeFields();
-
-    } catch (error) {
-      this.alertService.alert(error);
-    }
   }
 
   initializeFields(): void {
