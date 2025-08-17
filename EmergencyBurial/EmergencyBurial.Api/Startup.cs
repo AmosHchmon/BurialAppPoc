@@ -53,6 +53,8 @@ namespace EmergencyBurial.Api
             services.AddSingleton(smsConfig);
             services.AddSingleton(authConfig);
             services.AddSingleton(envConfig);
+            
+            services.AddCors();
 
             services.AddSignalR().AddJsonProtocol(options =>
             {
