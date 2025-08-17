@@ -14,7 +14,7 @@ import {FloatLabelModule} from "primeng/floatlabel";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 import {InputGroupModule} from "primeng/inputgroup";
 
-import {MatConvertTimezoneDirective} from './directives/mat-convert-timezone.directive';
+
 import {FileService} from '../file-upload/services/file.service';
 
 @NgModule({
@@ -55,7 +55,6 @@ import {FileService} from '../file-upload/services/file.service';
     InputGroupModule
   ],
   declarations: [
-    MatConvertTimezoneDirective,
   ],
   providers: [
     FileService,

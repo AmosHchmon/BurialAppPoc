@@ -107,7 +107,7 @@ export class DeceasedDetailComponent implements OnInit {
 
         setTimeout(() => {
             this.cdr.detectChanges();
-        }, 10)
+        }, 100)
 
     }
 }

@@ -1,21 +1,19 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {FloatLabel} from "primeng/floatlabel";
-import {InputText} from "primeng/inputtext";
-import {DatePicker} from "primeng/datepicker";
+import {DatePickerModule} from "primeng/datepicker";
 
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {Transport} from "../../model/transport";
 import {TransportService} from "../../services/transport.service";
 import {AutoFocus} from "primeng/autofocus";
+import {MatConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
 
 @Component({
   selector: 'app-transport-form',
   imports: [
-    FloatLabel,
-    InputText,
     UiComponentsModule,
-    DatePicker,
-    AutoFocus
+    DatePickerModule,
+    AutoFocus,
+    MatConvertTimezoneDirective,
   ],
   templateUrl: './transport-form.component.html',
   styleUrl: './transport-form.component.scss'
@@ -41,4 +39,5 @@ export class TransportFormComponent {
     this.transportCreated.emit();
 
   }
+
 }

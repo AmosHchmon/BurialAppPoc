@@ -1,4 +1,4 @@
-<div class="w-100 p-3 d-flex flex-column">
+<div class="w-100 p-3 mb-3 d-flex flex-column">
   <strong>אנא הזינו את פרטי השינוע:</strong>
   <div class="d-flex">
     <div class="w-50 d-flex flex-column gap-5">
@@ -35,14 +35,16 @@
     <div class="w-50 d-flex flex-column gap-5">
       <div class="d-flex flex-column w-50">
         <label>שעת התחלת השינוע</label>
-        <p-datepicker
+        <p-datePicker
           [(ngModel)]="newTransport.StartDateTime"
           [showTime]="true"
           [showIcon]="true"
           dateFormat="dd/mm/yy"
           [hourFormat]="'24'"
-          [pAutoFocus]="false">
-        </p-datepicker>
+          [pAutoFocus]="false"
+          appConvertTimezone>
+        </p-datePicker>
+
       </div>
       <p-floatlabel>
         <input pInputText
@@ -61,5 +63,5 @@
     </div>
 
   </div>
-  <p-button (click)="createTransport()" class="mt-5">יצירת שינוע</p-button>
 </div>
+<p-button (click)="createTransport()" class="mt-5 p-3">יצירת שינוע</p-button>

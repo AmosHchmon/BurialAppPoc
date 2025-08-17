@@ -21,6 +21,7 @@ namespace EmergencyBurial.Api.Config
                 .ForMember(dest => dest.HalalNumber, opt => opt.MapFrom(src => src.Deceased.HalalNumber))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Deceased.FirstName))
                 .ReverseMap()
+        
                 .ForMember(dest => dest.Deceased, opt => opt.Ignore());
         }
     }
