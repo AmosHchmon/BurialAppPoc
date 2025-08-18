@@ -105,6 +105,7 @@ public class DbHelper
                 CurrentLocationId = 1, // Example Location ID
                 IsLinkedToOtherCases = false,
                 IsCivilBurial = false,
+                CreatedOn = DateTime.Now,
                 Notes = "נפטר ראשון במערכת לצורכי בדיקה."
             },
             new Deceased
@@ -121,6 +122,7 @@ public class DbHelper
                 CurrentLocationId = 1, // Example Location ID
                 IsLinkedToOtherCases = false,
                 IsCivilBurial = true,
+                CreatedOn = DateTime.Now,
                 Notes = "בדיקת קבורה אזרחית."
             }
         };
