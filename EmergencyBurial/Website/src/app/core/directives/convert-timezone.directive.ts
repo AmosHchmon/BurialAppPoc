@@ -4,7 +4,7 @@ import {NgModel} from '@angular/forms';
 @Directive({
   selector: '[appConvertTimezone]'
 })
-export class MatConvertTimezoneDirective {
+export class ConvertTimezoneDirective {
   constructor(public el: ElementRef, public model: NgModel) {
   }
 

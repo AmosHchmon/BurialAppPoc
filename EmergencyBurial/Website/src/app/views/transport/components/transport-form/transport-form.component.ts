@@ -5,7 +5,7 @@ import {UiComponentsModule} from "../../../../shared/ui-components/ui-components
 import {Transport} from "../../model/transport";
 import {TransportService} from "../../services/transport.service";
 import {AutoFocus} from "primeng/autofocus";
-import {MatConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
+import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
 
 @Component({
   selector: 'app-transport-form',
@@ -13,7 +13,7 @@ import {MatConvertTimezoneDirective} from "../../../../core/directives/convert-t
     UiComponentsModule,
     DatePickerModule,
     AutoFocus,
-    MatConvertTimezoneDirective,
+    ConvertTimezoneDirective,
   ],
   templateUrl: './transport-form.component.html',
   styleUrl: './transport-form.component.scss'
