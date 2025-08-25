@@ -11,10 +11,7 @@ public class Transport
 
     [Required]
     public int DeceasedId { get; set; }
-
-    [ForeignKey("DeceasedId")]
-    public virtual Deceased Deceased { get; set; }
-
+    
     [Required]
     public string StartLocation { get; set; }
 
@@ -35,4 +32,7 @@ public class Transport
 
     [Required]
     public string LicensePlate { get; set; }
+    
+    [ForeignKey("DeceasedId")]
+    public virtual Deceased Deceased { get; set; }
 }
