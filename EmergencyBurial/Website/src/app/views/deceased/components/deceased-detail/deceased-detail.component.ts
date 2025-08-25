@@ -1,7 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {Deceased} from '../../model/Deceased';
 import {DeceasedService} from '../../services/deceased.service';
 import {IColumn} from "../../../../shared/ui-components/model/column";
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
@@ -9,51 +8,50 @@ import {Transport} from "../../../transport/model/transport";
 import {TransportService} from "../../../transport/services/transport.service";
 import {TabsModule} from "primeng/tabs";
 import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
+import {Deceased} from "../../model/Deceased";
 
 @Component({
-    selector: 'app-deceased-detail',
-    standalone: true,
-    imports: [UiComponentsModule, TabsModule, TransportFormComponent],
-    templateUrl: './deceased-detail.component.html',
-    styleUrl: './deceased-detail.component.scss'
+  selector: 'app-deceased-detail',
+  standalone: true,
+  imports: [UiComponentsModule, TabsModule, TransportFormComponent],
+  templateUrl: './deceased-detail.component.html',
+  styleUrl: './deceased-detail.component.scss'
 })
 export class DeceasedDetailComponent implements OnInit {
 
-    deceased: Deceased | null = null;
-    fieldsPart1: IColumn[] = [];
-    fieldsPart2: IColumn[] = [];
-    transportCols: IColumn[] = [];
-    transports: Transport[] = [];
-    activeTab: string = "0";
-    activeAccordionIndex: number[] | null = null;
+  deceased: Deceased | null = null;
+  fieldsPart1: IColumn[] = [];
+  fieldsPart2: IColumn[] = [];
+  transportCols: IColumn[] = [];
+  transports: Transport[] = [];
+  activeTab: string = "0";
+  activeAccordionIndex: number[] | null = null;
 
-    constructor(
-        private route: ActivatedRoute,
-        private deceasedService: DeceasedService,
-        private transportService: TransportService,
-        private cdr: ChangeDetectorRef
-    ) {
-    }
+  constructor(
+    private route: ActivatedRoute,
+    private deceasedService: DeceasedService,
+    private transportService: TransportService,
+    private cdr: ChangeDetectorRef
+  ) {
+  }
 
-    ngOnInit() {
-      this.loadDeceasedData();
-    }
+  ngOnInit() {
+    this.loadDeceasedData();
+  }
 
-    private async loadDeceasedData(): Promise<void> {
+  private async loadDeceasedData(): Promise<void> {
 
-        const param = this.route.snapshot.paramMap.get('id');
+    const param = this.route.snapshot.paramMap.get('id');
 
-        const id = parseInt(param);
+    this.deceased = await this.deceasedService.getDeceasedById(param);
 
-        this.deceased = await this.deceasedService.getDeceasedById(id);
+    this.transports = await this.transportService.getTransportsByDeceasedId(this.deceased?.Id.toLocaleString());
 
-        this.transports = await this.transportService.getTransportsByDeceasedId(id);
+    this.initializeFields();
 
-        this.initializeFields();
+  }
 
-    }
-
-    private initializeFields(): void {
+  private initializeFields(): void {
 
     const allFields = [
       {field: 'HalalNumber', header: 'מספר חלל'},
@@ -74,41 +72,41 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'Notes', header: 'הערות'}
     ];
 
-        const splitIndex = 7;
+    const splitIndex = 7;
 
-        this.fieldsPart1 = allFields.slice(0, splitIndex);
-        this.fieldsPart2 = allFields.slice(splitIndex);
+    this.fieldsPart1 = allFields.slice(0, splitIndex);
+    this.fieldsPart2 = allFields.slice(splitIndex);
 
-        this.transportCols = [
-            {field: 'Id', header: 'מזהה שינוע'},
-            {field: 'FirstName', header: 'שם החלל'},
-            {field: 'StartLocation', header: 'מקום התחלת שינוע'},
-            {field: 'StartDateTime', header: 'מועד התחלת שינוע'}
-        ];
+    this.transportCols = [
+      {field: 'Id', header: 'מזהה שינוע'},
+      {field: 'FirstName', header: 'שם החלל'},
+      {field: 'StartLocation', header: 'מקום התחלת שינוע'},
+      {field: 'StartDateTime', header: 'מועד התחלת שינוע'}
+    ];
+  }
+
+  switchToTransportTab() {
+    this.activeTab = "1";
+  }
+
+  async loadTransports(deceasedId: number) {
+
+    this.transports = await this.transportService.getTransportsByDeceasedId(deceasedId?.toLocaleString());
+  }
+
+  handleTransportCreated() {
+
+    if (this.deceased) {
+      this.loadTransports(this.deceased.Id);
     }
 
-    switchToTransportTab() {
-        this.activeTab = "1";
-    }
+    this.activeAccordionIndex = [2];
 
-    async loadTransports(deceasedId: number) {
+    this.activeTab = "0";
 
-        this.transports = await this.transportService.getTransportsByDeceasedId(deceasedId);
-    }
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 100)
 
-    handleTransportCreated() {
-
-        if (this.deceased) {
-            this.loadTransports(this.deceased.Id);
-        }
-
-        this.activeAccordionIndex = [2];
-
-        this.activeTab = "0";
-
-        setTimeout(() => {
-            this.cdr.detectChanges();
-        }, 100)
-
-    }
+  }
 }

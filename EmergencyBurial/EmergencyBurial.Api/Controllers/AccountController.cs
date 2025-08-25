@@ -6,7 +6,6 @@ using EmergencyBurial.Services.DbServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace EmergencyBurial.Api.Controllers;
 
@@ -20,7 +19,7 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
 
     [HttpPut("login")]
     [AllowAnonymous]
-    public ActionResult Login([FromBody]MemberDto memberDto)
+    public ActionResult Login([FromBody] MemberDto memberDto)
     {
         if (memberDto == null)
         {
@@ -35,7 +34,7 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
             return Unauthorized();
 
         var token = accountService.CreateToken(user);
-        
+
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
@@ -43,9 +42,9 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
             SameSite = SameSiteMode.None,
             Expires = DateTimeOffset.UtcNow.AddDays(7)
         };
-        
+
         Response.Cookies.Append("user_token", token, cookieOptions);
-        
+
         return Ok(memberDto);
     }
 
