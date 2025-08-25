@@ -12,7 +12,9 @@ namespace EmergencyBurial.Api.Controllers;
 [Route("[controller]")]
 [ApiController]
 [Authorize]
-public class DeceasedsController(DeceasedService deceasedService, IMapper mapper) : ControllerBase
+public class DeceasedsController(
+    DeceasedService deceasedService,
+    IMapper mapper) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<DeceasedDto>>> GetDeceaseds()
@@ -36,12 +38,5 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
             return NotFound();
 
         return Ok(mapper.Map<DeceasedDto>(res));
-    }
-    
-    [HttpGet("force")]
-    public IActionResult ForceError()
-    {
-        // Returns a 500 Internal Server Error with a custom message
-        return StatusCode(500, "This is a test server error from the API.");
     }
 }

@@ -36,7 +36,7 @@ export class DeceasedDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadDeceasedData();
+      this.loadDeceasedData();
     }
 
     private async loadDeceasedData(): Promise<void> {
@@ -55,23 +55,24 @@ export class DeceasedDetailComponent implements OnInit {
 
     private initializeFields(): void {
 
-        const allFields = [
-            {field: 'HalalNumber', header: 'מספר חלל'},
-            {field: 'IdentityNumber', header: 'מספר זהות'},
-            {field: 'FirstName', header: 'שם פרטי'},
-            {field: 'LastName', header: 'שם משפחה'},
-            {field: 'FatherName', header: 'שם האב'},
-            {field: 'Gender', header: 'מין'},
-            {field: 'Nationality', header: 'לאום'},
-            {field: 'HomeCity', header: 'עיר מגורים'},
-            {field: 'HomeAddress', header: 'כתובת'},
-            {field: 'CurrentStatusId', header: 'סטטוס'},
-            {field: 'CurrentLocationId', header: 'מיקום'},
-            {field: 'BurialCity', header: 'עיר קבורה'},
-            {field: 'IsLinkedToOtherCasesValue', header: 'מקושר למקרים'},
-            {field: 'IsCivilBurialValue', header: 'קבורה אזרחית'},
-            {field: 'Notes', header: 'הערות'}
-        ];
+    const allFields = [
+      {field: 'HalalNumber', header: 'מספר חלל'},
+      {field: 'IdentityNumber', header: 'מספר זהות'},
+      {field: 'FirstName', header: 'שם פרטי'},
+      {field: 'LastName', header: 'שם משפחה'},
+      {field: 'FatherName', header: 'שם האב'},
+      {field: 'Gender', header: 'מין'},
+      {field: 'Nationality', header: 'לאום'},
+      {field: 'HomeCity', header: 'עיר מגורים'},
+      {field: 'HomeAddress', header: 'כתובת'},
+      {field: 'CurrentStatusId', header: 'סטטוס'},
+      {field: 'CurrentLocationId', header: 'מיקום'},
+      {field: 'BurialCity', header: 'עיר קבורה'},
+      {field: 'IsLinkedToOtherCasesValue', header: 'מקושר למקרים'},
+      {field: 'IsCivilBurialValue', header: 'קבורה אזרחית'},
+      {field: 'CreatedOn', header: 'נוצר בתאריך'},
+      {field: 'Notes', header: 'הערות'}
+    ];
 
         const splitIndex = 7;
 
