@@ -11,6 +11,8 @@ namespace DataModel
         public virtual DbSet<AppFile> Files { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Deceased> Deceaseds { get; set; }
+        
+        public virtual DbSet<Transport> Transports { get; set; }
         public EmergencyBurialContext(DbContextOptions<EmergencyBurialContext> options) : base(options)
         { }
 
@@ -21,6 +23,8 @@ namespace DataModel
             modelBuilder.Entity<ListType>().HasIndex(u => u.Text);
 
             modelBuilder.Entity<Deceased>().HasIndex(d => d.HalalNumber).IsUnique(true);
+            
+            modelBuilder.Entity<Transport>().HasIndex(d => d.Id).IsUnique(true);
 
 
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()).Where(fk => fk.DeleteBehavior == DeleteBehavior.Cascade))

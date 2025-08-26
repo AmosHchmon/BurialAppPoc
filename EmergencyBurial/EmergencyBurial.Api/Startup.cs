@@ -83,6 +83,9 @@ namespace EmergencyBurial.Api
             services.AddScoped<DeceasedService>();
             services.AddScoped<NotificationService>();
 
+            services.AddScoped<TransportService>();
+            services.AddScoped<FileService>();
+            
             services.AddScheduler();
 
             services.AddTransient<TaskCreateCasualtyJob>();

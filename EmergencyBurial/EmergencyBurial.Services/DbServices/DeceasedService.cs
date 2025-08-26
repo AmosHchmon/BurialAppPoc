@@ -21,10 +21,10 @@ public class DeceasedService(EmergencyBurialContext ctx, ILogger<DeceasedService
         return deceaseds;
     }
 
-    public async Task<Deceased> GetDeceased(string id)
+    public async Task<Deceased> GetDeceased(int? id)
     {
         var deceased = await ctx.Deceaseds
-            .FirstOrDefaultAsync(d => d.HalalNumber == id);
+            .FirstOrDefaultAsync(d => d.Id == id);
 
         if (deceased == null)
         {
@@ -32,5 +32,10 @@ public class DeceasedService(EmergencyBurialContext ctx, ILogger<DeceasedService
         }
 
         return deceased;
+    }
+
+    public async Task<bool> DeceasedExistsAsync(int? id)
+    {
+        return await ctx.Deceaseds.AnyAsync(d => d.Id == id);
     }
 }

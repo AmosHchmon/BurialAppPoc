@@ -27,7 +27,12 @@ public class DeceasedsController(
     [HttpGet("{id}")]
     public async Task<ActionResult<DeceasedDto>> GetDeceased(string id)
     {
-        var res = await deceasedService.GetDeceased(id);
+        if(!int.TryParse(id, out int idValue))
+        {
+            return BadRequest();
+        }
+        
+        var res = await deceasedService.GetDeceased(idValue);
 
         if (res == null)
             return NotFound();

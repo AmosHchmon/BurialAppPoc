@@ -1,6 +1,6 @@
 import {Injectable, Injector} from '@angular/core';
 
-import {Deceased} from "../model/deceased";
+import {Deceased} from "../model/Deceased";
 import {BaseService} from "../../../core/abstract/base-service";
 
 @Injectable({
@@ -20,7 +20,4 @@ export class DeceasedService extends BaseService {
     return super.get({path: `/${id}`});
   }
 
-  async forceServerError(): Promise<any>{
-    return super.get({path: '/force'});
-  }
 }

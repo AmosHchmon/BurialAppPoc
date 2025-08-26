@@ -32,6 +32,8 @@ public class DbHelper
 
                 InitDeceasedTestData();
 
+                InitTransportTestData();
+
                 //InitFormsMenu();
 
                     transaction.Commit();
@@ -129,6 +131,62 @@ public class DbHelper
 
         db.Deceaseds.AddRange(list);
         db.SaveChanges();
+    }
+
+    private void InitTransportTestData()
+    {
+        if (db.Transports.Any())
+        {
+            return;
+        }
+        
+        var firstDeceased = db.Deceaseds.FirstOrDefault(d => d.HalalNumber == "C-1001");
+        
+        if (firstDeceased == null)
+        {
+            return;
+        }
+        
+        var list = new List<Transport>
+        {
+            new Transport
+            {
+                DeceasedId = firstDeceased.Id,
+                StartLocation = "בית חולים הדסה עין כרם",
+                Purpose = "העברה למכון טהרה",
+                Organization = "חברה קדישא קהילת ירושלים",
+                Destination = "מכון טהרה גבעת שאול",
+                StartDateTime = DateTime.Now.AddHours(-12),
+                VehicleType = "אמבולנס",
+                LicensePlate = "55-123-88"
+            },
+            new Transport
+            {
+                DeceasedId = firstDeceased.Id,
+                StartLocation = "מכון טהרה גבעת שאול",
+                Purpose = "העברה לקירור זמני",
+                Organization = "חברה קדישא קהילת ירושלים",
+                Destination = "חדר קירור, הר המנוחות",
+                StartDateTime = DateTime.Now.AddHours(-8),
+                VehicleType = "רכב שינוע",
+                LicensePlate = "24-456-77"
+            },
+            new Transport
+            {
+                DeceasedId = firstDeceased.Id,
+                StartLocation = "חדר קירור, הר המנוחות",
+                Purpose = "העברה לקבורה",
+                Organization = "מועצה דתית ירושלים",
+                Destination = "הר המנוחות, חלקה ג'",
+                StartDateTime = DateTime.Now.AddMinutes(-30),
+                VehicleType = "רכב ליווי",
+                LicensePlate = "99-888-11"
+            }
+        };
+        
+        db.Transports.AddRange(list);
+        db.SaveChanges();
+        
     }
 
     private void InitMembers()

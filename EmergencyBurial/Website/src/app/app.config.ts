@@ -12,7 +12,6 @@ import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {providePrimeNG} from 'primeng/config';
 import Aura from '@primeuix/themes/Aura';
-import {provideToastr} from "ngx-toastr";
 import {MessageService} from "primeng/api";
 import {pendingRequestsInterceptor$} from "ng-http-loader";
 
@@ -22,7 +21,6 @@ import {GlobalErrorHandlerService} from "./shared/services/global-error-handler.
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideToastr(),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
