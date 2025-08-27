@@ -37,7 +37,7 @@ namespace DataModel.Entities
         
         public DateTime? ExitDateTime { get; set; }
         
-        [ForeignKey("DeceasedId")]
+        [ForeignKey(nameof(DeceasedId))]
         public virtual Deceased Deceased { get; set; }
     }
 }

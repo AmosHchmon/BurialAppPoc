@@ -11,7 +11,7 @@ namespace EmergencyBurial.Services.DbServices;
 
 public class TransportService(EmergencyBurialContext ctx)
 {
-    public async Task<IEnumerable<Transport>> GetTransportsByDeceasedId(Guid? deceasedId)
+    public async Task<List<Transport>> GetTransportsByDeceasedId(Guid? deceasedId)
     {
         return await ctx.Transports
             .Where(t => t.DeceasedId == deceasedId)

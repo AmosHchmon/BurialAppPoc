@@ -25,12 +25,7 @@ public class DeceasedService(EmergencyBurialContext ctx)
     {
         var deceased = await ctx.Deceaseds
             .FirstOrDefaultAsync(d => d.Id == id);
-
-        if (deceased == null)
-        {
-            throw new ApplicationException(UserMessage.ErrorLoadData);
-        }
-
+        
         return deceased;
     }
 

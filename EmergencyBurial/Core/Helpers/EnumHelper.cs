@@ -73,14 +73,6 @@ namespace Core.Helpers
         AtBurialCompany = 1
     }
 
-    public enum CoffinType
-    {
-        [Description("כן")]
-        Yes = 0,
-        [Description("לא")]
-        No = 1
-    }
-
     public enum IdentificationStatus
     {
         [Description("לא זוהה")]

@@ -8,7 +8,7 @@ namespace DataModel.Entities;
 public class DeceasedBurial
 {
     [Required]
-    [Key, ForeignKey("Deceased")]
+    [Key]
     public Guid DeceasedId { get; set; }
 
     public BurialType BurialType { get; set; }
@@ -23,8 +23,9 @@ public class DeceasedBurial
     
     public DateTime? TaharahReceptionDate { get; set; }
     
-    public CoffinType CoffinType { get; set; }
+    public bool? InCoffin { get; set; }
     
+    [ForeignKey(nameof(DeceasedId))]
     public virtual Deceased Deceased { get; set; }
 
 }

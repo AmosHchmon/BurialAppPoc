@@ -37,6 +37,7 @@ public class TransportsController(
         var transports = await transportService.GetTransportsByDeceasedId(idValue);
 
         var res = mapper.Map<List<TransportDto>>(transports);
+        
         return Ok(res);
     }
 

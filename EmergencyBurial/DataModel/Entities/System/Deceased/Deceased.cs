@@ -30,7 +30,6 @@ public class Deceased
     
     public string? HomeAddress { get; set; }
     
-    [MaxLength(1000)]
     public string? Notes { get; set; }
     
     public DateTime? CreatedOn { get; set; }
@@ -43,5 +42,5 @@ public class Deceased
     
     public virtual DeceasedBurialCoordination BurialCoordination { get; set; }
     
-    public virtual ICollection<Transport> Transports { get; set; }
+    public virtual IEnumerable<Transport> Transports { get; set; }
 }

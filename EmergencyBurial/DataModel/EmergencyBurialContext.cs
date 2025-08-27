@@ -26,36 +26,7 @@ public partial class EmergencyBurialContext : DbContext
     {
         modelBuilder.Entity<Member>().HasIndex(m => m.UserName).IsUnique(true);
         modelBuilder.Entity<ListType>().HasIndex(u => u.Text);
-
-        var deceasedEntity = modelBuilder.Entity<Deceased>();
-
-        deceasedEntity.HasIndex(d => d.HalalNumber).IsUnique(true);
-
-        deceasedEntity
-            .HasOne(d => d.BagDetails)
-            .WithOne(bd => bd.Deceased)
-            .HasForeignKey<DeceasedBagDetails>(bd => bd.DeceasedId);
-
-        deceasedEntity
-            .HasOne(d => d.OperationalDetails)
-            .WithOne(od => od.Deceased)
-            .HasForeignKey<DeceasedOperational>(od => od.DeceasedId);
-
-        deceasedEntity
-            .HasOne(d => d.BurialDetails)
-            .WithOne(b => b.Deceased)
-            .HasForeignKey<DeceasedBurial>(b => b.DeceasedId);
-
-        deceasedEntity
-            .HasOne(d => d.BurialCoordination)
-            .WithOne(bc => bc.Deceased)
-            .HasForeignKey<DeceasedBurialCoordination>(bc => bc.DeceasedId);
-
-        deceasedEntity
-            .HasMany(d => d.Transports)
-            .WithOne(t => t.Deceased)
-            .HasForeignKey(t => t.DeceasedId);
-        
+        modelBuilder.Entity<Deceased>().HasIndex(d => d.HalalNumber).IsUnique(true);
         modelBuilder.Entity<Transport>().HasIndex(d => d.Id).IsUnique(true);
 
         foreach (var relationship in modelBuilder.Model.GetEntityTypes()
