@@ -19,6 +19,8 @@ public class DeceasedOperational
     
     public DateTime? NotificationStartDate { get; set; }
     
+    public BurialProcessStatus? BurialProcessStatus { get; set; }
+    
     public virtual Deceased Deceased { get; set; }
 
 }

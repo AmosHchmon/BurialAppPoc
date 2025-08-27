@@ -21,7 +21,9 @@ public class DeceasedBurial
     
     public string? TaharahLocation { get; set; }
     
-    public string? CoffinType { get; set; } // TODO: Convert to Enum later
+    public DateTime? TaharahReceptionDate { get; set; }
+    
+    public CoffinType CoffinType { get; set; }
     
     public virtual Deceased Deceased { get; set; }
 

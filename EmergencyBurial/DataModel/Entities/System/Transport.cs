@@ -33,6 +33,10 @@ namespace DataModel.Entities
         [Required]
         public string LicensePlate { get; set; }
         
+        public string? DriverDetails { get; set; }
+        
+        public DateTime? ExitDateTime { get; set; }
+        
         [ForeignKey("DeceasedId")]
         public virtual Deceased Deceased { get; set; }
     }

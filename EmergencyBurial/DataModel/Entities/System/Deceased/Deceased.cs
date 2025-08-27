@@ -28,6 +28,11 @@ public class Deceased
     
     public string? PoliceCaseNumber { get; set; }
     
+    public string? HomeAddress { get; set; }
+    
+    [MaxLength(1000)]
+    public string? Notes { get; set; }
+    
     public DateTime? CreatedOn { get; set; }
 
     public virtual DeceasedBagDetails BagDetails { get; set; }

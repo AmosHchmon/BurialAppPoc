@@ -25,5 +25,13 @@ public class DeceasedBagDetails
 
     public string? ReceivingNotes { get; set; }
     
+    public string? FillerName { get; set; }
+    
+    public DateTime? ArrivalDateTime { get; set; }
+    
+    public BringingEntity? BroughtBy { get; set; }
+    
+    public string? BroughtFrom { get; set; }
+    
     public virtual Deceased Deceased { get; set; }
 }

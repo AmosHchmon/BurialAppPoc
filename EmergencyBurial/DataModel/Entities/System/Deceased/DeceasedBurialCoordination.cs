@@ -21,6 +21,10 @@ public class DeceasedBurialCoordination
     public string? FamilyContactName { get; set; }
     
     public string? FamilyContactPhone { get; set; }
+    
+    public bool IsForumCalled { get; set; }
+    
+    public string? EstimatedFuneralTime { get; set; }
 
     public virtual Deceased Deceased { get; set; }
 

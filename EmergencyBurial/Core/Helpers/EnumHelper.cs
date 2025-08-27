@@ -52,6 +52,35 @@ namespace Core.Helpers
         MemberType = 1000,
     }
 
+    public enum BringingEntity
+    {
+        [Description("אבו כביר")]
+        AbuKabir = 0,
+        [Description("א.חולון")]
+        Holon = 1,
+        [Description("ח'ק ראשל'צ")]
+        Rishon = 2,
+        [Description("ח'ק ת'א")]
+        TelAviv = 3,
+        [Description("ח'ק פ'ת")]
+        PetahTikva = 4,
+    }
+    public enum BurialProcessStatus
+    {
+        [Description("נקבר")]
+        Buried = 0,
+        [Description("נמצא בחברה הקוברת")]
+        AtBurialCompany = 1
+    }
+
+    public enum CoffinType
+    {
+        [Description("כן")]
+        Yes = 0,
+        [Description("לא")]
+        No = 1
+    }
+
     public enum IdentificationStatus
     {
         [Description("לא זוהה")]
