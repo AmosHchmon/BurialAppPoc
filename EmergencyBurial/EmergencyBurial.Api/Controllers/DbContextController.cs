@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Core.Helpers;
 using DataModel;
 using EmergencyBurial.Api.Helper;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

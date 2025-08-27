@@ -2,27 +2,22 @@
 using DataModel.Entities;
 using EmergencyBurial.Api.ViewModel;
 
-namespace EmergencyBurial.Api.Config
+namespace EmergencyBurial.Api.Config;
+
+public class MappingProfile : Profile
 {
-    public class MappingProfile : Profile
+    public MappingProfile()
     {
-        public MappingProfile()
-        {
-            CreateMap<Member, MemberDto>()
-                .ReverseMap();
+        CreateMap<Member, MemberDto>()
+            .ReverseMap();
 
-            CreateMap<Deceased, DeceasedDto>()
-                .ForMember(dest => dest.IsLinkedToOtherCasesValue,
-                    opt => opt.MapFrom(src => src.IsLinkedToOtherCases ? "כן" : "לא"))
-                .ForMember(dest => dest.IsCivilBurialValue, opt => opt.MapFrom(src => src.IsCivilBurial ? "כן" : "לא"))
-                .ReverseMap();
+        CreateMap<Deceased, DeceasedDto>()
+            .ReverseMap();
 
-            CreateMap<Transport, TransportDto>()
-                .ForMember(dest => dest.HalalNumber, opt => opt.MapFrom(src => src.Deceased.HalalNumber))
-                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Deceased.FirstName))
-                .ReverseMap()
-        
-                .ForMember(dest => dest.Deceased, opt => opt.Ignore());
-        }
+        CreateMap<Transport, TransportDto>()
+            .ForMember(dest => dest.HalalNumber, opt => opt.MapFrom(src => src.Deceased.HalalNumber))
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Deceased.FirstName))
+            .ReverseMap()
+            .ForMember(dest => dest.Deceased, opt => opt.Ignore());
     }
 }

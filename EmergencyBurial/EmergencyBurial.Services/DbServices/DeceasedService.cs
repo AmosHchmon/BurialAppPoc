@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EmergencyBurial.Services.DbServices;
 
-public class DeceasedService(EmergencyBurialContext ctx, ILogger<DeceasedService> logger)
+public class DeceasedService(EmergencyBurialContext ctx)
 {
     public async Task<List<Deceased>> GetDeceaseds()
     {
@@ -21,7 +21,7 @@ public class DeceasedService(EmergencyBurialContext ctx, ILogger<DeceasedService
         return deceaseds;
     }
 
-    public async Task<Deceased> GetDeceased(int? id)
+    public async Task<Deceased> GetDeceased(Guid? id)
     {
         var deceased = await ctx.Deceaseds
             .FirstOrDefaultAsync(d => d.Id == id);
@@ -34,7 +34,7 @@ public class DeceasedService(EmergencyBurialContext ctx, ILogger<DeceasedService
         return deceased;
     }
 
-    public async Task<bool> DeceasedExistsAsync(int? id)
+    public async Task<bool> DeceasedExistsAsync(Guid? id)
     {
         return await ctx.Deceaseds.AnyAsync(d => d.Id == id);
     }

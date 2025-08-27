@@ -90,46 +90,96 @@ public class DbHelper
         {
             return;
         }
-
-        var list = new List<Deceased>
-        {
-            new Deceased
+        
+        var deceased1Id = Guid.NewGuid();
+            var deceased1 = new Deceased
             {
+                Id = deceased1Id,
                 HalalNumber = "C-1001",
                 IdentityNumber = "123456789",
                 FirstName = "ישראל",
                 LastName = "ישראלי",
                 FatherName = "אברהם",
                 Gender = "זכר",
-                Nationality = "ישראלי",
                 HomeCity = "ירושלים",
-                CurrentStatusId = 1, // Example Status ID
-                CurrentLocationId = 1, // Example Location ID
-                IsLinkedToOtherCases = false,
-                IsCivilBurial = false,
-                CreatedOn = DateTime.Now,
-                Notes = "נפטר ראשון במערכת לצורכי בדיקה."
-            },
-            new Deceased
+                PoliceCaseNumber = "PL-789123",
+                // יצירת ישויות הבן עם אותו מזהה
+                BagDetails = new DeceasedBagDetails
+                {
+                    DeceasedId = deceased1Id,
+                    Affiliation = Affiliation.Civilian,
+                    ReceivingStation = ReceivingStation.Shura,
+                    CanBeIdentifiedByAcquaintance = true,
+                    RelatedBagNumbers = "C-1003"
+                },
+                OperationalDetails = new DeceasedOperational
+                {
+                    DeceasedId = deceased1Id,
+                    IdentificationStatus = IdentificationStatus.Identified,
+                    NotificationProcessStatus = "הודעה נמסרה",
+                    NotificationStartDate = DateTime.Now.AddDays(-1)
+                },
+                BurialDetails = new DeceasedBurial
+                {
+                    DeceasedId = deceased1Id,
+                    BurialType = BurialType.Final,
+                    IsCivilBurial = false,
+                    TaharahStatus = TaharahStatus.Completed,
+                    TaharahLocation = "מכון טהרה גבעת שאול"
+                },
+                BurialCoordination = new DeceasedBurialCoordination
+                {
+                    DeceasedId = deceased1Id,
+                    BurialCity = "ירושלים",
+                    PlannedBurialDate = DateTime.Now.Date,
+                    PlannedBurialTime = new TimeSpan(15, 30, 0),
+                    IsCoordinatedWithHevratKadisha = true,
+                    FamilyContactName = "משה ישראלי",
+                    FamilyContactPhone = "050-1234567"
+                }
+            };
+
+            var deceased2Id = Guid.NewGuid();
+            var deceased2 = new Deceased
             {
+                Id = deceased2Id,
                 HalalNumber = "C-1002",
                 IdentityNumber = "987654321",
                 FirstName = "יעל",
                 LastName = "כהן",
                 FatherName = "משה",
                 Gender = "נקבה",
-                Nationality = "ישראלי",
                 HomeCity = "תל אביב",
-                CurrentStatusId = 2, // Example Status ID
-                CurrentLocationId = 1, // Example Location ID
-                IsLinkedToOtherCases = false,
-                IsCivilBurial = true,
-                CreatedOn = DateTime.Now,
-                Notes = "בדיקת קבורה אזרחית."
-            }
-        };
+                PoliceCaseNumber = "PL-456789",
+                BagDetails = new DeceasedBagDetails
+                {
+                    DeceasedId = deceased2Id,
+                    Affiliation = Affiliation.SecurityForces,
+                    ReceivingStation = ReceivingStation.Tziporit,
+                    CanBeIdentifiedByAcquaintance = false
+                },
+                OperationalDetails = new DeceasedOperational
+                {
+                    DeceasedId = deceased2Id,
+                    IdentificationStatus = IdentificationStatus.NotIdentified,
+                    NotificationProcessStatus = "ממתין לזיהוי"
+                },
+                BurialDetails = new DeceasedBurial
+                {
+                    DeceasedId = deceased2Id,
+                    BurialType = BurialType.Temporary,
+                    IsCivilBurial = true,
+                    TaharahStatus = TaharahStatus.Pending
+                },
+                BurialCoordination = new DeceasedBurialCoordination
+                {
+                    DeceasedId = deceased2Id,
+                    IsCoordinatedWithHevratKadisha = false
+                }
+            };
+        
 
-        db.Deceaseds.AddRange(list);
+        db.Deceaseds.AddRange(deceased1, deceased2);
         db.SaveChanges();
     }
 
