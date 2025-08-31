@@ -22,7 +22,7 @@ public class DeceasedBurialCoordination
     
     public string? FamilyContactPhone { get; set; }
     
-    public bool IsForumCalled { get; set; }
+    public bool IsFamilyForumCalled { get; set; }
     
     public string? EstimatedFuneralTime { get; set; }
 

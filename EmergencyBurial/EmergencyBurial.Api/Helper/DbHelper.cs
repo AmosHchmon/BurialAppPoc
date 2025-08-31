@@ -116,8 +116,8 @@ public class DbHelper
                 {
                     DeceasedId = deceased1Id,
                     IdentificationStatus = IdentificationStatus.Identified,
-                    NotificationProcessStatus = "הודעה נמסרה",
-                    NotificationStartDate = DateTime.Now.AddDays(-1)
+                    BadMessageProcessStatus = "הודעה נמסרה",
+                    BadMessageStartDate = DateTime.Now.AddDays(-1)
                 },
                 BurialDetails = new DeceasedBurial
                 {
@@ -162,7 +162,7 @@ public class DbHelper
                 {
                     DeceasedId = deceased2Id,
                     IdentificationStatus = IdentificationStatus.NotIdentified,
-                    NotificationProcessStatus = "ממתין לזיהוי"
+                    BadMessageProcessStatus = "ממתין לזיהוי"
                 },
                 BurialDetails = new DeceasedBurial
                 {
