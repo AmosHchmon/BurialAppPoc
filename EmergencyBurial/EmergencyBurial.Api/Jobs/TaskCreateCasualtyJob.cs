@@ -25,13 +25,10 @@ namespace EmergencyBurial.Api.Jobs
                     FirstName = "חלל אוטומטי",
                     LastName = $"מס' {randomId}",
                     IdentityNumber = randomId.ToString(),
+                    FatherName = "לא ידוע",
                     Gender = "לא ידוע",
-                    CurrentStatusId = 1,
-                    CurrentLocationId = 1,
-                    IsCivilBurial = false,
-                    IsLinkedToOtherCases = false,
-                    CreatedOn = DateTime.Now,
-                    Notes = $"נוצר אוטומטית על ידי משימת Coravel ב-{DateTime.Now}"
+                    Nationality = "ישראלי",
+                    HomeCity = "תל אביב",
                 };
 
                 context.Deceaseds.Add(newCasualty);

@@ -52,6 +52,73 @@ namespace Core.Helpers
         MemberType = 1000,
     }
 
+    public enum BringingEntity
+    {
+        [Description("אבו כביר")]
+        AbuKabir = 0,
+        [Description("א.חולון")]
+        Holon = 1,
+        [Description("ח'ק ראשל'צ")]
+        Rishon = 2,
+        [Description("ח'ק ת'א")]
+        TelAviv = 3,
+        [Description("ח'ק פ'ת")]
+        PetahTikva = 4,
+    }
+    public enum BurialProcessStatus
+    {
+        [Description("נקבר")]
+        Buried = 0,
+        [Description("נמצא בחברה הקוברת")]
+        AtBurialCompany = 1
+    }
+
+    public enum IdentificationStatus
+    {
+        [Description("לא זוהה")]
+        NotIdentified = 0,
+        [Description("זוהה")]
+        Identified = 1
+    }
+    
+    public enum TaharahStatus
+    {
+        [Description("ממתין")]
+        Pending = 0,
+        [Description("בתהליך")]
+        InProgress = 1,
+        [Description("הושלם")]
+        Completed = 2
+    }
+    
+    public enum BurialType
+    {
+        [Description("זמני")]
+        Temporary = 0,
+        [Description("קבוע")]
+        Final = 1
+    }
+    
+    // Will be converted to management table
+    public enum Affiliation
+    {
+        [Description("אזרחי")]
+        Civilian = 0,
+        [Description("כוחות ביטחון")]
+        SecurityForces = 1
+    }
+    
+    // Will be converted to management table
+    public enum ReceivingStation
+    {
+        [Description("שורה")]
+        Shura = 0,
+        [Description("ציפורית")]
+        Tziporit = 1,
+        [Description("שדה תימן")]
+        SdeTeiman = 2
+    }
+
     #endregion
 
     #region [list item]

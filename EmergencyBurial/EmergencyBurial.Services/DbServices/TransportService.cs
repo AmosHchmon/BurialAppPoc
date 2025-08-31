@@ -11,7 +11,7 @@ namespace EmergencyBurial.Services.DbServices;
 
 public class TransportService(EmergencyBurialContext ctx)
 {
-    public async Task<IEnumerable<Transport>> GetTransportsByDeceasedId(int? deceasedId)
+    public async Task<List<Transport>> GetTransportsByDeceasedId(Guid? deceasedId)
     {
         return await ctx.Transports
             .Where(t => t.DeceasedId == deceasedId)
@@ -20,15 +20,13 @@ public class TransportService(EmergencyBurialContext ctx)
             .ToListAsync();
     }
 
-    public async Task<Transport> CreateTransport(Transport transport)
+    public async Task CreateTransport(Transport transport)
     {
         try
         {
             ctx.Transports.Add(transport);
 
             await ctx.SaveChangesAsync();
-
-            return transport;
         }
         catch (Exception ex)
         {

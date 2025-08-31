@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using EmergencyBurial.Api.ViewModel;
@@ -27,12 +28,12 @@ public class DeceasedsController(
     [HttpGet("{id}")]
     public async Task<ActionResult<DeceasedDto>> GetDeceased(string id)
     {
-        if(!int.TryParse(id, out int idValue))
+        if(!Guid.TryParse(id, out Guid deceasedId))
         {
             return BadRequest();
         }
         
-        var res = await deceasedService.GetDeceased(idValue);
+        var res = await deceasedService.GetDeceased(deceasedId);
 
         if (res == null)
             return NotFound();

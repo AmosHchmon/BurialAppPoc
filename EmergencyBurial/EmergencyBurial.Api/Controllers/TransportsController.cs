@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataModel.Entities;
@@ -21,7 +22,7 @@ public class TransportsController(
     [HttpGet("deceased/{id}")]
     public async Task<ActionResult<IEnumerable<Transport>>> GetTransportsByDeceased(string id)
     {
-        if (!int.TryParse(id, out int idValue))
+        if (!Guid.TryParse(id, out Guid idValue))
         {
             return BadRequest();
         }
@@ -36,6 +37,7 @@ public class TransportsController(
         var transports = await transportService.GetTransportsByDeceasedId(idValue);
 
         var res = mapper.Map<List<TransportDto>>(transports);
+        
         return Ok(res);
     }
 
