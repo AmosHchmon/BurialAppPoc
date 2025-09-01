@@ -24,9 +24,9 @@ public class DbHelper
             {
                 try
                 {
-                    //InitListType();
+                    InitListType();
 
-                    //InitListItems();
+                    InitListItems();
 
                     InitMembers();
 
@@ -73,7 +73,7 @@ public class DbHelper
                 var obj = new ListItem()
                 {
                     Key = (int)EntityType.MemberType + count++,
-                    ListTypeId = (int)EntityType.MemberType,
+                    ListTypeDep = (int)EntityType.MemberType,
                     Text = type.GetEnumDescription()
                 };
 
@@ -245,7 +245,10 @@ public class DbHelper
         {
             new Member
             {
-                FullName = "עוז שורקי", UserName = "308015205", Mail = "OzS@dat.gov.il",
+                FullName = "עוז שורקי",
+                UserName = "308015205",
+                Mail = "OzS@dat.gov.il",
+                MemberTypeId = (int)MemberType.Hamal
             }
         };
 

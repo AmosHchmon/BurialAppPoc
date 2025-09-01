@@ -124,11 +124,16 @@ namespace Core.Helpers
     #region [list item]
     public enum MemberType
     {
-        [Description("מנהל מערכת")]
-        SystemManager = 1001,
-
-        [Description("צופה")]
-        Visitor = 1002,
+        [Description("חמ'ל")]
+        Hamal = 1001,
+        [Description("מוקד הודעה מרה")]
+        BadMessageCenter = 1002,
+        [Description("הכנה לקבורה")]
+        BurialPreparation = 1003,
+        [Description("תר'ח")]
+        Tarah = 1004,
+        [Description("גוף קבורה")]
+        BurialBody = 1005,
     }
 
     #endregion
