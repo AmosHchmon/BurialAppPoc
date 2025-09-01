@@ -16,6 +16,9 @@ import {InputGroupModule} from "primeng/inputgroup";
 
 
 import {FileService} from '../file-upload/services/file.service';
+import {TabsModule} from "primeng/tabs";
+import {DrawerModule} from "primeng/drawer";
+import {MenuModule} from "primeng/menu";
 
 @NgModule({
   imports: [
@@ -34,7 +37,9 @@ import {FileService} from '../file-upload/services/file.service';
     MessageModule,
     FloatLabelModule,
     InputGroupAddonModule,
-    InputGroupModule
+    InputGroupModule,
+    DrawerModule,
+    MenuModule
   ],
   exports: [
     NgOptimizedImage,
@@ -43,6 +48,7 @@ import {FileService} from '../file-upload/services/file.service';
     CardModule,
     AccordionModule,
     TableModule,
+    TabsModule,
     CardModule,
     IconFieldModule,
     InputIconModule,
@@ -52,7 +58,9 @@ import {FileService} from '../file-upload/services/file.service';
     MessageModule,
     FloatLabelModule,
     InputGroupAddonModule,
-    InputGroupModule
+    InputGroupModule,
+    DrawerModule,
+    MenuModule
   ],
   declarations: [
   ],

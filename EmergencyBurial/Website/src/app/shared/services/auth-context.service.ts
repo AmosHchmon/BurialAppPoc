@@ -26,4 +26,9 @@ export class AuthContextService {
     return !!this.Member;
   }
 
+  // אתאים את זה למערכת כאשר יהיו לנו הרשאות
+  isAdmin(){
+    return true;
+  }
+
 }
