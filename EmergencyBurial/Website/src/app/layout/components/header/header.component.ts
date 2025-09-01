@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 
 import {constants} from '../../../shared/static/constants';
 import {UiComponentsModule} from "../../../shared/ui-components/ui-components.module";
+import {AuthContextService} from "../../../shared/services/auth-context.service";
 
 interface ILink {
   route: string,
@@ -21,17 +22,23 @@ interface ILink {
     RouterLinkActive,
   ],
 })
-export class HeaderComponent{
+export class HeaderComponent implements OnInit {
 
   searchValue: string;
   tabs: ILink[] = [
     {route: '/dashboard/home', label: 'עמוד הבית', icon: 'pi pi-home'},
     {route: '/dashboard/deceaseds', label: 'שק חלל', icon: 'pi pi-user'},
-    {route: '/dashboard/transport', label: 'שינוע', icon: 'pi pi-truck'},
-    {route: '/management', label: 'ניהול', icon: 'pi pi-cog'},
+    {route: '/dashboard/transport', label: 'שינוע', icon: 'pi pi-truck'}
   ];
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private authCtx: AuthContextService){}
+
+  ngOnInit(){
+
+    if(this.authCtx.isAdmin()){
+      this.tabs.push({route: '/management', label: 'ניהול', icon: 'pi pi-cog'});
+    }
+  }
 
   signOut(){
 

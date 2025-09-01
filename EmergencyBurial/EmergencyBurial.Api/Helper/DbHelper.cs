@@ -55,6 +55,7 @@ public class DbHelper
             {
                 var obj = new ListType()
                 {
+                    
                     Id = (int)type,
                     Text = type.GetEnumDescription()
                 };
@@ -73,8 +74,22 @@ public class DbHelper
                 var obj = new ListItem()
                 {
                     Key = (int)EntityType.MemberType + count++,
-                    ListTypeDep = (int)EntityType.MemberType,
+                    ListTypeId = (int)EntityType.MemberType,
                     Text = type.GetEnumDescription()
+                };
+
+                db.ListItems.Add(obj);
+            }
+
+           count = 1;
+            foreach (TarahType type in (TarahType[])Enum.GetValues(typeof(TarahType)))
+            {
+                var obj = new ListItem()
+                {
+                    Key = (int)EntityType.TarahType + count++,
+                    ListTypeId = (int)EntityType.TarahType,
+                    Text = type.GetEnumDescription(),
+                    ListItemDepId = (int)MemberType.Tarah
                 };
 
                 db.ListItems.Add(obj);

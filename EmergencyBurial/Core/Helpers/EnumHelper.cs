@@ -50,6 +50,8 @@ namespace Core.Helpers
     {
         [Description("סוג משתמש")]
         MemberType = 1000,
+        [Description("סוג תר'ח")]
+        TarahType = 2000,
     }
 
     public enum BringingEntity
@@ -134,6 +136,15 @@ namespace Core.Helpers
         Tarah = 1004,
         [Description("גוף קבורה")]
         BurialBody = 1005,
+    }
+
+    public enum TarahType
+    {
+        [Description("תרח 1")]
+        Tarah1 = 2001,
+        [Description("תרח 2")]
+        Tarah2 = 2002,
+        
     }
 
     #endregion

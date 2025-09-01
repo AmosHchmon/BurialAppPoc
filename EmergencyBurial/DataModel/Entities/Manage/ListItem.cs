@@ -9,10 +9,11 @@ public class ListItem
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     [Required]
     public int Key { get; set; }
-
-    [Required]
+    
     [MaxLength(10)]
-    public int? ListTypeDep { get; set; }
+    public int? ListItemDepId { get; set; }
+    
+    public int? ListTypeId { get; set; }
 
     [Required]
     [MaxLength(150)]
@@ -26,6 +27,9 @@ public class ListItem
 
     public short Order { get; set; }
     
-    [ForeignKey(nameof(ListTypeDep))]
+    [ForeignKey(nameof(ListTypeId))]
     public virtual ListType ListType { get; set; }
+    
+    [ForeignKey(nameof(ListItemDepId))]
+    public virtual ListItem ListItemDep { get; set; }
 }
