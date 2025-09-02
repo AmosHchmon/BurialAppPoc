@@ -12,9 +12,7 @@ public class DeceasedBurialCoordination
 
     public string? BurialCity { get; set; }
     
-    public DateTime? PlannedBurialDate { get; set; }
-    
-    public TimeSpan? PlannedBurialTime { get; set; }
+    public DateTime? PlannedBurialTime { get; set; }
     
     public bool IsCoordinatedWithHevratKadisha { get; set; }
     

@@ -8,8 +8,8 @@
             <div class="p-3">
                 <p-accordion [multiple]="true">
 
-                    <p-accordion-panel [value]="0">
-                        <p-accordion-header>פרטים כלליים</p-accordion-header>
+                    <p-accordion-panel [value]="0" pRipple>
+                        <p-accordion-header>פרטי שק החלל</p-accordion-header>
                         <p-accordion-content>
                             <div class="d-flex flex-column gap-3 p-3">
                                 @for (field of fieldsPart1; track field.field) {
@@ -24,8 +24,8 @@
                         </p-accordion-content>
                     </p-accordion-panel>
 
-                    <p-accordion-panel [value]="1">
-                        <p-accordion-header>פרטים נוספים</p-accordion-header>
+                    <p-accordion-panel [value]="1" pRipple>
+                        <p-accordion-header>פרטים תפעוליים</p-accordion-header>
                         <p-accordion-content>
                             <div class="d-flex flex-column gap-3 p-3">
                                 @for (field of fieldsPart2; track field.field) {
@@ -40,7 +40,7 @@
                         </p-accordion-content>
                     </p-accordion-panel>
 
-                    <p-accordion-panel [value]="2">
+                    <p-accordion-panel [value]="2" pRipple>
                         <p-accordion-header>טבלת שינועים</p-accordion-header>
                         <p-accordion-content>
 

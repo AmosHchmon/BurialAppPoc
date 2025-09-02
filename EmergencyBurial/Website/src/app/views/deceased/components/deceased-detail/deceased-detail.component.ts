@@ -6,14 +6,13 @@ import {IColumn} from "../../../../shared/ui-components/model/column";
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {Transport} from "../../../transport/model/transport";
 import {TransportService} from "../../../transport/services/transport.service";
-import {TabsModule} from "primeng/tabs";
 import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
 import {Deceased} from "../../model/Deceased";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [UiComponentsModule, TabsModule, TransportFormComponent],
+  imports: [UiComponentsModule, TransportFormComponent],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
@@ -45,7 +44,7 @@ export class DeceasedDetailComponent implements OnInit {
 
     this.deceased = await this.deceasedService.getDeceasedById(param);
 
-    this.transports = await this.transportService.getTransportsByDeceasedId(this.deceased?.Id.toLocaleString());
+    this.transports = await this.transportService.getTransportsByDeceasedId(this.deceased?.Id);
 
     this.initializeFields();
 
@@ -89,7 +88,7 @@ export class DeceasedDetailComponent implements OnInit {
     this.activeTab = "1";
   }
 
-  async loadTransports(deceasedId: number) {
+  async loadTransports(deceasedId: string) {
 
     this.transports = await this.transportService.getTransportsByDeceasedId(deceasedId?.toLocaleString());
   }

@@ -11,8 +11,24 @@ public class MappingProfile : Profile
         CreateMap<Member, MemberDto>()
             .ReverseMap();
 
+        #region Deceased
+
         CreateMap<Deceased, DeceasedDto>()
             .ReverseMap();
+
+        CreateMap<DeceasedBagDetails, DeceasedBagDetailsDto>()
+            .ReverseMap();
+
+        CreateMap<DeceasedOperational, DeceasedOperationalDto>()
+            .ReverseMap();
+
+        CreateMap<DeceasedBurial, DeceasedBurialDto>()
+            .ReverseMap();
+
+        CreateMap<DeceasedBurialCoordination, DeceasedBurialCoordinationDto>()
+            .ReverseMap();
+
+        #endregion
 
         CreateMap<Transport, TransportDto>()
             .ForMember(dest => dest.HalalNumber, opt => opt.MapFrom(src => src.Deceased.HalalNumber))

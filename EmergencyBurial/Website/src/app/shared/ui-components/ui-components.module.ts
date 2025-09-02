@@ -16,6 +16,8 @@ import {InputGroupModule} from "primeng/inputgroup";
 
 
 import {FileService} from '../file-upload/services/file.service';
+import {RippleModule} from "primeng/ripple";
+import {TabsModule} from "primeng/tabs";
 
 @NgModule({
   imports: [
@@ -34,7 +36,9 @@ import {FileService} from '../file-upload/services/file.service';
     MessageModule,
     FloatLabelModule,
     InputGroupAddonModule,
-    InputGroupModule
+    InputGroupModule,
+    RippleModule,
+    TabsModule
   ],
   exports: [
     NgOptimizedImage,
@@ -52,7 +56,9 @@ import {FileService} from '../file-upload/services/file.service';
     MessageModule,
     FloatLabelModule,
     InputGroupAddonModule,
-    InputGroupModule
+    InputGroupModule,
+    RippleModule,
+    TabsModule
   ],
   declarations: [
   ],
