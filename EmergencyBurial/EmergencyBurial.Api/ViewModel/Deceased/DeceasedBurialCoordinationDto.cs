@@ -18,5 +18,9 @@ public class DeceasedBurialCoordinationDto
     
     public bool? IsFamilyForumCalled { get; set; }
     
-    public string? EstimatedFuneralTime { get; set; }
+    public string? SocialWorkerName { get; set; }
+    
+    public string? SocialWorkerPhone { get; set; }
+    
+    public DateTime? BadMessageDeliveredDateTime { get; set; }
 }

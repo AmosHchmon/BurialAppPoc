@@ -1,18 +1,22 @@
 ﻿export interface DeceasedBurialCoordination {
 
-  DeceasedId: string;
+  DeceasedId?: string;
 
-  BurialCity: string;
+  BurialCity?: string;
 
   PlannedBurialTime?: Date;
 
-  IsCoordinatedWithHevratKadisha: boolean;
+  IsCoordinatedWithHevratKadisha?: boolean;
 
-  FamilyContactName: string;
+  FamilyContactName?: string;
 
-  FamilyContactPhone: string;
+  FamilyContactPhone?: string;
 
-  IsFamilyForumCalled: boolean;
+  IsFamilyForumCalled?: boolean;
 
-  EstimatedFuneralTime: string;
+  SocialWorkerName?: string;
+
+  SocialWorkerPhone?: string;
+
+  BadMessageDeliveredDateTime?: string;
 }

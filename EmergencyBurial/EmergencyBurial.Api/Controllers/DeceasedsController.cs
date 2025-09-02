@@ -38,8 +38,6 @@ public class DeceasedsController(
         if (deceased == null)
             return NotFound();
         
-        var res = mapper.Map<DeceasedDto>(deceased);
-        
-        return Ok(res);
+        return Ok(mapper.Map<DeceasedDto>(deceased));
     }
 }
