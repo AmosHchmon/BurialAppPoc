@@ -10,9 +10,6 @@ public class ListItem
     [Required]
     public int Key { get; set; }
     
-    [MaxLength(10)]
-    public int? ListItemDepId { get; set; }
-    
     public int? ListTypeId { get; set; }
 
     [Required]
@@ -21,6 +18,9 @@ public class ListItem
 
     [MaxLength(250)]
     public string Description { get; set; }
+    
+    [MaxLength(10)]
+    public int? ListItemDepId { get; set; }
 
     [MaxLength(250)]
     public string value { get; set; }

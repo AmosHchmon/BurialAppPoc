@@ -68,13 +68,14 @@ public class DbHelper
 
         private void InitListItems()
         {
+            
             var count = 1;
-            foreach (MemberType type in (MemberType[])Enum.GetValues(typeof(MemberType)))
+            foreach (OrganizationType type in (OrganizationType[])Enum.GetValues(typeof(OrganizationType)))
             {
                 var obj = new ListItem()
                 {
-                    Key = (int)EntityType.MemberType + count++,
-                    ListTypeId = (int)EntityType.MemberType,
+                    Key = (int)EntityType.OrganizationType + count++,
+                    ListTypeId = (int)EntityType.OrganizationType,
                     Text = type.GetEnumDescription()
                 };
 
@@ -82,14 +83,55 @@ public class DbHelper
             }
 
            count = 1;
-            foreach (TarahType type in (TarahType[])Enum.GetValues(typeof(TarahType)))
+            foreach (StationType type in (StationType[])Enum.GetValues(typeof(StationType)))
             {
                 var obj = new ListItem()
                 {
-                    Key = (int)EntityType.TarahType + count++,
-                    ListTypeId = (int)EntityType.TarahType,
+                    Key = (int)EntityType.StationType + count++,
+                    ListTypeId = (int)EntityType.StationType,
+                    Text = type.GetEnumDescription()
+                };
+
+                db.ListItems.Add(obj);
+            }
+            
+            count = 1;
+            foreach (TarahStations type in (TarahStations[])Enum.GetValues(typeof(TarahStations)))
+            {
+                var obj = new ListItem()
+                {
+                    Key = (int)EntityType.TarahStations + count++,
+                    ListTypeId = (int)EntityType.TarahStations,
                     Text = type.GetEnumDescription(),
-                    ListItemDepId = (int)MemberType.Tarah
+                    ListItemDepId = (int)StationType.TarahStations
+                };
+
+                db.ListItems.Add(obj);
+            }
+            
+            count = 1;
+            foreach (BurialPreparation type in (BurialPreparation[])Enum.GetValues(typeof(BurialPreparation)))
+            {
+                var obj = new ListItem()
+                {
+                    Key = (int)EntityType.BurialPreparation + count++,
+                    ListTypeId = (int)EntityType.BurialPreparation,
+                    Text = type.GetEnumDescription(),
+                    ListItemDepId = (int)StationType.BurialPreparation
+                };
+
+                db.ListItems.Add(obj);
+            }
+            
+            count = 1;
+            foreach (BurialBody type in (BurialBody[])Enum.GetValues(typeof(BurialBody)))
+            {
+                var obj = new ListItem()
+                {
+                    Key = (int)EntityType.BurialBody + count++,
+                    ListTypeId = (int)EntityType.BurialBody,
+                    Text = type.GetEnumDescription(),
+                    ListItemDepId = (int)StationType.BetAlmin
                 };
 
                 db.ListItems.Add(obj);
@@ -123,7 +165,7 @@ public class DbHelper
                 {
                     DeceasedId = deceased1Id,
                     Affiliation = Affiliation.Civilian,
-                    ReceivingStation = ReceivingStation.Shura,
+                    ReceivingStation = TarahStations.Shura,
                     CanBeIdentifiedByAcquaintance = true,
                     RelatedBagNumbers = "C-1003"
                 },
@@ -170,7 +212,7 @@ public class DbHelper
                 {
                     DeceasedId = deceased2Id,
                     Affiliation = Affiliation.SecurityForces,
-                    ReceivingStation = ReceivingStation.Tziporit,
+                    ReceivingStation = TarahStations.Tziporit,
                     CanBeIdentifiedByAcquaintance = false
                 },
                 OperationalDetails = new DeceasedOperational
@@ -263,7 +305,7 @@ public class DbHelper
                 FullName = "עוז שורקי",
                 UserName = "308015205",
                 Mail = "OzS@dat.gov.il",
-                MemberTypeId = (int)MemberType.Hamal
+                MemberTypeId = (int)OrganizationType.Hamal
             }
         };
 
