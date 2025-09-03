@@ -2,32 +2,39 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+namespace DataModel.Entities;
 
-namespace DataModel.Entities
+public class Member
 {
-    public class Member
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public Guid? Id { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Required]
+    public Guid? Id { get; set; }
 
-        [MaxLength(50)]
-        [Required]
-        public string UserName { get; set; }
+    [MaxLength(50)]
+    [Required]
+    public string UserName { get; set; }
 
-        [Required]
-        [MaxLength(100)]
-        public string FullName { get; set; }
+    [Required]
+    [MaxLength(100)]
+    public string FullName { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        public string Mail { get; set; }
+    [Required]
+    [MaxLength(50)]
+    public string Mail { get; set; }
 
-        [MaxLength(10)]
-        public string PhoneNumber { get; set; }
+    [MaxLength(10)]
+    public string PhoneNumber { get; set; }
+    
+    [Required]
+    public int MemberTypeId { get; set; }
+    
+    public int? Station { get; set; }
 
-        /*[MaxLength(6)]
+    [ForeignKey(nameof(MemberTypeId))]
+    public virtual ListItem MemberType { get; set; }
+    
+    /*[MaxLength(6)]
         public string OtpNumber { get; set; }
 
         public DateTime? OtpExpired { get; set; }
@@ -35,12 +42,5 @@ namespace DataModel.Entities
         public bool IsActive { get; set; }
 
         [Required]
-        public int? MemberTypeId { get; set; }
-
-        [Required]
-        public int? CouncilId { get; set; }
-
-        [ForeignKey(nameof(MemberTypeId))]
-        public virtual ListItem MemberType { get; set; }*/
-    }
+        public int? CouncilId { get; set; }*/
 }

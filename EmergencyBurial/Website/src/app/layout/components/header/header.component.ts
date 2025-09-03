@@ -1,14 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
-import {AuthContextService} from 'src/app/shared/services/auth-context.service';
-import {NgOptimizedImage} from '@angular/common';
+
 import {constants} from '../../../shared/static/constants';
-import {IconField} from 'primeng/iconfield';
-import {InputIcon} from 'primeng/inputicon';
-import {FormsModule} from "@angular/forms";
-import {FloatLabel} from "primeng/floatlabel";
-import {InputText} from "primeng/inputtext";
-import {Tab, TabList, Tabs} from "primeng/tabs";
+import {UiComponentsModule} from "../../../shared/ui-components/ui-components.module";
+import {AuthContextService} from "../../../shared/services/auth-context.service";
 
 interface ILink {
   route: string,
@@ -22,19 +17,9 @@ interface ILink {
   styleUrls: ['./header.component.scss'],
   standalone: true,
   imports: [
-    NgOptimizedImage,
-    IconField,
-    InputIcon,
-    FormsModule,
-    FloatLabel,
+    UiComponentsModule,
     RouterLink,
-    InputText,
-    Tabs,
-    TabList,
-    Tab,
     RouterLinkActive,
-
-
   ],
 })
 export class HeaderComponent implements OnInit {
@@ -43,16 +28,16 @@ export class HeaderComponent implements OnInit {
   tabs: ILink[] = [
     {route: '/dashboard/home', label: 'עמוד הבית', icon: 'pi pi-home'},
     {route: '/dashboard/deceaseds', label: 'שק חלל', icon: 'pi pi-user'},
-    {route: '/dashboard/transport', label: 'שינוע', icon: 'pi pi-truck'},
+    {route: '/dashboard/transport', label: 'שינוע', icon: 'pi pi-truck'}
   ];
 
-  constructor(public authCtx: AuthContextService,
-              private router: Router,
-  ){
-  }
+  constructor(private router: Router, private authCtx: AuthContextService){}
 
-  async ngOnInit(){
+  ngOnInit(){
 
+    if(this.authCtx.isAdmin()){
+      this.tabs.push({route: '/management', label: 'ניהול', icon: 'pi pi-cog'});
+    }
   }
 
   signOut(){

@@ -13,7 +13,7 @@ public class DeceasedBagDetails
 
     public Affiliation Affiliation { get; set; }
 
-    public ReceivingStation ReceivingStation { get; set; }
+    public TarahStations ReceivingStation { get; set; }
 
     public string? LastKnownLocation { get; set; }
 
@@ -29,7 +29,7 @@ public class DeceasedBagDetails
     
     public DateTime? ArrivalDateTime { get; set; }
     
-    public BringingEntity? BroughtBy { get; set; }
+    public BurialBody? BroughtBy { get; set; }
     
     public string? BroughtFrom { get; set; }
     
