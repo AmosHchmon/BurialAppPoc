@@ -2,6 +2,7 @@ import {DeceasedBurialCoordination} from "./DeceasedBurialCoordination";
 import {DeceasedOperational} from "./DeceasedOperational";
 import {DeceasedBagDetails} from "./DeceasedBagDetails";
 import {DeceasedBurial} from "./DeceasedBurial";
+import {Transport} from "../../transport/model/transport";
 
 export interface Deceased {
 
@@ -31,12 +32,14 @@ export interface Deceased {
 
   CreatedOn?: Date;
 
-  DeceasedOperational?: DeceasedOperational;
+  BagDetails?: DeceasedBagDetails;
 
-  DeceasedBagDetails?: DeceasedBagDetails;
+  OperationalDetails?: DeceasedOperational;
 
-  DeceasedBurial?: DeceasedBurial;
+  BurialDetails?: DeceasedBurial;
 
-  DeceasedBurialCoordination?: DeceasedBurialCoordination;
+  BurialCoordination?: DeceasedBurialCoordination;
+
+  Transports?: Transport[];
 
 }

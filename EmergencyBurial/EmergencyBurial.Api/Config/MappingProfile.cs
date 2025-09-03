@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Helpers;
 using DataModel.Entities;
 using EmergencyBurial.Api.ViewModel;
 
@@ -17,6 +18,10 @@ public class MappingProfile : Profile
             .ReverseMap();
 
         CreateMap<DeceasedBagDetails, DeceasedBagDetailsDto>()
+            .ForMember(dest => dest.Affiliation, opt => opt.MapFrom(src => src.Affiliation.GetEnumDescription()))
+            .ForMember(dest => dest.ReceivingStation, opt => opt.MapFrom(src => src.ReceivingStation.GetEnumDescription()))
+            .ForMember(dest => dest.BroughtBy, opt => opt.MapFrom(src => src.BroughtBy.GetEnumDescription()))
+            .ForMember(dest => dest.CanBeIdentifiedByAcquaintance, opt => opt.MapFrom(src => src.CanBeIdentifiedByAcquaintance ? "כן" : "לא"))
             .ReverseMap();
 
         CreateMap<DeceasedOperational, DeceasedOperationalDto>()

@@ -109,8 +109,9 @@ public class DbHelper
                     DeceasedId = deceased1Id,
                     Affiliation = Affiliation.Civilian,
                     ReceivingStation = ReceivingStation.Shura,
+                    BroughtBy = BringingEntity.AbuKabir,
                     CanBeIdentifiedByAcquaintance = true,
-                    RelatedBagNumbers = "C-1003"
+                    RelatedBagNumbers = 5
                 },
                 OperationalDetails = new DeceasedOperational
                 {

@@ -37,7 +37,7 @@ public class DeceasedsController(
 
         if (deceased == null)
             return NotFound();
-        
+
         return Ok(mapper.Map<DeceasedDto>(deceased));
     }
 }

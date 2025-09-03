@@ -8,11 +8,12 @@ import {Transport} from "../../../transport/model/transport";
 import {TransportService} from "../../../transport/services/transport.service";
 import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
 import {Deceased} from "../../model/Deceased";
+import {DeceasedBagDetailsComponent} from "../deceased-bag-details/deceased-bag-details.component";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [UiComponentsModule, TransportFormComponent],
+  imports: [UiComponentsModule, TransportFormComponent, DeceasedBagDetailsComponent],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
@@ -44,7 +45,10 @@ export class DeceasedDetailComponent implements OnInit {
 
     this.deceased = await this.deceasedService.getDeceasedById(param);
 
-    this.transports = await this.transportService.getTransportsByDeceasedId(this.deceased?.Id);
+    this.deceased.BagDetails.FullName = this.deceased?.FirstName + ' ' + this.deceased?.LastName;
+    this.deceased.BagDetails.IdentityNumber = this.deceased?.IdentityNumber;
+
+    this.transports = this.deceased.Transports;
 
     this.initializeFields();
 

@@ -2,25 +2,29 @@
 
   DeceasedId: string;
 
-  Affiliation: number;
+  Affiliation?: string;
 
-  ReceivingStation?: number;
+  ReceivingStation?: string;
 
-  LastKnownLocation: string;
+  LastKnownLocation?: string;
 
-  PartDescription: string;
+  PartDescription?: string;
 
-  RelatedBagNumbers: string;
+  RelatedBagNumbers?: number;
 
-  CanBeIdentifiedByAcquaintance: boolean;
+  CanBeIdentifiedByAcquaintance?: string;
 
-  ReceivingNotes: string;
+  ReceivingNotes?: string;
 
-  FillerName: string;
+  FillerName?: string;
 
-  ArrivalDateTime: Date;
+  ArrivalDateTime?: Date;
 
-  BroughtBy: number;
+  BroughtBy?: string;
 
-  BroughtFrom: string;
+  BroughtFrom?: string;
+
+  FullName?: string;
+
+  IdentityNumber?: string;
 }

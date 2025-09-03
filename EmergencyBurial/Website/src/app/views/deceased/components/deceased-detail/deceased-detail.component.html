@@ -9,25 +9,16 @@
                 <p-accordion [multiple]="true">
 
                     <p-accordion-panel [value]="0" pRipple>
-                        <p-accordion-header>פרטי שק החלל</p-accordion-header>
+                        <p-accordion-header class="fw-bold fs-5">פרטי שק החלל</p-accordion-header>
                         <p-accordion-content>
-                            <div class="d-flex flex-column gap-3 p-3">
-                                @for (field of fieldsPart1; track field.field) {
-                                    <div>
-                                        <label class="d-block fw-bold mb-1">{{ field.header }}:</label>
-                                        <div>{{ deceased[field.field] ?? 'לא הוזן' }}</div>
-                                    </div>
-                                } @empty {
-                                    <div>אין נתונים להצגה.</div>
-                                }
-                            </div>
+                            <app-deceased-bag-details [data]="deceased"></app-deceased-bag-details>
                         </p-accordion-content>
                     </p-accordion-panel>
 
                     <p-accordion-panel [value]="1" pRipple>
-                        <p-accordion-header>פרטים תפעוליים</p-accordion-header>
+                        <p-accordion-header class="fw-bold fs-5">פרטים תפעוליים</p-accordion-header>
                         <p-accordion-content>
-                            <div class="d-flex flex-column gap-3 p-3">
+                            <!--<div class="d-flex flex-column gap-3 p-3">
                                 @for (field of fieldsPart2; track field.field) {
                                     <div>
                                         <label class="d-block fw-bold mb-1">{{ field.header }}:</label>
@@ -36,15 +27,15 @@
                                 } @empty {
                                     <div>אין נתונים להצגה.</div>
                                 }
-                            </div>
+                            </div>-->
                         </p-accordion-content>
                     </p-accordion-panel>
 
                     <p-accordion-panel [value]="2" pRipple>
-                        <p-accordion-header>טבלת שינועים</p-accordion-header>
+                        <p-accordion-header class="fw-bold fs-5">טבלת שינועים</p-accordion-header>
                         <p-accordion-content>
 
-                            <div class="p-3">
+                            <!--<div class="p-3">
                                 <div class="w-100 d-flex justify-content-end">
                                     <p-button (click)="switchToTransportTab()" class="mb-3">צור שינוע</p-button>
                                 </div>
@@ -93,16 +84,16 @@
 
                                 </p-table>
 
-                            </div>
+                            </div>-->
                         </p-accordion-content>
                     </p-accordion-panel>
                 </p-accordion>
             </div>
         </p-tabpanel>
         <p-tabpanel value="1">
-            <app-transport-form [deceasedId]="deceased?.Id"
+            <!--<app-transport-form [deceasedId]="deceased?.Id"
                                 (transportCreated)="handleTransportCreated()">
-            </app-transport-form>
+            </app-transport-form>-->
         </p-tabpanel>
     </p-tabpanels>
 </p-tabs>
