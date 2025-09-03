@@ -51,7 +51,7 @@ public class DbHelper
 
         private void InitListType()
         {
-            foreach (EntityType type in (EntityType[])Enum.GetValues(typeof(EntityType)))
+            foreach (ListType type in (ListType[])Enum.GetValues(typeof(ListType)))
             {
                 var obj = new ListType()
                 {
@@ -165,7 +165,7 @@ public class DbHelper
                 {
                     DeceasedId = deceased1Id,
                     Affiliation = Affiliation.Civilian,
-                    ReceivingStation = TarahStations.Shura,
+                    ReceivingStation = (int)TarahStations.Shura,
                     CanBeIdentifiedByAcquaintance = true,
                     RelatedBagNumbers = "C-1003"
                 },
@@ -212,7 +212,7 @@ public class DbHelper
                 {
                     DeceasedId = deceased2Id,
                     Affiliation = Affiliation.SecurityForces,
-                    ReceivingStation = TarahStations.Tziporit,
+                    ReceivingStation = (int)TarahStations.Tziporit,
                     CanBeIdentifiedByAcquaintance = false
                 },
                 OperationalDetails = new DeceasedOperational
@@ -305,7 +305,7 @@ public class DbHelper
                 FullName = "עוז שורקי",
                 UserName = "308015205",
                 Mail = "OzS@dat.gov.il",
-                MemberTypeId = (int)OrganizationType.Hamal
+                OrganizationTypeId = (int)OrganizationType.Hamal
             }
         };
 

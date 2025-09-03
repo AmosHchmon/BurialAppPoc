@@ -27,12 +27,12 @@ public class Member
     public string PhoneNumber { get; set; }
     
     [Required]
-    public int MemberTypeId { get; set; }
+    public int OrganizationTypeId { get; set; }
     
     public int? Station { get; set; }
 
-    [ForeignKey(nameof(MemberTypeId))]
-    public virtual ListItem MemberType { get; set; }
+    [ForeignKey(nameof(OrganizationTypeId))]
+    public virtual ListItem OrganizationType { get; set; }
     
     /*[MaxLength(6)]
         public string OtpNumber { get; set; }

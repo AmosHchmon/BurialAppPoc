@@ -13,7 +13,7 @@ public class DeceasedBagDetails
 
     public Affiliation Affiliation { get; set; }
 
-    public TarahStations ReceivingStation { get; set; }
+    public int? ReceivingStation { get; set; }
 
     public string? LastKnownLocation { get; set; }
 
