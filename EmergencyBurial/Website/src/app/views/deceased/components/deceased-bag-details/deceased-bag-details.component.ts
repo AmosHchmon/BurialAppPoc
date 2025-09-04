@@ -3,7 +3,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DeceasedBagDetails} from "../../model/DeceasedBagDetails";
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {IColumn} from "../../../../shared/ui-components/model/column";
-import {Deceased} from "../../model/Deceased";
 
 @Component({
   selector: 'app-deceased-bag-details',

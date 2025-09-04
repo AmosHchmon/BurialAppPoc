@@ -11,15 +11,15 @@ public class DeceasedBagDetails
     [Key]
     public Guid DeceasedId { get; set; }
 
-    public Affiliation Affiliation { get; set; }
+    public Affiliation? Affiliation { get; set; }
 
-    public ReceivingStation ReceivingStation { get; set; }
+    public ReceivingStation? ReceivingStation { get; set; }
 
     public string? LastKnownLocation { get; set; }
 
     public string? PartDescription { get; set; }
 
-    public string? RelatedBagNumbers { get; set; }
+    public int? RelatedBagNumbers { get; set; }
 
     public bool CanBeIdentifiedByAcquaintance { get; set; }
 

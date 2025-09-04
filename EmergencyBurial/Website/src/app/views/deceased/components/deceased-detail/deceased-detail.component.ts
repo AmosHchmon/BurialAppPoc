@@ -6,26 +6,25 @@ import {IColumn} from "../../../../shared/ui-components/model/column";
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {Transport} from "../../../transport/model/transport";
 import {TransportService} from "../../../transport/services/transport.service";
-import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
 import {Deceased} from "../../model/Deceased";
 import {DeceasedBagDetailsComponent} from "../deceased-bag-details/deceased-bag-details.component";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [UiComponentsModule, TransportFormComponent, DeceasedBagDetailsComponent],
+  imports: [UiComponentsModule, DeceasedBagDetailsComponent],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
 export class DeceasedDetailComponent implements OnInit {
 
-  deceased: Deceased | null = null;
+  deceased: Deceased;
   fieldsPart1: IColumn[] = [];
   fieldsPart2: IColumn[] = [];
   transportCols: IColumn[] = [];
   transports: Transport[] = [];
   activeTab: string = "0";
-  activeAccordionIndex: number[] | null = null;
+  activeAccordionIndex: number[];
 
   constructor(
     private route: ActivatedRoute,
@@ -41,16 +40,21 @@ export class DeceasedDetailComponent implements OnInit {
 
   private async loadDeceasedData(): Promise<void> {
 
-    const param = this.route.snapshot.paramMap.get('id');
+    try {
+      const param = this.route.snapshot.paramMap.get('id');
 
-    this.deceased = await this.deceasedService.getDeceasedById(param);
+      this.deceased = await this.deceasedService.getDeceasedById(param);
 
-    this.deceased.BagDetails.FullName = this.deceased?.FirstName + ' ' + this.deceased?.LastName;
-    this.deceased.BagDetails.IdentityNumber = this.deceased?.IdentityNumber;
+      this.deceased.BagDetails.FullName = this.deceased?.FirstName + ' ' + this.deceased?.LastName;
+      this.deceased.BagDetails.IdentityNumber = this.deceased?.IdentityNumber;
 
-    this.transports = this.deceased.Transports;
+      this.transports = this.deceased.Transports;
 
-    this.initializeFields();
+      this.initializeFields();
+    } catch (err) {
+      console.log(err);
+    }
+
 
   }
 

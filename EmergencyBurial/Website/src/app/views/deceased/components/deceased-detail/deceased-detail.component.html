@@ -9,14 +9,14 @@
                 <p-accordion [multiple]="true">
 
                     <p-accordion-panel [value]="0" pRipple>
-                        <p-accordion-header class="fw-bold fs-5">פרטי שק החלל</p-accordion-header>
+                        <p-accordion-header class="fw-bold">פרטי שק החלל</p-accordion-header>
                         <p-accordion-content>
-                            <app-deceased-bag-details [data]="deceased"></app-deceased-bag-details>
+                            <app-deceased-bag-details [bagDetails]="deceased?.BagDetails"></app-deceased-bag-details>
                         </p-accordion-content>
                     </p-accordion-panel>
 
                     <p-accordion-panel [value]="1" pRipple>
-                        <p-accordion-header class="fw-bold fs-5">פרטים תפעוליים</p-accordion-header>
+                        <p-accordion-header class="fw-bold">פרטים תפעוליים</p-accordion-header>
                         <p-accordion-content>
                             <!--<div class="d-flex flex-column gap-3 p-3">
                                 @for (field of fieldsPart2; track field.field) {
@@ -32,7 +32,7 @@
                     </p-accordion-panel>
 
                     <p-accordion-panel [value]="2" pRipple>
-                        <p-accordion-header class="fw-bold fs-5">טבלת שינועים</p-accordion-header>
+                        <p-accordion-header class="fw-bold">טבלת שינועים</p-accordion-header>
                         <p-accordion-content>
 
                             <!--<div class="p-3">

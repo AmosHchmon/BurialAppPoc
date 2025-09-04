@@ -7,17 +7,17 @@ public class DeceasedBagDetailsDto
 {
     public Guid? DeceasedId { get; set; }
 
-    public Affiliation? Affiliation { get; set; }
+    public string? Affiliation { get; set; }
 
-    public ReceivingStation? ReceivingStation { get; set; }
+    public string? ReceivingStation { get; set; }
 
     public string? LastKnownLocation { get; set; }
 
     public string? PartDescription { get; set; }
 
-    public string? RelatedBagNumbers { get; set; }
+    public int? RelatedBagNumbers { get; set; }
 
-    public bool? CanBeIdentifiedByAcquaintance { get; set; }
+    public string? CanBeIdentifiedByAcquaintance { get; set; }
 
     public string? ReceivingNotes { get; set; }
     
@@ -25,7 +25,11 @@ public class DeceasedBagDetailsDto
     
     public DateTime? ArrivalDateTime { get; set; }
     
-    public BringingEntity? BroughtBy { get; set; }
+    public string? BroughtBy { get; set; }
     
     public string? BroughtFrom { get; set; }
+    
+    public string? FullName { get; set; }
+    
+    public string? IdentityNumber { get; set; }
 }
