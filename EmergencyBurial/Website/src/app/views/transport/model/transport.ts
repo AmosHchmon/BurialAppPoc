@@ -2,7 +2,7 @@ export interface Transport {
 
     Id?: number;
 
-    DeceasedId?: number;
+    DeceasedId?: string;
 
     StartLocation?: string;
 

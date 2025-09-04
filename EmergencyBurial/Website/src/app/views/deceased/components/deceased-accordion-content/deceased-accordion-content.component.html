@@ -3,8 +3,8 @@
     @for (field of fieldsPart1; track field.field) {
       <div>
         <div class="d-flex flex-column border-bottom mb-2">
-          <label class="d-block fw-bold mb-1">{{ field?.header }}</label>
-          <div>{{bagDetails && bagDetails[field?.field] ?? 'לא הוזן' }}</div>
+          <label class="d-block fw-bold mb-1 header">{{ field?.header }}</label>
+          <div class="text">{{ this.data.object && this.data.object[field?.field] ?? 'לא הוזן' }}</div>
         </div>
       </div>
     } @empty {
@@ -15,8 +15,8 @@
     @for (field of fieldsPart2; track field.field) {
       <div>
         <div class="d-flex flex-column border-bottom mb-2">
-          <label class="d-block fw-bold mb-1">{{ field?.header }}</label>
-          <div>{{bagDetails && bagDetails[field?.field] ?? 'לא הוזן' }}</div>
+          <label class="d-block fw-bold mb-1 header">{{ field?.header }}</label>
+          <div class="text">{{ data.object?.[field?.field] ?? 'לא הוזן' }}</div>
         </div>
       </div>
     } @empty {
@@ -24,4 +24,3 @@
     }
   </div>
 </div>
-

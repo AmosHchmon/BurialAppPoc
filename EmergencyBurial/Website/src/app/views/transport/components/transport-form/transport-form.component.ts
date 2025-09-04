@@ -20,7 +20,7 @@ import {ConvertTimezoneDirective} from "../../../../core/directives/convert-time
 })
 export class TransportFormComponent {
 
-  @Input() deceasedId: number;
+  @Input() deceasedId: string;
   @Output() transportCreated = new EventEmitter<Transport>();
 
   newTransport: Transport = {}

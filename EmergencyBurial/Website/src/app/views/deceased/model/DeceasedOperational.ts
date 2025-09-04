@@ -2,14 +2,14 @@
 
   DeceasedId: string;
 
-  IdentificationStatus: number;
+  IdentificationStatus?: string;
 
   //Todo: Add all enums after task 1431 is complete
-  BadMessageProcessStatus: string;
+  BadMessageProcessStatus?: string;
 
-  CollectionStatus: string;
+  CollectionStatus?: string;
 
-  BadMessageStartDate: Date;
+  BadMessageStartDate?: string;
 
-  BurialProcessStatus: number;
+  BurialProcessStatus?: string;
 }

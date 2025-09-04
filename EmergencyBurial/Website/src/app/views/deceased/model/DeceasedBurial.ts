@@ -2,17 +2,17 @@
 
   DeceasedId?: string;
 
-  BurialType?: number;
+  BurialType?: string;
 
-  IsCivilBurial?: boolean;
+  IsCivilBurial?: string;
 
-  BurialLicenseScanned?: boolean;
+  BurialLicenseScanned?: string;
 
-  TaharahStatus?: number;
+  TaharahStatus?: string;
 
   TaharahLocation?: string;
 
   TaharahReceptionDate?: Date;
 
-  InCoffin?: boolean
+  InCoffin?: string;
 }

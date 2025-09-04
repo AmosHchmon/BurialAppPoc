@@ -7,17 +7,17 @@ public class DeceasedBurialDto
 {
     public Guid? DeceasedId { get; set; }
 
-    public BurialType? BurialType { get; set; }
+    public string? BurialType { get; set; }
     
-    public bool? IsCivilBurial { get; set; }
+    public string? IsCivilBurial { get; set; }
     
-    public bool? BurialLicenseScanned { get; set; }
+    public string? BurialLicenseScanned { get; set; }
     
-    public TaharahStatus? TaharahStatus { get; set; }
+    public string? TaharahStatus { get; set; }
     
     public string? TaharahLocation { get; set; }
     
     public DateTime? TaharahReceptionDate { get; set; }
     
-    public bool? InCoffin { get; set; }
+    public string? InCoffin { get; set; }
 }

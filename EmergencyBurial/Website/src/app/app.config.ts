@@ -45,5 +45,9 @@ export const appConfig: ApplicationConfig = {
       withSessionStorage()
     ),
     {provide: MAT_DATE_LOCALE, useValue: 'he-IL'},
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandlerService
+    }
   ]
 };

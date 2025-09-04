@@ -11,13 +11,13 @@ public class DeceasedOperational
     [Key]
     public Guid DeceasedId { get; set; }
 
-    public IdentificationStatus IdentificationStatus { get; set; }
+    public IdentificationStatus? IdentificationStatus { get; set; }
     
     public string? BadMessageProcessStatus { get; set; } // TODO: Convert to Enum later
     
     public string? CollectionStatus { get; set; } // TODO: Convert to Enum later
     
-    public DateTime? BadMessageStartDate { get; set; }
+    public DateTime BadMessageStartDate { get; set; }
     
     public BurialProcessStatus? BurialProcessStatus { get; set; }
     

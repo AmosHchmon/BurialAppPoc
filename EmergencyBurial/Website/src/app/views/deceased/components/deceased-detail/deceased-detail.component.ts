@@ -7,22 +7,24 @@ import {UiComponentsModule} from "../../../../shared/ui-components/ui-components
 import {Transport} from "../../../transport/model/transport";
 import {TransportService} from "../../../transport/services/transport.service";
 import {Deceased} from "../../model/Deceased";
-import {DeceasedBagDetailsComponent} from "../deceased-bag-details/deceased-bag-details.component";
+import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
+import {DeceasedAccordion} from "../../model/DeceasedAccordion";
+import {DeceasedAccordionContentComponent} from "../deceased-accordion-content/deceased-accordion-content.component";
+import {TransportsTableComponent} from "../../../transport/components/transports-table/transports-table.component";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [UiComponentsModule, DeceasedBagDetailsComponent],
+  imports: [UiComponentsModule, TransportFormComponent, DeceasedAccordionContentComponent, TransportsTableComponent],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
 export class DeceasedDetailComponent implements OnInit {
 
   deceased: Deceased;
-  fieldsPart1: IColumn[] = [];
-  fieldsPart2: IColumn[] = [];
-  transportCols: IColumn[] = [];
   transports: Transport[] = [];
+  deceasedAccordion: DeceasedAccordion[] = [];
+
   activeTab: string = "0";
   activeAccordionIndex: number[];
 
@@ -40,56 +42,93 @@ export class DeceasedDetailComponent implements OnInit {
 
   private async loadDeceasedData(): Promise<void> {
 
-    try {
-      const param = this.route.snapshot.paramMap.get('id');
+    const param = this.route.snapshot.paramMap.get('id');
 
-      this.deceased = await this.deceasedService.getDeceasedById(param);
+    this.deceased = await this.deceasedService.getDeceasedById(param);
 
-      this.deceased.BagDetails.FullName = this.deceased?.FirstName + ' ' + this.deceased?.LastName;
-      this.deceased.BagDetails.IdentityNumber = this.deceased?.IdentityNumber;
+    this.deceased.BagDetails.FullName = this.deceased?.FirstName + ' ' + this.deceased?.LastName;
+    this.deceased.BagDetails.IdentityNumber = this.deceased?.IdentityNumber;
 
-      this.transports = this.deceased.Transports;
+    this.transports = this.deceased.Transports;
 
-      this.initializeFields();
-    } catch (err) {
-      console.log(err);
-    }
+    this.initializeFields();
 
-
+    this.cdr.detectChanges()
   }
 
   private initializeFields(): void {
 
-    const allFields = [
-      {field: 'HalalNumber', header: 'מספר חלל'},
-      {field: 'IdentityNumber', header: 'מספר זהות'},
-      {field: 'FirstName', header: 'שם פרטי'},
-      {field: 'LastName', header: 'שם משפחה'},
-      {field: 'FatherName', header: 'שם האב'},
-      {field: 'Gender', header: 'מין'},
-      {field: 'Nationality', header: 'לאום'},
-      {field: 'HomeCity', header: 'עיר מגורים'},
-      {field: 'HomeAddress', header: 'כתובת'},
-      {field: 'CurrentStatusId', header: 'סטטוס'},
-      {field: 'CurrentLocationId', header: 'מיקום'},
-      {field: 'BurialCity', header: 'עיר קבורה'},
-      {field: 'IsLinkedToOtherCasesValue', header: 'מקושר למקרים'},
-      {field: 'IsCivilBurialValue', header: 'קבורה אזרחית'},
-      {field: 'CreatedOn', header: 'נוצר בתאריך'},
-      {field: 'Notes', header: 'הערות'}
+    const bagDetailsFields: IColumn[] = [
+      {field: 'FullName', header: 'חלל'},
+      {field: 'IdentityNumber', header: 'מספר תעודת זהות'},
+      {field: 'Affiliation', header: 'ארגון שיוך'},
+      {field: 'ReceivingStation', header: 'תחנת קליטה'},
+      {field: 'LastKnownLocation', header: 'מיקום אחרון'},
+      {field: 'PartDescription', header: 'תיאור חלק'},
+      {field: 'RelatedBagNumbers', header: 'מספר שקים מקושרים'},
+      {field: 'CanBeIdentifiedByAcquaintance', header: 'האם ניתן לזהות בהיכרות אישית'},
+      {field: 'ReceivingNotes', header: 'הערות שנרשמו בעת הקליטה בתר"ח'},
+      {field: 'FillerName', header: 'שם ממלא טופס הקליטה'},
+      {field: 'ArrivalDateTime', header: 'תאריך ושעת ההגעה'},
+      {field: 'BroughtBy', header: 'הגורם שהביא את השק'},
+      {field: 'BroughtFrom', header: 'המיקום ממנו הובא השק'}
+    ]
+    const bagDetailsPanel: DeceasedAccordion = {
+      object: this.deceased?.BagDetails,
+      title: 'פרטי שק חלל',
+      fields: bagDetailsFields,
+      splitIndex: 7,
+      trackNumber: 1
+    }
+
+    const operationalDetailsFields: IColumn[] = [
+      {field: 'IdentificationStatus', header: 'סטטוס זיהוי'},
+      {field: 'BadMessageProcessStatus', header: 'סטטוס תהליך הודעה מרה'},
+      {field: 'CollectionStatus', header: 'סטטוס איסוף'},
+      {field: 'BadMessageStartDate', header: 'תאריך אישור תחילת הודעה מרה'},
+      {field: 'BurialProcessStatus', header: 'סטטוס תהליך קבורה'}
     ];
+    const operationalDetailsPanel: DeceasedAccordion = {
+      object: this.deceased?.OperationalDetails,
+      title: 'פרטים תפעוליים',
+      fields: operationalDetailsFields,
+      splitIndex: 3,
+      trackNumber: 2
+    }
 
-    const splitIndex = 7;
-
-    this.fieldsPart1 = allFields.slice(0, splitIndex);
-    this.fieldsPart2 = allFields.slice(splitIndex);
-
-    this.transportCols = [
-      {field: 'Id', header: 'מזהה שינוע'},
-      {field: 'FirstName', header: 'שם החלל'},
-      {field: 'StartLocation', header: 'מקום התחלת שינוע'},
-      {field: 'StartDateTime', header: 'מועד התחלת שינוע'}
+    const burialDetailsFields: IColumn[] = [
+      {field: 'BurialType', header: 'סוג קבורה'},
+      {field: 'IsCivilBurial', header: 'האם קבורה אזרחית'},
+      {field: 'BurialLicenseScanned', header: 'רישיון קבורה סרוק'},
+      {field: 'TaharahStatus', header: 'סטטוס טהרה'},
+      {field: 'TaharahLocation', header: 'מקום טהרה'},
+      {field: 'CoffinType', header: 'סוג ארון'},
+      {field: 'TaharahReceptionDate', header: 'תאריך קליטה לטהרה'}
     ];
+    const burialDetailsPanel: DeceasedAccordion = {
+      object: this.deceased?.BurialDetails,
+      title: 'פרטי קבורה',
+      fields: burialDetailsFields,
+      splitIndex: 4,
+      trackNumber: 3
+    }
+
+    const burialCoordinationFields: IColumn[] = [
+      {field: 'SocialWorkerName', header: 'שם עובד סוציאלי/ת'},
+      {field: 'SocialWorkerPhone', header: 'טלפון עובד סוציאלי/ת'},
+      {field: 'BadMessageDeliveredDateTime', header: 'תאריך מסירת הודעה מרה'},
+      {field: 'FamilyContactName', header: 'בן משפחה'},
+      {field: 'FamilyContactPhone', header: 'טלפון בן משפחה'},
+    ]
+    const burialCoordinationPanel: DeceasedAccordion = {
+      object: this.deceased?.BurialCoordination,
+      title: 'פרטי הודעה מרה',
+      fields: burialCoordinationFields,
+      splitIndex: 3,
+      trackNumber: 4
+    }
+
+    this.deceasedAccordion.push(bagDetailsPanel, operationalDetailsPanel, burialDetailsPanel, burialCoordinationPanel);
   }
 
   switchToTransportTab() {
