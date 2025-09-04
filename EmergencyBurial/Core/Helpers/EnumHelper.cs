@@ -48,23 +48,98 @@ namespace Core.Helpers
     #region [data model]
     public enum EntityType
     {
-        [Description("סוג משתמש")]
-        MemberType = 1000,
+        [Description("סוג ארגון")]
+        OrganizationType = 1000,
+        [Description("סוג תחנה")]
+        StationType = 2000,
+        [Description("תר'ח")]
+        TarahStations = 3000,
+        [Description("הכנה לקבורה")]
+        BurialPreparation = 4000,
+        [Description("גוף קבורה")]
+        BurialBody = 5000
     }
 
-    public enum BringingEntity
+    #endregion
+
+    #region [list item]
+    public enum OrganizationType
     {
-        [Description("אבו כביר")]
-        AbuKabir = 0,
-        [Description("א.חולון")]
-        Holon = 1,
-        [Description("ח'ק ראשל'צ")]
-        Rishon = 2,
-        [Description("ח'ק ת'א")]
-        TelAviv = 3,
-        [Description("ח'ק פ'ת")]
-        PetahTikva = 4,
+        [Description("חמ'ל")]
+        Hamal = 1001,
+        [Description("מוקד הודעה מרה")]
+        BadMessageCenter = 1002,
+        [Description("תר'ח")]
+        Tarah = 1003,
+        [Description("הכנה לקבורה")]
+        BurialPreparation = 1004,
+        [Description("גוף קבורה")]
+        BetAlmin = 1005,
     }
+    
+    public enum StationType
+    {
+        [Description("תר'ח")]
+        TarahStations = 2001,
+        [Description("הכנה לקבורה")]
+        BurialPreparation = 2002,
+        [Description("גוף קבורה")]
+        BetAlmin = 2003,
+    }
+    
+    // Will be converted to management table
+    public enum TarahStations
+    {
+        [Description("שורה")]
+        Shura = 3001,
+        [Description("ציפורית")]
+        Tziporit = 3002,
+        [Description("שדה תימן")]
+        SdeTeiman = 3003
+    }
+
+    public enum BurialPreparation
+    {
+        [Description("תל רגב")]
+        TelRegev = 4001,
+        [Description("ראשון לציון")]
+        RishonLezion = 4002
+    }
+
+    public enum BurialBody
+    {
+        [Description("לטרון")]
+        RishonLezion = 5001,
+        [Description("עמק חפר")]
+        EmekHefer = 5002,
+        [Description("לטרון")]
+        Eilat = 5003,
+        [Description("אבו כביר")]
+        AbuKabir = 5004,
+        [Description("א.חולון")]
+        Holon = 5005,
+        [Description("ח'ק ראשל'צ")]
+        Rishon = 5006,
+        [Description("ח'ק ת'א")]
+        TelAviv = 5007,
+        [Description("ח'ק פ'ת")]
+        PetahTikva = 5008,
+    }
+
+    #endregion
+
+    #region [events && status && type]
+
+    public enum Status
+    {
+        [Description("טיוטה")]
+        Draft = 100,
+        [Description("הוגש")]
+        Submit,
+        [Description("נמחק")]
+        Deleted,
+    }
+    
     public enum BurialProcessStatus
     {
         [Description("נקבר")]
@@ -106,43 +181,6 @@ namespace Core.Helpers
         Civilian = 0,
         [Description("כוחות ביטחון")]
         SecurityForces = 1
-    }
-    
-    // Will be converted to management table
-    public enum ReceivingStation
-    {
-        [Description("שורה")]
-        Shura = 0,
-        [Description("ציפורית")]
-        Tziporit = 1,
-        [Description("שדה תימן")]
-        SdeTeiman = 2
-    }
-
-    #endregion
-
-    #region [list item]
-    public enum MemberType
-    {
-        [Description("מנהל מערכת")]
-        SystemManager = 1001,
-
-        [Description("צופה")]
-        Visitor = 1002,
-    }
-
-    #endregion
-
-    #region [events && status && type]
-
-    public enum Status
-    {
-        [Description("טיוטה")]
-        Draft = 100,
-        [Description("הוגש")]
-        Submit,
-        [Description("נמחק")]
-        Deleted,
     }
 
     #endregion

@@ -18,6 +18,9 @@ import {InputGroupModule} from "primeng/inputgroup";
 import {FileService} from '../file-upload/services/file.service';
 import {RippleModule} from "primeng/ripple";
 import {TabsModule} from "primeng/tabs";
+import {TabsModule} from "primeng/tabs";
+import {DrawerModule} from "primeng/drawer";
+import {MenuModule} from "primeng/menu";
 
 @NgModule({
   imports: [
@@ -39,6 +42,9 @@ import {TabsModule} from "primeng/tabs";
     InputGroupModule,
     RippleModule,
     TabsModule
+    InputGroupModule,
+    DrawerModule,
+    MenuModule
   ],
   exports: [
     NgOptimizedImage,
@@ -47,6 +53,7 @@ import {TabsModule} from "primeng/tabs";
     CardModule,
     AccordionModule,
     TableModule,
+    TabsModule,
     CardModule,
     IconFieldModule,
     InputIconModule,
@@ -56,6 +63,9 @@ import {TabsModule} from "primeng/tabs";
     MessageModule,
     FloatLabelModule,
     InputGroupAddonModule,
+    InputGroupModule,
+    DrawerModule,
+    MenuModule
     InputGroupModule,
     RippleModule,
     TabsModule

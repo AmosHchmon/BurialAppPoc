@@ -3,6 +3,8 @@ import {Routes} from '@angular/router';
 import {DashboardLayoutComponent} from './layout/components/dashboard-layout/dashboard-layout.component';
 import {AuthLayoutComponent} from "./layout/components/auth-layout/auth-layout.component";
 import {AuthGuard} from "./shared/guards/auth.guard";
+import {ManagementLayoutComponent} from "./layout/components/management-layout/management-layout.component";
+import {AdminGuard} from "./shared/guards/admin.guard";
 
 export const routes: Routes = [
   {
@@ -43,6 +45,17 @@ export const routes: Routes = [
       },
     ],
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'management',
+    component: ManagementLayoutComponent,
+    children:[
+      {
+        path: '',
+        loadChildren: () => import('./views/management/management.routing').then(m => m.ManagementRouting)
+      }
+    ],
+    canActivate: [AdminGuard]
   },
   {
     path: '**',
