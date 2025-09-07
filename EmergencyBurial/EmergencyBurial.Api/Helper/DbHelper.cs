@@ -164,6 +164,7 @@ public class DbHelper
                     DeceasedId = deceased1Id,
                     Affiliation = Affiliation.Civilian,
                     ReceivingStation = TarahStations.Shura,
+                    BroughtBy = BurialBody.AbuKabir,
                     CanBeIdentifiedByAcquaintance = true,
                     RelatedBagNumbers = 5
                 },
@@ -211,6 +212,7 @@ public class DbHelper
                     DeceasedId = deceased2Id,
                     Affiliation = Affiliation.SecurityForces,
                     ReceivingStation = TarahStations.Tziporit,
+                    BroughtBy = BurialBody.RishonLezion,
                     CanBeIdentifiedByAcquaintance = false
                 },
                 OperationalDetails = new DeceasedOperational
@@ -218,6 +220,7 @@ public class DbHelper
                     DeceasedId = deceased2Id,
                     IdentificationStatus = IdentificationStatus.NotIdentified,
                     BadMessageProcessStatus = "ממתין לזיהוי",
+                    BadMessageStartDate = DateTime.Now.AddDays(-1),
                     BurialProcessStatus = BurialProcessStatus.AtBurialCompany
                 },
                 BurialDetails = new DeceasedBurial

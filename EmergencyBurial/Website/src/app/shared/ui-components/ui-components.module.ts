@@ -13,14 +13,12 @@ import {MessageModule} from "primeng/message";
 import {FloatLabelModule} from "primeng/floatlabel";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 import {InputGroupModule} from "primeng/inputgroup";
-
-
-import {FileService} from '../file-upload/services/file.service';
 import {RippleModule} from "primeng/ripple";
-import {TabsModule} from "primeng/tabs";
 import {TabsModule} from "primeng/tabs";
 import {DrawerModule} from "primeng/drawer";
 import {MenuModule} from "primeng/menu";
+
+import {FileService} from '../file-upload/services/file.service';
 
 @NgModule({
   imports: [
@@ -41,8 +39,7 @@ import {MenuModule} from "primeng/menu";
     InputGroupAddonModule,
     InputGroupModule,
     RippleModule,
-    TabsModule
-    InputGroupModule,
+    TabsModule,
     DrawerModule,
     MenuModule
   ],
@@ -65,13 +62,11 @@ import {MenuModule} from "primeng/menu";
     InputGroupAddonModule,
     InputGroupModule,
     DrawerModule,
-    MenuModule
-    InputGroupModule,
+    MenuModule,
     RippleModule,
     TabsModule
   ],
-  declarations: [
-  ],
+  declarations: [],
   providers: [
     FileService,
     {provide: MAT_DATE_LOCALE, useValue: 'he-IL'},

@@ -11,7 +11,7 @@ public class DeceasedOperational
     [Key]
     public Guid DeceasedId { get; set; }
 
-    public IdentificationStatus? IdentificationStatus { get; set; }
+    public IdentificationStatus IdentificationStatus { get; set; }
     
     public string? BadMessageProcessStatus { get; set; } // TODO: Convert to Enum later
     
