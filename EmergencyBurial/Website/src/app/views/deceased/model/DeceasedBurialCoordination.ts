@@ -4,7 +4,7 @@
 
   BurialCity?: string;
 
-  PlannedBurialTime?: Date;
+  BurialTime?: Date;
 
   IsCoordinatedWithHevratKadisha?: boolean;
 
@@ -19,4 +19,6 @@
   SocialWorkerPhone?: string;
 
   BadMessageDeliveredDateTime?: string;
+
+  BurialBody?: string;
 }

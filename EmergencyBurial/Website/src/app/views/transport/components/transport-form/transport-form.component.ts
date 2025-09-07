@@ -1,17 +1,15 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {DatePickerModule} from "primeng/datepicker";
+import {AutoFocus} from "primeng/autofocus";
 
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {Transport} from "../../model/transport";
 import {TransportService} from "../../services/transport.service";
-import {AutoFocus} from "primeng/autofocus";
 import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
 
 @Component({
   selector: 'app-transport-form',
   imports: [
     UiComponentsModule,
-    DatePickerModule,
     AutoFocus,
     ConvertTimezoneDirective,
   ],

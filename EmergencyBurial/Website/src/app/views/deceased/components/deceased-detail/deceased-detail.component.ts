@@ -11,11 +11,15 @@ import {TransportFormComponent} from "../../../transport/components/transport-fo
 import {DeceasedAccordion} from "../../model/DeceasedAccordion";
 import {DeceasedAccordionContentComponent} from "../deceased-accordion-content/deceased-accordion-content.component";
 import {TransportsTableComponent} from "../../../transport/components/transports-table/transports-table.component";
+import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
+import {AutoFocus} from "primeng/autofocus";
+import {ListService} from "../../../../shared/services/list.service";
+import {IOptionItem} from "../../../../shared/model/list-item";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [UiComponentsModule, TransportFormComponent, DeceasedAccordionContentComponent, TransportsTableComponent],
+  imports: [UiComponentsModule, TransportFormComponent, DeceasedAccordionContentComponent, TransportsTableComponent, ConvertTimezoneDirective, AutoFocus],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
@@ -24,6 +28,8 @@ export class DeceasedDetailComponent implements OnInit {
   deceased: Deceased;
   transports: Transport[] = [];
   deceasedAccordion: DeceasedAccordion[] = [];
+  burialTypes: IOptionItem[];
+  burialBody: IOptionItem[];
 
   activeTab: string = "0";
   activeAccordionIndex: number[];
@@ -32,12 +38,15 @@ export class DeceasedDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private deceasedService: DeceasedService,
     private transportService: TransportService,
+    private listService: ListService,
     private cdr: ChangeDetectorRef
   ) {
   }
 
   ngOnInit() {
+
     this.loadDeceasedData();
+
   }
 
   private async loadDeceasedData(): Promise<void> {
@@ -45,6 +54,8 @@ export class DeceasedDetailComponent implements OnInit {
     const param = this.route.snapshot.paramMap.get('id');
 
     this.deceased = await this.deceasedService.getDeceasedById(param);
+    this.burialBody = await this.listService.getBurialBodyList();
+    this.burialTypes = await this.listService.getBurialTypeList();
 
     this.deceased.BagDetails.FullName = this.deceased?.FirstName + ' ' + this.deceased?.LastName;
     this.deceased.BagDetails.IdentityNumber = this.deceased?.IdentityNumber;
@@ -153,6 +164,14 @@ export class DeceasedDetailComponent implements OnInit {
     setTimeout(() => {
       this.cdr.detectChanges();
     }, 100)
+
+  }
+
+  saveBurialDetails() {
+
+  }
+
+  saveBurialCoordination() {
 
   }
 }

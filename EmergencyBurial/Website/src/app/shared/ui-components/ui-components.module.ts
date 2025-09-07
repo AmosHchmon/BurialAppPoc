@@ -19,6 +19,10 @@ import {DrawerModule} from "primeng/drawer";
 import {MenuModule} from "primeng/menu";
 
 import {FileService} from '../file-upload/services/file.service';
+import {CheckboxModule} from "primeng/checkbox";
+import {TextareaModule} from "primeng/textarea";
+import {SelectModule} from "primeng/select";
+import {DatePickerModule} from "primeng/datepicker";
 
 @NgModule({
   imports: [
@@ -41,7 +45,11 @@ import {FileService} from '../file-upload/services/file.service';
     RippleModule,
     TabsModule,
     DrawerModule,
-    MenuModule
+    MenuModule,
+    CheckboxModule,
+    TextareaModule,
+    SelectModule,
+    DatePickerModule
   ],
   exports: [
     NgOptimizedImage,
@@ -64,7 +72,11 @@ import {FileService} from '../file-upload/services/file.service';
     DrawerModule,
     MenuModule,
     RippleModule,
-    TabsModule
+    TabsModule,
+    CheckboxModule,
+    TextareaModule,
+    SelectModule,
+    DatePickerModule
   ],
   declarations: [],
   providers: [

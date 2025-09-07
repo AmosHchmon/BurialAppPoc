@@ -188,7 +188,7 @@ public class DbHelper
                 {
                     DeceasedId = deceased1Id,
                     BurialCity = "ירושלים",
-                    PlannedBurialTime = DateTime.Now.Date,
+                    BurialTime = DateTime.Now.Date,
                     IsCoordinatedWithHevratKadisha = true,
                     FamilyContactName = "משה ישראלי",
                     FamilyContactPhone = "050-1234567"
