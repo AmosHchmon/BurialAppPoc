@@ -25,6 +25,14 @@ public class DeceasedBurial
     
     public bool InCoffin { get; set; }
     
+    public string? Block { get; set; }
+    
+    public string? Plot { get; set; }
+    
+    public string? Row { get; set; }
+    
+    public string? Grave { get; set; }
+    
     [ForeignKey(nameof(DeceasedId))]
     public virtual Deceased Deceased { get; set; }
 

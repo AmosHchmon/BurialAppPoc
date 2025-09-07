@@ -20,4 +20,12 @@ public class DeceasedBurialDto
     public DateTime? TaharahReceptionDate { get; set; }
     
     public string? InCoffin { get; set; }
+    
+    public string? Block { get; set; }
+    
+    public string? Plot { get; set; }
+    
+    public string? Row { get; set; }
+    
+    public string? Grave { get; set; }
 }
