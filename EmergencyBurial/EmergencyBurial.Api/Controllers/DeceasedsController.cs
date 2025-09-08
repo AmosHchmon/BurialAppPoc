@@ -34,10 +34,7 @@ public class DeceasedsController(
         }
         
         var deceased = await deceasedService.GetDeceased(deceasedId);
-
-        if (deceased == null)
-            return NotFound();
-
+        
         return Ok(mapper.Map<DeceasedDto>(deceased));
     }
 }
