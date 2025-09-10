@@ -33,11 +33,8 @@ public class DeceasedsController(
             return BadRequest();
         }
         
-        var res = await deceasedService.GetDeceased(deceasedId);
-
-        if (res == null)
-            return NotFound();
-
-        return Ok(mapper.Map<DeceasedDto>(res));
+        var deceased = await deceasedService.GetDeceased(deceasedId);
+        
+        return Ok(mapper.Map<DeceasedDto>(deceased));
     }
 }

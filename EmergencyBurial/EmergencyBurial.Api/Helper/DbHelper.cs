@@ -55,7 +55,6 @@ public class DbHelper
             {
                 var obj = new ListType()
                 {
-                    
                     Id = (int)type,
                     Text = type.GetEnumDescription()
                 };
@@ -68,7 +67,6 @@ public class DbHelper
 
         private void InitListItems()
         {
-            
             var count = 1;
             foreach (OrganizationType type in (OrganizationType[])Enum.GetValues(typeof(OrganizationType)))
             {
@@ -94,7 +92,7 @@ public class DbHelper
 
                 db.ListItems.Add(obj);
             }
-            
+
             count = 1;
             foreach (TarahStations type in (TarahStations[])Enum.GetValues(typeof(TarahStations)))
             {
@@ -108,7 +106,7 @@ public class DbHelper
 
                 db.ListItems.Add(obj);
             }
-            
+
             count = 1;
             foreach (BurialPreparation type in (BurialPreparation[])Enum.GetValues(typeof(BurialPreparation)))
             {
@@ -122,7 +120,7 @@ public class DbHelper
 
                 db.ListItems.Add(obj);
             }
-            
+
             count = 1;
             foreach (BurialBody type in (BurialBody[])Enum.GetValues(typeof(BurialBody)))
             {
@@ -166,15 +164,17 @@ public class DbHelper
                     DeceasedId = deceased1Id,
                     Affiliation = Affiliation.Civilian,
                     ReceivingStation = TarahStations.Shura,
+                    BroughtBy = BurialBody.AbuKabir,
                     CanBeIdentifiedByAcquaintance = true,
-                    RelatedBagNumbers = "C-1003"
+                    RelatedBagNumbers = 5
                 },
                 OperationalDetails = new DeceasedOperational
                 {
                     DeceasedId = deceased1Id,
                     IdentificationStatus = IdentificationStatus.Identified,
                     BadMessageProcessStatus = "הודעה נמסרה",
-                    BadMessageStartDate = DateTime.Now.AddDays(-1)
+                    BadMessageStartDate = DateTime.Now.AddDays(-1),
+                    BurialProcessStatus = BurialProcessStatus.Buried
                 },
                 BurialDetails = new DeceasedBurial
                 {
@@ -188,8 +188,7 @@ public class DbHelper
                 {
                     DeceasedId = deceased1Id,
                     BurialCity = "ירושלים",
-                    PlannedBurialDate = DateTime.Now.Date,
-                    PlannedBurialTime = new TimeSpan(15, 30, 0),
+                    BurialTime = DateTime.Now.Date,
                     IsCoordinatedWithHevratKadisha = true,
                     FamilyContactName = "משה ישראלי",
                     FamilyContactPhone = "050-1234567"
@@ -213,13 +212,16 @@ public class DbHelper
                     DeceasedId = deceased2Id,
                     Affiliation = Affiliation.SecurityForces,
                     ReceivingStation = TarahStations.Tziporit,
+                    BroughtBy = BurialBody.RishonLezion,
                     CanBeIdentifiedByAcquaintance = false
                 },
                 OperationalDetails = new DeceasedOperational
                 {
                     DeceasedId = deceased2Id,
                     IdentificationStatus = IdentificationStatus.NotIdentified,
-                    BadMessageProcessStatus = "ממתין לזיהוי"
+                    BadMessageProcessStatus = "ממתין לזיהוי",
+                    BadMessageStartDate = DateTime.Now.AddDays(-1),
+                    BurialProcessStatus = BurialProcessStatus.AtBurialCompany
                 },
                 BurialDetails = new DeceasedBurial
                 {

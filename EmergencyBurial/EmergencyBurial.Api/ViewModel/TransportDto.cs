@@ -6,7 +6,7 @@ public class TransportDto
 {
     public int? Id { get; set; }
     
-    public int? DeceasedId { get; set; }
+    public Guid? DeceasedId { get; set; }
     
     public string StartLocation { get; set; }
     

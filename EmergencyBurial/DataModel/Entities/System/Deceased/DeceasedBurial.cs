@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.Helpers;
@@ -11,19 +12,32 @@ public class DeceasedBurial
     [Key]
     public Guid DeceasedId { get; set; }
 
-    public BurialType BurialType { get; set; }
+    public BurialType? BurialType { get; set; }
     
     public bool IsCivilBurial { get; set; }
     
+    [Description("האם רישיון הקבורה נסרק למערכת")]
     public bool BurialLicenseScanned { get; set; }
     
-    public TaharahStatus TaharahStatus { get; set; }
+    public TaharahStatus? TaharahStatus { get; set; }
     
     public string? TaharahLocation { get; set; }
     
+    [Description("תאריך קליטת החלל במכון הטהרה")]
     public DateTime? TaharahReceptionDate { get; set; }
     
-    public bool? InCoffin { get; set; }
+    [Description("האם נקבר בארון")]
+    public bool InCoffin { get; set; }
+    
+    [Description("גוש")]
+    public string? Block { get; set; }
+    
+    [Description("חלקה")]
+    public string? Plot { get; set; }
+    
+    public string? Row { get; set; }
+    
+    public string? Grave { get; set; }
     
     [ForeignKey(nameof(DeceasedId))]
     public virtual Deceased Deceased { get; set; }

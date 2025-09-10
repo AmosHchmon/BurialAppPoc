@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.Resources;
 using DataModel;
 using DataModel.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace EmergencyBurial.Services.DbServices;
 
@@ -24,6 +22,11 @@ public class DeceasedService(EmergencyBurialContext ctx)
     public async Task<Deceased> GetDeceased(Guid? id)
     {
         var deceased = await ctx.Deceaseds
+            .Include(d => d.BagDetails)
+            .Include(d => d.OperationalDetails)
+            .Include(d => d.BurialDetails)
+            .Include(d => d.BurialCoordination)
+            .Include(d => d.Transports)
             .FirstOrDefaultAsync(d => d.Id == id);
         
         return deceased;

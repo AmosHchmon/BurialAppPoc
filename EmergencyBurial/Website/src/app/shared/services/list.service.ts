@@ -1,12 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
-import { IListItem, ListItem } from '../model/list-item';
+import {IListItem, IOptionItem} from '../model/list-item';
 import { IListType } from '../model/list-type';
 import { enmListType } from '../enum/list-type.enum';
-import * as _ from 'lodash';
 import { ddlListItem } from '../ui-components/model/drop-down-item';
 import { BaseService } from 'src/app/core/abstract/base-service';
-
-
 
 @Injectable({
   providedIn:"root"
@@ -31,23 +28,24 @@ export class ListService extends BaseService {
       });
   }
 
+  getBurialBodyList(): Promise<IOptionItem[]> {
+
+    return super.get<IOptionItem[]>({path:'/burial-body'})
+
+  }
+
+  getBurialTypeList(): Promise<IOptionItem[]> {
+
+    return super.get<IOptionItem[]>({path:'/burial-type'})
+
+  }
+
   getTypeList(): Promise<IListType[]> {
 
     return super.get<IListItem[]>({ path: '/listtype' });
 
   }
 
-  getOfficials(): Promise<IListItem[]> {
-
-    return this.get<IListItem[]>({ path: '/officials' });
-
-  }
-
-  getBudgetStatus(): Promise<ListItem[]> {
-
-    return this.get<ListItem[]>({ path: '/budgetstatus' });
-
-  }
 
   //#region [helper methods]
 
