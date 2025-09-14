@@ -51,8 +51,7 @@
           </ng-template>
 
           <ng-template pTemplate="body"
-                       let-listType
-                       let-columns="columns">
+                       let-listType>
             <tr [pSelectableRow]="listType">
               <td style="width: 3rem">
                 <p-tableRadioButton [value]="listType"/>
@@ -172,8 +171,7 @@
           </ng-template>
 
           <ng-template pTemplate="body"
-                       let-listItem
-                       let-columns="columns">
+                       let-listItem>
             <tr [pSelectableRow]="listItem">
               <td style="width: 3rem">
                 <p-tableRadioButton [value]="listItem"/>

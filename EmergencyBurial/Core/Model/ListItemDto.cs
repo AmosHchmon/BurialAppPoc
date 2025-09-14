@@ -12,6 +12,8 @@ namespace Core.Model
         public int? Key { get; set; }
 
         public int? ListTypeId { get; set; }
+        
+        public int? ListItemDepId { get; set; }
 
         public string Text { get; set; }
 
