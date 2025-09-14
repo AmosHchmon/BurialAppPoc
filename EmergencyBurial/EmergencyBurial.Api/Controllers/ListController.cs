@@ -4,12 +4,14 @@ using AutoMapper;
 using Core.Helpers;
 using Core.Model;
 using EmergencyBurial.Services.DbServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmergencyBurial.Api.Controllers;
 
 [Produces("application/json")]
 [Route("[controller]")]
+[Authorize]
 [ApiController]
 public class ListController(ListService listService, IMapper mapper) : ControllerBase
 {

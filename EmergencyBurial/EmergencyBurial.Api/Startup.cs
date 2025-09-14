@@ -152,7 +152,7 @@ namespace EmergencyBurial.Api
             });
 
             app.UseCors(x => x
-                .WithOrigins("http://localhost:3000")
+                .SetIsOriginAllowed(origin => true) // allow any origin
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
