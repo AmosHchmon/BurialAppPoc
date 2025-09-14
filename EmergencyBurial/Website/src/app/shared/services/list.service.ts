@@ -1,12 +1,12 @@
-import { Injectable, Injector } from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {IListItem, IOptionItem} from '../model/list-item';
-import { IListType } from '../model/list-type';
-import { enmListType } from '../enum/list-type.enum';
-import { ddlListItem } from '../ui-components/model/drop-down-item';
-import { BaseService } from 'src/app/core/abstract/base-service';
+import {IListType} from '../model/list-type';
+import {enmListType} from '../enum/list-type.enum';
+import {ddlListItem} from '../ui-components/model/drop-down-item';
+import {BaseService} from 'src/app/core/abstract/base-service';
 
 @Injectable({
-  providedIn:"root"
+  providedIn: "root"
 })
 export class ListService extends BaseService {
 
@@ -16,9 +16,9 @@ export class ListService extends BaseService {
     super("ListService", injector);
   }
 
-   getItemList(): Promise<IListItem[]> {
+  getItemList(): Promise<IListItem[]> {
 
-     return super.get<IListItem[]>({path:'/listitem'})
+    return super.get<IListItem[]>({path: '/list-item'})
       .then((res) => {
 
         this.ListItems = res;
@@ -30,19 +30,19 @@ export class ListService extends BaseService {
 
   getBurialBodyList(): Promise<IOptionItem[]> {
 
-    return super.get<IOptionItem[]>({path:'/burial-body'})
+    return super.get<IOptionItem[]>({path: '/burial-body'})
 
   }
 
   getBurialTypeList(): Promise<IOptionItem[]> {
 
-    return super.get<IOptionItem[]>({path:'/burial-type'})
+    return super.get<IOptionItem[]>({path: '/burial-type'})
 
   }
 
   getTypeList(): Promise<IListType[]> {
 
-    return super.get<IListType[]>({ path: '/list-type' });
+    return super.get<IListType[]>({path: '/list-type'});
 
   }
 
@@ -89,12 +89,30 @@ export class ListService extends BaseService {
 
   saveListType(newListType: IListType) {
 
-    return super.post({path:'/list-type', body: newListType})
+    return super.post({path: '/list-type', body: newListType})
   }
 
-  updateListType(newListType: IListType) {
+  updateListType(listType: IListType) {
 
-    return super.put({path:'/list-type', body: newListType})
+    return super.put({path: '/list-type', body: listType})
+  }
+
+  async saveListItem(newListItem: IListItem) {
+
+    return super.post({path: '/list-item', body: newListItem})
+
+  }
+
+  async updateListItem(listItem: IListType) {
+
+    return super.put({path: '/list-item', body: listItem})
+
+  }
+
+  async deleteListItem(key: number) {
+
+    return super.delete({path: '/list-item/' + key})
+
   }
 
   //#endregion

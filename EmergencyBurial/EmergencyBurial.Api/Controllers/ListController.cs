@@ -31,7 +31,7 @@ public class ListController(ListService listService, IMapper mapper) : Controlle
         }
 
         var listType = mapper.Map<ListType>(listTypeDto);
-        
+
         await listService.AddListType(listType);
 
         return Ok();
@@ -44,20 +44,63 @@ public class ListController(ListService listService, IMapper mapper) : Controlle
         {
             BadRequest();
         }
-        
+
         var listType = mapper.Map<ListType>(listTypeDto);
-        
+
         await listService.UpdateListType(listType);
 
         return Ok();
     }
-    
-    [HttpGet("listitem")]
+
+    [HttpGet("list-item")]
     public async Task<ActionResult<List<ListItemDto>>> GetListItems()
     {
         var list = await listService.GetListItems();
 
         return Ok(mapper.Map<List<ListItemDto>>(list));
+    }
+
+    [HttpPost("list-item")]
+    public async Task<ActionResult<ListItemDto>> CreateListItem([FromBody] ListItemDto listItemDto)
+    {
+        if (listItemDto == null)
+        {
+            return BadRequest();
+        }
+
+        var listItem = mapper.Map<ListItem>(listItemDto);
+
+        await listService.AddListItem(listItem);
+
+        return Ok();
+    }
+
+    [HttpPut("list-item")]
+    public async Task<ActionResult<ListItemDto>> UpdateListItem([FromBody] ListItemDto listItemDto)
+    {
+        if (listItemDto == null)
+        {
+            BadRequest();
+        }
+
+        var listItem = mapper.Map<ListItem>(listItemDto);
+
+        await listService.UpdateListItem(listItem);
+
+        return Ok();
+    }
+
+    [HttpDelete("list-item/{id}")]
+    public async Task<ActionResult> DeleteListItem(string id)
+    {
+        if (!int.TryParse(id, out int idValue))
+        {
+            return BadRequest();
+        }
+
+        await listService.DeleteListItem(idValue);
+
+        return Ok();
     }
 
     [HttpGet("burial-body")]
