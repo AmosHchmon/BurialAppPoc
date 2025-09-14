@@ -40,16 +40,21 @@ export class AlertService {
         break;
 
       case AlertType.Error:
+
         this.showMessage('error', alertModel.Title, alertModel.ClientMessage)
-        let errorAppRes: IAppResponse;
-        errorAppRes = <IAppResponse>(<HttpErrorResponse>errRes).error;
-        console.log(errorAppRes);
+
+        if(errRes){
+          let errorAppRes: IAppResponse;
+          errorAppRes = <IAppResponse>(<HttpErrorResponse>errRes).error;
+          console.log(errorAppRes);
+        }
+
         break;
     }
 
   }
 
-  private showMessage(severity: string, summary: string, detail: string, key: string = 'centerToast', life: number = this.TOAST_LIFE_MS) {
+  private showMessage(severity: string, summary: string = '', detail: string, key: string = 'centerToast', life: number = this.TOAST_LIFE_MS) {
 
     this.messageService.add({
       severity: severity,
@@ -62,11 +67,8 @@ export class AlertService {
 
   errorClientMessage(error: any) {
 
-    if (error?.message) {
-      this.alert(AlertType.Error, {ClientMessage: error?.message});
-    } else {
-      console.log(error);
-    }
+    console.error(error);
+    this.alert(AlertType.Error, {ClientMessage: error?.message});
 
   }
 }
