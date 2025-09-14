@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Helpers;
+using Core.Model;
 using DataModel.Entities;
 using EmergencyBurial.Api.ViewModel;
 
@@ -48,5 +49,15 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Deceased.FirstName))
             .ReverseMap()
             .ForMember(dest => dest.Deceased, opt => opt.Ignore());
+
+        #region common
+
+        CreateMap<ListType, ListTypeDto>()
+            .ReverseMap();
+        
+        CreateMap<ListItem, ListItemDto>()
+            .ReverseMap();
+
+        #endregion
     }
 }

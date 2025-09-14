@@ -13,6 +13,14 @@ namespace EmergencyBurial.Api.Controllers;
 [ApiController]
 public class ListController(ListService listService, IMapper mapper) : ControllerBase
 {
+    [HttpGet("list-type")]
+    public async Task<ActionResult<List<ListTypeDto>>> GetListTypes()
+    {
+        var list = await listService.GetListTypes();
+
+        return Ok(mapper.Map<List<ListTypeDto>>(list));
+    }
+    
     [HttpGet("listitem")]
     public async Task<ActionResult<List<ListItemDto>>> GetListItems()
     {

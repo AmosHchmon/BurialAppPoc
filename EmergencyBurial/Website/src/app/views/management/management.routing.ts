@@ -1,9 +1,15 @@
 ﻿import {Routes} from "@angular/router";
-import {ManagementComponent} from "./components/management/management.component";
+
+import {ListsManagementComponent} from "./components/lists-management/lists-management.component";
+import {UsersManagementComponent} from "./components/users-management/users-management.component";
 
 export const ManagementRouting: Routes = [
   {
-    path: '',
-    component: ManagementComponent
+    path: 'users',
+    component: UsersManagementComponent
+  },
+  {
+    path: 'lists',
+    component: ListsManagementComponent
   }
 ]

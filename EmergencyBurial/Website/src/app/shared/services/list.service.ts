@@ -42,7 +42,7 @@ export class ListService extends BaseService {
 
   getTypeList(): Promise<IListType[]> {
 
-    return super.get<IListItem[]>({ path: '/listtype' });
+    return super.get<IListType[]>({ path: '/list-type' });
 
   }
 

@@ -1,0 +1,83 @@
+<div class="p-3">
+  <p-accordion [multiple]="true">
+
+    <p-accordion-panel value="0">
+
+      <p-accordion-header class="fw-bold">סוגי רשימות</p-accordion-header>
+
+      <p-accordion-content>
+        <div class="mb-4">
+          <p-toolbar class="border rounded-4">
+            <div class="d-flex gap-4">
+              <p-button label="חדש"
+                        icon="pi pi-plus"
+                        (click)="openNew()"/>
+              <p-button label="עדכן"
+                        icon="pi pi-pencil"
+                        (click)="editSelectedListType()"/>
+              <p-button severity="danger"
+                        label="מחק"
+                        icon="pi pi-trash"
+                        outlined
+                        (onClick)="deleteSelectedList()"
+                        [disabled]="!selectedList"/>
+            </div>
+          </p-toolbar>
+        </div>
+
+
+        <p-table #dt
+                 [value]="lists"
+                 [rows]="10"
+                 [size]="'small'"
+                 [columns]="listsColumns"
+                 [paginator]="true"
+                 [tableStyle]="{ 'min-width': '75rem' }"
+                 [rowHover]="true"
+                 dataKey="Id"
+                 selectionMode="single"
+                 currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
+                 [showCurrentPageReport]="true"
+        >
+
+          <ng-template #caption>
+            <div class="d-flex align-items-center justify-content-between">
+              <h5 class="m-0">ניהול סוגי רשימות</h5>
+            </div>
+          </ng-template>
+
+          <ng-template #header>
+            <tr>
+              <th>בחירה</th>
+              @for (col of listsColumns; track col.field) {
+                <th>{{ col.header }}</th>
+              }
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body"
+                       let-listType
+                       let-columns="columns">
+            <tr [pSelectableRow]="listType">
+              <td style="width: 3rem">
+                <p-tableRadioButton [value]="listType"/>
+              </td>
+              <td>
+                {{ listType?.Id }}
+              </td>
+              <td>
+                {{ listType?.Text }}
+              </td>
+              <td>
+                <p-checkbox [(ngModel)]="listType.IsValid"
+                            [binary]="true"
+                            variant="filled"/>
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+      </p-accordion-content>
+    </p-accordion-panel>
+  </p-accordion>
+</div>

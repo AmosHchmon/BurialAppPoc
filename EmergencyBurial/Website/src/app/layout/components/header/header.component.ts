@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(){
 
     if(this.authCtx.isAdmin()){
-      this.tabs.push({route: '/management', label: 'ניהול', icon: 'pi pi-cog'});
+      this.tabs.push({route: '/management/users', label: 'ניהול', icon: 'pi pi-cog'});
     }
   }
 

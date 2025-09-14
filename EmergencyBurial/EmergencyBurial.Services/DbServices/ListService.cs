@@ -41,7 +41,7 @@ namespace EmergencyBurial.Services.DbServices
         #endregion
 
         #region [listType Methods]
-        public async Task<List<ListType>> GetListType()
+        public async Task<List<ListType>> GetListTypes()
         {
             return await ctx.ListTypes.ToListAsync();
         }
