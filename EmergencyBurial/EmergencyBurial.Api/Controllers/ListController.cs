@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Core.Helpers;
 using Core.Model;
+using DataModel.Entities;
 using EmergencyBurial.Services.DbServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,36 @@ public class ListController(ListService listService, IMapper mapper) : Controlle
         var list = await listService.GetListTypes();
 
         return Ok(mapper.Map<List<ListTypeDto>>(list));
+    }
+
+    [HttpPost("list-type")]
+    public async Task<ActionResult<ListTypeDto>> CreateListType([FromBody] ListTypeDto listTypeDto)
+    {
+        if (listTypeDto == null)
+        {
+            BadRequest();
+        }
+
+        var listType = mapper.Map<ListType>(listTypeDto);
+        
+        await listService.AddListType(listType);
+
+        return Ok();
+    }
+
+    [HttpPut("list-type")]
+    public async Task<ActionResult<ListTypeDto>> UpdateListType([FromBody] ListTypeDto listTypeDto)
+    {
+        if (listTypeDto == null)
+        {
+            BadRequest();
+        }
+        
+        var listType = mapper.Map<ListType>(listTypeDto);
+        
+        await listService.UpdateListType(listType);
+
+        return Ok();
     }
     
     [HttpGet("listitem")]

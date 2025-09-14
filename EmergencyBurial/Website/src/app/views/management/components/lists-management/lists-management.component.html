@@ -11,20 +11,21 @@
             <div class="d-flex gap-4">
               <p-button label="חדש"
                         icon="pi pi-plus"
-                        (click)="openNew()"/>
+                        (click)="onNewListType()"/>
               <p-button label="עדכן"
                         icon="pi pi-pencil"
-                        (click)="editSelectedListType()"/>
+                        [disabled]="!dt.selection"
+                        (click)="onEditListType()"/>
               <p-button severity="danger"
                         label="מחק"
                         icon="pi pi-trash"
                         outlined
-                        (onClick)="deleteSelectedList()"
-                        [disabled]="!selectedList"/>
+                        (click)="deleteSelectedListType()"
+                        [disabled]="!dt.selection"
+                        />
             </div>
           </p-toolbar>
         </div>
-
 
         <p-table #dt
                  [value]="lists"
@@ -77,6 +78,38 @@
           </ng-template>
 
         </p-table>
+
+        <p-dialog [(visible)]="showDialog"
+                  [style]="{ width: '25rem' }"
+                  header="הוספת סוג רשימה"
+                  modal="true">
+          <ng-template #content>
+            <div class="d-flex flex-column gap-4">
+              <p-floatlabel class="mt-3" variant="on">
+                <input pInputText
+                       class="w-75"
+                       [(ngModel)]="newListType.Text"
+                       autocomplete="off"/>
+                <label>תיאור</label>
+              </p-floatlabel>
+              <div class="d-flex align-items-center gap-3">
+                <p-checkbox inputId="isValid" [(ngModel)]="newListType.IsValid" [binary]="true"/>
+                <label for="isValid" class="mr-3">האם תקף</label>
+              </div>
+
+              @if (!newListType?.Id) {
+                <p-button label="שמור"
+                          class="mt-3"
+                          (click)="saveListType()"/>
+              } @else {
+                <p-button label="עדכן"
+                          class="mt-3"
+                          (click)="updateListType()"/>
+              }
+
+            </div>
+          </ng-template>
+        </p-dialog>
       </p-accordion-content>
     </p-accordion-panel>
   </p-accordion>

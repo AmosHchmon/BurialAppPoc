@@ -24,6 +24,7 @@ import {TextareaModule} from "primeng/textarea";
 import {SelectModule} from "primeng/select";
 import {DatePickerModule} from "primeng/datepicker";
 import {ToolbarModule} from "primeng/toolbar";
+import {DialogModule} from "primeng/dialog";
 
 @NgModule({
   imports: [
@@ -51,7 +52,8 @@ import {ToolbarModule} from "primeng/toolbar";
     TextareaModule,
     SelectModule,
     DatePickerModule,
-    ToolbarModule
+    ToolbarModule,
+    DialogModule
   ],
   exports: [
     NgOptimizedImage,
@@ -79,7 +81,8 @@ import {ToolbarModule} from "primeng/toolbar";
     TextareaModule,
     SelectModule,
     DatePickerModule,
-    ToolbarModule
+    ToolbarModule,
+    DialogModule
   ],
   declarations: [],
   providers: [

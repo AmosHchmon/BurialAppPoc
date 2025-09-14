@@ -17,8 +17,10 @@ export class ListsManagementComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
 
   lists: IListType[] = [];
-  selectedList: IListType | null;
+  selectedListType: IListType | null;
   listsColumns: IColumn[];
+  showDialog: boolean = false;
+  newListType: IListType = null;
 
   constructor(private listService: ListService, private cd: ChangeDetectorRef) {
   }
@@ -44,20 +46,60 @@ export class ListsManagementComponent implements OnInit {
     this.loadListTypes();
   }
 
-  private async loadListTypes(){
+  private async loadListTypes() {
 
     this.lists = await this.listService.getTypeList();
   }
 
-  openNew() {
+  onNewListType() {
+
+    this.showDialog = true;
+    this.newListType = {};
 
   }
 
-  deleteSelectedList() {
+  async deleteSelectedListType() {
+
+    this.newListType = {...this.dt.selection};
+    this.newListType.IsValid = false;
+
+    await this.listService.updateListType(this.newListType);
+
+    this.afterCloseDialog();
 
   }
 
-  editSelectedListType() {
+  onEditListType() {
+
+    this.newListType = {...this.dt.selection};
+    this.showDialog = true;
+
+  }
+
+  async saveListType() {
+
+    await this.listService.saveListType(this.newListType);
+
+    this.afterCloseDialog();
+  }
+
+  async updateListType() {
+
+    await this.listService.updateListType(this.newListType);
+
+    this.afterCloseDialog();
+
+  }
+
+  private async afterCloseDialog() {
+
+    this.showDialog = false;
+    this.newListType = {};
+    this.dt.selection = null
+
+    await this.loadListTypes();
+
+    this.cd.detectChanges();
 
   }
 }

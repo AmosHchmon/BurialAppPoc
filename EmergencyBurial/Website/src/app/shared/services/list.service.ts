@@ -87,5 +87,16 @@ export class ListService extends BaseService {
 
   }
 
+  saveListType(newListType: IListType) {
+
+    return super.post({path:'/list-type', body: newListType})
+  }
+
+  updateListType(newListType: IListType) {
+
+    return super.put({path:'/list-type', body: newListType})
+  }
+
   //#endregion
+
 }
