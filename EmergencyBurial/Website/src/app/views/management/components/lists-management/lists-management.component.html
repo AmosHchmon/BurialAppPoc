@@ -78,34 +78,43 @@
                   [style]="{ width: '25rem' }"
                   header="הוספת סוג רשימה"
                   modal="true">
-          <ng-template #content>
-            <div class="d-flex flex-column gap-4">
+          <form #form1="ngForm" class="d-flex flex-column gap-4">
 
-              <p-floatlabel class="mt-3" variant="on">
-                <input pInputText
-                       class="w-75"
-                       [(ngModel)]="newListType.Text"
-                       autocomplete="off"/>
-                <label>תיאור</label>
-              </p-floatlabel>
+            <p-floatlabel class="mt-3" variant="on">
+              <input pInputText
+                     #typeText="ngModel"
+                     class="w-75"
+                     required
+                     [(ngModel)]="newListType.Text"
+                     [invalid]="typeText.invalid && typeText.touched"
+                     name="typeText"
+                     autocomplete="off"/>
+              <label>תיאור</label>
+            </p-floatlabel>
 
-              <div class="d-flex align-items-center gap-3">
-                <p-checkbox inputId="isValid" [(ngModel)]="newListType.IsValid" [binary]="true"/>
-                <label for="isValid" class="mr-3">האם תקף</label>
-              </div>
+            <div class="d-flex align-items-center gap-3">
+              <p-checkbox inputId="isValid"
+                          name="isValid"
+                          [(ngModel)]="newListType.IsValid"
+                          [binary]="true"/>
+              <label for="isValid" class="mr-3">האם תקף</label>
+            </div>
 
+            <div>
               @if (!newListType?.Id) {
                 <p-button label="שמור"
                           class="mt-3"
+                          [disabled]="form1.invalid"
                           (click)="saveListType()"/>
               } @else {
                 <p-button label="עדכן"
                           class="mt-3"
+                          [disabled]="form1.invalid"
                           (click)="updateListType()"/>
               }
-
             </div>
-          </ng-template>
+
+          </form>
         </p-dialog>
       </p-accordion-content>
     </p-accordion-panel>
@@ -196,46 +205,54 @@
                   [style]="{ width: '25rem' }"
                   header="הוספת פריט לרשימה"
                   modal="true">
-          <ng-template #content>
-            <div class="d-flex flex-column gap-4">
+          <form #form2="ngForm" class="d-flex flex-column gap-4">
 
-              <p-floatlabel class="mt-3" variant="on">
-                <input pInputText
-                       class="w-75"
-                       readonly
-                       [(ngModel)]="newListItem.Key"
-                       autocomplete="off"/>
-                <label>מזהה פריט</label>
-              </p-floatlabel>
+            <p-floatlabel class="mt-3" variant="on">
+              <input pInputText
+                     class="w-75"
+                     readonly
+                     [(ngModel)]="newListItem.Key"
+                     name="key"
+                     autocomplete="off"/>
+              <label>מזהה פריט</label>
+            </p-floatlabel>
 
-              <p-floatlabel class="mt-3" variant="on">
-                <input pInputText
-                       class="w-75"
-                       [(ngModel)]="newListItem.Text"
-                       autocomplete="off"/>
-                <label>תיאור</label>
-              </p-floatlabel>
+            <p-floatlabel class="mt-3" variant="on">
+              <input pInputText
+                     #listText="ngModel"
+                     class="w-75"
+                     required
+                     [(ngModel)]="newListItem.Text"
+                     [invalid]="listText.invalid && listText.touched"
+                     name="listText"
+                     autocomplete="off"/>
+              <label>תיאור</label>
+            </p-floatlabel>
 
-              <p-floatlabel class="mt-3" variant="on">
-                <input pInputText
-                       class="w-75"
-                       [(ngModel)]="newListItem.Description"
-                       autocomplete="off"/>
-                <label>הסבר</label>
-              </p-floatlabel>
+            <p-floatlabel class="mt-3" variant="on">
+              <input pInputText
+                     class="w-75"
+                     [(ngModel)]="newListItem.Description"
+                     name="description"
+                     autocomplete="off"/>
+              <label>הסבר</label>
+            </p-floatlabel>
 
+            <div>
               @if (!newListItem?.ListTypeId) {
                 <p-button label="שמור"
                           class="mt-3"
+                          [disabled]="form2.invalid"
                           (click)="saveListItem()"/>
               } @else {
                 <p-button label="עדכן"
                           class="mt-3"
+                          [disabled]="form2.invalid"
                           (click)="updateListItem()"/>
               }
-
             </div>
-          </ng-template>
+
+          </form>
         </p-dialog>
       </p-accordion-content>
     </p-accordion-panel>

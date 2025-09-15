@@ -1,11 +1,15 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
+import {NgForm} from "@angular/forms";
 
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {IListType} from "../../../../shared/model/list-type";
 import {ListService} from "../../../../shared/services/list.service";
 import {IColumn} from "../../../../shared/ui-components/model/column";
 import {IListItem} from "../../../../shared/model/list-item";
+import {AlertService} from "../../../../shared/services/alert.service";
+import {AlertType} from "../../../../core/enums/alert.enum";
+import {DialogMessage} from "../../../../shared/static/messages";
 
 @Component({
   selector: 'app-list-side-menu-management',
@@ -18,6 +22,9 @@ export class ListsManagementComponent implements OnInit {
   @ViewChild('dt1') dt1!: Table;
   @ViewChild('dt2') dt2!: Table;
 
+  @ViewChild('form1') form1: NgForm;
+  @ViewChild('form2') form2: NgForm;
+
   listTypes: IListType[] = [];
   allListItems: IListItem[] = [];
   currentListItems: IListItem[] = [];
@@ -25,12 +32,13 @@ export class ListsManagementComponent implements OnInit {
   listItemsColumns: IColumn[];
   showListTypeDialog: boolean = false;
   showListItemDialog: boolean = false;
-  newListType: IListType = null;
-  newListItem: IListItem = null;
+  newListType: IListType = {};
+  newListItem: IListItem = {};
   selectedType: number;
 
-
-  constructor(private listService: ListService, private cd: ChangeDetectorRef) {
+  constructor(private listService: ListService,
+              private alertService: AlertService,
+              private cd: ChangeDetectorRef) {
   }
 
   async ngOnInit() {
@@ -70,6 +78,26 @@ export class ListsManagementComponent implements OnInit {
     await this.loadListItems();
   }
 
+  private async afterCloseDialog() {
+
+    this.showListTypeDialog = false;
+    this.showListItemDialog = false;
+
+    this.newListType = {};
+    this.newListItem = {};
+
+    this.dt1.selection = null
+    this.dt2.selection = null
+
+    await this.loadListTypes();
+    await this.loadListItems();
+
+    this.cd.detectChanges();
+
+  }
+
+  //#region [ListType methods]
+
   private async loadListTypes() {
 
     this.listTypes = await this.listService.getTypeList();
@@ -77,15 +105,9 @@ export class ListsManagementComponent implements OnInit {
     this.selectedType = this.listTypes.at(0).Id;
   }
 
-  private async loadListItems() {
-
-    this.allListItems = await this.listService.getItemList();
-
-    this.changeListItems();
-  }
-
   onNewListType() {
 
+    this.form1.resetForm();
     this.showListTypeDialog = true;
     this.newListType = {};
 
@@ -113,6 +135,8 @@ export class ListsManagementComponent implements OnInit {
 
     await this.listService.saveListType(this.newListType);
 
+    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.itemSavedSuccessfully});
+
     this.afterCloseDialog();
   }
 
@@ -120,26 +144,21 @@ export class ListsManagementComponent implements OnInit {
 
     await this.listService.updateListType(this.newListType);
 
+    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.itemUpdateSuccessfully});
+
     this.afterCloseDialog();
 
   }
 
-  private async afterCloseDialog() {
+  //#endregion
 
-    this.showListTypeDialog = false;
-    this.showListItemDialog = false;
+  //#region [ListItem methods]
 
-    this.newListType = {};
-    this.newListItem = {};
+  private async loadListItems() {
 
-    this.dt1.selection = null
-    this.dt2.selection = null
+    this.allListItems = await this.listService.getItemList();
 
-    await this.loadListTypes();
-    await this.loadListItems();
-
-    this.cd.detectChanges();
-
+    this.changeListItems();
   }
 
   changeListItems() {
@@ -152,25 +171,50 @@ export class ListsManagementComponent implements OnInit {
 
   onNewListItem() {
 
+    this.form2.resetForm();
+
+    this.newListItem = {};
+
     this.showListItemDialog = true;
-    this.newListItem = {Key: this.currentListItems.at(-1).Key + 1};
+
+    if (this.currentListItems.length > 0) {
+      this.newListItem = {Key: this.currentListItems.at(-1).Key + 1};
+    } else {
+      this.newListItem = {Key: this.selectedType + 1};
+    }
 
   }
 
   async saveListItem() {
 
+    const currentSelectedType = this.selectedType;
+
     this.newListItem.ListTypeId = this.selectedType;
-    this.newListItem.ListItemDepId = this.currentListItems.at(0).ListItemDepId;
+
+    if (this.currentListItems.length > 0) {
+      this.newListItem.ListItemDepId = this.currentListItems.at(0).ListItemDepId;
+    }
 
     await this.listService.saveListItem(this.newListItem);
 
+    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.itemSavedSuccessfully});
+
     this.afterCloseDialog();
+
+    setTimeout(() => {
+
+      this.selectedType = currentSelectedType;
+      this.currentListItems = this.allListItems.filter(x => x.ListTypeId == this.selectedType);
+
+    }, 100)
 
   }
 
   async updateListItem() {
 
     await this.listService.updateListItem(this.newListItem);
+
+    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.itemUpdateSuccessfully});
 
     this.afterCloseDialog();
 
@@ -191,4 +235,7 @@ export class ListsManagementComponent implements OnInit {
     this.showListItemDialog = true;
 
   }
+
+
+  //#endregion
 }
