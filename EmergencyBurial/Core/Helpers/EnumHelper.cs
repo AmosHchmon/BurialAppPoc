@@ -46,7 +46,7 @@ namespace Core.Helpers
     }
 
     #region [data model]
-    public enum ListType
+    public enum EntityType
     {
         [Description("סוג ארגון")]
         OrganizationType = 1000,

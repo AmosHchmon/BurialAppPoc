@@ -14,21 +14,21 @@ public class DbHelper
     private readonly IWebHostEnvironment env;
 
     public DbHelper(EmergencyBurialContext db)
-        {
-            this.db = db;
-        }
+    {
+        this.db = db;
+    }
 
-        public void InitDB()
+    public void InitDB()
+    {
+        using (var transaction = db.Database.BeginTransaction())
         {
-            using (var transaction = db.Database.BeginTransaction())
+            try
             {
-                try
-                {
-                    InitListType();
+                InitListType();
 
-                    InitListItems();
+                InitListItems();
 
-                    InitMembers();
+                InitMembers();
 
                 InitDeceasedTestData();
 
@@ -36,110 +36,108 @@ public class DbHelper
 
                 //InitFormsMenu();
 
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    throw;
-                }
+                transaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw;
             }
         }
+    }
 
 
-        #region [private methods]
+    #region [private methods]
 
-        private void InitListType()
+    private void InitListType()
+    {
+        foreach (EntityType type in (EntityType[])Enum.GetValues(typeof(EntityType)))
         {
-            foreach (ListType type in (ListType[])Enum.GetValues(typeof(ListType)))
+            var obj = new ListType()
             {
-                var obj = new ListType()
-                {
-                    
-                    Id = (int)type,
-                    Text = type.GetEnumDescription()
-                };
+                Id = (int)type,
+                Text = type.GetEnumDescription()
+            };
 
-                db.ListTypes.Add(obj);
-            }
-
-            db.SaveChanges();
+            db.ListTypes.Add(obj);
         }
-
-        private void InitListItems()
-        {
-            
-            var count = 1;
-            foreach (OrganizationType type in (OrganizationType[])Enum.GetValues(typeof(OrganizationType)))
-            {
-                var obj = new ListItem()
-                {
-                    Key = (int)ListType.OrganizationType + count++,
-                    ListTypeId = (int)ListType.OrganizationType,
-                    Text = type.GetEnumDescription()
-                };
-
-                db.ListItems.Add(obj);
-            }
-
-           count = 1;
-            foreach (StationType type in (StationType[])Enum.GetValues(typeof(StationType)))
-            {
-                var obj = new ListItem()
-                {
-                    Key = (int)ListType.StationType + count++,
-                    ListTypeId = (int)ListType.StationType,
-                    Text = type.GetEnumDescription()
-                };
-
-                db.ListItems.Add(obj);
-            }
-            
-            count = 1;
-            foreach (TarahStations type in (TarahStations[])Enum.GetValues(typeof(TarahStations)))
-            {
-                var obj = new ListItem()
-                {
-                    Key = (int)ListType.TarahStations + count++,
-                    ListTypeId = (int)ListType.TarahStations,
-                    Text = type.GetEnumDescription(),
-                    ListItemDepId = (int)StationType.TarahStations
-                };
-
-                db.ListItems.Add(obj);
-            }
-            
-            count = 1;
-            foreach (BurialPreparation type in (BurialPreparation[])Enum.GetValues(typeof(BurialPreparation)))
-            {
-                var obj = new ListItem()
-                {
-                    Key = (int)ListType.BurialPreparation + count++,
-                    ListTypeId = (int)ListType.BurialPreparation,
-                    Text = type.GetEnumDescription(),
-                    ListItemDepId = (int)StationType.BurialPreparation
-                };
-
-                db.ListItems.Add(obj);
-            }
-            
-            count = 1;
-            foreach (BurialBody type in (BurialBody[])Enum.GetValues(typeof(BurialBody)))
-            {
-                var obj = new ListItem()
-                {
-                    Key = (int)ListType.BurialBody + count++,
-                    ListTypeId = (int)ListType.BurialBody,
-                    Text = type.GetEnumDescription(),
-                    ListItemDepId = (int)StationType.BetAlmin
-                };
-
-                db.ListItems.Add(obj);
-            }
 
         db.SaveChanges();
     }
-    
+
+    private void InitListItems()
+    {
+        var count = 1;
+        foreach (OrganizationType type in (OrganizationType[])Enum.GetValues(typeof(OrganizationType)))
+        {
+            var obj = new ListItem()
+            {
+                Key = (int)EntityType.OrganizationType + count++,
+                ListTypeId = (int)EntityType.OrganizationType,
+                Text = type.GetEnumDescription()
+            };
+
+            db.ListItems.Add(obj);
+        }
+
+        count = 1;
+        foreach (StationType type in (StationType[])Enum.GetValues(typeof(StationType)))
+        {
+            var obj = new ListItem()
+            {
+                Key = (int)EntityType.StationType + count++,
+                ListTypeId = (int)EntityType.StationType,
+                Text = type.GetEnumDescription()
+            };
+
+            db.ListItems.Add(obj);
+        }
+
+        count = 1;
+        foreach (TarahStations type in (TarahStations[])Enum.GetValues(typeof(TarahStations)))
+        {
+            var obj = new ListItem()
+            {
+                Key = (int)EntityType.TarahStations + count++,
+                ListTypeId = (int)EntityType.TarahStations,
+                Text = type.GetEnumDescription(),
+                ListItemDepId = (int)StationType.TarahStations
+            };
+
+            db.ListItems.Add(obj);
+        }
+
+        count = 1;
+        foreach (BurialPreparation type in (BurialPreparation[])Enum.GetValues(typeof(BurialPreparation)))
+        {
+            var obj = new ListItem()
+            {
+                Key = (int)EntityType.BurialPreparation + count++,
+                ListTypeId = (int)EntityType.BurialPreparation,
+                Text = type.GetEnumDescription(),
+                ListItemDepId = (int)StationType.BurialPreparation
+            };
+
+            db.ListItems.Add(obj);
+        }
+
+        count = 1;
+        foreach (BurialBody type in (BurialBody[])Enum.GetValues(typeof(BurialBody)))
+        {
+            var obj = new ListItem()
+            {
+                Key = (int)EntityType.BurialBody + count++,
+                ListTypeId = (int)EntityType.BurialBody,
+                Text = type.GetEnumDescription(),
+                ListItemDepId = (int)StationType.BetAlmin
+            };
+
+            db.ListItems.Add(obj);
+        }
+
+        db.SaveChanges();
+    }
+
     private void InitDeceasedTestData()
     {
         // Check if there is already data to prevent duplicates on multiple runs
@@ -147,94 +145,94 @@ public class DbHelper
         {
             return;
         }
-        
-        var deceased1Id = Guid.NewGuid();
-            var deceased1 = new Deceased
-            {
-                Id = deceased1Id,
-                HalalNumber = "C-1001",
-                IdentityNumber = "123456789",
-                FirstName = "ישראל",
-                LastName = "ישראלי",
-                FatherName = "אברהם",
-                Gender = "זכר",
-                HomeCity = "ירושלים",
-                PoliceCaseNumber = "PL-789123",
-                // יצירת ישויות הבן עם אותו מזהה
-                BagDetails = new DeceasedBagDetails
-                {
-                    DeceasedId = deceased1Id,
-                    Affiliation = Affiliation.Civilian,
-                    ReceivingStation = (int)TarahStations.Shura,
-                    CanBeIdentifiedByAcquaintance = true,
-                    RelatedBagNumbers = "C-1003"
-                },
-                OperationalDetails = new DeceasedOperational
-                {
-                    DeceasedId = deceased1Id,
-                    IdentificationStatus = IdentificationStatus.Identified,
-                    BadMessageProcessStatus = "הודעה נמסרה",
-                    BadMessageStartDate = DateTime.Now.AddDays(-1)
-                },
-                BurialDetails = new DeceasedBurial
-                {
-                    DeceasedId = deceased1Id,
-                    BurialType = BurialType.Final,
-                    IsCivilBurial = false,
-                    TaharahStatus = TaharahStatus.Completed,
-                    TaharahLocation = "מכון טהרה גבעת שאול"
-                },
-                BurialCoordination = new DeceasedBurialCoordination
-                {
-                    DeceasedId = deceased1Id,
-                    BurialCity = "ירושלים",
-                    PlannedBurialDate = DateTime.Now.Date,
-                    PlannedBurialTime = new TimeSpan(15, 30, 0),
-                    IsCoordinatedWithHevratKadisha = true,
-                    FamilyContactName = "משה ישראלי",
-                    FamilyContactPhone = "050-1234567"
-                }
-            };
 
-            var deceased2Id = Guid.NewGuid();
-            var deceased2 = new Deceased
+        var deceased1Id = Guid.NewGuid();
+        var deceased1 = new Deceased
+        {
+            Id = deceased1Id,
+            HalalNumber = "C-1001",
+            IdentityNumber = "123456789",
+            FirstName = "ישראל",
+            LastName = "ישראלי",
+            FatherName = "אברהם",
+            Gender = "זכר",
+            HomeCity = "ירושלים",
+            PoliceCaseNumber = "PL-789123",
+            // יצירת ישויות הבן עם אותו מזהה
+            BagDetails = new DeceasedBagDetails
             {
-                Id = deceased2Id,
-                HalalNumber = "C-1002",
-                IdentityNumber = "987654321",
-                FirstName = "יעל",
-                LastName = "כהן",
-                FatherName = "משה",
-                Gender = "נקבה",
-                HomeCity = "תל אביב",
-                PoliceCaseNumber = "PL-456789",
-                BagDetails = new DeceasedBagDetails
-                {
-                    DeceasedId = deceased2Id,
-                    Affiliation = Affiliation.SecurityForces,
-                    ReceivingStation = (int)TarahStations.Tziporit,
-                    CanBeIdentifiedByAcquaintance = false
-                },
-                OperationalDetails = new DeceasedOperational
-                {
-                    DeceasedId = deceased2Id,
-                    IdentificationStatus = IdentificationStatus.NotIdentified,
-                    BadMessageProcessStatus = "ממתין לזיהוי"
-                },
-                BurialDetails = new DeceasedBurial
-                {
-                    DeceasedId = deceased2Id,
-                    BurialType = BurialType.Temporary,
-                    IsCivilBurial = true,
-                    TaharahStatus = TaharahStatus.Pending
-                },
-                BurialCoordination = new DeceasedBurialCoordination
-                {
-                    DeceasedId = deceased2Id,
-                    IsCoordinatedWithHevratKadisha = false
-                }
-            };
-        
+                DeceasedId = deceased1Id,
+                Affiliation = Affiliation.Civilian,
+                ReceivingStation = (int)TarahStations.Shura,
+                CanBeIdentifiedByAcquaintance = true,
+                RelatedBagNumbers = "C-1003"
+            },
+            OperationalDetails = new DeceasedOperational
+            {
+                DeceasedId = deceased1Id,
+                IdentificationStatus = IdentificationStatus.Identified,
+                BadMessageProcessStatus = "הודעה נמסרה",
+                BadMessageStartDate = DateTime.Now.AddDays(-1)
+            },
+            BurialDetails = new DeceasedBurial
+            {
+                DeceasedId = deceased1Id,
+                BurialType = BurialType.Final,
+                IsCivilBurial = false,
+                TaharahStatus = TaharahStatus.Completed,
+                TaharahLocation = "מכון טהרה גבעת שאול"
+            },
+            BurialCoordination = new DeceasedBurialCoordination
+            {
+                DeceasedId = deceased1Id,
+                BurialCity = "ירושלים",
+                PlannedBurialDate = DateTime.Now.Date,
+                PlannedBurialTime = new TimeSpan(15, 30, 0),
+                IsCoordinatedWithHevratKadisha = true,
+                FamilyContactName = "משה ישראלי",
+                FamilyContactPhone = "050-1234567"
+            }
+        };
+
+        var deceased2Id = Guid.NewGuid();
+        var deceased2 = new Deceased
+        {
+            Id = deceased2Id,
+            HalalNumber = "C-1002",
+            IdentityNumber = "987654321",
+            FirstName = "יעל",
+            LastName = "כהן",
+            FatherName = "משה",
+            Gender = "נקבה",
+            HomeCity = "תל אביב",
+            PoliceCaseNumber = "PL-456789",
+            BagDetails = new DeceasedBagDetails
+            {
+                DeceasedId = deceased2Id,
+                Affiliation = Affiliation.SecurityForces,
+                ReceivingStation = (int)TarahStations.Tziporit,
+                CanBeIdentifiedByAcquaintance = false
+            },
+            OperationalDetails = new DeceasedOperational
+            {
+                DeceasedId = deceased2Id,
+                IdentificationStatus = IdentificationStatus.NotIdentified,
+                BadMessageProcessStatus = "ממתין לזיהוי"
+            },
+            BurialDetails = new DeceasedBurial
+            {
+                DeceasedId = deceased2Id,
+                BurialType = BurialType.Temporary,
+                IsCivilBurial = true,
+                TaharahStatus = TaharahStatus.Pending
+            },
+            BurialCoordination = new DeceasedBurialCoordination
+            {
+                DeceasedId = deceased2Id,
+                IsCoordinatedWithHevratKadisha = false
+            }
+        };
+
 
         db.Deceaseds.AddRange(deceased1, deceased2);
         db.SaveChanges();
@@ -246,14 +244,14 @@ public class DbHelper
         {
             return;
         }
-        
+
         var firstDeceased = db.Deceaseds.FirstOrDefault(d => d.HalalNumber == "C-1001");
-        
+
         if (firstDeceased == null)
         {
             return;
         }
-        
+
         var list = new List<Transport>
         {
             new Transport
@@ -290,10 +288,9 @@ public class DbHelper
                 LicensePlate = "99-888-11"
             }
         };
-        
+
         db.Transports.AddRange(list);
         db.SaveChanges();
-        
     }
 
     private void InitMembers()
@@ -305,7 +302,11 @@ public class DbHelper
                 FullName = "עוז שורקי",
                 UserName = "308015205",
                 Mail = "OzS@dat.gov.il",
-                OrganizationTypeId = (int)OrganizationType.Hamal
+                RoleTypeId = RoleType.Admin,
+                OrganizationTypeId = (int)OrganizationType.DatServices,
+                StationTypeId = (int)StationType.TarahStations,
+                StationId = (int)TarahStations.Shura,
+                IsActive = true,
             }
         };
 

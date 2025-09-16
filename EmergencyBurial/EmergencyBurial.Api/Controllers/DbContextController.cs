@@ -7,6 +7,7 @@ using EmergencyBurial.Api.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
+using EntityType = Core.Helpers.EntityType;
 
 
 namespace EmergencyBurial.Api.Controllers;
@@ -74,7 +75,7 @@ public class DbContextController(EmergencyBurialContext db, ILogger<DbContextCon
     [HttpGet("enum-values")]
     public IActionResult GetEnumsValues()
     {
-        var list = EnumHelper.EnumNamedValues<ListType>();
+        var list = EnumHelper.EnumNamedValues<EntityType>();
 
         return Ok(list);
     }
