@@ -65,10 +65,10 @@ namespace Core.Helpers
     #region [list item]
     public enum OrganizationType
     {
+        [Description("משרד שירותי הדת")] 
+        DatServices = 1001, 
         [Description("חמ'ל")]
-        Hamal = 1001,
-        [Description("מוקד הודעה מרה")]
-        BadMessageCenter = 1002,
+        Hamal = 1002,
         [Description("תר'ח")]
         Tarah = 1003,
         [Description("הכנה לקבורה")]
@@ -181,6 +181,16 @@ namespace Core.Helpers
         Civilian = 0,
         [Description("כוחות ביטחון")]
         SecurityForces = 1
+    }
+    
+    public enum RoleType
+    {
+        [Description("מנהל מערכת")]
+        Admin = 1,
+        [Description("עורך")]
+        Editor = 2,
+        [Description("צופה")]
+        Viewer = 3
     }
 
     #endregion

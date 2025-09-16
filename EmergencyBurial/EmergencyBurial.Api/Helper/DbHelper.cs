@@ -74,8 +74,8 @@ public class DbHelper
             {
                 var obj = new ListItem()
                 {
-                    Key = (int)EntityType.OrganizationType + count++,
-                    ListTypeId = (int)EntityType.OrganizationType,
+                    Key = (int)ListType.OrganizationType + count++,
+                    ListTypeId = (int)ListType.OrganizationType,
                     Text = type.GetEnumDescription()
                 };
 
@@ -87,8 +87,8 @@ public class DbHelper
             {
                 var obj = new ListItem()
                 {
-                    Key = (int)EntityType.StationType + count++,
-                    ListTypeId = (int)EntityType.StationType,
+                    Key = (int)ListType.StationType + count++,
+                    ListTypeId = (int)ListType.StationType,
                     Text = type.GetEnumDescription()
                 };
 
@@ -100,8 +100,8 @@ public class DbHelper
             {
                 var obj = new ListItem()
                 {
-                    Key = (int)EntityType.TarahStations + count++,
-                    ListTypeId = (int)EntityType.TarahStations,
+                    Key = (int)ListType.TarahStations + count++,
+                    ListTypeId = (int)ListType.TarahStations,
                     Text = type.GetEnumDescription(),
                     ListItemDepId = (int)StationType.TarahStations
                 };
@@ -114,8 +114,8 @@ public class DbHelper
             {
                 var obj = new ListItem()
                 {
-                    Key = (int)EntityType.BurialPreparation + count++,
-                    ListTypeId = (int)EntityType.BurialPreparation,
+                    Key = (int)ListType.BurialPreparation + count++,
+                    ListTypeId = (int)ListType.BurialPreparation,
                     Text = type.GetEnumDescription(),
                     ListItemDepId = (int)StationType.BurialPreparation
                 };
@@ -128,8 +128,8 @@ public class DbHelper
             {
                 var obj = new ListItem()
                 {
-                    Key = (int)EntityType.BurialBody + count++,
-                    ListTypeId = (int)EntityType.BurialBody,
+                    Key = (int)ListType.BurialBody + count++,
+                    ListTypeId = (int)ListType.BurialBody,
                     Text = type.GetEnumDescription(),
                     ListItemDepId = (int)StationType.BetAlmin
                 };
