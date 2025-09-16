@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Core.Helpers;
 
-namespace DataModel.Entities
-{
+namespace DataModel.Entities;
+
     public class Member
     {
         [Key]
@@ -26,13 +25,12 @@ namespace DataModel.Entities
 
         [MaxLength(10)]
         public string? PhoneNumber { get; set; }
-
-        // --- שדות חדשים ---
+        
         [Required]
-        public int OrganizationTypeId { get; set; }
+        public int? OrganizationTypeId { get; set; }
 
         [Required]
-        public RoleType RoleTypeId { get; set; }
+        public int? RoleTypeId { get; set; }
 
         public int? StationTypeId { get; set; }
         
@@ -54,4 +52,3 @@ namespace DataModel.Entities
         [ForeignKey(nameof(StationId))]
         public virtual ListItem Station { get; set; }
     }
-}

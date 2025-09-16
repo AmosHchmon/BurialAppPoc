@@ -1,4 +1,4 @@
-import {enmMemberType} from '../enum/list-type.enum';
+import {enmOrganizationType, enmRoleType} from '../enum/list-type.enum';
 
 export interface IMember {
   Id?: string;
@@ -6,7 +6,12 @@ export interface IMember {
   FullName?: string;
   Mail?: string;
   PhoneNumber?: string;
-  MemberTypeId?: enmMemberType;
+  OrganizationDesc?: string;
+  RoleDesc?: string,
+  StationDesc?: string,
+  StationId?: number,
+  OtpNumber?: string,
+  OtpExpired?: Date,
   IsActive?: boolean;
   MemberTypeDescription?: string;
 }

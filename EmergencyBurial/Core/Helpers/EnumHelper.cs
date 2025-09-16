@@ -87,7 +87,6 @@ namespace Core.Helpers
         BetAlmin = 2003,
     }
     
-    // Will be converted to management table
     public enum TarahStations
     {
         [Description("שורה")]
@@ -174,7 +173,6 @@ namespace Core.Helpers
         Final = 1
     }
     
-    // Will be converted to management table
     public enum Affiliation
     {
         [Description("אזרחי")]

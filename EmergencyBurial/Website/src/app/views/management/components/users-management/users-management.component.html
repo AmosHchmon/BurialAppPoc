@@ -1,0 +1,78 @@
+<div class="p-3 mt-5">
+  <p-toolbar class="border rounded-4">
+    <div class="d-flex gap-4">
+      <p-button label="הוסף"
+                icon="pi pi-plus"
+                (click)="onNewMember()"/>
+      <p-button label="עדכן"
+                icon="pi pi-pencil"
+                [disabled]="!dt.selection"
+                (click)="onEditMember()"/>
+      <p-button severity="danger"
+                label="מחק"
+                icon="pi pi-trash"
+                outlined
+                (click)="onDeleteMember()"
+                [disabled]="!dt.selection"
+      />
+    </div>
+  </p-toolbar>
+
+  <p-table #dt
+           [value]="members"
+           [rows]="10"
+           [size]="'small'"
+           [columns]="membersColumns"
+           [paginator]="true"
+           [tableStyle]="{ 'min-width': '75rem' }"
+           [rowHover]="true"
+           dataKey="Id"
+           selectionMode="single"
+           currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
+           [showCurrentPageReport]="true"
+  >
+
+    <ng-template #header>
+      <tr>
+        <th>בחירה</th>
+        @for (col of membersColumns; track col.field) {
+          <th>{{ col.header }}</th>
+        }
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body"
+                 let-member>
+      <tr [pSelectableRow]="member">
+        <td style="width: 3rem">
+          <p-tableRadioButton [value]="member"/>
+        </td>
+        <td>
+          {{ member?.UserName }}
+        </td>
+        <td>
+          {{ member?.FullName }}
+        </td>
+        <td>
+          {{ member?.Mail }}
+        </td>
+        <td>
+          {{ member?.PhoneNumber }}
+        </td>
+        <td>
+          {{ member?.OrganizationDesc }}
+        </td>
+        <td>
+          {{ member?.RoleDesc }}
+        </td>
+        <td>
+          {{ member?.StationDesc }}
+        </td>
+        <td>
+          {{ member?.StationId }}
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+</div>

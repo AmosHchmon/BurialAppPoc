@@ -18,4 +18,9 @@ export class AuthService extends BaseService {
     return super.put({path: '/login', body: userOtp});
   }
 
+  getMembers(): Promise<IMember[]> {
+    return super.get({path: '/members'});
+
+  }
+
 }

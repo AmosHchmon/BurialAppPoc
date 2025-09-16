@@ -163,7 +163,7 @@ public class DbHelper
             {
                 DeceasedId = deceased1Id,
                 Affiliation = Affiliation.Civilian,
-                ReceivingStation = (int)TarahStations.Shura,
+                ReceivingStation = TarahStations.Shura,
                 BroughtBy = BurialBody.AbuKabir,CanBeIdentifiedByAcquaintance = true,
                 RelatedBagNumbers = 5
             },
@@ -211,7 +211,7 @@ public class DbHelper
             {
                 DeceasedId = deceased2Id,
                 Affiliation = Affiliation.SecurityForces,
-                ReceivingStation = (int)TarahStations.Tziporit,
+                ReceivingStation = TarahStations.Tziporit,
                 BroughtBy = BurialBody.RishonLezion,CanBeIdentifiedByAcquaintance = false
             },
             OperationalDetails = new DeceasedOperational
@@ -304,8 +304,8 @@ public class DbHelper
                 FullName = "עוז שורקי",
                 UserName = "308015205",
                 Mail = "OzS@dat.gov.il",
-                RoleTypeId = RoleType.Admin,
-                OrganizationTypeId = (int)OrganizationType.DatServices,
+                RoleTypeId = (int)RoleType.Admin,
+                OrganizationTypeId = (int)OrganizationType.Tarah,
                 StationTypeId = (int)StationType.TarahStations,
                 StationId = (int)TarahStations.Shura,
                 IsActive = true,
