@@ -15,7 +15,10 @@ export let DialogMessage = {
   BirthDateError: 'תאריך לידה לא תקין',
   ShouldDelete: 'האם ברצונך למחוק את הרשומה?',
   ItemNotComplete: 'יש למלא את כל פרטי הרשומה.',
-  newDeceasedAdded: 'נפטר חדש התווסף למערכת',
-  itemSavedSuccessfully: 'הפריט נשמר בהצלחה',
-  itemUpdateSuccessfully: 'הפריט עודכן בהצלחה'
+  NewDeceasedAdded: 'נפטר חדש התווסף למערכת',
+  ItemSavedSuccessfully: 'הפריט נשמר בהצלחה',
+  ItemUpdateSuccessfully: 'הפריט עודכן בהצלחה',
+  DeleteListType: 'פעולה זו תמחק סוג רשימה זו',
+  DeleteListItem: 'פעולה זו תמחק פריט זה',
+  ConnectedListItems: 'ישנם רשימות הקשורות לסוג רשימה זו. נא למחוק אותם',
 };

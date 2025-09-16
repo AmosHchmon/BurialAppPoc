@@ -52,6 +52,19 @@ public class ListController(ListService listService, IMapper mapper) : Controlle
         return Ok();
     }
 
+    [HttpDelete("list-type/{id}")]
+    public async Task<ActionResult> DeleteListType(string id)
+    {
+        if (!int.TryParse(id, out int idValue))
+        {
+            return BadRequest();
+        }
+        
+        await listService.DeleteListType(idValue);
+
+        return Ok();
+    }
+
     [HttpGet("list-item")]
     public async Task<ActionResult<List<ListItemDto>>> GetListItems()
     {

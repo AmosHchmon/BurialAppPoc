@@ -14,20 +14,20 @@
                         (click)="onNewListType()"/>
               <p-button label="עדכן"
                         icon="pi pi-pencil"
-                        [disabled]="!dt1.selection"
+                        [disabled]="!typeTable.selection"
                         (click)="onEditListType()"/>
               <p-button severity="danger"
                         label="מחק"
                         icon="pi pi-trash"
                         outlined
                         (click)="onDeleteListType()"
-                        [disabled]="!dt1.selection"
+                        [disabled]="!typeTable.selection"
               />
             </div>
           </p-toolbar>
         </div>
 
-        <p-table #dt1
+        <p-table #typeTable
                  [value]="listTypes"
                  [rows]="10"
                  [size]="'small'"
@@ -78,7 +78,7 @@
                   [style]="{ width: '25rem' }"
                   header="הוספת סוג רשימה"
                   modal="true">
-          <form #form1="ngForm" class="d-flex flex-column gap-4">
+          <form #typeForm="ngForm" class="d-flex flex-column gap-4">
 
             <p-floatlabel class="mt-3" variant="on">
               <input pInputText
@@ -104,12 +104,12 @@
               @if (!newListType?.Id) {
                 <p-button label="שמור"
                           class="mt-3"
-                          [disabled]="form1.invalid"
+                          [disabled]="typeForm.invalid"
                           (click)="saveListType()"/>
               } @else {
                 <p-button label="עדכן"
                           class="mt-3"
-                          [disabled]="form1.invalid"
+                          [disabled]="typeForm.invalid"
                           (click)="updateListType()"/>
               }
             </div>
@@ -134,7 +134,7 @@
 
               <p-button label="עדכן"
                         icon="pi pi-pencil"
-                        [disabled]="!dt2.selection"
+                        [disabled]="!listTable.selection"
                         (click)="onEditListItem()"/>
 
               <p-button severity="danger"
@@ -142,7 +142,7 @@
                         icon="pi pi-trash"
                         outlined
                         (click)="onDeleteListItem()"
-                        [disabled]="!dt2.selection"
+                        [disabled]="!listTable.selection"
               />
             </div>
           </p-toolbar>
@@ -156,7 +156,7 @@
                   placeholder="סוג רשימה"
                   class="w-25 md:w-56 my-4"/>
 
-        <p-table #dt2
+        <p-table #listTable
                  [value]="currentListItems"
                  [rows]="10"
                  [size]="'small'"
@@ -189,6 +189,9 @@
                 {{ listItem?.Key }}
               </td>
               <td>
+                {{ listItem?.ListItemDepId }}
+              </td>
+              <td>
                 {{ listItem?.Text }}
               </td>
               <td>
@@ -205,7 +208,7 @@
                   [style]="{ width: '25rem' }"
                   header="הוספת פריט לרשימה"
                   modal="true">
-          <form #form2="ngForm" class="d-flex flex-column gap-4">
+          <form #listForm="ngForm" class="d-flex flex-column gap-4">
 
             <p-floatlabel class="mt-3" variant="on">
               <input pInputText
@@ -242,12 +245,12 @@
               @if (!newListItem?.ListTypeId) {
                 <p-button label="שמור"
                           class="mt-3"
-                          [disabled]="form2.invalid"
+                          [disabled]="listForm.invalid"
                           (click)="saveListItem()"/>
               } @else {
                 <p-button label="עדכן"
                           class="mt-3"
-                          [disabled]="form2.invalid"
+                          [disabled]="listForm.invalid"
                           (click)="updateListItem()"/>
               }
             </div>

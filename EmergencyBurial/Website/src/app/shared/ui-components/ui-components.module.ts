@@ -26,6 +26,7 @@ import {DatePickerModule} from "primeng/datepicker";
 import {ToolbarModule} from "primeng/toolbar";
 import {DialogModule} from "primeng/dialog";
 import {AutoFocusModule} from "primeng/autofocus";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 @NgModule({
   imports: [
@@ -55,7 +56,8 @@ import {AutoFocusModule} from "primeng/autofocus";
     DatePickerModule,
     ToolbarModule,
     DialogModule,
-    AutoFocusModule
+    AutoFocusModule,
+    ConfirmDialogModule
   ],
   exports: [
     NgOptimizedImage,
@@ -85,7 +87,8 @@ import {AutoFocusModule} from "primeng/autofocus";
     DatePickerModule,
     ToolbarModule,
     DialogModule,
-    AutoFocusModule
+    AutoFocusModule,
+    ConfirmDialogModule
   ],
   declarations: [],
   providers: [

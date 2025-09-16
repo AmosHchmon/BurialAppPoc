@@ -97,6 +97,11 @@ export class ListService extends BaseService {
     return super.put({path: '/list-type', body: listType})
   }
 
+  deleteListType(id: number) {
+
+    return super.delete({path: `/list-type/${id}`});
+  }
+
   async saveListItem(newListItem: IListItem) {
 
     return super.post({path: '/list-item', body: newListItem})

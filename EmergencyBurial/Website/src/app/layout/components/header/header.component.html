@@ -11,12 +11,12 @@
     <div class="pb-3">
       <p-tabs>
         <p-tablist>
-          @for(tab of tabs; track tab.route){
-            <p-tab [value]="tab.route"
-                   [routerLink]="tab.route"
+          @for(tab of tabs; track tab.url){
+            <p-tab [value]="tab.url"
+                   [routerLink]="tab.url"
                    routerLinkActive="p-tab-active"
                    class="d-flex align-items-center gap-2">
-              <span>{{ tab.label }}</span>
+              <span>{{ tab.name }}</span>
               <i [class]="tab.icon"></i>
             </p-tab>
           }
