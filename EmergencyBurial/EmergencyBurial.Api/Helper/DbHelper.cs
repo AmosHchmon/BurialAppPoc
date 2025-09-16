@@ -164,15 +164,16 @@ public class DbHelper
                 DeceasedId = deceased1Id,
                 Affiliation = Affiliation.Civilian,
                 ReceivingStation = (int)TarahStations.Shura,
-                CanBeIdentifiedByAcquaintance = true,
-                RelatedBagNumbers = "C-1003"
+                BroughtBy = BurialBody.AbuKabir,CanBeIdentifiedByAcquaintance = true,
+                RelatedBagNumbers = 5
             },
             OperationalDetails = new DeceasedOperational
             {
                 DeceasedId = deceased1Id,
                 IdentificationStatus = IdentificationStatus.Identified,
                 BadMessageProcessStatus = "הודעה נמסרה",
-                BadMessageStartDate = DateTime.Now.AddDays(-1)
+                BadMessageStartDate = DateTime.Now.AddDays(-1),
+                    BurialProcessStatus = BurialProcessStatus.Buried
             },
             BurialDetails = new DeceasedBurial
             {
@@ -186,8 +187,8 @@ public class DbHelper
             {
                 DeceasedId = deceased1Id,
                 BurialCity = "ירושלים",
-                PlannedBurialDate = DateTime.Now.Date,
-                PlannedBurialTime = new TimeSpan(15, 30, 0),
+                BurialTime = DateTime.Now.Date,
+
                 IsCoordinatedWithHevratKadisha = true,
                 FamilyContactName = "משה ישראלי",
                 FamilyContactPhone = "050-1234567"
@@ -211,13 +212,15 @@ public class DbHelper
                 DeceasedId = deceased2Id,
                 Affiliation = Affiliation.SecurityForces,
                 ReceivingStation = (int)TarahStations.Tziporit,
-                CanBeIdentifiedByAcquaintance = false
+                BroughtBy = BurialBody.RishonLezion,CanBeIdentifiedByAcquaintance = false
             },
             OperationalDetails = new DeceasedOperational
             {
                 DeceasedId = deceased2Id,
                 IdentificationStatus = IdentificationStatus.NotIdentified,
-                BadMessageProcessStatus = "ממתין לזיהוי"
+                BadMessageProcessStatus = "ממתין לזיהוי",
+                    BadMessageStartDate = DateTime.Now.AddDays(-1),
+                    BurialProcessStatus = BurialProcessStatus.AtBurialCompany
             },
             BurialDetails = new DeceasedBurial
             {
@@ -232,7 +235,6 @@ public class DbHelper
                 IsCoordinatedWithHevratKadisha = false
             }
         };
-
 
         db.Deceaseds.AddRange(deceased1, deceased2);
         db.SaveChanges();

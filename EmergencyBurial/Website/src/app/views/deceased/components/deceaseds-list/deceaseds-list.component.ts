@@ -108,7 +108,7 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
 
         this.cdr.detectChanges();
 
-        this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.newDeceasedAdded});
+        this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.NewDeceasedAdded});
       }
     );
   }

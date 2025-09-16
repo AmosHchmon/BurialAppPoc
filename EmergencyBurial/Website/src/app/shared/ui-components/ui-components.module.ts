@@ -13,12 +13,20 @@ import {MessageModule} from "primeng/message";
 import {FloatLabelModule} from "primeng/floatlabel";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 import {InputGroupModule} from "primeng/inputgroup";
-
-
-import {FileService} from '../file-upload/services/file.service';
+import {RippleModule} from "primeng/ripple";
 import {TabsModule} from "primeng/tabs";
 import {DrawerModule} from "primeng/drawer";
 import {MenuModule} from "primeng/menu";
+
+import {FileService} from '../file-upload/services/file.service';
+import {CheckboxModule} from "primeng/checkbox";
+import {TextareaModule} from "primeng/textarea";
+import {SelectModule} from "primeng/select";
+import {DatePickerModule} from "primeng/datepicker";
+import {ToolbarModule} from "primeng/toolbar";
+import {DialogModule} from "primeng/dialog";
+import {AutoFocusModule} from "primeng/autofocus";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 @NgModule({
   imports: [
@@ -38,8 +46,18 @@ import {MenuModule} from "primeng/menu";
     FloatLabelModule,
     InputGroupAddonModule,
     InputGroupModule,
+    RippleModule,
+    TabsModule,
     DrawerModule,
-    MenuModule
+    MenuModule,
+    CheckboxModule,
+    TextareaModule,
+    SelectModule,
+    DatePickerModule,
+    ToolbarModule,
+    DialogModule,
+    AutoFocusModule,
+    ConfirmDialogModule
   ],
   exports: [
     NgOptimizedImage,
@@ -60,10 +78,19 @@ import {MenuModule} from "primeng/menu";
     InputGroupAddonModule,
     InputGroupModule,
     DrawerModule,
-    MenuModule
+    MenuModule,
+    RippleModule,
+    TabsModule,
+    CheckboxModule,
+    TextareaModule,
+    SelectModule,
+    DatePickerModule,
+    ToolbarModule,
+    DialogModule,
+    AutoFocusModule,
+    ConfirmDialogModule
   ],
-  declarations: [
-  ],
+  declarations: [],
   providers: [
     FileService,
     {provide: MAT_DATE_LOCALE, useValue: 'he-IL'},

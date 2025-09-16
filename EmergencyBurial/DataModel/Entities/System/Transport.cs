@@ -7,10 +7,10 @@ namespace DataModel.Entities
     public class Transport
     {
         [Key]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
-        public Guid DeceasedId { get; set; }
+        public Guid? DeceasedId { get; set; }
 
         [Required]
         public string StartLocation { get; set; }

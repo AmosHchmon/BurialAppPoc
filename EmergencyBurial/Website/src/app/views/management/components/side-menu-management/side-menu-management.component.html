@@ -1,0 +1,17 @@
+<div class="d-flex flex-column">
+  <p-button class="w-auto"
+            label="תפריט"
+            icon="pi pi-bars"
+            (click)="visible = true"></p-button>
+  <p-drawer [(visible)]="visible"
+            position="right">
+    @for (item of menuItems; track item.url) {
+      <div class="p-2 fs-5 cursor-pointer d-flex align-items-center gap-3"
+           (click)="navigate(item.url)"
+           pRipple>
+        <i [class]="item.icon + ' fs-4'"></i>
+        <span>{{ item.name }}</span>
+      </div>
+    }
+  </p-drawer>
+</div>

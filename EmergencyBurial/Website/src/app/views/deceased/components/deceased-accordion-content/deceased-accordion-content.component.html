@@ -1,0 +1,26 @@
+<div class="d-flex gap-5 w-100">
+  <div class="d-flex flex-column gap-3 p-3 w-50">
+    @for (field of fieldsPart1; track field.field) {
+      <div>
+        <div class="d-flex flex-column border-bottom mb-2">
+          <label class="d-block fw-bold mb-1 header">{{ field?.header }}</label>
+          <div class="text">{{ this.data.object && this.data.object[field?.field] ?? 'לא הוזן' }}</div>
+        </div>
+      </div>
+    } @empty {
+      <div>אין נתונים להצגה.</div>
+    }
+  </div>
+  <div class="d-flex flex-column gap-3 p-3 w-50">
+    @for (field of fieldsPart2; track field.field) {
+      <div>
+        <div class="d-flex flex-column border-bottom mb-2">
+          <label class="d-block fw-bold mb-1 header">{{ field?.header }}</label>
+          <div class="text">{{ data.object?.[field?.field] ?? 'לא הוזן' }}</div>
+        </div>
+      </div>
+    } @empty {
+      <div>אין נתונים להצגה.</div>
+    }
+  </div>
+</div>

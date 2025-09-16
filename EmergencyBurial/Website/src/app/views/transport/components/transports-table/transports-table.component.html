@@ -1,0 +1,49 @@
+<div class="p-3">
+  <div class="w-100 d-flex justify-content-end">
+    <p-button (click)="switchToTransportTab()" class="mb-3">צור שינוע</p-button>
+  </div>
+  <h5 class="mb-4">היסטוריית שינועים</h5>
+
+  <p-table #dt
+           [columns]="transportCols"
+           showGridlines="true"
+           [value]="transports"
+           [tableStyle]="{ 'min-width': '50rem' }"
+           [size]="'small'"
+           [rows]="10"
+           [showCurrentPageReport]="true"
+           currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
+           [rowHover]="true"
+           dataKey="id">
+
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        @for (col of columns; track col.field) {
+          <th>{{ col.header }}</th>
+        }
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-transport let-columns="columns">
+      <tr>
+        @for (col of columns; track col.field) {
+          <td>
+
+            @if (col.field === 'StartDateTime') {
+              {{ transport[col.field] | date: 'dd/MM/yyyy HH:mm' }}
+            } @else {
+              {{ transport[col.field] }}
+            }
+          </td>
+        }
+      </tr>
+    </ng-template>
+
+    <ng-template #empty>
+      <tr>
+        <td [attr.colspan]="transportCols.length + 2">אין נתונים זמינים.</td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+</div>
