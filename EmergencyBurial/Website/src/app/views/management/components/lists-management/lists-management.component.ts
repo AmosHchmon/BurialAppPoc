@@ -100,7 +100,7 @@ export class ListsManagementComponent implements OnInit {
 
         this.listTypes = await this.listService.getTypeList();
 
-        this.selectedType = this.listTypes.at(0).Id;
+        this.selectedType = this.selectedType ?? this.listTypes.at(0).Id;
     }
 
     onNewListType() {
@@ -152,20 +152,11 @@ export class ListsManagementComponent implements OnInit {
 
     async saveListType() {
 
-        const currentSelectedType = this.selectedType;
-
         await this.listService.saveListType(this.newListType);
 
         this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
 
         this.afterCloseDialog();
-
-        setTimeout(() => {
-
-            this.selectedType = currentSelectedType;
-            this.currentListItems = this.allListItems.filter(x => x.ListTypeId == this.selectedType);
-
-        }, 100)
 
     }
 
@@ -220,8 +211,6 @@ export class ListsManagementComponent implements OnInit {
 
     async saveListItem() {
 
-        const currentSelectedType = this.selectedType;
-
         this.newListItem.ListTypeId = this.selectedType;
 
         if (this.currentListItems.length > 0) {
@@ -234,18 +223,9 @@ export class ListsManagementComponent implements OnInit {
 
         this.afterCloseDialog();
 
-        setTimeout(() => {
-
-            this.selectedType = currentSelectedType;
-            this.currentListItems = this.allListItems.filter(x => x.ListTypeId == this.selectedType);
-
-        }, 100)
-
     }
 
     async updateListItem() {
-
-        const currentSelectedType = this.selectedType;
 
         await this.listService.updateListItem(this.newListItem);
 
@@ -253,18 +233,9 @@ export class ListsManagementComponent implements OnInit {
 
         this.afterCloseDialog();
 
-        setTimeout(() => {
-
-            this.selectedType = currentSelectedType;
-            this.currentListItems = this.allListItems.filter(x => x.ListTypeId == this.selectedType);
-
-        }, 100)
-
     }
 
     async onDeleteListItem() {
-
-        const currentSelectedType = this.selectedType;
 
         this.confirmService.confirm({
             header: DialogMessage.DeleteListItem,
@@ -279,13 +250,6 @@ export class ListsManagementComponent implements OnInit {
                 await this.listService.deleteListItem(this.newListItem.Key);
 
                 this.afterCloseDialog();
-
-                setTimeout(() => {
-
-                    this.selectedType = currentSelectedType;
-                    this.currentListItems = this.allListItems.filter(x => x.ListTypeId == this.selectedType);
-
-                }, 100)
             },
             reject: () => {
                 return;
