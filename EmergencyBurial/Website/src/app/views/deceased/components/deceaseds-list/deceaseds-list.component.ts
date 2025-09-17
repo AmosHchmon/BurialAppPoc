@@ -45,6 +45,7 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
 
     this.initCols();
 
+    // TODO: Remove detectChanges after we solve the zone.js problem
     this.cdr.detectChanges();
 
     this.subscribeToHubEvents();
@@ -106,6 +107,7 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
 
         this.deceasedList.unshift(newDeceased);
 
+        // TODO: Remove detectChanges after we solve the zone.js problem
         this.cdr.detectChanges();
 
         this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.NewDeceasedAdded});

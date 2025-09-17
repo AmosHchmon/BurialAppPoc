@@ -14,6 +14,14 @@ public class MemberDto
 
     public string PhoneNumber { get; set; }
 
+    public int? OrganizationTypeId { get; set; }
+    
+    public int? RoleTypeId { get; set; }
+
+    public int? StationTypeId { get; set; }
+    
+    public int? StationId { get; set; }
+
     public string? OrganizationDesc { get; set; }
 
     public string? RoleDesc { get; set; }

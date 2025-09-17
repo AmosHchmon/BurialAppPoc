@@ -1,17 +1,7 @@
 export enum enmListType {
-
-}
-
-export enum enmOrganizationType {
-  DatServices = 1001,
-  Hamal = 1002,
-  Tarah = 1003,
-  BurialPreparation = 1004,
-  BetAlmin = 1005
-}
-
-export enum enmRoleType {
-  Admin = 0,
-  Editor = 1,
-  Viewer = 2
+  OrganizationType = 1000,
+  StationType = 2000,
+  TarahStations = 3000,
+  BurialPreparation = 4000,
+  BurialBody = 5000
 }

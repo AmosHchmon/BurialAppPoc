@@ -1,7 +1,6 @@
 import {Injectable, Injector} from '@angular/core';
 import {BaseService} from "../../core/abstract/base-service";
 import {IUserOtp} from "../model/user-otp";
-import {TokenResponse} from "../model/token-response";
 import {IMember} from "../model/member";
 
 @Injectable({
@@ -19,7 +18,25 @@ export class AuthService extends BaseService {
   }
 
   getMembers(): Promise<IMember[]> {
-    return super.get({path: '/members'});
+
+    return super.get<IMember[]>({path: '/members'});
+  }
+
+  saveMember(member: IMember): Promise<IMember> {
+
+    return super.post({body: member});
+
+  }
+
+  updateMember(member: IMember): Promise<IMember> {
+
+    return super.put({body: member});
+
+  }
+
+  deleteMember(id: number): Promise<IMember> {
+
+    return super.delete({path: `${id}`});
 
   }
 

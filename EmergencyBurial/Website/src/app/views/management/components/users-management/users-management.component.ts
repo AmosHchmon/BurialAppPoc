@@ -1,9 +1,14 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {IMember} from "../../../../shared/model/member";
 import {IColumn} from "../../../../shared/ui-components/model/column";
 import {AuthService} from "../../../../shared/services/auth.service";
+import {IListItem} from "../../../../shared/model/list-item";
+import {ListService} from "../../../../shared/services/list.service";
+import {enmListType} from "../../../../shared/enum/list-type.enum";
+import {enmRoleType} from "../../../../shared/enum/role-type.enum";
+import {Table} from "primeng/table";
 
 @Component({
   selector: 'app-users-management',
@@ -12,6 +17,8 @@ import {AuthService} from "../../../../shared/services/auth.service";
   styleUrl: './users-management.component.scss'
 })
 export class UsersManagementComponent implements OnInit {
+
+  @ViewChild('dt') dt: Table<IMember>;
 
   membersColumns: IColumn[] = [
     {
@@ -37,38 +44,67 @@ export class UsersManagementComponent implements OnInit {
     {
       field: 'RoleDesc',
       header: 'סוג תפקיד'
-    },{
+    }, {
       field: 'StationDesc',
       header: 'סוג תחנה'
     }
   ]
-  members: IMember[];
+  members: IMember[] = [];
+  newMember: IMember = {};
+  showMemberDialog: boolean = false;
+  allListItems: IListItem[] = [];
+  organizationsList: IListItem[] = [];
+  rolesList: IListItem[] = [];
+  stationsList: IListItem[] = [];
+  subStationsList: IListItem[] = [];
 
-  constructor(private authService: AuthService, private cd: ChangeDetectorRef) {
+  constructor(private authService: AuthService,
+              private listService: ListService,
+              private cd: ChangeDetectorRef) {
   }
 
   async ngOnInit() {
 
     await this.loadData();
 
-    // remove detectChanges later (it doesnt work without it for now)
+    // TODO: Remove detectChanges after we solve the zone.js problem
     this.cd.detectChanges();
   }
 
-  private async loadData(){
+  private async loadData() {
 
     this.members = await this.authService.getMembers();
+
+    this.allListItems = await this.listService.getItemList();
+
+    this.splitLists();
   }
 
-  onNewMember() {
+  private splitLists() {
+
+    this.organizationsList = this.allListItems.filter(x => x.ListTypeId == enmListType.OrganizationType);
+    /*this.rolesList = this.allListItems.filter(x => x.ListTypeId == enmRoleType);
+    this.stationsList = this.allListItems.filter(x => x.ListTypeId == 3);
+    this.subStationsList = this.allListItems.filter(x => x.ListTypeId == 4);*/
+  }
+
+  onAddMember() {
 
   }
 
   onEditMember() {
 
+    this.newMember = {...this.dt.selection};
+    this.showMemberDialog = true;
+
   }
 
   onDeleteMember() {
 
+  }
+
+  onNewMember() {
+
+    this.showMemberDialog = true;
   }
 }

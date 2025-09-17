@@ -63,6 +63,7 @@ namespace Core.Helpers
     #endregion
 
     #region [list item]
+    
     public enum OrganizationType
     {
         [Description("משרד שירותי הדת")] 

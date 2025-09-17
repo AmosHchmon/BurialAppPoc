@@ -63,6 +63,7 @@ export class DeceasedDetailComponent implements OnInit {
 
     this.initializeFields();
 
+    // TODO: Remove detectChanges after we solve the zone.js problem
     this.cdr.detectChanges()
   }
 
@@ -161,6 +162,8 @@ export class DeceasedDetailComponent implements OnInit {
     this.activeTab = "0";
 
     setTimeout(() => {
+
+      // TODO: Remove detectChanges after we solve the zone.js problem
       this.cdr.detectChanges();
     }, 100)
 
