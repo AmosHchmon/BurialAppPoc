@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using DataModel.Entities;
 using EmergencyBurial.Api.ViewModel;
@@ -69,4 +71,12 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
     }*/
 
     #endregion
+    
+    [HttpGet("members")]
+    public async Task<ActionResult<List<MemberDto>>> GetMembers()
+    {
+        var list = await accountService.GetMembers();
+
+        return Ok(mapper.Map<List<MemberDto>>(list));
+    }
 }

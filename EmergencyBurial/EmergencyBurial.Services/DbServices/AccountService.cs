@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Core.Config;
 using Core.Helpers;
+using DataModel;
 using DataModel.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace EmergencyBurial.Services.DbServices;
 
-public class AccountService(AuthConfiguration authConfig)
+public class AccountService(AuthConfiguration authConfig, EmergencyBurialContext ctx)
 {
+    public async Task<List<Member>> GetMembers()
+    {
+        var members = await ctx.Members.ToListAsync();
+
+        return members;
+    }
+
     public Member VerifyMember(Member member)
     {
         if (member.UserName == "test" && member.Mail.ToLower() == "ozs@dat.gov.il")
