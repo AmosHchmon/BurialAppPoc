@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Common.Helpers;
 using Coravel;
 using Core.Config;
+using Core.Helpers;
 using Core.Middleware;
 using DataModel;
 using DataModel.Triggers;
@@ -113,6 +114,18 @@ namespace EmergencyBurial.Api
                         }
                     };
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(nameof(RoleType.Admin), policy =>
+                    policy.RequireClaim("Permission", nameof(RoleType.Admin)));
+
+                options.AddPolicy(nameof(RoleType.Edit), policy =>
+                    policy.RequireClaim("Permission", nameof(RoleType.Edit)));
+
+                options.AddPolicy(nameof(RoleType.View), policy =>
+                    policy.RequireClaim("Permission", nameof(RoleType.View)));
+            });
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>

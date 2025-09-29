@@ -56,19 +56,7 @@ public class AccountService(AuthConfiguration authConfig, EmergencyBurialContext
 
     public Member VerifyMember(Member member)
     {
-        if (member.UserName == "test" && member.Mail.ToLower() == "ozs@dat.gov.il")
-        {
-            return new Member
-            {
-                Id = Guid.NewGuid(),
-                UserName = "test",
-                FullName = "Test User",
-                Mail = "ozs@dat.gov.il",
-                PhoneNumber = "0501234567",
-            };
-        }
-
-        return null;
+        return ctx.Members.SingleOrDefault(x=>x.UserName == member.UserName && x.Mail == member.Mail && x.IsActive);
     }
 
     public string CreateToken(Member member)
@@ -77,12 +65,16 @@ public class AccountService(AuthConfiguration authConfig, EmergencyBurialContext
 
         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
+        var OU = (OrganizationType)member.OrganizationTypeId;
+        var permission = (RoleType)member.RoleTypeId;
+
         var claims = new List<Claim>
         {
             new Claim(ClaimHelper.UserId, member.Id.ToString()),
             new Claim(ClaimTypes.Name, member.UserName),
             new Claim(ClaimTypes.Email, member.Mail),
-            new Claim(ClaimTypes.Role, "Admin"),
+            new Claim(ClaimTypes.Role, OU.ToString()),
+            new Claim(ClaimHelper.Permission, permission.ToString()),
         };
 
         var tokeOptions = new JwtSecurityToken(

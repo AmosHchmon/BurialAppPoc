@@ -21,8 +21,9 @@ export function httpInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
         case 401: // Unauthorized
           router.navigate(['/login'], {queryParams: {returnUrl: router.url}});
           return throwError(() => error);
+        case 403://Forbidden
+          return throwError(() => error);
         case 500: // InternalServerError
-        case 403: // Forbidden
         case 400: // BadRequest
         case 405: // MethodNotAllowed
         default:

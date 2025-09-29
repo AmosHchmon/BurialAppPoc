@@ -28,21 +28,21 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
             return BadRequest();
         }
 
-        var userObj = mapper.Map<Member>(memberDto);
+        var member = mapper.Map<Member>(memberDto);
 
-        var user = accountService.VerifyMember(userObj);
+        var result = accountService.VerifyMember(member);
 
-        if (user == null)
+        if (result == null)
             return Unauthorized();
 
-        var token = accountService.CreateToken(user);
+        var token = accountService.CreateToken(result);
 
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
             Secure = true,
             SameSite = SameSiteMode.None,
-            Expires = DateTimeOffset.UtcNow.AddDays(7)
+            Expires = DateTimeOffset.UtcNow.AddDays(1)
         };
 
         Response.Cookies.Append("user_token", token, cookieOptions);

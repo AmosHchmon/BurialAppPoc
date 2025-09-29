@@ -1,5 +1,6 @@
 export let DialogMessage = {
   SystemMessage: 'הודעת מערכת',
+  ForbiddenAction: 'אינך מורשה לבצע פעולה זו.',
   GeneralMessage: 'הודעה כללית אנא פנה למנהל מערכת',
   IdentityNeed: 'יש להזין ת"ז',
   ErrorSave: 'שגיאה בשמירה',

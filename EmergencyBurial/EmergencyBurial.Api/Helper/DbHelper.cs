@@ -299,8 +299,7 @@ public class DbHelper
     {
         var list = new List<Member>
         {
-            new Member
-            {
+            new() {
                 FullName = "עוז שורקי",
                 UserName = "308015205",
                 Mail = "OzS@dat.gov.il",
@@ -308,6 +307,26 @@ public class DbHelper
                 OrganizationTypeId = (int)OrganizationType.Tarah,
                 StationTypeId = (int)StationType.TarahStations,
                 StationId = (int)TarahStations.Shura,
+                IsActive = true,
+            },
+            new() {
+                FullName = "עמוס חכמון",
+                UserName = "038869715",
+                Mail = "amosh@dat.gov.il",
+                RoleTypeId = (int)RoleType.Admin,
+                OrganizationTypeId = (int)OrganizationType.Tarah,
+                StationTypeId = (int)StationType.TarahStations,
+                StationId = (int)TarahStations.Shura,
+                IsActive = true,
+            },
+            new() {
+                FullName = "ישראל ישראלי",
+                UserName = "000000018",
+                Mail = "amosh@dat.gov.il",
+                RoleTypeId = (int)RoleType.Edit,
+                OrganizationTypeId = (int)OrganizationType.Tarah,
+                StationTypeId = (int)StationType.BurialPreparation,
+                StationId = (int)BurialPreparation.TelRegev,
                 IsActive = true,
             }
         };

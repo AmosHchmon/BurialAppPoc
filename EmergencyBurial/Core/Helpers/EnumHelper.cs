@@ -184,12 +184,12 @@ namespace Core.Helpers
     
     public enum RoleType
     {
-        [Description("מנהל מערכת")]
+        [Description("מנהל")]
         Admin = 1,
         [Description("עורך")]
-        Editor = 2,
+        Edit = 2,
         [Description("צופה")]
-        Viewer = 3
+        View = 3
     }
 
     #endregion
