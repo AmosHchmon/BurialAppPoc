@@ -13,6 +13,7 @@ using EmergencyBurial.Services;
 using EmergencyBurial.Services.DbServices;
 using EmergencyBurial.Services.RealTime;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -57,6 +58,8 @@ namespace EmergencyBurial.Api
             
             services.AddCors();
 
+            services.AddScheduler();
+
             services.AddSignalR().AddJsonProtocol(options =>
             {
                 options.PayloadSerializerOptions.PropertyNamingPolicy = null;
@@ -87,9 +90,10 @@ namespace EmergencyBurial.Api
             services.AddScoped<TransportService>();
             services.AddScoped<FileService>();
             
-            services.AddScheduler();
 
             services.AddTransient<TaskCreateCasualtyJob>();
+
+            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -118,13 +122,14 @@ namespace EmergencyBurial.Api
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(nameof(RoleType.Admin), policy =>
-                    policy.RequireClaim("Permission", nameof(RoleType.Admin)));
+                     policy.Requirements.Add(new PermissionRequirement(nameof(RoleType.Admin))));
 
                 options.AddPolicy(nameof(RoleType.Edit), policy =>
-                    policy.RequireClaim("Permission", nameof(RoleType.Edit)));
-
+                     policy.Requirements.Add(new PermissionRequirement(nameof(RoleType.Edit))));
+               
                 options.AddPolicy(nameof(RoleType.View), policy =>
-                    policy.RequireClaim("Permission", nameof(RoleType.View)));
+                     policy.Requirements.Add(new PermissionRequirement(nameof(RoleType.View))));
+                
             });
 
             services.AddControllers()
