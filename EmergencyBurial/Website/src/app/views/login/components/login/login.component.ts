@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 
-import {IUserOtp} from "../../../../shared/model/user-otp";
+import {IAuthUser} from "../../../../shared/model/user";
 import {AuthService} from "../../../../shared/services/auth.service";
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {AuthContextService} from "../../../../shared/services/auth-context.service";
@@ -15,7 +15,7 @@ import {AuthContextService} from "../../../../shared/services/auth-context.servi
 })
 export class LoginComponent {
 
-    public user: IUserOtp = {};
+    public user: IAuthUser = {};
 
     constructor(private authService: AuthService,
                 private authCtx: AuthContextService,
@@ -24,7 +24,7 @@ export class LoginComponent {
 
     async onLogin() {
 
-        this.authCtx.Member = await this.authService.login(this.user);
+        this.authCtx.UserRABC = await this.authService.login(this.user);
 
         this.router.navigate(['/dashboard/home']);
 

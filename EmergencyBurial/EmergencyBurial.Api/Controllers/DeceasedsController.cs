@@ -13,7 +13,7 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-[Authorize(Roles = nameof(OrganizationType.Tarah), Policy = nameof(RoleType.View))]
+[Authorize(Roles = nameof(OrganizationType.Tarah), Policy = nameof(RoleAccessType.View))]
 public class DeceasedsController(DeceasedService deceasedService,IMapper mapper) : ControllerBase
 {
     [HttpGet]

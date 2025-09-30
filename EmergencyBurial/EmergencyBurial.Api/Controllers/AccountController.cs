@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Core.Helpers;
 using DataModel.Entities;
 using EmergencyBurial.Api.ViewModel;
 using EmergencyBurial.Services.DbServices;
@@ -21,7 +22,7 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
 
     [HttpPut("login")]
     [AllowAnonymous]
-    public ActionResult Login([FromBody] MemberDto memberDto)
+    public ActionResult<AuthUserDto> Login([FromBody] MemberDto memberDto)
     {
         if (memberDto == null)
         {
@@ -47,7 +48,14 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
 
         Response.Cookies.Append("user_token", token, cookieOptions);
 
-        return Ok(memberDto);
+        var user = new AuthUserDto()
+        {
+            FullName = result.FullName,
+            OUnit = (OrganizationType)result.OrganizationTypeId,
+            Policy = (RoleAccessType)result.RoleAccessTypeId
+        };
+
+        return Ok(user);
     }
 
     /*[HttpPut("otp")]

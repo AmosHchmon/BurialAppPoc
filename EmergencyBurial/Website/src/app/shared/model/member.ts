@@ -1,6 +1,6 @@
 import {enmStationType} from "../enum/station-type.enum";
 import {enmOrganizationType} from "../enum/organization-type.enum";
-import {enmRoleType} from "../enum/role-type.enum";
+import {enmRoleAccessType} from "../enum/role-type.enum";
 
 export interface IMember {
   Id?: string;
@@ -15,7 +15,7 @@ export interface IMember {
 
   OrganizationTypeId?: enmOrganizationType;
 
-  RoleTypeId?: enmRoleType;
+  RoleAccessTypeId?: enmRoleAccessType;
 
   StationTypeId?: enmStationType;
 

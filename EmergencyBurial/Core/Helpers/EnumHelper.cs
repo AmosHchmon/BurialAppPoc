@@ -182,7 +182,7 @@ namespace Core.Helpers
         SecurityForces = 1
     }
     
-    public enum RoleType
+    public enum RoleAccessType
     {
         [Description("מנהל")]
         Admin = 1,

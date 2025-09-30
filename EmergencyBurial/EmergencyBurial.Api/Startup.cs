@@ -121,14 +121,14 @@ namespace EmergencyBurial.Api
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(nameof(RoleType.Admin), policy =>
-                     policy.Requirements.Add(new PermissionRequirement(nameof(RoleType.Admin))));
+                options.AddPolicy(nameof(RoleAccessType.Admin), policy =>
+                     policy.Requirements.Add(new PermissionRequirement(nameof(RoleAccessType.Admin))));
 
-                options.AddPolicy(nameof(RoleType.Edit), policy =>
-                     policy.Requirements.Add(new PermissionRequirement(nameof(RoleType.Edit))));
+                options.AddPolicy(nameof(RoleAccessType.Edit), policy =>
+                     policy.Requirements.Add(new PermissionRequirement(nameof(RoleAccessType.Edit))));
                
-                options.AddPolicy(nameof(RoleType.View), policy =>
-                     policy.Requirements.Add(new PermissionRequirement(nameof(RoleType.View))));
+                options.AddPolicy(nameof(RoleAccessType.View), policy =>
+                     policy.Requirements.Add(new PermissionRequirement(nameof(RoleAccessType.View))));
                 
             });
 

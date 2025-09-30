@@ -66,7 +66,7 @@ public class AccountService(AuthConfiguration authConfig, EmergencyBurialContext
         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
         var OU = (OrganizationType)member.OrganizationTypeId;
-        var permission = (RoleType)member.RoleTypeId;
+        var permission = (RoleAccessType)member.RoleAccessTypeId;
 
         var claims = new List<Claim>
         {

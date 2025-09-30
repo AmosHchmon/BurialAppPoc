@@ -15,12 +15,12 @@ namespace Core.Helpers
         {
             var permissions = context.User.FindAll("Permission").Select(c => c.Value);
 
-            if (permissions.Contains(nameof(RoleType.Admin)) || permissions.Contains(requirement.Permission))
+            if (permissions.Contains(nameof(RoleAccessType.Admin)) || permissions.Contains(requirement.Permission))
             {
                 context.Succeed(requirement);
             }
 
-            if (permissions.Contains(nameof(RoleType.Edit)) && requirement.Permission.Contains(nameof(RoleType.View)))
+            if (permissions.Contains(nameof(RoleAccessType.Edit)) && requirement.Permission.Contains(nameof(RoleAccessType.View)))
             {
                 context.Succeed(requirement);
             }
