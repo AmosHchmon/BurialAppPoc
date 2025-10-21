@@ -105,6 +105,8 @@ export class UsersManagementComponent implements OnInit {
 
   onNewMember() {
 
+    this.newMember = {};
+
     this.showMemberDialog = true;
   }
 }
