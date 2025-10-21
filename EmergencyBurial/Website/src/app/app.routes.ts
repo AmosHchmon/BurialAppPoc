@@ -5,6 +5,8 @@ import {AuthLayoutComponent} from "./layout/components/auth-layout/auth-layout.c
 import {AuthGuard} from "./shared/guards/auth.guard";
 import {ManagementLayoutComponent} from "./layout/components/management-layout/management-layout.component";
 import {AdminGuard} from "./shared/guards/admin.guard";
+import { RoleGuard } from './shared/guards/role.guard';
+import { enmOrganizationType } from './shared/enum/organization-type.enum';
 
 export const routes: Routes = [
   {
@@ -37,6 +39,7 @@ export const routes: Routes = [
       },
       {
         path: 'deceaseds',
+        canActivate: [RoleGuard], data: { roles: [enmOrganizationType.Tarah,enmOrganizationType.DatServices,enmOrganizationType.Hamal]},
         loadChildren: () => import('./views/deceased/deceased.routing').then(m => m.DeceasedRouting)
       },
       {

@@ -3,6 +3,7 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 import {SessionStorageService} from 'ngx-webstorage';
 import {IMember} from "../model/member";
 import { IAuthUser } from "../model/user";
+import { enmOrganizationType } from "../enum/organization-type.enum";
 
 const jwtHelper = new JwtHelperService();
 
@@ -25,6 +26,10 @@ export class AuthContextService {
 
   isLoggedIn() {
     return !!this.UserRBAC;
+  }
+
+  get getUserRole(): enmOrganizationType {
+    return this.UserRBAC.OUnit;
   }
 
   // אתאים את זה למערכת כאשר יהיו לנו הרשאות
