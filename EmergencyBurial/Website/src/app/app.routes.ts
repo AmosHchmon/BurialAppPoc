@@ -39,7 +39,7 @@ export const routes: Routes = [
       },
       {
         path: 'deceaseds',
-        canActivate: [RoleGuard], data: { roles: [enmOrganizationType.Tarah,enmOrganizationType.DatServices,enmOrganizationType.Hamal]},
+        canActivate: [RoleGuard], data: { roles: [enmOrganizationType.All]},
         loadChildren: () => import('./views/deceased/deceased.routing').then(m => m.DeceasedRouting)
       },
       {

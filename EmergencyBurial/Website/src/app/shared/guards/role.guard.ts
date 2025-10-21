@@ -16,6 +16,10 @@ export class RoleGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const expectedRoles = route.data['roles'] as enmOrganizationType[];
+    if(expectedRoles.includes(enmOrganizationType.All)){
+      return true;
+    }
+
     const userRoles = this.authCtx.getUserRole;
     const hasRole = expectedRoles.includes(userRoles);
 
