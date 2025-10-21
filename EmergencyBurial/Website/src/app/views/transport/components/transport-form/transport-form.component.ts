@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {AutoFocus} from "primeng/autofocus";
 
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {Transport} from "../../model/transport";
@@ -10,7 +9,6 @@ import {ConvertTimezoneDirective} from "../../../../core/directives/convert-time
   selector: 'app-transport-form',
   imports: [
     UiComponentsModule,
-    AutoFocus,
     ConvertTimezoneDirective,
   ],
   templateUrl: './transport-form.component.html',

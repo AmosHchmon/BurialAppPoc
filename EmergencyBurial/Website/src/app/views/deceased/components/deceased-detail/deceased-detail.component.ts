@@ -12,14 +12,13 @@ import {DeceasedAccordion} from "../../model/DeceasedAccordion";
 import {DeceasedAccordionContentComponent} from "../deceased-accordion-content/deceased-accordion-content.component";
 import {TransportsTableComponent} from "../../../transport/components/transports-table/transports-table.component";
 import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
-import {AutoFocus} from "primeng/autofocus";
 import {ListService} from "../../../../shared/services/list.service";
 import {IOptionItem} from "../../../../shared/model/list-item";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [UiComponentsModule, TransportFormComponent, DeceasedAccordionContentComponent, TransportsTableComponent, ConvertTimezoneDirective, AutoFocus],
+  imports: [UiComponentsModule, TransportFormComponent, DeceasedAccordionContentComponent, TransportsTableComponent, ConvertTimezoneDirective],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })

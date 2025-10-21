@@ -3,21 +3,21 @@ import { INavItem } from '../model/nav-item';
 
 export const NavMenuItems: Array<INavItem> = [
   {
-    name: "דיווחי הצעה",
-    page: "budget-list",
-    module: "report",
-    url: "/dashboard/budget-list",
-    icon: "add_chart",
-    color: 'deepskyblue',
-    showInMenu: true,
+    name: "עמוד הבית",
+    module: "dashboard",
+    url: "/dashboard/home",
+    icon: "pi pi-home",
   },
   {
-    name: "דיווחי ביצוע",
-    page: "payroll-list",
-    module: "payroll",
-    url: "/dashboard/payroll-list",
-    icon: "post_add",
-    color: 'forestgreen',
-    showInMenu: true,
+    name: "שק חלל",
+    module: "deceased",
+    url: "/dashboard/deceaseds",
+    icon: "pi pi-user",
+  },
+  {
+    name: "שינוע",
+    module: "transport",
+    url: "/dashboard/transport",
+    icon: "pi pi-truck",
   },
 ]

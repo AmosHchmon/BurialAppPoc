@@ -4,12 +4,8 @@ import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {constants} from '../../../shared/static/constants';
 import {UiComponentsModule} from "../../../shared/ui-components/ui-components.module";
 import {AuthContextService} from "../../../shared/services/auth-context.service";
-
-interface ILink {
-  route: string,
-  label: string,
-  icon: string
-}
+import {INavItem} from "../../../shared/model/nav-item";
+import {NavMenuItems} from "../../../shared/static/nav-items";
 
 @Component({
   selector: 'app-header',
@@ -25,31 +21,29 @@ interface ILink {
 export class HeaderComponent implements OnInit {
 
   searchValue: string;
-  tabs: ILink[] = [
-    {route: '/dashboard/home', label: 'עמוד הבית', icon: 'pi pi-home'},
-    {route: '/dashboard/deceaseds', label: 'שק חלל', icon: 'pi pi-user'},
-    {route: '/dashboard/transport', label: 'שינוע', icon: 'pi pi-truck'}
-  ];
+  tabs: INavItem[] = NavMenuItems;
 
-  constructor(private router: Router, private authCtx: AuthContextService){}
+  constructor(private router: Router, private authCtx: AuthContextService) {
+  }
 
-  ngOnInit(){
+  ngOnInit() {
 
-    if(this.authCtx.isAdmin()){
-      this.tabs.push({route: '/management', label: 'ניהול', icon: 'pi pi-cog'});
+    //Todo: Treat it when implementing permissions on the menu
+    if (this.authCtx.isAdmin()) {
+      this.tabs.push({url: '/management/users', module: 'management', name: 'ניהול', icon: 'pi pi-cog'});
     }
   }
 
-  signOut(){
+  signOut() {
 
     this.router.navigate(['/login']);
   }
 
-  applyFilter(value: any){
+  applyFilter(value: any) {
 
   }
 
-  clearSearchField(){
+  clearSearchField() {
     this.searchValue = null;
   }
 

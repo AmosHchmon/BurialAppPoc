@@ -41,7 +41,7 @@ namespace EmergencyBurial.Services.DbServices
         #endregion
 
         #region [listType Methods]
-        public async Task<List<ListType>> GetListType()
+        public async Task<List<ListType>> GetListTypes()
         {
             return await ctx.ListTypes.ToListAsync();
         }
@@ -68,14 +68,12 @@ namespace EmergencyBurial.Services.DbServices
             return item;
         }
 
-        /*public async Task DeleteListType(int id)
+        public async Task DeleteListType(int id)
         {
-            ctx.ListItems.Where(x => x.ListTypeId == id).ExecuteDelete();
-
             ctx.ListTypes.Where(x => x.Id == id).ExecuteDelete();
 
             await ctx.SaveChangesAsync();
-        }*/
+        }
 
         #endregion
     }

@@ -3,6 +3,7 @@ export interface IListItem {
   Key?: number;
   Text?: string;
   ListTypeId?: number;
+  ListItemDepId?: number;
   IsValid?: boolean;
   Description?: string;
 }

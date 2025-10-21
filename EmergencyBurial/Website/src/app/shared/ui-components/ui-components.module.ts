@@ -23,6 +23,10 @@ import {CheckboxModule} from "primeng/checkbox";
 import {TextareaModule} from "primeng/textarea";
 import {SelectModule} from "primeng/select";
 import {DatePickerModule} from "primeng/datepicker";
+import {ToolbarModule} from "primeng/toolbar";
+import {DialogModule} from "primeng/dialog";
+import {AutoFocusModule} from "primeng/autofocus";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 @NgModule({
   imports: [
@@ -49,7 +53,11 @@ import {DatePickerModule} from "primeng/datepicker";
     CheckboxModule,
     TextareaModule,
     SelectModule,
-    DatePickerModule
+    DatePickerModule,
+    ToolbarModule,
+    DialogModule,
+    AutoFocusModule,
+    ConfirmDialogModule
   ],
   exports: [
     NgOptimizedImage,
@@ -76,7 +84,11 @@ import {DatePickerModule} from "primeng/datepicker";
     CheckboxModule,
     TextareaModule,
     SelectModule,
-    DatePickerModule
+    DatePickerModule,
+    ToolbarModule,
+    DialogModule,
+    AutoFocusModule,
+    ConfirmDialogModule
   ],
   declarations: [],
   providers: [

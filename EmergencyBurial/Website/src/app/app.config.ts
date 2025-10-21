@@ -12,7 +12,7 @@ import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {providePrimeNG} from 'primeng/config';
 import Aura from '@primeuix/themes/Aura';
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {pendingRequestsInterceptor$} from "ng-http-loader";
 
 import {routes} from './app.routes';
@@ -32,6 +32,7 @@ export const appConfig: ApplicationConfig = {
       ripple: true
     }),
     MessageService,
+    ConfirmationService,
     provideCharts(withDefaultRegisterables()),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),

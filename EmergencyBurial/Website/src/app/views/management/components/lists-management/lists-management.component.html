@@ -1,0 +1,263 @@
+<div class="p-3">
+  <p-accordion [multiple]="true">
+
+    <p-accordion-panel value="0">
+
+      <p-accordion-header class="fw-bold">סוגי הרשימות</p-accordion-header>
+
+      <p-accordion-content>
+        <div class="mb-4">
+          <p-toolbar class="border rounded-4">
+            <div class="d-flex gap-4">
+              <p-button label="הוסף"
+                        icon="pi pi-plus"
+                        (click)="onNewListType()"/>
+              <p-button label="עדכן"
+                        icon="pi pi-pencil"
+                        [disabled]="!typeTable.selection"
+                        (click)="onEditListType()"/>
+              <p-button severity="danger"
+                        label="מחק"
+                        icon="pi pi-trash"
+                        outlined
+                        (click)="onDeleteListType()"
+                        [disabled]="!typeTable.selection"
+              />
+            </div>
+          </p-toolbar>
+        </div>
+
+        <p-table #typeTable
+                 [value]="listTypes"
+                 [rows]="10"
+                 [size]="'small'"
+                 [columns]="listTypesColumns"
+                 [paginator]="true"
+                 [tableStyle]="{ 'min-width': '75rem' }"
+                 [rowHover]="true"
+                 dataKey="Id"
+                 selectionMode="single"
+                 currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
+                 [showCurrentPageReport]="true"
+        >
+
+          <ng-template #header>
+            <tr>
+              <th>בחירה</th>
+              @for (col of listTypesColumns; track col.field) {
+                <th>{{ col.header }}</th>
+              }
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body"
+                       let-listType>
+            <tr [pSelectableRow]="listType">
+              <td style="width: 3rem">
+                <p-tableRadioButton [value]="listType"/>
+              </td>
+              <td>
+                {{ listType?.Id }}
+              </td>
+              <td>
+                {{ listType?.Text }}
+              </td>
+              <td>
+                <p-checkbox [(ngModel)]="listType.IsValid"
+                            [binary]="true"
+                            variant="filled"/>
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+
+        <p-dialog [(visible)]="showListTypeDialog"
+                  closeOnEscape="true"
+                  dismissableMask="true"
+                  [style]="{ width: '25rem' }"
+                  header="הוספת סוג רשימה"
+                  modal="true">
+          <form #typeForm="ngForm" class="d-flex flex-column gap-4">
+
+            <p-floatlabel class="mt-3" variant="on">
+              <input pInputText
+                     #typeText="ngModel"
+                     class="w-75"
+                     required
+                     [(ngModel)]="newListType.Text"
+                     [invalid]="typeText.invalid && typeText.touched"
+                     name="typeText"
+                     autocomplete="off"/>
+              <label>תיאור</label>
+            </p-floatlabel>
+
+            <div class="d-flex align-items-center gap-3">
+              <p-checkbox inputId="isValid"
+                          name="isValid"
+                          [(ngModel)]="newListType.IsValid"
+                          [binary]="true"/>
+              <label for="isValid" class="mr-3">האם תקף</label>
+            </div>
+
+            <div>
+              @if (!newListType?.Id) {
+                <p-button label="שמור"
+                          class="mt-3"
+                          [disabled]="typeForm.invalid"
+                          (click)="saveListType()"/>
+              } @else {
+                <p-button label="עדכן"
+                          class="mt-3"
+                          [disabled]="typeForm.invalid"
+                          (click)="updateListType()"/>
+              }
+            </div>
+
+          </form>
+        </p-dialog>
+      </p-accordion-content>
+    </p-accordion-panel>
+
+    <p-accordion-panel value="1">
+
+      <p-accordion-header class="fw-bold">תוכן הרשימות</p-accordion-header>
+
+      <p-accordion-content>
+        <div class="mb-4">
+          <p-toolbar class="border rounded-4">
+            <div class="d-flex gap-4">
+
+              <p-button label="הוסף"
+                        icon="pi pi-plus"
+                        (click)="onNewListItem()"/>
+
+              <p-button label="עדכן"
+                        icon="pi pi-pencil"
+                        [disabled]="!listTable.selection"
+                        (click)="onEditListItem()"/>
+
+              <p-button severity="danger"
+                        label="מחק"
+                        icon="pi pi-trash"
+                        outlined
+                        (click)="onDeleteListItem()"
+                        [disabled]="!listTable.selection"
+              />
+            </div>
+          </p-toolbar>
+        </div>
+
+        <p-select [options]="listTypes"
+                  [(ngModel)]="selectedType"
+                  (onChange)="changeListItems()"
+                  optionLabel="Text"
+                  optionValue="Id"
+                  placeholder="סוג רשימה"
+                  class="w-25 md:w-56 my-4"/>
+
+        <p-table #listTable
+                 [value]="currentListItems"
+                 [rows]="10"
+                 [size]="'small'"
+                 [columns]="listItemsColumns"
+                 [paginator]="true"
+                 [tableStyle]="{ 'min-width': '75rem' }"
+                 [rowHover]="true"
+                 dataKey="Key"
+                 selectionMode="single"
+                 currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
+                 [showCurrentPageReport]="true"
+        >
+
+          <ng-template #header>
+            <tr>
+              <th>בחירה</th>
+              @for (col of listItemsColumns; track col.field) {
+                <th>{{ col.header }}</th>
+              }
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body"
+                       let-listItem>
+            <tr [pSelectableRow]="listItem">
+              <td style="width: 3rem">
+                <p-tableRadioButton [value]="listItem"/>
+              </td>
+              <td>
+                {{ listItem?.Key }}
+              </td>
+              <td>
+                {{ listItem?.ListItemDepId }}
+              </td>
+              <td>
+                {{ listItem?.Text }}
+              </td>
+              <td>
+                {{ listItem?.Description }}
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+
+        <p-dialog [(visible)]="showListItemDialog"
+                  closeOnEscape="true"
+                  dismissableMask="true"
+                  [style]="{ width: '25rem' }"
+                  header="הוספת פריט לרשימה"
+                  modal="true">
+          <form #listForm="ngForm" class="d-flex flex-column gap-4">
+
+            <p-floatlabel class="mt-3" variant="on">
+              <input pInputText
+                     class="w-75"
+                     readonly
+                     [(ngModel)]="newListItem.Key"
+                     name="key"
+                     autocomplete="off"/>
+              <label>מזהה פריט</label>
+            </p-floatlabel>
+
+            <p-floatlabel class="mt-3" variant="on">
+              <input pInputText
+                     #listText="ngModel"
+                     class="w-75"
+                     required
+                     [(ngModel)]="newListItem.Text"
+                     [invalid]="listText.invalid && listText.touched"
+                     name="listText"
+                     autocomplete="off"/>
+              <label>תיאור</label>
+            </p-floatlabel>
+
+            <p-floatlabel class="mt-3" variant="on">
+              <input pInputText
+                     class="w-75"
+                     [(ngModel)]="newListItem.Description"
+                     name="description"
+                     autocomplete="off"/>
+              <label>הסבר</label>
+            </p-floatlabel>
+
+            <div>
+              @if (!newListItem?.ListTypeId) {
+                <p-button label="שמור"
+                          class="mt-3"
+                          [disabled]="listForm.invalid"
+                          (click)="saveListItem()"/>
+              } @else {
+                <p-button label="עדכן"
+                          class="mt-3"
+                          [disabled]="listForm.invalid"
+                          (click)="updateListItem()"/>
+              }
+            </div>
+
+          </form>
+        </p-dialog>
+      </p-accordion-content>
+    </p-accordion-panel>
+  </p-accordion>
+</div>
