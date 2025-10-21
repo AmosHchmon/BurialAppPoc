@@ -137,6 +137,7 @@
         <div class="w-50 d-flex flex-column gap-5">
           <p-select [options]="organizationsList"
                     [(ngModel)]="newMember.OrganizationTypeId"
+                    name="OrganizationTypeId"
                     optionLabel="Text"
                     optionValue="Id"
                     placeholder="ארגון"
@@ -144,18 +145,21 @@
 
           <p-select [options]="rolesList"
                     [(ngModel)]="newMember.RoleTypeId"
+                    name="RoleTypeId"
                     optionLabel="Text"
                     optionValue="Id"
                     placeholder="תפקיד"/>
 
           <p-select [options]="stationsList"
                     [(ngModel)]="newMember.StationTypeId"
+                    name="StationTypeId"
                     optionLabel="Text"
                     optionValue="Id"
                     placeholder="תחנה"/>
 
           <p-select [options]="subStationsList"
                     [(ngModel)]="newMember.StationId"
+                    name="StationId"
                     optionLabel="Text"
                     optionValue="Id"
                     placeholder="תת תחנה"/>
