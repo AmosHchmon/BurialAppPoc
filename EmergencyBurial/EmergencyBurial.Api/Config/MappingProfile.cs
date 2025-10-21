@@ -12,7 +12,7 @@ public class MappingProfile : Profile
     {
         CreateMap<Member, MemberDto>()
             .ForMember(dest => dest.OrganizationDesc, opt => opt.MapFrom(src => ((OrganizationType)src.OrganizationTypeId).GetEnumDescription()))
-            .ForMember(dest => dest.RoleDesc, opt => opt.MapFrom(src => ((RoleType)src.RoleTypeId).GetEnumDescription()))
+            .ForMember(dest => dest.RoleDesc, opt => opt.MapFrom(src => ((RoleAccessType)src.RoleAccessTypeId).GetEnumDescription()))
             .ReverseMap();
 
         #region Deceased

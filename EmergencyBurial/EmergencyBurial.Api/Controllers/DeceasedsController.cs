@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Core.Helpers;
 using EmergencyBurial.Api.ViewModel;
 using EmergencyBurial.Services.DbServices;
 using Microsoft.AspNetCore.Authorization;
@@ -12,10 +13,8 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-[Authorize]
-public class DeceasedsController(
-    DeceasedService deceasedService,
-    IMapper mapper) : ControllerBase
+[Authorize(Roles = nameof(OrganizationType.Tarah), Policy = nameof(RoleAccessType.View))]
+public class DeceasedsController(DeceasedService deceasedService,IMapper mapper) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<DeceasedDto>>> GetDeceaseds()

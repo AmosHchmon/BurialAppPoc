@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Helpers;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -30,7 +31,7 @@ namespace DataModel.Entities;
         public int? OrganizationTypeId { get; set; }
 
         [Required]
-        public int? RoleTypeId { get; set; }
+        public RoleAccessType RoleAccessTypeId { get; set; }
 
         public int? StationTypeId { get; set; }
         

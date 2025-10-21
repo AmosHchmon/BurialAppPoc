@@ -182,14 +182,14 @@ namespace Core.Helpers
         SecurityForces = 1
     }
     
-    public enum RoleType
+    public enum RoleAccessType
     {
-        [Description("מנהל מערכת")]
+        [Description("מנהל")]
         Admin = 1,
         [Description("עורך")]
-        Editor = 2,
+        Edit = 2,
         [Description("צופה")]
-        Viewer = 3
+        View = 3
     }
 
     #endregion

@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import {provideRouter, withHashLocation} from '@angular/router';
 import {provideNgxWebstorage, withLocalStorage, withNgxWebstorageConfig, withSessionStorage} from 'ngx-webstorage';
-import {provideHttpClient, withInterceptors} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors} from '@angular/common/http';
 import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
@@ -16,7 +16,7 @@ import {ConfirmationService, MessageService} from "primeng/api";
 import {pendingRequestsInterceptor$} from "ng-http-loader";
 
 import {routes} from './app.routes';
-import {httpInterceptor} from "./shared/interceptors/http-interceptor.service";
+import {httpInterceptor} from "./core/interceptors/http-interceptor.service";
 import {GlobalErrorHandlerService} from "./shared/services/global-error-handler.service";
 
 export const appConfig: ApplicationConfig = {
@@ -49,6 +49,6 @@ export const appConfig: ApplicationConfig = {
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandlerService
-    }
+    },
   ]
 };

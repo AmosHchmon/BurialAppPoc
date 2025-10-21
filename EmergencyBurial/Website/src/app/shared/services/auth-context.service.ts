@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {SessionStorageService} from 'ngx-webstorage';
 import {IMember} from "../model/member";
+import { IAuthUser } from "../model/user";
 
 const jwtHelper = new JwtHelperService();
 
@@ -14,16 +15,16 @@ export class AuthContextService {
   constructor(private session: SessionStorageService) {
   }
 
-  get Member(): IMember {
+  get UserRABC(): IAuthUser {
     return this.session.retrieve("member");
   }
 
-  set Member(val: IMember) {
+  set UserRABC(val: IAuthUser) {
     this.session.store("member", val);
   }
 
   isLoggedIn() {
-    return !!this.Member;
+    return !!this.UserRABC;
   }
 
   // אתאים את זה למערכת כאשר יהיו לנו הרשאות

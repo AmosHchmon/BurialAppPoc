@@ -1,6 +1,6 @@
 import {Injectable, Injector} from '@angular/core';
 import {BaseService} from "../../core/abstract/base-service";
-import {IUserOtp} from "../model/user-otp";
+import {IAuthUser} from "../model/user";
 import {IMember} from "../model/member";
 
 @Injectable({
@@ -12,7 +12,7 @@ export class AuthService extends BaseService {
     super("AccountService", injector);
   }
 
-  login(userOtp: IUserOtp): Promise<IMember> {
+  login(userOtp: IAuthUser): Promise<IAuthUser> {
 
     return super.put({path: '/login', body: userOtp});
   }

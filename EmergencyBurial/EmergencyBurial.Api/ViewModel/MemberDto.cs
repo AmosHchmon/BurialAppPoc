@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Helpers;
+using System;
 
 namespace EmergencyBurial.Api.ViewModel;
 
@@ -15,8 +16,8 @@ public class MemberDto
     public string PhoneNumber { get; set; }
 
     public int? OrganizationTypeId { get; set; }
-    
-    public int? RoleTypeId { get; set; }
+
+    public RoleAccessType RoleAccessTypeId { get; set; }
 
     public int? StationTypeId { get; set; }
     
@@ -31,8 +32,4 @@ public class MemberDto
     public string? SubStationDesc { get; set; }
 
     public string? OtpNumber { get; set; }
-
-    public DateTime? OtpExpired { get; set; }
-
-    public bool IsActive { get; set; }
 }

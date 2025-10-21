@@ -7,7 +7,7 @@ import {AuthService} from "../../../../shared/services/auth.service";
 import {IListItem} from "../../../../shared/model/list-item";
 import {ListService} from "../../../../shared/services/list.service";
 import {enmListType} from "../../../../shared/enum/list-type.enum";
-import {enmRoleType} from "../../../../shared/enum/role-type.enum";
+import {enmRoleAccessType} from "../../../../shared/enum/role-type.enum";
 import {Table} from "primeng/table";
 
 @Component({
