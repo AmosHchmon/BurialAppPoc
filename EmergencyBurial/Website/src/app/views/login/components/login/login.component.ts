@@ -24,7 +24,7 @@ export class LoginComponent {
 
     async onLogin() {
 
-        this.authCtx.UserRABC = await this.authService.login(this.user);
+        this.authCtx.UserRBAC = await this.authService.login(this.user);
 
         this.router.navigate(['/dashboard/home']);
 

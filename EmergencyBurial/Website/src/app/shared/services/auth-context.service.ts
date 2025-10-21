@@ -15,16 +15,16 @@ export class AuthContextService {
   constructor(private session: SessionStorageService) {
   }
 
-  get UserRABC(): IAuthUser {
+  get UserRBAC(): IAuthUser {
     return this.session.retrieve("member");
   }
 
-  set UserRABC(val: IAuthUser) {
+  set UserRBAC(val: IAuthUser) {
     this.session.store("member", val);
   }
 
   isLoggedIn() {
-    return !!this.UserRABC;
+    return !!this.UserRBAC;
   }
 
   // אתאים את זה למערכת כאשר יהיו לנו הרשאות
