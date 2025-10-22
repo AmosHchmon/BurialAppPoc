@@ -135,6 +135,7 @@
         </div>
 
         <div class="w-50 d-flex flex-column gap-5">
+
           <p-select [options]="organizationsList"
                     [(ngModel)]="newMember.OrganizationTypeId"
                     name="OrganizationTypeId"
@@ -145,7 +146,7 @@
 
           <p-select [options]="rolesList"
                     [(ngModel)]="newMember.RoleAccessTypeId"
-                    name="RoleAccessTypeId"
+                    name="roleAccessTypeId"
                     optionLabel="Text"
                     optionValue="Id"
                     placeholder="תפקיד"/>
@@ -155,14 +156,15 @@
                     name="StationTypeId"
                     optionLabel="Text"
                     optionValue="Id"
-                    placeholder="תחנה"/>
+                    placeholder="סוג תחנה"
+                    (onChange)="onStationTypeChange()"/>
 
           <p-select [options]="subStationsList"
                     [(ngModel)]="newMember.StationId"
                     name="StationId"
                     optionLabel="Text"
                     optionValue="Id"
-                    placeholder="תת תחנה"/>
+                    placeholder="תחנה"/>
 
         </div>
       </div>

@@ -7,7 +7,6 @@ import {AuthService} from "../../../../shared/services/auth.service";
 import {IListItem} from "../../../../shared/model/list-item";
 import {ListService} from "../../../../shared/services/list.service";
 import {enmListType} from "../../../../shared/enum/list-type.enum";
-import {enmRoleAccessType} from "../../../../shared/enum/role-type.enum";
 import {Table} from "primeng/table";
 
 @Component({
@@ -77,15 +76,17 @@ export class UsersManagementComponent implements OnInit {
 
     this.allListItems = await this.listService.getItemList();
 
+    this.rolesList = await this.listService.getRolesAccessList();
+
     this.splitLists();
   }
 
   private splitLists() {
 
     this.organizationsList = this.allListItems.filter(x => x.ListTypeId == enmListType.OrganizationType);
-    /*this.rolesList = this.allListItems.filter(x => x.ListTypeId == enmRoleType);
-    this.stationsList = this.allListItems.filter(x => x.ListTypeId == 3);
-    this.subStationsList = this.allListItems.filter(x => x.ListTypeId == 4);*/
+
+    this.stationsList = this.allListItems.filter(x => x.ListTypeId == enmListType.StationType);
+
   }
 
   onAddMember() {
@@ -105,8 +106,14 @@ export class UsersManagementComponent implements OnInit {
 
   onNewMember() {
 
-    this.newMember = {};
+    this.newMember = {RoleAccessTypeId: null};
 
     this.showMemberDialog = true;
+  }
+
+  onStationTypeChange() {
+
+    this.subStationsList = this.allListItems.filter(x => x.ListTypeId == this.newMember.StationTypeId);
+console.log(this.subStationsList);
   }
 }
