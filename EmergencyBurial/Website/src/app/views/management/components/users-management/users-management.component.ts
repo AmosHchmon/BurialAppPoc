@@ -1,4 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {Table} from "primeng/table";
+import {NgForm} from "@angular/forms";
+import {ConfirmationService} from "primeng/api";
 
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {IMember} from "../../../../shared/model/member";
@@ -7,17 +10,21 @@ import {AuthService} from "../../../../shared/services/auth.service";
 import {IListItem} from "../../../../shared/model/list-item";
 import {ListService} from "../../../../shared/services/list.service";
 import {enmListType} from "../../../../shared/enum/list-type.enum";
-import {Table} from "primeng/table";
+import {ValidationModule} from "../../../../shared/validation/validation.module";
+import {AlertType} from "../../../../core/enums/alert.enum";
+import {DialogMessage} from "../../../../shared/static/messages";
+import {AlertService} from "../../../../shared/services/alert.service";
 
 @Component({
   selector: 'app-users-management',
-  imports: [UiComponentsModule],
+  imports: [UiComponentsModule, ValidationModule],
   templateUrl: './users-management.component.html',
   styleUrl: './users-management.component.scss'
 })
 export class UsersManagementComponent implements OnInit {
 
   @ViewChild('dt') dt: Table<IMember>;
+  @ViewChild('memberForm') memberForm: NgForm;
 
   membersColumns: IColumn[] = [
     {
@@ -59,26 +66,34 @@ export class UsersManagementComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private listService: ListService,
+              private alertService: AlertService,
+              private confirmService: ConfirmationService,
               private cd: ChangeDetectorRef) {
   }
 
   async ngOnInit() {
 
-    await this.loadData();
+    await this.loadLists();
+    await this.loadMembers();
 
     // TODO: Remove detectChanges after we solve the zone.js problem
     this.cd.detectChanges();
   }
 
-  private async loadData() {
-
-    this.members = await this.authService.getMembers();
+  private async loadLists() {
 
     this.allListItems = await this.listService.getItemList();
 
     this.rolesList = await this.listService.getRolesAccessList();
 
     this.splitLists();
+  }
+
+  private async loadMembers() {
+
+    this.members = await this.authService.getMembers();
+
+    this.cd.detectChanges();
   }
 
   private splitLists() {
@@ -89,8 +104,23 @@ export class UsersManagementComponent implements OnInit {
 
   }
 
-  onAddMember() {
+  async onSaveMember() {
 
+    if (this.newMember.Id) {
+      await this.authService.updateMember(this.newMember);
+    } else {
+      await this.authService.saveMember(this.newMember);
+    }
+
+    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
+
+    this.showMemberDialog = false;
+
+    this.dt.selection = null;
+
+    this.memberForm.resetForm();
+
+    await this.loadMembers();
   }
 
   onEditMember() {
@@ -100,11 +130,34 @@ export class UsersManagementComponent implements OnInit {
 
   }
 
-  onDeleteMember() {
+  async onDeleteMember() {
 
+    this.confirmService.confirm({
+      header: DialogMessage.DeleteListItem,
+      message: DialogMessage.ConfirmQuestion,
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'כן',
+      rejectLabel: 'לא',
+      accept: async () => {
+
+        const member = this.dt.selection;
+
+        await this.authService.deleteMember(member.Id);
+
+        this.showMemberDialog = false;
+
+        this.dt.selection = null;
+
+        await this.loadMembers();
+      },
+      reject: () => {
+        return;
+      }
+
+    })
   }
 
-  onNewMember() {
+  onAddMember() {
 
     this.newMember = {RoleAccessTypeId: null};
 
@@ -113,7 +166,8 @@ export class UsersManagementComponent implements OnInit {
 
   onStationTypeChange() {
 
-    this.subStationsList = this.allListItems.filter(x => x.ListTypeId == this.newMember.StationTypeId);
-console.log(this.subStationsList);
+    this.subStationsList = this.allListItems.filter(x => x.ListItemDepId == this.newMember.StationTypeId);
+
   }
+
 }

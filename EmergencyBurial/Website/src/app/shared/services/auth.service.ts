@@ -36,7 +36,7 @@ export class AuthService extends BaseService {
 
   deleteMember(id: number): Promise<IMember> {
 
-    return super.delete({path: `${id}`});
+    return super.delete({path: `/${id}`});
 
   }
 
