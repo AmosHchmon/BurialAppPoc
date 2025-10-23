@@ -22,4 +22,5 @@ export let DialogMessage = {
   DeleteListType: 'פעולה זו תמחק סוג רשימה זו',
   DeleteListItem: 'פעולה זו תמחק פריט זה',
   ConnectedListItems: 'ישנם רשימות הקשורות לסוג רשימה זו. נא למחוק אותם',
+  AccessDenied : "אינך מורשה גישה."
 };
