@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Ripple} from "primeng/ripple";
 import {Router} from "@angular/router";
 
-import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
-import {IMenuItem} from "../../../../shared/model/menu-item";
+import {UiComponentsModule} from "../../../shared/ui-components/ui-components.module";
+import {IMenuItem} from "../../../shared/model/menu-item";
 
 @Component({
   selector: 'app-side-menu-management',

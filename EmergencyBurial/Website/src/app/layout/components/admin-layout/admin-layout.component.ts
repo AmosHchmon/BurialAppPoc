@@ -3,7 +3,7 @@ import {RouterOutlet} from "@angular/router";
 import {HeaderComponent} from "../header/header.component";
 import {
   SideMenuManageComponent
-} from "../../../views/management/components/side-menu-management/side-menu-management.component";
+} from "../side-menu-management/side-menu-management.component";
 
 @Component({
   selector: 'app-side-menu-management-layout',
@@ -12,9 +12,9 @@ import {
     HeaderComponent,
     SideMenuManageComponent
   ],
-  templateUrl: './management-layout.component.html',
-  styleUrl: './management-layout.component.scss'
+  templateUrl: './admin-layout.component.html',
+  styleUrl: './admin-layout.component.scss'
 })
-export class ManagementLayoutComponent {
+export class AdminLayoutComponent {
 
 }

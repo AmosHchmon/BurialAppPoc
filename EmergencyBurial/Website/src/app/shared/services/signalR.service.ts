@@ -3,7 +3,7 @@ import * as signalR from '@microsoft/signalr';
 import {Subject} from 'rxjs';
 
 import {environment} from "../../../environments/environment";
-import {Deceased} from "../../views/deceased/model/Deceased";
+import {Deceased} from "../../features/deceased/model/Deceased";
 
 @Injectable({
   providedIn: 'root'
