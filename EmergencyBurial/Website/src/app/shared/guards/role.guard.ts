@@ -6,13 +6,6 @@ import { AlertType } from 'src/app/core/enums/alert.enum';
 import { AlertService } from '../services/alert.service';
 import { DialogMessage } from '../static/messages';
 
-/**
- * RoleGuard checks route.data.roles (string or string[]) and allows navigation
- * only if the current user has at least one of the required roles.
- *
- * Usage in route config:
- *  { path: 'admin', component: AdminComponent, canActivate: [RoleGuard], data: { roles: ['Admin'] } }
- */
 @Injectable({ providedIn: 'root' })
 export class RoleGuard implements CanActivate {
   constructor(private authCtx: AuthContextService,private alertService: AlertService, private router: Router) {}
