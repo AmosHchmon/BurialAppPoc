@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {NgForm} from "@angular/forms";
 import {ConfirmationService} from "primeng/api";
@@ -67,8 +67,7 @@ export class UsersManagementComponent implements OnInit {
   constructor(private authService: AuthService,
               private listService: ListService,
               private alertService: AlertService,
-              private confirmService: ConfirmationService,
-              private cd: ChangeDetectorRef) {
+              private confirmService: ConfirmationService) {
   }
 
   async ngOnInit() {
@@ -76,8 +75,6 @@ export class UsersManagementComponent implements OnInit {
     await this.loadLists();
     await this.loadMembers();
 
-    // TODO: Remove detectChanges after we solve the zone.js problem
-    this.cd.detectChanges();
   }
 
   private async loadLists() {
@@ -93,7 +90,6 @@ export class UsersManagementComponent implements OnInit {
 
     this.members = await this.authService.getMembers();
 
-    this.cd.detectChanges();
   }
 
   private splitLists() {

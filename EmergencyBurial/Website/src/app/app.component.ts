@@ -10,7 +10,7 @@ import {ConfirmDialog} from "primeng/confirmdialog";
   templateUrl: './app.component.html',
   imports: [RouterOutlet, NgHttpLoaderComponent, Toast, ConfirmDialog],
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   standalone: true,
 })
 export class AppComponent {

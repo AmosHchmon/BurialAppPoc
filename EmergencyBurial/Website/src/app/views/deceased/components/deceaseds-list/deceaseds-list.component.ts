@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
@@ -34,7 +34,6 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
   constructor(private deceasedService: DeceasedService,
               private alertService: AlertService,
               private router: Router,
-              private cdr: ChangeDetectorRef,
               private signalRService: SignalRService) {
 
   }
@@ -44,9 +43,6 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
     this.deceasedList = await this.deceasedService.getDeceaseds();
 
     this.initCols();
-
-    // TODO: Remove detectChanges after we solve the zone.js problem
-    this.cdr.detectChanges();
 
     this.subscribeToHubEvents();
 
@@ -106,9 +102,6 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
       (newDeceased: Deceased) => {
 
         this.deceasedList.unshift(newDeceased);
-
-        // TODO: Remove detectChanges after we solve the zone.js problem
-        this.cdr.detectChanges();
 
         this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.NewDeceasedAdded});
       }
