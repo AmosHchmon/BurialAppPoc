@@ -16,7 +16,7 @@ namespace EmergencyBurial.Api.Controllers;
 [Authorize]
 public class MembersController(MemberService memberService, IMapper mapper) : ControllerBase
 {
-    [HttpGet("members")]
+    [HttpGet]
     public async Task<ActionResult<List<MemberDto>>> GetMembers()
     {
         var list = await memberService.GetMembers();

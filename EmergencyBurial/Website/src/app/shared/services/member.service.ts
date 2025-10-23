@@ -13,7 +13,7 @@ export class MemberService extends BaseService {
 
   getMembers(): Promise<IMember[]> {
 
-    return super.get<IMember[]>({path: '/members'});
+    return super.get<IMember[]>({path: '/'});
   }
 
   saveMember(member: IMember): Promise<IMember> {
