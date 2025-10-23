@@ -1,0 +1,197 @@
+<div class="p-3 mt-5">
+  <p-toolbar class="border rounded-4">
+    <div class="d-flex gap-4">
+      <p-button label="הוסף"
+                icon="pi pi-plus"
+                (click)="onAddMember()"/>
+      <p-button label="עדכן"
+                icon="pi pi-pencil"
+                [disabled]="!dt.selection"
+                (click)="onEditMember()"/>
+      <p-button severity="danger"
+                label="מחק"
+                icon="pi pi-trash"
+                outlined
+                (click)="onDeleteMember()"
+                [disabled]="!dt.selection"
+      />
+    </div>
+  </p-toolbar>
+
+  <p-table #dt
+           [value]="members"
+           [rows]="10"
+           [size]="'small'"
+           [columns]="membersColumns"
+           [paginator]="true"
+           [tableStyle]="{ 'min-width': '75rem' }"
+           [rowHover]="true"
+           dataKey="Id"
+           selectionMode="single"
+           currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
+           [showCurrentPageReport]="true"
+  >
+
+    <ng-template #header>
+      <tr>
+        <th>בחירה</th>
+        @for (col of membersColumns; track col.field) {
+          <th>{{ col.header }}</th>
+        }
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body"
+                 let-member>
+      <tr [pSelectableRow]="member">
+        <td style="width: 3rem">
+          <p-tableRadioButton [value]="member"/>
+        </td>
+        <td>
+          {{ member?.UserName }}
+        </td>
+        <td>
+          {{ member?.FullName }}
+        </td>
+        <td>
+          {{ member?.Mail }}
+        </td>
+        <td>
+          {{ member?.PhoneNumber }}
+        </td>
+        <td>
+          {{ member?.OrganizationDesc }}
+        </td>
+        <td>
+          {{ member?.RoleDesc }}
+        </td>
+        <td>
+          {{ member?.StationDesc }}
+        </td>
+        <td>
+          {{ member?.StationId }}
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+
+  <p-dialog [(visible)]="showMemberDialog"
+            closeOnEscape="true"
+            dismissableMask="true"
+            [style]="{ width: '50rem', 'max-height': '90vh'}"
+            header="הוספת משתמש"
+            modal="true">
+    <form #memberForm="ngForm" class="d-flex flex-column">
+      <div class="d-flex w-100">
+        <div class="w-50 d-flex flex-column gap-5">
+          <p-floatlabel class="mt-4" variant="on">
+            <input pInputText
+                   #username="ngModel"
+                   class="w-75"
+                   required
+                   [(ngModel)]="newMember.UserName"
+                   [invalid]="username.invalid && username.touched"
+                   identityvalidator
+                   name="username"
+                   autocomplete="off"/>
+            <label>תעודת זהות</label>
+          </p-floatlabel>
+
+          <p-floatlabel variant="on">
+            <input pInputText
+                   #fullName="ngModel"
+                   class="w-75"
+                   required
+                   [(ngModel)]="newMember.FullName"
+                   [invalid]="fullName.invalid && fullName.touched"
+                   name="fullName"
+                   autocomplete="off"/>
+            <label>שם מלא</label>
+          </p-floatlabel>
+
+          <p-floatlabel variant="on">
+            <input pInputText
+                   #mail="ngModel"
+                   class="w-75"
+                   required
+                   [(ngModel)]="newMember.Mail"
+                   [invalid]="mail.invalid && mail.touched"
+                   name="mail"
+                   autocomplete="off"/>
+            <label>אימייל</label>
+          </p-floatlabel>
+
+          <p-floatlabel variant="on">
+            <input pInputText
+                   pattern="^\d{10}$"
+                   #phoneNumber="ngModel"
+                   class="w-75"
+                   required
+                   [(ngModel)]="newMember.PhoneNumber"
+                   [invalid]="phoneNumber.invalid && phoneNumber.touched"
+                   name="phoneNumber"
+                   autocomplete="off"/>
+            <label>מספר פלאפון</label>
+          </p-floatlabel>
+        </div>
+
+        <div class="w-50 d-flex flex-column gap-5">
+
+          <p-select [options]="organizationsList"
+                    [(ngModel)]="newMember.OrganizationTypeId"
+                    name="OrganizationTypeId"
+                    optionLabel="Text"
+                    optionValue="Key"
+                    placeholder="ארגון"
+                    required
+                    class="mt-4"
+                    appendTo="body"/>
+
+          <p-select [options]="rolesList"
+                    [(ngModel)]="newMember.RoleAccessTypeId"
+                    name="roleAccessTypeId"
+                    optionLabel="Text"
+                    optionValue="Value"
+                    placeholder="תפקיד"
+                    required
+                    appendTo="body"/>
+
+          <p-select [options]="stationsList"
+                    [(ngModel)]="newMember.StationTypeId"
+                    name="StationTypeId"
+                    optionLabel="Text"
+                    optionValue="Key"
+                    placeholder="סוג תחנה"
+                    (onChange)="onStationTypeChange()"
+                    appendTo="body"/>
+
+          <p-select [options]="subStationsList"
+                    [(ngModel)]="newMember.StationId"
+                    name="StationId"
+                    optionLabel="Text"
+                    optionValue="Key"
+                    placeholder="תחנה"
+                    [required]="newMember.StationTypeId != null"
+                    appendTo="body"/>
+
+        </div>
+      </div>
+
+      <div class="mt-5">
+        @if (!newMember?.Id) {
+          <p-button label="שמור"
+                    class="mt-3"
+                    [disabled]="memberForm.invalid"
+                    (click)="onSaveMember()"/>
+        } @else {
+          <p-button label="עדכן"
+                    class="mt-3"
+                    [disabled]="memberForm.invalid"
+                    (click)="onSaveMember()"/>
+        }
+      </div>
+
+    </form>
+  </p-dialog>
+</div>

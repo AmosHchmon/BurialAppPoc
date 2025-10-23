@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {DeceasedService} from '../../services/deceased.service';
@@ -37,8 +37,7 @@ export class DeceasedDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private deceasedService: DeceasedService,
     private transportService: TransportService,
-    private listService: ListService,
-    private cdr: ChangeDetectorRef
+    private listService: ListService
   ) {
   }
 
@@ -63,7 +62,6 @@ export class DeceasedDetailComponent implements OnInit {
 
     this.initializeFields();
 
-    this.cdr.detectChanges()
   }
 
   private initializeFields(): void {
@@ -150,19 +148,15 @@ export class DeceasedDetailComponent implements OnInit {
     this.transports = await this.transportService.getTransportsByDeceasedId(deceasedId?.toLocaleString());
   }
 
-  handleTransportCreated() {
+  async handleTransportCreated() {
 
     if (this.deceased) {
-      this.loadTransports(this.deceased.Id);
+      await this.loadTransports(this.deceased.Id);
     }
 
     this.activeAccordionIndex = [2];
 
     this.activeTab = "0";
-
-    setTimeout(() => {
-      this.cdr.detectChanges();
-    }, 100)
 
   }
 

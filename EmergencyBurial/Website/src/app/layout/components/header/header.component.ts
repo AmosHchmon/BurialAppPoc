@@ -30,7 +30,15 @@ export class HeaderComponent implements OnInit {
 
     //Todo: Treat it when implementing permissions on the menu
     if (this.authCtx.isAdmin()) {
-      this.tabs.push({url: '/management/users', module: 'management', name: 'ניהול', icon: 'pi pi-cog'});
+
+      const managementTabUrl = '/management/users';
+
+      const tabExists = this.tabs.some(tab => tab.url === managementTabUrl);
+
+      if (!tabExists) {
+        this.tabs.push({url: managementTabUrl, module: 'management', name: 'ניהול', icon: 'pi pi-cog'});
+      }
+
     }
   }
 

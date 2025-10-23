@@ -63,12 +63,13 @@ namespace Core.Helpers
     #endregion
 
     #region [list item]
+    
     public enum OrganizationType
     {
+        [Description("משרד שירותי הדת")] 
+        DatServices = 1001, 
         [Description("חמ'ל")]
-        Hamal = 1001,
-        [Description("מוקד הודעה מרה")]
-        BadMessageCenter = 1002,
+        Hamal = 1002,
         [Description("תר'ח")]
         Tarah = 1003,
         [Description("הכנה לקבורה")]
@@ -87,7 +88,6 @@ namespace Core.Helpers
         BetAlmin = 2003,
     }
     
-    // Will be converted to management table
     public enum TarahStations
     {
         [Description("שורה")]
@@ -174,13 +174,22 @@ namespace Core.Helpers
         Final = 1
     }
     
-    // Will be converted to management table
     public enum Affiliation
     {
         [Description("אזרחי")]
         Civilian = 0,
         [Description("כוחות ביטחון")]
         SecurityForces = 1
+    }
+    
+    public enum RoleAccessType
+    {
+        [Description("מנהל")]
+        Admin = 1,
+        [Description("עורך")]
+        Edit = 2,
+        [Description("צופה")]
+        View = 3
     }
 
     #endregion

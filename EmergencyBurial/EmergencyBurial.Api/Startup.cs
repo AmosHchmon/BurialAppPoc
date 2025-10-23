@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Common.Helpers;
 using Coravel;
 using Core.Config;
+using Core.Helpers;
 using Core.Middleware;
 using DataModel;
 using DataModel.Triggers;
@@ -12,6 +13,7 @@ using EmergencyBurial.Services;
 using EmergencyBurial.Services.DbServices;
 using EmergencyBurial.Services.RealTime;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -56,6 +58,8 @@ namespace EmergencyBurial.Api
             
             services.AddCors();
 
+            services.AddScheduler();
+
             services.AddSignalR().AddJsonProtocol(options =>
             {
                 options.PayloadSerializerOptions.PropertyNamingPolicy = null;
@@ -82,13 +86,15 @@ namespace EmergencyBurial.Api
             services.AddScoped<AccountService>();
             services.AddScoped<DeceasedService>();
             services.AddScoped<NotificationService>();
+            services.AddScoped<MemberService>();
 
             services.AddScoped<TransportService>();
             services.AddScoped<FileService>();
             
-            services.AddScheduler();
 
             services.AddTransient<TaskCreateCasualtyJob>();
+
+            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -113,6 +119,19 @@ namespace EmergencyBurial.Api
                         }
                     };
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(nameof(RoleAccessType.Admin), policy =>
+                     policy.Requirements.Add(new PermissionRequirement(nameof(RoleAccessType.Admin))));
+
+                options.AddPolicy(nameof(RoleAccessType.Edit), policy =>
+                     policy.Requirements.Add(new PermissionRequirement(nameof(RoleAccessType.Edit))));
+               
+                options.AddPolicy(nameof(RoleAccessType.View), policy =>
+                     policy.Requirements.Add(new PermissionRequirement(nameof(RoleAccessType.View))));
+                
+            });
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>

@@ -5,7 +5,9 @@ using Core.Helpers;
 using DataModel;
 using EmergencyBurial.Api.Helper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
+using EntityType = Core.Helpers.EntityType;
 
 
 namespace EmergencyBurial.Api.Controllers;

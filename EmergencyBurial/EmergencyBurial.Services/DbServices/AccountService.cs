@@ -1,32 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Core.Config;
 using Core.Helpers;
+using DataModel;
 using DataModel.Entities;
 using Microsoft.IdentityModel.Tokens;
 
 namespace EmergencyBurial.Services.DbServices;
 
-public class AccountService(AuthConfiguration authConfig)
+public class AccountService(AuthConfiguration authConfig, EmergencyBurialContext ctx)
 {
     public Member VerifyMember(Member member)
     {
-        if (member.UserName == "test" && member.Mail.ToLower() == "ozs@dat.gov.il")
-        {
-            return new Member
-            {
-                Id = Guid.NewGuid(),
-                UserName = "test",
-                FullName = "Test User",
-                Mail = "ozs@dat.gov.il",
-                PhoneNumber = "0501234567",
-            };
-        }
-
-        return null;
+        return ctx.Members.SingleOrDefault(x => x.UserName == member.UserName && x.Mail == member.Mail && x.IsActive);
     }
 
     public string CreateToken(Member member)
@@ -35,12 +25,16 @@ public class AccountService(AuthConfiguration authConfig)
 
         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
+        var OU = (OrganizationType)member.OrganizationTypeId;
+        var permission = (RoleAccessType)member.RoleAccessTypeId;
+
         var claims = new List<Claim>
         {
             new Claim(ClaimHelper.UserId, member.Id.ToString()),
             new Claim(ClaimTypes.Name, member.UserName),
             new Claim(ClaimTypes.Email, member.Mail),
-            new Claim(ClaimTypes.Role, "Admin"),
+            new Claim(ClaimTypes.Role, OU.ToString()),
+            new Claim(ClaimHelper.Permission, permission.ToString()),
         };
 
         var tokeOptions = new JwtSecurityToken(

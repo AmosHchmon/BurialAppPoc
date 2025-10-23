@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using Core.Helpers;
 using DataModel.Entities;
 using EmergencyBurial.Api.ViewModel;
 using EmergencyBurial.Services.DbServices;
@@ -19,33 +20,40 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
 
     [HttpPut("login")]
     [AllowAnonymous]
-    public ActionResult Login([FromBody] MemberDto memberDto)
+    public ActionResult<AuthUserDto> Login([FromBody] MemberDto memberDto)
     {
         if (memberDto == null)
         {
             return BadRequest();
         }
 
-        var userObj = mapper.Map<Member>(memberDto);
+        var member = mapper.Map<Member>(memberDto);
 
-        var user = accountService.VerifyMember(userObj);
+        var result = accountService.VerifyMember(member);
 
-        if (user == null)
+        if (result == null)
             return Unauthorized();
 
-        var token = accountService.CreateToken(user);
+        var token = accountService.CreateToken(result);
 
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
             Secure = true,
             SameSite = SameSiteMode.None,
-            Expires = DateTimeOffset.UtcNow.AddDays(7)
+            Expires = DateTimeOffset.UtcNow.AddDays(1)
         };
 
         Response.Cookies.Append("user_token", token, cookieOptions);
 
-        return Ok(memberDto);
+        var user = new AuthUserDto()
+        {
+            FullName = result.FullName,
+            OUnit = (OrganizationType)result.OrganizationTypeId,
+            Policy = (RoleAccessType)result.RoleAccessTypeId
+        };
+
+        return Ok(user);
     }
 
     /*[HttpPut("otp")]

@@ -22,7 +22,7 @@
           <p-accordion-panel [value]="4" pRipple>
             <p-accordion-header class="fw-bold">טבלת שינועים</p-accordion-header>
             <p-accordion-content>
-              <app-transports-table [transports]="deceased?.Transports"
+              <app-transports-table [transports]="transports"
                                     (switchTab)="switchToTransportTab()">
               </app-transports-table>
             </p-accordion-content>

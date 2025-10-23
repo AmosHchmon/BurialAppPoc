@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Helpers;
+using Core.Resources;
 using DataModel;
 using DataModel.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,7 @@ namespace EmergencyBurial.Services.DbServices
     public class ListService(EmergencyBurialContext ctx)
     {
         #region [ListItem Methods]
+
         public async Task<List<ListItem>> GetListItems()
         {
             return await ctx.ListItems.OrderBy(x => x.Text).ToListAsync();
@@ -18,11 +21,18 @@ namespace EmergencyBurial.Services.DbServices
 
         public async Task<ListItem> AddListItem(ListItem item)
         {
-            await ctx.ListItems.AddAsync(item);
+            try
+            {
+                await ctx.ListItems.AddAsync(item);
 
-            await ctx.SaveChangesAsync();
+                await ctx.SaveChangesAsync();
 
-            return item;
+                return item;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(UserMessage.ErrorSave, ex);
+            }
         }
 
         public async Task<ListItem> UpdateListItem(ListItem item)
@@ -38,9 +48,11 @@ namespace EmergencyBurial.Services.DbServices
         {
             await ctx.ListItems.Where(x => x.Key == id).ExecuteDeleteAsync();
         }
+
         #endregion
 
         #region [listType Methods]
+
         public async Task<List<ListType>> GetListTypes()
         {
             return await ctx.ListTypes.ToListAsync();
@@ -48,15 +60,22 @@ namespace EmergencyBurial.Services.DbServices
 
         public async Task<ListType> AddListType(ListType item)
         {
-            var lastListType = ctx.ListTypes.Max(x => x.Id);
+            try
+            {
+                var lastListType = ctx.ListTypes.Max(x => x.Id);
 
-            item.Id = lastListType == null ? 1000 : lastListType + 1000;
+                item.Id = lastListType == null ? 1000 : lastListType + 1000;
 
-            ctx.ListTypes.Add(item);
+                ctx.ListTypes.Add(item);
 
-            await ctx.SaveChangesAsync();
+                await ctx.SaveChangesAsync();
 
-            return item;
+                return item;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(UserMessage.ErrorSave, ex);
+            }
         }
 
         public async Task<ListType> UpdateListType(ListType item)

@@ -46,6 +46,12 @@ export class ListService extends BaseService {
 
   }
 
+  getRolesAccessList(): Promise<IOptionItem[]> {
+
+    return super.get<IOptionItem[]>({path: '/role-access-type'});
+
+  }
+
 
   //#region [helper methods]
 

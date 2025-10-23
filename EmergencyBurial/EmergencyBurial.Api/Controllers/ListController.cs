@@ -133,4 +133,14 @@ public class ListController(ListService listService, IMapper mapper) : Controlle
 
         return Ok(list);
     }
+    
+    [HttpGet("role-access-type")]
+    public ActionResult<List<OptionItem>> GetRoleAccessTypeEnumsValues()
+    {
+        var list = EnumHelper.EnumNamedValues<RoleAccessType>();
+        
+        return Ok(list);
+    }
+    
+    
 }
