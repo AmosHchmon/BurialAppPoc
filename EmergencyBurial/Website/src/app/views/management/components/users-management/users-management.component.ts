@@ -14,6 +14,7 @@ import {ValidationModule} from "../../../../shared/validation/validation.module"
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {AlertService} from "../../../../shared/services/alert.service";
+import {MemberService} from "../../../../shared/services/member.service";
 
 @Component({
   selector: 'app-users-management',
@@ -64,7 +65,7 @@ export class UsersManagementComponent implements OnInit {
   stationsList: IListItem[] = [];
   subStationsList: IListItem[] = [];
 
-  constructor(private authService: AuthService,
+  constructor(private memberService: MemberService,
               private listService: ListService,
               private alertService: AlertService,
               private confirmService: ConfirmationService) {
@@ -88,7 +89,7 @@ export class UsersManagementComponent implements OnInit {
 
   private async loadMembers() {
 
-    this.members = await this.authService.getMembers();
+    this.members = await this.memberService.getMembers();
 
   }
 
@@ -103,9 +104,9 @@ export class UsersManagementComponent implements OnInit {
   async onSaveMember() {
 
     if (this.newMember.Id) {
-      await this.authService.updateMember(this.newMember);
+      await this.memberService.updateMember(this.newMember);
     } else {
-      await this.authService.saveMember(this.newMember);
+      await this.memberService.saveMember(this.newMember);
     }
 
     this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
@@ -138,7 +139,7 @@ export class UsersManagementComponent implements OnInit {
 
         const member = this.dt.selection;
 
-        await this.authService.deleteMember(member.Id);
+        await this.memberService.deleteMember(member.Id);
 
         this.showMemberDialog = false;
 
