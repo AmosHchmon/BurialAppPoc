@@ -6,7 +6,6 @@ import {ConfirmationService} from "primeng/api";
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {IMember} from "../../../../shared/model/member";
 import {IColumn} from "../../../../shared/ui-components/model/column";
-import {AuthService} from "../../../../shared/services/auth.service";
 import {IListItem} from "../../../../shared/model/list-item";
 import {ListService} from "../../../../shared/services/list.service";
 import {enmListType} from "../../../../shared/enum/list-type.enum";

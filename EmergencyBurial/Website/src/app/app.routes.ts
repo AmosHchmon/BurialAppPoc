@@ -3,9 +3,9 @@ import {Routes} from '@angular/router';
 import {DashboardLayoutComponent} from './layout/components/dashboard-layout/dashboard-layout.component';
 import {AuthLayoutComponent} from "./layout/components/auth-layout/auth-layout.component";
 import {AuthGuard} from "./shared/guards/auth.guard";
-import {ManagementLayoutComponent} from "./layout/components/management-layout/management-layout.component";
 import { RoleGuard } from './shared/guards/role.guard';
 import { enmOrganizationType } from './shared/enum/organization-type.enum';
+import {AdminLayoutComponent} from "./layout/components/admin-layout/admin-layout.component";
 
 export const routes: Routes = [
   {
@@ -19,7 +19,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./views/login/login.routing').then(m => m.LoginRouting)
+        loadChildren: () => import('./features/account/login.routing').then(m => m.LoginRouting)
       }
     ]
   },
@@ -34,28 +34,28 @@ export const routes: Routes = [
       },
       {
         path: 'home',
-        loadChildren: () => import('./views/home/home.routing').then(m => m.HomesRoutes)
+        loadChildren: () => import('./features/dashboard/home.routing').then(m => m.HomesRoutes)
       },
       {
         path: 'deceaseds',
         canActivate: [RoleGuard], data: { roles: [enmOrganizationType.All]},
-        loadChildren: () => import('./views/deceased/deceased.routing').then(m => m.DeceasedRouting)
+        loadChildren: () => import('./features/deceased/deceased.routing').then(m => m.DeceasedRouting)
       },
       {
         path: 'transport',
         canActivate: [RoleGuard], data: { roles: [enmOrganizationType.All]},
-        loadChildren: () => import('./views/transport/transport.routing').then(m => m.TransportRouting)
+        loadChildren: () => import('./features/transport/transport.routing').then(m => m.TransportRouting)
       },
     ],
     canActivate: [AuthGuard],
   },
   {
     path: 'management',
-    component: ManagementLayoutComponent,
+    component: AdminLayoutComponent,
     children:[
       {
         path: '',
-        loadChildren: () => import('./views/management/management.routing').then(m => m.ManagementRouting)
+        loadChildren: () => import('./features/admin/management.routing').then(m => m.ManagementRouting)
       }
     ],
     canActivate: [RoleGuard], data: { roles: [enmOrganizationType.DatServices]},
