@@ -29,13 +29,16 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
 
-    const userRoles = this.authCtx.getUserRole;
+    const userRole = this.authCtx.getUserRole;
 
-    if (userRoles == enmOrganizationType.All) {
-      this.tabs = NavMenuItems;
-    } else {
-      this.tabs = NavMenuItems.filter(x => x.roles.includes(userRoles));
-    }
+    this.tabs = NavMenuItems.filter(item => {
+
+      const isPublic = item.roles.includes(enmOrganizationType.All);
+
+      const hasSpecificRole = item.roles.includes(userRole);
+
+      return isPublic || hasSpecificRole;
+    })
 
   }
 
