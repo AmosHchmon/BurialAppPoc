@@ -6,6 +6,7 @@ import {UiComponentsModule} from "../../../shared/ui-components/ui-components.mo
 import {AuthContextService} from "../../../shared/services/auth-context.service";
 import {INavItem} from "../../../shared/model/nav-item";
 import {NavMenuItems} from "../../../shared/static/nav-items";
+import {enmOrganizationType} from "../../../shared/enum/organization-type.enum";
 
 @Component({
   selector: 'app-header',
@@ -28,18 +29,17 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
 
-    //Todo: Treat it when implementing permissions on the menu
-    if (this.authCtx.isAdmin()) {
+    const userRole = this.authCtx.getUserRole;
 
-      const managementTabUrl = '/management/users';
+    this.tabs = NavMenuItems.filter(item => {
 
-      const tabExists = this.tabs.some(tab => tab.url === managementTabUrl);
+      const isPublic = item.roles.includes(enmOrganizationType.All);
 
-      if (!tabExists) {
-        this.tabs.push({url: managementTabUrl, module: 'management', name: 'ניהול', icon: 'pi pi-cog'});
-      }
+      const hasSpecificRole = item.roles.includes(userRole);
 
-    }
+      return isPublic || hasSpecificRole;
+    })
+
   }
 
   signOut() {

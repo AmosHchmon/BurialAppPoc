@@ -1,3 +1,4 @@
+import {enmOrganizationType} from "../enum/organization-type.enum";
 
 export interface INavItem {
   name: string;
@@ -7,4 +8,5 @@ export interface INavItem {
   icon?: string;
   color? :string;
   showInMenu?: boolean;
+  roles: enmOrganizationType[];
 }
