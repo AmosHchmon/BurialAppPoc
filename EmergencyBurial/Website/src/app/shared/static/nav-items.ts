@@ -7,7 +7,7 @@ export const NavMenuItems: Array<INavItem> = [
     module: "dashboard",
     url: "/dashboard/home",
     icon: "pi pi-home",
-    roles: [enmOrganizationType.All, enmOrganizationType.DatServices]
+    roles: [enmOrganizationType.All]
   },
   {
     name: "שק חלל",
