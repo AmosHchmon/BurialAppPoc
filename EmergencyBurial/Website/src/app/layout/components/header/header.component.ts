@@ -31,9 +31,9 @@ export class HeaderComponent implements OnInit {
 
     const userRoles = this.authCtx.getUserRole;
 
-    if(userRoles == enmOrganizationType.All){
+    if (userRoles == enmOrganizationType.All) {
       this.tabs = NavMenuItems;
-    }else{
+    } else {
       this.tabs = NavMenuItems.filter(x => x.roles.includes(userRoles));
     }
 
