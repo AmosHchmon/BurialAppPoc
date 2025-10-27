@@ -27,6 +27,7 @@ import {ToolbarModule} from "primeng/toolbar";
 import {DialogModule} from "primeng/dialog";
 import {AutoFocusModule} from "primeng/autofocus";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {RadioButtonModule} from "primeng/radiobutton";
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     ToolbarModule,
     DialogModule,
     AutoFocusModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    RadioButtonModule
   ],
   exports: [
     NgOptimizedImage,
@@ -88,7 +90,8 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     ToolbarModule,
     DialogModule,
     AutoFocusModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    RadioButtonModule
   ],
   declarations: [],
   providers: [

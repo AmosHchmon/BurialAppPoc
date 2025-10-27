@@ -16,7 +16,6 @@ export class SideMenuManageComponent implements OnInit {
   visible: boolean = false;
   menuItems: IMenuItem[] = [];
 
-
   constructor(private router: Router) {
   }
 
@@ -24,14 +23,19 @@ export class SideMenuManageComponent implements OnInit {
 
     this.menuItems = [
       {
-        url: '/management/users',
+        url: '/admin/users',
         icon: 'pi pi-user-plus',
         name: 'ניהול משתמשים'
       },
       {
-        url: '/management/lists',
+        url: '/admin/lists',
         icon: 'pi pi-list',
         name: 'ניהול רשימות'
+      },
+      {
+        url: '/admin/deceaseds',
+        icon: 'pi pi-id-card',
+        name: 'ניהול שקי חלל'
       }
     ]
   }
