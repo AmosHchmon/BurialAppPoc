@@ -12,6 +12,8 @@ import {SignalRService} from "../../../../shared/services/signalR.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {ValidationModule} from "../../../../shared/validation/validation.module";
+import {NgForm} from "@angular/forms";
+import {ConfirmationService} from "primeng/api";
 
 @Component({
   selector: 'app-deceaseds-management',
@@ -21,7 +23,8 @@ import {ValidationModule} from "../../../../shared/validation/validation.module"
 })
 export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
-  @ViewChild('dt') dt: Table<Deceased> | undefined;
+  @ViewChild('dt') dt: Table<Deceased>;
+  @ViewChild('deceasedForm') deceasedForm: NgForm;
 
   cols: IColumn[] = [];
   fields: IColumn[] = [];
@@ -35,14 +38,14 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   constructor(private deceasedService: DeceasedService,
               private alertService: AlertService,
               private router: Router,
-              private signalRService: SignalRService) {
+              private signalRService: SignalRService,
+              private confirmService: ConfirmationService) {
 
   }
 
   async ngOnInit() {
 
-
-    this.deceasedList = await this.deceasedService.getDeceaseds();
+    await this.loadDeceased();
 
     this.initCols();
 
@@ -99,14 +102,63 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
   onAddDeceased() {
 
+    this.newDeceased = {};
+
     this.showDeceasedDialog = true;
+  }
+
+  async onSaveDeceased() {
+
+    if (this.newDeceased.Id) {
+      await this.deceasedService.updateDeceased(this.newDeceased);
+    } else {
+      await this.deceasedService.saveDeceased(this.newDeceased);
+      this.showDeceasedDialog = false;
+    }
+
+    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
+
+    this.showDeceasedDialog = false;
+
+    this.dt.selection = null;
+
+    this.deceasedForm.resetForm();
+
+    await this.loadDeceased();
+
   }
 
   onEditDeceased() {
 
+    this.newDeceased = {...this.dt.selection};
+    this.showDeceasedDialog = true;
   }
 
   onDeleteDeceased() {
+
+    this.confirmService.confirm({
+      header: DialogMessage.DeleteListItem,
+      message: DialogMessage.ConfirmQuestion,
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'כן',
+      rejectLabel: 'לא',
+      accept: async () => {
+
+        const member = this.dt.selection;
+
+        await this.deceasedService.deleteDeceased(member.Id);
+
+        this.showDeceasedDialog = false;
+
+        this.dt.selection = null;
+
+        await this.loadDeceased();
+      },
+      reject: () => {
+        return;
+      }
+
+    })
 
   }
 
@@ -124,6 +176,12 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
   }
 
+  private async loadDeceased(){
+
+    this.deceasedList = await this.deceasedService.getDeceaseds();
+
+  }
+
   private subscribeToHubEvents(): void {
 
     this.deceasedSubscription = this.signalRService.deceased.subscribe(
@@ -136,7 +194,5 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
     );
   }
 
-  onSaveDeceased() {
 
-  }
 }

@@ -38,7 +38,6 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.IsCivilBurial, opt => opt.MapFrom(src => src.IsCivilBurial ? "כן" : "לא"))
             .ForMember(dest => dest.BurialLicenseScanned, opt => opt.MapFrom(src => src.BurialLicenseScanned ? "כן" : "לא"))
             .ForMember(dest => dest.TaharahStatus, opt => opt.MapFrom(src => src.TaharahStatus.GetEnumDescription()))
-            .ForMember(dest => dest.InCoffin, opt => opt.MapFrom(src => src.InCoffin ? "כן" : "לא"))
             .ReverseMap();
 
         CreateMap<DeceasedBurialCoordination, DeceasedBurialCoordinationDto>()
