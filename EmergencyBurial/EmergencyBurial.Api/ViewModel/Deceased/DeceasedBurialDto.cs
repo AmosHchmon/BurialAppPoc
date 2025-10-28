@@ -19,7 +19,7 @@ public class DeceasedBurialDto
     
     public DateTime? TaharahReceptionDate { get; set; }
     
-    public string? InCoffin { get; set; }
+    public bool? InCoffin { get; set; }
     
     public string? Block { get; set; }
     

@@ -20,4 +20,16 @@ export class DeceasedService extends BaseService {
     return super.get({path: `/${id}`});
   }
 
+  async saveDeceased(deceased: Deceased): Promise<Deceased> {
+    return super.post({body: deceased});
+  }
+
+  async updateDeceased(deceased: Deceased): Promise<Deceased> {
+    return super.put({body: deceased});
+  }
+
+  deleteDeceased(id: number): Promise<Deceased> {
+    return super.delete({path: `/${id}`});
+  }
+
 }

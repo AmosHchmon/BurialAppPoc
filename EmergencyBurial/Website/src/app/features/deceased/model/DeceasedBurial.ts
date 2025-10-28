@@ -14,5 +14,5 @@
 
   TaharahReceptionDate?: Date;
 
-  InCoffin?: string;
+  InCoffin?: boolean;
 }

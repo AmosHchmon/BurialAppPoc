@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Core.Helpers;
+using DataModel.Entities;
 using EmergencyBurial.Api.ViewModel;
 using EmergencyBurial.Services.DbServices;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +15,7 @@ namespace EmergencyBurial.Api.Controllers;
 [Route("[controller]")]
 [ApiController]
 [Authorize(Roles = nameof(OrganizationType.Tarah), Policy = nameof(RoleAccessType.View))]
-public class DeceasedsController(DeceasedService deceasedService,IMapper mapper) : ControllerBase
+public class DeceasedsController(DeceasedService deceasedService, IMapper mapper) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<DeceasedDto>>> GetDeceaseds()
@@ -27,13 +28,58 @@ public class DeceasedsController(DeceasedService deceasedService,IMapper mapper)
     [HttpGet("{id}")]
     public async Task<ActionResult<DeceasedDto>> GetDeceased(string id)
     {
-        if(!Guid.TryParse(id, out Guid deceasedId))
+        if (!Guid.TryParse(id, out Guid deceasedId))
+        {
+            return BadRequest();
+        }
+
+        var deceased = await deceasedService.GetDeceased(deceasedId);
+
+        return Ok(mapper.Map<DeceasedDto>(deceased));
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<DeceasedDto>> CreateDeceased(DeceasedDto deceasedDto)
+    {
+        if (deceasedDto == null)
         {
             return BadRequest();
         }
         
-        var deceased = await deceasedService.GetDeceased(deceasedId);
+        deceasedDto.HalalNumber = $"C-{DateTime.Now.Ticks}";
         
-        return Ok(mapper.Map<DeceasedDto>(deceased));
+        var deceased = mapper.Map<Deceased>(deceasedDto);
+
+        await deceasedService.CreateDeceased(deceased);
+
+        return Ok();
+    }
+    
+    [HttpPut]
+    public async Task<ActionResult<DeceasedDto>> UpdateDeceased([FromBody] DeceasedDto deceasedDto)
+    {
+        if (deceasedDto == null)
+        {
+            return BadRequest();
+        }
+
+        var deceased = mapper.Map<Deceased>(deceasedDto);
+
+        await deceasedService.UpdateDeceased(deceased);
+
+        return Ok();
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteDeceased(string id)
+    {
+        if (!Guid.TryParse(id, out Guid idValue))
+        {
+            return BadRequest();
+        }
+
+        await deceasedService.DeleteDeceased(idValue);
+
+        return Ok();
     }
 }
