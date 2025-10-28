@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {NgForm} from "@angular/forms";
+import {ConfirmationService} from "primeng/api";
 
 import {Deceased} from "../../../deceased/model/Deceased";
 import {IColumn} from "../../../../shared/ui-components/model/column";
@@ -12,8 +14,6 @@ import {SignalRService} from "../../../../shared/services/signalR.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {ValidationModule} from "../../../../shared/validation/validation.module";
-import {NgForm} from "@angular/forms";
-import {ConfirmationService} from "primeng/api";
 
 @Component({
   selector: 'app-deceaseds-management',
