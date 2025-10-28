@@ -176,7 +176,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
   }
 
-  private async loadDeceased(){
+  private async loadDeceased() {
 
     this.deceasedList = await this.deceasedService.getDeceaseds();
 
