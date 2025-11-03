@@ -1,4 +1,4 @@
-﻿export interface DeceasedBagDetails {
+﻿export interface BagDetails {
 
   DeceasedId: string;
 

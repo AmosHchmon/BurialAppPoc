@@ -1,15 +1,16 @@
 ﻿using System;
-using Core.Helpers;
 
 namespace EmergencyBurial.Api.ViewModel;
 
-public class DeceasedBurialDto
+public class BurialDetailsDto
 {
     public Guid? DeceasedId { get; set; }
 
     public string? BurialType { get; set; }
     
     public string? IsCivilBurial { get; set; }
+    
+    public string? BurialLicenseNumber { get; set; }
     
     public string? BurialLicenseScanned { get; set; }
     

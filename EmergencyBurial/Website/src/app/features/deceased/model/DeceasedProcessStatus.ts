@@ -1,4 +1,4 @@
-﻿export interface DeceasedOperational {
+﻿export interface DeceasedProcessStatus {
 
   DeceasedId: string;
 

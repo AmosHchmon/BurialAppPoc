@@ -1,15 +1,15 @@
-import {DeceasedBagDetails} from "./DeceasedBagDetails";
-import {DeceasedOperational} from "./DeceasedOperational";
-import {DeceasedBurial} from "./DeceasedBurial";
-import {DeceasedBurialCoordination} from "./DeceasedBurialCoordination";
+import {BagDetails} from "./BagDetails";
+import {DeceasedProcessStatus} from "./DeceasedProcessStatus";
+import {BurialDetails} from "./BurialDetails";
+import {BurialCoordination} from "./BurialCoordination";
 import {IColumn} from "../../../shared/ui-components/model/column";
 
 export interface DeceasedAccordion{
 
-  object:DeceasedBagDetails |
-    DeceasedOperational |
-    DeceasedBurial |
-    DeceasedBurialCoordination;
+  object:BagDetails |
+    DeceasedProcessStatus |
+    BurialDetails |
+    BurialCoordination;
 
   title: string;
 

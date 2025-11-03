@@ -6,7 +6,7 @@ using Core.Helpers;
 
 namespace DataModel.Entities;
 
-public class DeceasedBurial
+public class BurialDetails
 {
     [Required]
     [Key]
@@ -15,6 +15,8 @@ public class DeceasedBurial
     public BurialType? BurialType { get; set; }
     
     public bool IsCivilBurial { get; set; }
+    
+    public string? BurialLicenseNumber { get; set; }
     
     [Description("האם רישיון הקבורה נסרק למערכת")]
     public bool BurialLicenseScanned { get; set; }

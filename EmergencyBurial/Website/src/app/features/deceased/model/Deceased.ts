@@ -1,7 +1,7 @@
-import {DeceasedBurialCoordination} from "./DeceasedBurialCoordination";
-import {DeceasedOperational} from "./DeceasedOperational";
-import {DeceasedBagDetails} from "./DeceasedBagDetails";
-import {DeceasedBurial} from "./DeceasedBurial";
+import {BurialCoordination} from "./BurialCoordination";
+import {DeceasedProcessStatus} from "./DeceasedProcessStatus";
+import {BagDetails} from "./BagDetails";
+import {BurialDetails} from "./BurialDetails";
 import {Transport} from "../../transport/model/transport";
 
 export interface Deceased {
@@ -32,13 +32,13 @@ export interface Deceased {
 
   CreatedOn?: Date;
 
-  BagDetails?: DeceasedBagDetails;
+  BagDetails?: BagDetails;
 
-  OperationalDetails?: DeceasedOperational;
+  OperationalDetails?: DeceasedProcessStatus;
 
-  BurialDetails?: DeceasedBurial;
+  BurialDetails?: BurialDetails;
 
-  BurialCoordination?: DeceasedBurialCoordination;
+  BurialCoordination?: BurialCoordination;
 
   Transports?: Transport[];
 

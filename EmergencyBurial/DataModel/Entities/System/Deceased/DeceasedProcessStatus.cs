@@ -6,7 +6,7 @@ using Core.Helpers;
 
 namespace DataModel.Entities;
 
-public class DeceasedOperational
+public class DeceasedProcessStatus
 {
     [Required]
     [Key]

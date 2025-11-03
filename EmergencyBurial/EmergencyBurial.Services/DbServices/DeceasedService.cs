@@ -24,7 +24,7 @@ public class DeceasedService(EmergencyBurialContext ctx)
     {
         var deceased = await ctx.Deceaseds
             .Include(d => d.BagDetails)
-            .Include(d => d.OperationalDetails)
+            .Include(d => d.DeceasedProcessStatus)
             .Include(d => d.BurialDetails)
             .Include(d => d.BurialCoordination)
             .Include(d => d.Transports)

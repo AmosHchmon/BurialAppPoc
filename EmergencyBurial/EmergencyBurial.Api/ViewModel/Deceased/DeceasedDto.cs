@@ -25,19 +25,19 @@ public class DeceasedDto
     
     public string? HomeAddress { get; set; }
     
-    public string? PoliceCaseNumber { get; set; }
+    public string? PeleNumber { get; set; }
     
     public string? Notes { get; set; }
     
     public DateTime? CreatedOn { get; set; }
 
-    public DeceasedBagDetailsDto? BagDetails { get; set; }
+    public BagDetailsDto? BagDetails { get; set; }
     
-    public DeceasedOperationalDto? OperationalDetails { get; set; }
+    public DeceasedProcessStatusDto? OperationalDetails { get; set; }
     
-    public DeceasedBurialDto? BurialDetails { get; set; }
+    public BurialDetailsDto? BurialDetails { get; set; }
     
-    public DeceasedBurialCoordinationDto? BurialCoordination { get; set; }
+    public BurialCoordinationDto? BurialCoordination { get; set; }
     
     public List<TransportDto> Transports { get; set; }
 }

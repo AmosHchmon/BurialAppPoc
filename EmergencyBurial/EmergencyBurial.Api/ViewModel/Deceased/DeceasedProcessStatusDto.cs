@@ -1,9 +1,8 @@
 ﻿using System;
-using Core.Helpers;
 
 namespace EmergencyBurial.Api.ViewModel;
 
-public class DeceasedOperationalDto
+public class DeceasedProcessStatusDto
 {
     public Guid? DeceasedId { get; set; }
 
