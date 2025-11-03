@@ -26,7 +26,7 @@ export interface Deceased {
 
   HomeAddress?: string;
 
-  PoliceCaseNumber?: string;
+  PeleNumber?: string;
 
   Notes?: string;
 
@@ -34,7 +34,7 @@ export interface Deceased {
 
   BagDetails?: BagDetails;
 
-  OperationalDetails?: DeceasedProcessStatus;
+  DeceasedProcessStatus?: DeceasedProcessStatus;
 
   BurialDetails?: BurialDetails;
 

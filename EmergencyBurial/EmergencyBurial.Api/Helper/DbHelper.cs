@@ -304,7 +304,7 @@ public class DbHelper
                 UserName = "308015205",
                 Mail = "OzS@dat.gov.il",
                 RoleAccessTypeId = RoleAccessType.Admin,
-                OrganizationTypeId = (int)OrganizationType.DatServices,
+                OrganizationTypeId = (int)OrganizationType.Tarah,
                 StationTypeId = (int)StationType.TarahStations,
                 StationId = (int)TarahStations.Shura,
                 IsActive = true,

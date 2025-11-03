@@ -96,8 +96,8 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'BadMessageStartDate', header: 'תאריך אישור תחילת הודעה מרה'},
       {field: 'BurialProcessStatus', header: 'סטטוס תהליך קבורה'}
     ];
-    const operationalDetailsPanel: DeceasedAccordion = {
-      object: this.deceased?.OperationalDetails,
+    const DeceasedProcessStatusPanel: DeceasedAccordion = {
+      object: this.deceased?.DeceasedProcessStatus,
       title: 'פרטים תפעוליים',
       fields: operationalDetailsFields,
       splitIndex: 3,
@@ -136,7 +136,7 @@ export class DeceasedDetailComponent implements OnInit {
       trackNumber: 4
     }
 
-    this.deceasedAccordion.push(bagDetailsPanel, operationalDetailsPanel, burialDetailsPanel, burialCoordinationPanel);
+    this.deceasedAccordion.push(bagDetailsPanel, DeceasedProcessStatusPanel, burialDetailsPanel, burialCoordinationPanel);
   }
 
   switchToTransportTab() {

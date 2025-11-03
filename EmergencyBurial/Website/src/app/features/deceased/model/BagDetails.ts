@@ -24,7 +24,4 @@
 
   BroughtFrom?: string;
 
-  FullName?: string;
-
-  IdentityNumber?: string;
 }

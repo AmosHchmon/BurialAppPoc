@@ -27,8 +27,4 @@ public class BagDetailsDto
     public string? BroughtBy { get; set; }
     
     public string? BroughtFrom { get; set; }
-    
-    public string? FullName { get; set; }
-    
-    public string? IdentityNumber { get; set; }
 }
