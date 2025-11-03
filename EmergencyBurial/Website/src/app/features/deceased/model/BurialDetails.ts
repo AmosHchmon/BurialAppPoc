@@ -6,6 +6,8 @@
 
   IsCivilBurial?: string;
 
+  BurialLicenseNumber?: string;
+
   BurialLicenseScanned?: string;
 
   TaharahStatus?: string;

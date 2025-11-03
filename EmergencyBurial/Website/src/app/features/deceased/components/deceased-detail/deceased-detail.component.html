@@ -1,14 +1,14 @@
 <p-tabs [(value)]="activeTab">
   <p-tablist class="p-4">
     <p-tab value="0">פרטים</p-tab>
-    <p-tab value="1">שינוע להכנה לקבורה</p-tab>
+    <p-tab value="1">פרטי קבורה</p-tab>
     <p-tab value="2">תיאום קבורה</p-tab>
     <p-tab value="3">עדכון קבורה</p-tab>
   </p-tablist>
   <p-tabpanels>
     <p-tabpanel value="0">
       <div class="p-3">
-        <p-accordion [multiple]="true">
+        <p-accordion [value]="[0]" [multiple]="true">
 
           @for (panel of deceasedAccordion; track panel.title; let i = $index) {
             <p-accordion-panel [value]="i" pRipple>
@@ -19,25 +19,25 @@
             </p-accordion-panel>
           }
 
-          <p-accordion-panel [value]="4" pRipple>
+          <!--<p-accordion-panel [value]="4" pRipple>
             <p-accordion-header class="fw-bold">טבלת שינועים</p-accordion-header>
             <p-accordion-content>
               <app-transports-table [transports]="transports"
                                     (switchTab)="switchToTransportTab()">
               </app-transports-table>
             </p-accordion-content>
-          </p-accordion-panel>
+          </p-accordion-panel>-->
 
         </p-accordion>
       </div>
     </p-tabpanel>
-    <p-tabpanel value="1">
+    <!--<p-tabpanel value="1">
       <app-transport-form [deceasedId]="deceased?.Id"
                           (transportCreated)="handleTransportCreated()">
       </app-transport-form>
-    </p-tabpanel>
-    <p-tabpanel value="2">
-      <div class="d-flex flex-column">
+    </p-tabpanel>-->
+    <p-tabpanel value="1">
+      <!--<div class="d-flex flex-column">
         <div class="d-flex align-items-center p-3 gap-2">
           <p-checkbox
             inputId="badMessage"
@@ -86,8 +86,8 @@
           </p-floatlabel>
         </div>
         <p-button (click)="saveBurialCoordination()" class="mt-4">עדכן</p-button>
-      </div>
-
+      </div>-->
+      <app-burial-form [data]="burialDetailsPanel"></app-burial-form>
     </p-tabpanel>
     <p-tabpanel value="3">
       <div class="d-flex gap-5">
