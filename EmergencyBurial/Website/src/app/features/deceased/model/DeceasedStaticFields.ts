@@ -3,7 +3,7 @@ import {IColumn} from "../../../shared/ui-components/model/column";
 import {Deceased} from "./Deceased";
 import {BurialDetails} from "./BurialDetails";
 
-export interface DeceasedAccordion {
+export interface DeceasedStaticFields {
 
   object: Deceased | BagDetails | BurialDetails
 

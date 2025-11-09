@@ -16,7 +16,7 @@ namespace EmergencyBurial.Api.Jobs
         {
             try
             {
-                logger.LogInformation("CreateCasualtyJob (Coravel) is running.");
+                /*logger.LogInformation("CreateCasualtyJob (Coravel) is running.");
 
                 var randomId = new Random().Next(1000, 9999);
                 var newCasualty = new Deceased
@@ -37,7 +37,7 @@ namespace EmergencyBurial.Api.Jobs
                 logger.LogInformation("Successfully created a new casualty with HalalNumber: {halalNumber}",
                     newCasualty.HalalNumber);
                 
-                await notificationService.SendDeceasedNotificationAsync(newCasualty);
+                await notificationService.SendDeceasedNotificationAsync(newCasualty);*/
             }
             catch (Exception ex)
             {

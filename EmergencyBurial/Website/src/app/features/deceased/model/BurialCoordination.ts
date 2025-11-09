@@ -18,7 +18,7 @@
 
   SocialWorkerPhone?: string;
 
-  BadMessageDeliveredDateTime?: string;
+  BadMessageDeliveredDateTime?: Date;
 
   BurialBody?: string;
 }

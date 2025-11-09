@@ -7,19 +7,17 @@ import {UiComponentsModule} from "../../../../shared/ui-components/ui-components
 import {Transport} from "../../../transport/model/transport";
 import {TransportService} from "../../../transport/services/transport.service";
 import {Deceased} from "../../model/Deceased";
-import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
-import {DeceasedAccordion} from "../../model/DeceasedAccordion";
-import {DeceasedAccordionContentComponent} from "../deceased-accordion-content/deceased-accordion-content.component";
-import {TransportsTableComponent} from "../../../transport/components/transports-table/transports-table.component";
+import {DeceasedStaticFields} from "../../model/DeceasedStaticFields";
 import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
 import {ListService} from "../../../../shared/services/list.service";
 import {IOptionItem} from "../../../../shared/model/list-item";
-import {BurialFormComponent} from "../burial-form/burial-form.component";
+import {DeceasedStaticFieldsComponent} from "../deceased-static-fields/deceased-static-fields.component";
+import {TransportsTableComponent} from "../../../transport/components/transports-table/transports-table.component";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [UiComponentsModule, TransportFormComponent, DeceasedAccordionContentComponent, TransportsTableComponent, ConvertTimezoneDirective, BurialFormComponent],
+  imports: [UiComponentsModule, ConvertTimezoneDirective, DeceasedStaticFieldsComponent, TransportsTableComponent],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
@@ -27,8 +25,8 @@ export class DeceasedDetailComponent implements OnInit {
 
   deceased: Deceased;
   transports: Transport[] = [];
-  deceasedAccordion: DeceasedAccordion[] = [];
-  burialDetailsPanel: DeceasedAccordion;
+  deceasedAccordion: DeceasedStaticFields[] = [];
+  burialDetailsPanel: DeceasedStaticFields;
   burialTypes: IOptionItem[];
   burialBody: IOptionItem[];
 
@@ -43,9 +41,9 @@ export class DeceasedDetailComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
-    this.loadDeceasedData();
+    await this.loadDeceasedData();
 
   }
 
@@ -79,7 +77,7 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'Notes', header: 'הערות כלליות'},
       {field: 'CreatedOn', header: 'נוצר בתאריך'}
     ]
-    const deceasePanel: DeceasedAccordion = {
+    const deceasePanel: DeceasedStaticFields = {
       object: this.deceased,
       title: 'חלל',
       fields: deceasedFields,
@@ -101,7 +99,7 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'BroughtFrom', header: 'המיקום ממנו הובא השק'},
       {field: 'ObjectsOnDeceased', header: 'פרטים שנמצאו על החלל'}
     ]
-    const bagDetailsPanel: DeceasedAccordion = {
+    const bagDetailsPanel: DeceasedStaticFields = {
       object: this.deceased?.BagDetails,
       title: 'פרטי שק החלל',
       fields: bagDetailsFields,
@@ -119,6 +117,7 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'CoffinType', header: 'סוג ארון'},
       {field: 'TaharahReceptionDate', header: 'תאריך קליטה לטהרה'}
     ];
+
     this.burialDetailsPanel = {
       object: this.deceased?.BurialDetails,
       title: 'פרטי קבורה',
@@ -144,7 +143,7 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'BroughtBy', header: 'הגורם שהביא את השק'},
       {field: 'BroughtFrom', header: 'המיקום ממנו הובא השק'}
     ]
-    const bagDetailsPanel: DeceasedAccordion = {
+    const bagDetailsPanel: DeceasedStaticFields = {
       object: this.deceased?.BagDetails,
       title: 'פרטי שק חלל',
       fields: bagDetailsFields,
@@ -159,7 +158,7 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'BadMessageStartDate', header: 'תאריך אישור תחילת הודעה מרה'},
       {field: 'BurialProcessStatus', header: 'סטטוס תהליך קבורה'}
     ];
-    const DeceasedProcessStatusPanel: DeceasedAccordion = {
+    const DeceasedProcessStatusPanel: DeceasedStaticFields = {
       object: this.deceased?.DeceasedProcessStatus,
       title: 'פרטים תפעוליים',
       fields: operationalDetailsFields,
@@ -176,7 +175,7 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'CoffinType', header: 'סוג ארון'},
       {field: 'TaharahReceptionDate', header: 'תאריך קליטה לטהרה'}
     ];
-    const burialDetailsPanel: DeceasedAccordion = {
+    const burialDetailsPanel: DeceasedStaticFields = {
       object: this.deceased?.BurialDetails,
       title: 'פרטי קבורה',
       fields: burialDetailsFields,
@@ -191,7 +190,7 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'FamilyContactName', header: 'בן משפחה'},
       {field: 'FamilyContactPhone', header: 'טלפון בן משפחה'},
     ]
-    const burialCoordinationPanel: DeceasedAccordion = {
+    const burialCoordinationPanel: DeceasedStaticFields = {
       object: this.deceased?.BurialCoordination,
       title: 'פרטי הודעה מרה',
       fields: burialCoordinationFields,
