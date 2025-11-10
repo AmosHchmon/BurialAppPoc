@@ -45,16 +45,16 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
         {
             return BadRequest();
         }
-        
+
         deceasedDto.HalalNumber = $"C-{DateTime.Now.Ticks}";
-        
+
         var deceased = mapper.Map<Deceased>(deceasedDto);
 
         await deceasedService.CreateDeceased(deceased);
 
         return Ok();
     }
-    
+
     [HttpPut]
     public async Task<ActionResult<DeceasedDto>> UpdateDeceased([FromBody] DeceasedDto deceasedDto)
     {
@@ -69,7 +69,7 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
 
         return Ok();
     }
-    
+
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteDeceased(string id)
     {
@@ -81,5 +81,20 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
         await deceasedService.DeleteDeceased(idValue);
 
         return Ok();
+    }
+
+    [HttpPut("burial-coordination")]
+    public async Task<ActionResult> UpdateBurialCoordination([FromBody] BurialCoordinationDto burialCoordinationDto)
+    {
+        if (burialCoordinationDto == null)
+        {
+            return BadRequest();
+        }
+
+        var burialCoordination = mapper.Map<BurialCoordination>(burialCoordinationDto);
+
+        var result = await deceasedService.UpdateBurialCoordination(burialCoordination);
+
+        return Ok(mapper.Map<BurialCoordinationDto>(result));
     }
 }

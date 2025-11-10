@@ -14,9 +14,6 @@ public class BurialCoordination
 
     public string? BurialCity { get; set; }
     
-    [Description("זמן קבורה")]
-    public DateTime? BurialTime { get; set; }
-    
     [Description("האם בוצע תיאום מול חברה קדישא")]
     public bool IsCoordinatedWithHevratKadisha { get; set; }
     
@@ -30,6 +27,9 @@ public class BurialCoordination
     public string? SocialWorkerName { get; set; }
     
     public string? SocialWorkerPhone { get; set; }
+    
+    [Description("זמן קבורה")]
+    public DateTime? BurialTime { get; set; }
     
     [Description("תאריך ושעת מסירת ההודעה המרה")]
     public DateTime? BadMessageDeliveredDateTime { get; set; }

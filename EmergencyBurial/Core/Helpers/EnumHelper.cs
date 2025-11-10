@@ -108,22 +108,20 @@ namespace Core.Helpers
 
     public enum BurialBody
     {
-        [Description("לטרון")]
+        [Description("ראשון לציון")]
         RishonLezion = 5001,
         [Description("עמק חפר")]
         EmekHefer = 5002,
-        [Description("לטרון")]
+        [Description("אילת")]
         Eilat = 5003,
         [Description("אבו כביר")]
         AbuKabir = 5004,
-        [Description("א.חולון")]
+        [Description("חולון")]
         Holon = 5005,
-        [Description("ח'ק ראשל'צ")]
-        Rishon = 5006,
-        [Description("ח'ק ת'א")]
-        TelAviv = 5007,
-        [Description("ח'ק פ'ת")]
-        PetahTikva = 5008,
+        [Description("תל אביב")]
+        TelAviv = 5006,
+        [Description("פתח תקווה")]
+        PetahTikva = 5007,
     }
 
     #endregion

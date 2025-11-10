@@ -22,7 +22,7 @@ public class BurialCoordinationDto
     
     public string? SocialWorkerPhone { get; set; }
     
-    public string? BurialBody { get; set; }
+    public int? BurialBody { get; set; }
     
     public DateTime? BadMessageDeliveredDateTime { get; set; }
 }

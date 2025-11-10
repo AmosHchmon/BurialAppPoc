@@ -27,106 +27,19 @@
       </app-transport-form>
     </p-tabpanel>-->
     <p-tabpanel value="1">
-      @if (burialDetailsPanel) {
-        <app-deceased-static-fields [data]="burialDetailsPanel"></app-deceased-static-fields>
+      @if (burialDetailsData) {
+        <app-deceased-static-fields [data]="burialDetailsData"></app-deceased-static-fields>
       }
     </p-tabpanel>
     <p-tabpanel value="2">
-      <div class="d-flex gap-5">
-        <div class="d-flex flex-column w-50 gap-5">
-          <p-floatlabel class="mt-5">
-            <input pInputText
-                   class="w-100"
-                   [(ngModel)]="deceased?.BurialCoordination.BurialCity"
-                   [pAutoFocus]="true"
-                   autocomplete="off"/>
-            <label>עיר קבורה</label>
-          </p-floatlabel>
-          <div class="d-flex justify-content-center">
-            <p-select [options]="burialBody"
-                      [(ngModel)]="deceased?.BurialCoordination.BurialBody"
-                      optionLabel="Text"
-                      optionValue="Value"
-                      placeholder="בית עלמין"
-                      class="w-100 md:w-56"/>
-          </div>
-          <p-floatlabel>
-            <input pInputText
-                   class="w-100"
-                   [(ngModel)]="deceased?.BurialCoordination.FamilyContactName"
-                   [pAutoFocus]="true"
-                   autocomplete="off"/>
-            <label>איש קשר מטעם המשפחה</label>
-          </p-floatlabel>
-          <p-floatlabel>
-            <input pInputText
-                   class="w-100"
-                   [(ngModel)]="deceased?.BurialCoordination.FamilyContactPhone"
-                   [pAutoFocus]="true"
-                   autocomplete="off"/>
-            <label>טלפון איש קשר מטעם המשפחה</label>
-          </p-floatlabel>
-          <p-floatlabel>
-            <input pInputText
-                   class="w-100"
-                   [(ngModel)]="deceased?.BurialCoordination.SocialWorkerName"
-                   [pAutoFocus]="true"
-                   autocomplete="off"/>
-            <label>שם עובד סוציאלי</label>
-          </p-floatlabel>
-          <p-floatlabel>
-            <input pInputText
-                   class="w-100"
-                   [(ngModel)]="deceased?.BurialCoordination.SocialWorkerPhone"
-                   [pAutoFocus]="true"
-                   autocomplete="off"/>
-            <label>טלפון עובד סוציאלי</label>
-          </p-floatlabel>
-        </div>
-        <div class="d-flex flex-column w-50 gap-5">
-          <div class="d-flex flex-column w-50 mt-4">
-            <label>שעת קבורה</label>
-            <p-datePicker
-              [(ngModel)]="deceased?.BurialCoordination.BurialTime"
-              [showTime]="true"
-              [showIcon]="true"
-              dateFormat="dd/mm/yy"
-              [hourFormat]="'24'"
-              [pAutoFocus]="false"
-              appConvertTimezone>
-            </p-datePicker>
-          </div>
-          <div class="d-flex flex-column w-50">
-            <label>תאריך ושעת מסירת ההודעה המרה</label>
-            <p-datePicker
-              [(ngModel)]="deceased?.BurialCoordination.BadMessageDeliveredDateTime"
-              [showTime]="true"
-              [showIcon]="true"
-              dateFormat="dd/mm/yy"
-              [hourFormat]="'24'"
-              [pAutoFocus]="false"
-              appConvertTimezone>
-            </p-datePicker>
-          </div>
-          <div class="d-flex align-items-center p-3 gap-2">
-            <p-checkbox
-              inputId="FamilyForumCalled"
-              [(ngModel)]="deceased?.BurialCoordination.IsFamilyForumCalled"
-              [binary]="true"/>
-            <label for="FamilyForumCalled">האם מוקד פורום יצר קשר עם המשפחה</label>
-          </div>
-          <div class="d-flex align-items-center p-3 gap-2">
-            <p-checkbox
-              inputId="HevratKadisha"
-              [(ngModel)]="deceased?.BurialCoordination.IsCoordinatedWithHevratKadisha"
-              [binary]="true"/>
-            <label for="HevratKadisha">האם בוצע תיאום מול חברה קדישא</label>
-          </div>
-        </div>
-      </div>
+      @if (coordinationData) {
+        <app-burial-coordination-form [data]="coordinationData"
+                                      (saveCoordination)="saveBurialCoordination($event)">
+        </app-burial-coordination-form>
+      }
     </p-tabpanel>
     <p-tabpanel value="3">
-      <div class="d-flex gap-5">
+      <!--<div class="d-flex gap-5">
         <div class="d-flex flex-column mt-4 w-50 gap-5">
           <div class="d-flex justify-content-center">
             <p-select [options]="burialTypes"
@@ -189,7 +102,7 @@
             </p-floatlabel>
           </div>
         </div>
-      </div>
+      </div>-->
       <p-button (click)="saveBurialDetails()" class="mt-4">עדכן</p-button>
     </p-tabpanel>
     <p-tabpanel value="4">

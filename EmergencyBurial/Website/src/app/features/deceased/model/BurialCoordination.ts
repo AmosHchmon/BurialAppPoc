@@ -20,5 +20,5 @@
 
   BadMessageDeliveredDateTime?: Date;
 
-  BurialBody?: string;
+  BurialBody?: number;
 }

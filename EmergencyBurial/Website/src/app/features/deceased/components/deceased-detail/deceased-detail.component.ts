@@ -8,16 +8,20 @@ import {Transport} from "../../../transport/model/transport";
 import {TransportService} from "../../../transport/services/transport.service";
 import {Deceased} from "../../model/Deceased";
 import {DeceasedStaticFields} from "../../model/DeceasedStaticFields";
-import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
 import {ListService} from "../../../../shared/services/list.service";
 import {IOptionItem} from "../../../../shared/model/list-item";
 import {DeceasedStaticFieldsComponent} from "../deceased-static-fields/deceased-static-fields.component";
 import {TransportsTableComponent} from "../../../transport/components/transports-table/transports-table.component";
+import {BurialCoordination} from "../../model/BurialCoordination";
+import {BurialCoordinationFormComponent} from "../burial-coordination-form/burial-coordination-form.component";
+import {AlertService} from "../../../../shared/services/alert.service";
+import {AlertType} from "../../../../core/enums/alert.enum";
+import {DialogMessage} from "../../../../shared/static/messages";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [UiComponentsModule, ConvertTimezoneDirective, DeceasedStaticFieldsComponent, TransportsTableComponent],
+  imports: [UiComponentsModule, DeceasedStaticFieldsComponent, TransportsTableComponent, BurialCoordinationFormComponent],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
@@ -26,9 +30,9 @@ export class DeceasedDetailComponent implements OnInit {
   deceased: Deceased;
   transports: Transport[] = [];
   deceasedAccordion: DeceasedStaticFields[] = [];
-  burialDetailsPanel: DeceasedStaticFields;
+  burialDetailsData: DeceasedStaticFields;
+  coordinationData: BurialCoordination;
   burialTypes: IOptionItem[];
-  burialBody: IOptionItem[];
 
   activeTab: string = "0";
   activeAccordionIndex: number[];
@@ -37,7 +41,8 @@ export class DeceasedDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private deceasedService: DeceasedService,
     private transportService: TransportService,
-    private listService: ListService
+    private listService: ListService,
+    private alertService: AlertService
   ) {
   }
 
@@ -45,23 +50,24 @@ export class DeceasedDetailComponent implements OnInit {
 
     await this.loadDeceasedData();
 
+    this.burialTypes = await this.listService.getBurialTypeList();
   }
 
-  private async loadDeceasedData(): Promise<void> {
+  private async loadDeceasedData() {
 
     const param = this.route.snapshot.paramMap.get('id');
 
     this.deceased = await this.deceasedService.getDeceasedById(param);
-    this.burialBody = await this.listService.getBurialBodyList();
-    this.burialTypes = await this.listService.getBurialTypeList();
 
-    this.transports = this.deceased.Transports;
+    this.transports = this.deceased?.Transports ? [...this.deceased.Transports] : [];
+
+    this.coordinationData = {...this.deceased?.BurialCoordination};
 
     this.initializeFields();
 
   }
 
-  private initializeFields(): void {
+  private initializeFields() {
 
     const deceasedFields: IColumn[] = [
       {field: 'HalalNumber', header: 'מספר חלל'},
@@ -117,8 +123,7 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'CoffinType', header: 'סוג ארון'},
       {field: 'TaharahReceptionDate', header: 'תאריך קליטה לטהרה'}
     ];
-
-    this.burialDetailsPanel = {
+    this.burialDetailsData = {
       object: this.deceased?.BurialDetails,
       title: 'פרטי קבורה',
       fields: burialDetailsFields,
@@ -227,7 +232,16 @@ export class DeceasedDetailComponent implements OnInit {
 
   }
 
-  saveBurialCoordination() {
+  async saveBurialCoordination(coordinationData: BurialCoordination) {
+
+    const updatedCoordination: BurialCoordination = await this.deceasedService.updateBurialCoordination(coordinationData);
+
+    if (updatedCoordination) {
+      this.coordinationData = {...updatedCoordination};
+
+      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
+
+    }
 
   }
 }

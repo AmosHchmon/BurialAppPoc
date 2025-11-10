@@ -2,6 +2,7 @@ import {Injectable, Injector} from '@angular/core';
 
 import {Deceased} from "../model/Deceased";
 import {BaseService} from "../../../core/abstract/base-service";
+import {BurialCoordination} from "../model/BurialCoordination";
 
 @Injectable({
   providedIn: 'root'
@@ -32,4 +33,8 @@ export class DeceasedService extends BaseService {
     return super.delete({path: `/${id}`});
   }
 
+  updateBurialCoordination(coordinationData: BurialCoordination) {
+
+    return super.put({path: '/burial-coordination', body: coordinationData});
+  }
 }

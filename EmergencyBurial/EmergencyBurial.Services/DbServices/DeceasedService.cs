@@ -49,15 +49,20 @@ public class DeceasedService(EmergencyBurialContext ctx)
         }
     }
 
-    public async Task<Deceased> UpdateDeceased(Deceased deceased)
+    public async Task UpdateDeceased(Deceased deceased)
     {
-        ctx.Deceaseds.Update(deceased);
+        try
+        {
+            ctx.Deceaseds.Update(deceased);
 
-        await ctx.SaveChangesAsync();
-
-        return deceased;
+            await ctx.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new ApplicationException(UserMessage.ErrorSave, ex);
+        }
     }
-    
+
     public async Task DeleteDeceased(Guid id)
     {
         await ctx.Deceaseds.Where(x => x.Id == id).ExecuteDeleteAsync();
@@ -66,5 +71,21 @@ public class DeceasedService(EmergencyBurialContext ctx)
     public async Task<bool> DeceasedExistsAsync(Guid? id)
     {
         return await ctx.Deceaseds.AnyAsync(d => d.Id == id);
+    }
+
+    public async Task<BurialCoordination> UpdateBurialCoordination(BurialCoordination burialCoordination)
+    {
+        try
+        {
+            ctx.BurialCoordination.Update(burialCoordination);
+
+            await ctx.SaveChangesAsync();
+
+            return burialCoordination;
+        }
+        catch (Exception ex)
+        {
+            throw new ApplicationException(UserMessage.ErrorSave, ex);
+        }
     }
 }
