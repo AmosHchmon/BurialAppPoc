@@ -27,10 +27,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.CanBeIdentifiedByAcquaintance, opt => opt.MapFrom(src => src.CanBeIdentifiedByAcquaintance ? "כן" : "לא"))
             .ReverseMap();
 
-        CreateMap<DeceasedProcessStatus, DeceasedProcessStatusDto>()
-            .ForMember(dest => dest.IdentificationStatus, opt => opt.MapFrom(src => src.IdentificationStatus.GetEnumDescription()))
-            .ForMember(dest => dest.BurialProcessStatus, opt => opt.MapFrom(src => src.BurialProcessStatus.GetEnumDescription()))
-            .ForMember(dest => dest.BadMessageStartDate, opt => opt.MapFrom(src => src.BadMessageStartDate.ToString("dd/MM/yyyy")))
+        CreateMap<BurialProcessStatus, BurialProcessStatusDto>()
             .ReverseMap();
 
         CreateMap<BurialDetails, BurialDetailsDto>()

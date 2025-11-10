@@ -36,7 +36,7 @@ public class Deceased
 
     public virtual BagDetails BagDetails { get; set; }
     
-    public virtual DeceasedProcessStatus DeceasedProcessStatus { get; set; }
+    public virtual BurialProcessStatus BurialProcessStatus { get; set; }
     
     public virtual BurialDetails BurialDetails { get; set; }
     

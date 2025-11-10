@@ -24,7 +24,7 @@ public class DeceasedService(EmergencyBurialContext ctx)
     {
         var deceased = await ctx.Deceaseds
             .Include(d => d.BagDetails)
-            .Include(d => d.DeceasedProcessStatus)
+            .Include(d => d.BurialProcessStatus)
             .Include(d => d.BurialDetails)
             .Include(d => d.BurialCoordination)
             .Include(d => d.Transports)
@@ -82,6 +82,22 @@ public class DeceasedService(EmergencyBurialContext ctx)
             await ctx.SaveChangesAsync();
 
             return burialCoordination;
+        }
+        catch (Exception ex)
+        {
+            throw new ApplicationException(UserMessage.ErrorSave, ex);
+        }
+    }
+
+    public async Task<BurialProcessStatus> UpdateBurialProcessStatus(BurialProcessStatus burialProcessStatus)
+    {
+        try
+        {
+            ctx.BurialProcessStatus.Update(burialProcessStatus);
+
+            await ctx.SaveChangesAsync();
+
+            return burialProcessStatus;
         }
         catch (Exception ex)
         {

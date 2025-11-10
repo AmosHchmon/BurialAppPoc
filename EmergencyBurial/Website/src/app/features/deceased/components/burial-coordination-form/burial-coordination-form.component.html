@@ -12,7 +12,7 @@
 }
 <div class="d-flex gap-5">
   <div class="d-flex flex-column w-50 gap-5">
-    <p-floatlabel class="mt-5">
+    <p-floatlabel class="mt-5" variant="on">
       <input pInputText
              class="w-100"
              #burialCityInput
@@ -22,16 +22,18 @@
       <label>עיר קבורה</label>
     </p-floatlabel>
     <div class="d-flex justify-content-center">
-      <p-select [options]="burialBody"
-                [(ngModel)]="data.BurialBody"
-                [disabled]="!isEdit"
-                optionLabel="Text"
-                optionValue="Value"
-                [filter]="true"
-                placeholder="בית עלמין"
-                class="w-100 md:w-56"/>
+      <p-floatlabel class="w-100 md:w-56" variant="on">
+        <p-select [options]="burialBody"
+                  [(ngModel)]="data.BurialBody"
+                  [disabled]="!isEdit"
+                  optionLabel="Text"
+                  optionValue="Value"
+                  [filter]="true"
+                  class="w-100"/>
+        <label>בית עלמין</label>
+      </p-floatlabel>
     </div>
-    <p-floatlabel>
+    <p-floatlabel variant="on">
       <input pInputText
              class="w-100"
              [(ngModel)]="data.FamilyContactName"
@@ -39,7 +41,7 @@
              autocomplete="off"/>
       <label>איש קשר מטעם המשפחה</label>
     </p-floatlabel>
-    <p-floatlabel>
+    <p-floatlabel variant="on">
       <input pInputText
              class="w-100"
              [(ngModel)]="data.FamilyContactPhone"
@@ -47,7 +49,7 @@
              autocomplete="off"/>
       <label>טלפון איש קשר מטעם המשפחה</label>
     </p-floatlabel>
-    <p-floatlabel>
+    <p-floatlabel variant="on">
       <input pInputText
              class="w-100"
              [(ngModel)]="data.SocialWorkerName"
@@ -55,7 +57,7 @@
              autocomplete="off"/>
       <label>שם עובד סוציאלי</label>
     </p-floatlabel>
-    <p-floatlabel>
+    <p-floatlabel variant="on">
       <input pInputText
              class="w-100"
              [(ngModel)]="data.SocialWorkerPhone"
@@ -67,17 +69,18 @@
   <div class="d-flex flex-column w-50 gap-5">
     <div class="d-flex flex-column w-50 mt-4">
       <label>שעת קבורה</label>
-      <p-datePicker
-        [(ngModel)]="data.BurialTime"
-        [showTime]="true"
-        [showIcon]="true"
-        dateFormat="dd/mm/yy"
-        [hourFormat]="'24'"
-        [disabled]="!isEdit"
-        appConvertTimezone>
-      </p-datePicker>
+        <p-datePicker
+          [(ngModel)]="data.BurialTime"
+          [showTime]="true"
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+          [hourFormat]="'24'"
+          [disabled]="!isEdit"
+          class="w-75"
+          appConvertTimezone>
+        </p-datePicker>
     </div>
-    <div class="d-flex flex-column w-50">
+    <div class="d-flex flex-column w-50 mt-4">
       <label>תאריך ושעת מסירת ההודעה המרה</label>
       <p-datePicker
         [(ngModel)]="data.BadMessageDeliveredDateTime"
@@ -86,6 +89,7 @@
         dateFormat="dd/mm/yy"
         [hourFormat]="'24'"
         [disabled]="!isEdit"
+        class="w-75"
         appConvertTimezone>
       </p-datePicker>
     </div>

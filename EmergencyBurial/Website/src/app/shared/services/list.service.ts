@@ -46,6 +46,30 @@ export class ListService extends BaseService {
 
   }
 
+  getIdentificationStatus(): Promise<IOptionItem[]> {
+
+    return super.get<IOptionItem[]>({path: '/identification-status'})
+
+  }
+
+  getBadMessageProcessStatus(): Promise<IOptionItem[]> {
+
+    return super.get<IOptionItem[]>({path: '/bad-message-status'})
+
+  }
+
+  getCollectionStatus(): Promise<IOptionItem[]> {
+
+    return super.get<IOptionItem[]>({path: '/collection-status'})
+
+  }
+
+  getBurialStatus(): Promise<IOptionItem[]> {
+
+    return super.get<IOptionItem[]>({path: '/burial-status'})
+
+  }
+
   getRolesAccessList(): Promise<IOptionItem[]> {
 
     return super.get<IOptionItem[]>({path: '/role-access-type'});

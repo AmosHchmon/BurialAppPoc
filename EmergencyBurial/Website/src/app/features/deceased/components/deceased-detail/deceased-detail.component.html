@@ -39,6 +39,11 @@
       }
     </p-tabpanel>
     <p-tabpanel value="3">
+      @if(burialProcess){
+        <app-burial-process-form [data]="burialProcess"
+                                 (saveBurialProcess)="saveBurialProcess($event)">
+        </app-burial-process-form>
+      }
       <!--<div class="d-flex gap-5">
         <div class="d-flex flex-column mt-4 w-50 gap-5">
           <div class="d-flex justify-content-center">
@@ -103,7 +108,6 @@
           </div>
         </div>
       </div>-->
-      <p-button (click)="saveBurialDetails()" class="mt-4">עדכן</p-button>
     </p-tabpanel>
     <p-tabpanel value="4">
       <app-transports-table [transports]="transports"

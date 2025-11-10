@@ -1,5 +1,5 @@
 import {BurialCoordination} from "./BurialCoordination";
-import {DeceasedProcessStatus} from "./DeceasedProcessStatus";
+import {BurialProcessStatus} from "./BurialProcessStatus";
 import {BagDetails} from "./BagDetails";
 import {BurialDetails} from "./BurialDetails";
 import {Transport} from "../../transport/model/transport";
@@ -34,7 +34,7 @@ export interface Deceased {
 
   BagDetails?: BagDetails;
 
-  DeceasedProcessStatus?: DeceasedProcessStatus;
+  BurialProcessStatus?: BurialProcessStatus;
 
   BurialDetails?: BurialDetails;
 

@@ -33,7 +33,7 @@ public class DeceasedDto
 
     public BagDetailsDto? BagDetails { get; set; }
     
-    public DeceasedProcessStatusDto? OperationalDetails { get; set; }
+    public BurialProcessStatusDto? BurialProcessStatus { get; set; }
     
     public BurialDetailsDto? BurialDetails { get; set; }
     

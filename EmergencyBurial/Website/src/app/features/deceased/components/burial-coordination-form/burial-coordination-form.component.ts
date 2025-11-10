@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 
 import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
@@ -12,7 +12,7 @@ import {IOptionItem} from "../../../../shared/model/list-item";
   templateUrl: './burial-coordination-form.component.html',
   styleUrl: './burial-coordination-form.component.scss'
 })
-export class BurialCoordinationFormComponent implements OnInit {
+export class BurialCoordinationFormComponent implements OnInit, OnChanges {
 
   @Input('data') data: BurialCoordination;
   @Output() saveCoordination = new EventEmitter<BurialCoordination>();
@@ -28,10 +28,16 @@ export class BurialCoordinationFormComponent implements OnInit {
 
   async ngOnInit() {
 
-    this.data.BurialTime = this.data.BurialTime ? new Date(this.data.BurialTime) : null;
-    this.data.BadMessageDeliveredDateTime = this.data.BadMessageDeliveredDateTime ? new Date(this.data.BadMessageDeliveredDateTime) : null;
+    this.data = this.convertDates(this.data);
 
     this.burialBody = await this.listService.getBurialBodyList();
+  }
+
+  ngOnChanges() {
+
+    if (this.data) {
+      this.data = this.convertDates(this.data);
+    }
   }
 
   toggleEdit() {
@@ -59,11 +65,23 @@ export class BurialCoordinationFormComponent implements OnInit {
 
     const restoredData = JSON.parse(this.originalDataBackup);
 
-    restoredData.BurialTime = restoredData.BurialTime ? new Date(restoredData.BurialTime) : null;
-    restoredData.BadMessageDeliveredDateTime = restoredData.BadMessageDeliveredDateTime ? new Date(restoredData.BadMessageDeliveredDateTime) : null;
+    this.data = this.convertDates(restoredData);
 
     Object.assign(this.data, restoredData);
 
     this.isEdit = false;
+  }
+
+  private convertDates(data: BurialCoordination) {
+
+    if (!data) {
+      return data;
+    }
+
+    return {
+      ...data,
+      BurialTime: data.BurialTime ? new Date(data.BurialTime) : null,
+      BadMessageDeliveredDateTime: data.BadMessageDeliveredDateTime ? new Date(data.BadMessageDeliveredDateTime) : null
+    };
   }
 }

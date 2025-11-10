@@ -17,22 +17,26 @@ import {BurialCoordinationFormComponent} from "../burial-coordination-form/buria
 import {AlertService} from "../../../../shared/services/alert.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
+import {BurialProcessStatus} from "../../model/BurialProcessStatus";
+import {BurialProcessFormComponent} from "../burial-process-form/burial-process-form.component";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [UiComponentsModule, DeceasedStaticFieldsComponent, TransportsTableComponent, BurialCoordinationFormComponent],
+  imports: [UiComponentsModule, DeceasedStaticFieldsComponent, TransportsTableComponent, BurialCoordinationFormComponent, BurialProcessFormComponent],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
 export class DeceasedDetailComponent implements OnInit {
 
-  deceased: Deceased;
   transports: Transport[] = [];
   deceasedAccordion: DeceasedStaticFields[] = [];
+  burialTypes: IOptionItem[];
+
+  deceased: Deceased;
   burialDetailsData: DeceasedStaticFields;
   coordinationData: BurialCoordination;
-  burialTypes: IOptionItem[];
+  burialProcess: BurialProcessStatus;
 
   activeTab: string = "0";
   activeAccordionIndex: number[];
@@ -62,6 +66,8 @@ export class DeceasedDetailComponent implements OnInit {
     this.transports = this.deceased?.Transports ? [...this.deceased.Transports] : [];
 
     this.coordinationData = {...this.deceased?.BurialCoordination};
+
+    this.burialProcess = {...this.deceased?.BurialProcessStatus};
 
     this.initializeFields();
 
@@ -164,7 +170,7 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'BurialProcessStatus', header: 'סטטוס תהליך קבורה'}
     ];
     const DeceasedProcessStatusPanel: DeceasedStaticFields = {
-      object: this.deceased?.DeceasedProcessStatus,
+      object: this.deceased?.BurialProcessStatus,
       title: 'פרטים תפעוליים',
       fields: operationalDetailsFields,
       splitIndex: 3,
@@ -228,13 +234,9 @@ export class DeceasedDetailComponent implements OnInit {
 
   }
 
-  saveBurialDetails() {
-
-  }
-
   async saveBurialCoordination(coordinationData: BurialCoordination) {
 
-    const updatedCoordination: BurialCoordination = await this.deceasedService.updateBurialCoordination(coordinationData);
+    const updatedCoordination = await this.deceasedService.updateBurialCoordination(coordinationData);
 
     if (updatedCoordination) {
       this.coordinationData = {...updatedCoordination};
@@ -242,6 +244,18 @@ export class DeceasedDetailComponent implements OnInit {
       this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
 
     }
-
   }
+
+  async saveBurialProcess(burialProcess: BurialProcessStatus) {
+
+    const updatedBurialProcess: BurialProcessStatus = await this.deceasedService.updateBurialProcess(burialProcess);
+
+    if (updatedBurialProcess) {
+      this.burialProcess = {...updatedBurialProcess};
+
+      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
+
+    }
+  }
+
 }

@@ -12,7 +12,7 @@ public partial class EmergencyBurialContext : DbContext
     public virtual DbSet<Member> Members { get; set; }
     public virtual DbSet<Deceased> Deceaseds { get; set; }
     public virtual DbSet<BagDetails> BagDetails { get; set; }
-    public virtual DbSet<DeceasedProcessStatus> DeceasedProcessStatus { get; set; }
+    public virtual DbSet<BurialProcessStatus> BurialProcessStatus { get; set; }
     public virtual DbSet<BurialDetails> BurialDetails { get; set; }
     public virtual DbSet<BurialCoordination> BurialCoordination { get; set; }
 

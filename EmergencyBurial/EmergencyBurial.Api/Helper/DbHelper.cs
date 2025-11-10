@@ -164,16 +164,18 @@ public class DbHelper
                 DeceasedId = deceased1Id,
                 Affiliation = Affiliation.Civilian,
                 ReceivingStation = TarahStations.Shura,
-                BroughtBy = BurialBody.AbuKabir,CanBeIdentifiedByAcquaintance = true,
+                BroughtBy = BurialBody.AbuKabir, CanBeIdentifiedByAcquaintance = true,
                 RelatedBagNumbers = 5
             },
-            DeceasedProcessStatus = new DeceasedProcessStatus
+            BurialProcessStatus = new BurialProcessStatus
             {
                 DeceasedId = deceased1Id,
                 IdentificationStatus = IdentificationStatus.Identified,
-                BadMessageProcessStatus = "הודעה נמסרה",
+                BadMessageProcessStatus = BadMessageProcessStatus.NotDelivered,
+                CollectionStatus = CollectionStatus.Collected,
+                BurialStatus = BurialStatus.Buried,
+                IsBadMessageReceived = true,
                 BadMessageStartDate = DateTime.Now.AddDays(-1),
-                    BurialProcessStatus = BurialProcessStatus.Buried
             },
             BurialDetails = new BurialDetails
             {
@@ -188,7 +190,7 @@ public class DbHelper
                 DeceasedId = deceased1Id,
                 BurialCity = "ירושלים",
                 BurialTime = DateTime.Now.Date,
-
+                BurialBody = BurialBody.Eilat,
                 IsCoordinatedWithHevratKadisha = true,
                 FamilyContactName = "משה ישראלי",
                 FamilyContactPhone = "050-1234567"
@@ -212,15 +214,17 @@ public class DbHelper
                 DeceasedId = deceased2Id,
                 Affiliation = Affiliation.SecurityForces,
                 ReceivingStation = TarahStations.Tziporit,
-                BroughtBy = BurialBody.RishonLezion,CanBeIdentifiedByAcquaintance = false
+                BroughtBy = BurialBody.RishonLezion, CanBeIdentifiedByAcquaintance = false
             },
-            DeceasedProcessStatus = new DeceasedProcessStatus
+            BurialProcessStatus = new BurialProcessStatus
             {
                 DeceasedId = deceased2Id,
                 IdentificationStatus = IdentificationStatus.NotIdentified,
-                BadMessageProcessStatus = "ממתין לזיהוי",
-                    BadMessageStartDate = DateTime.Now.AddDays(-1),
-                    BurialProcessStatus = BurialProcessStatus.AtBurialCompany
+                BadMessageProcessStatus = BadMessageProcessStatus.NotDelivered,
+                CollectionStatus = CollectionStatus.Collected,
+                BurialStatus = BurialStatus.AtBurialCompany,
+                IsBadMessageReceived = false,
+                BadMessageStartDate = DateTime.Now.AddDays(-1),
             },
             BurialDetails = new BurialDetails
             {
@@ -299,7 +303,8 @@ public class DbHelper
     {
         var list = new List<Member>
         {
-            new() {
+            new()
+            {
                 FullName = "עוז שורקי",
                 UserName = "308015205",
                 Mail = "OzS@dat.gov.il",
@@ -309,7 +314,8 @@ public class DbHelper
                 StationId = (int)TarahStations.Shura,
                 IsActive = true,
             },
-            new() {
+            new()
+            {
                 FullName = "עמוס חכמון",
                 UserName = "038869715",
                 Mail = "amosh@dat.gov.il",
@@ -319,7 +325,8 @@ public class DbHelper
                 StationId = (int)TarahStations.Shura,
                 IsActive = true,
             },
-            new() {
+            new()
+            {
                 FullName = "ישראל ישראלי",
                 UserName = "000000018",
                 Mail = "amosh@dat.gov.il",
