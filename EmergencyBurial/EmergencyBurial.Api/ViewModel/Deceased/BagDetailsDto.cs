@@ -27,4 +27,6 @@ public class BagDetailsDto
     public string? BroughtBy { get; set; }
     
     public string? BroughtFrom { get; set; }
+    
+    public string? ObjectsOnDeceased { get; set; }
 }

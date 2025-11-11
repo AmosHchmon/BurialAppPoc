@@ -24,4 +24,6 @@
 
   BroughtFrom?: string;
 
+  ObjectsOnDeceased?: string;
+
 }

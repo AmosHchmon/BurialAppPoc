@@ -41,7 +41,6 @@ export class DeceasedDetailComponent implements OnInit {
 
   activeTab: string = "0";
   isTransportDialogOpen: boolean = false;
-  activeAccordionIndex: number[];
 
   constructor(
     private route: ActivatedRoute,
@@ -141,100 +140,7 @@ export class DeceasedDetailComponent implements OnInit {
 
     this.deceasedAccordion.push(deceasePanel, bagDetailsPanel);
 
-    /*const bagDetailsFields: IColumn[] = [
-      {field: 'FullName', header: 'חלל'},
-      {field: 'IdentityNumber', header: 'מספר תעודת זהות'},
-      {field: 'Affiliation', header: 'ארגון שיוך'},
-      {field: 'ReceivingStation', header: 'תחנת קליטה'},
-      {field: 'LastKnownLocation', header: 'מיקום אחרון'},
-      {field: 'PartDescription', header: 'תיאור חלק'},
-      {field: 'RelatedBagNumbers', header: 'מספר שקים מקושרים'},
-      {field: 'CanBeIdentifiedByAcquaintance', header: 'האם ניתן לזהות בהיכרות אישית'},
-      {field: 'ReceivingNotes', header: 'הערות שנרשמו בעת הקליטה בתר"ח'},
-      {field: 'FillerName', header: 'שם ממלא טופס הקליטה'},
-      {field: 'ArrivalDateTime', header: 'תאריך ושעת ההגעה'},
-      {field: 'BroughtBy', header: 'הגורם שהביא את השק'},
-      {field: 'BroughtFrom', header: 'המיקום ממנו הובא השק'}
-    ]
-    const bagDetailsPanel: DeceasedStaticFields = {
-      object: this.deceased?.BagDetails,
-      title: 'פרטי שק חלל',
-      fields: bagDetailsFields,
-      splitIndex: 7,
-      trackNumber: 1
-    }
-
-    const operationalDetailsFields: IColumn[] = [
-      {field: 'IdentificationStatus', header: 'סטטוס זיהוי'},
-      {field: 'BadMessageProcessStatus', header: 'סטטוס תהליך הודעה מרה'},
-      {field: 'CollectionStatus', header: 'סטטוס איסוף'},
-      {field: 'BadMessageStartDate', header: 'תאריך אישור תחילת הודעה מרה'},
-      {field: 'BurialProcessStatus', header: 'סטטוס תהליך קבורה'}
-    ];
-    const DeceasedProcessStatusPanel: DeceasedStaticFields = {
-      object: this.deceased?.BurialProcessStatus,
-      title: 'פרטים תפעוליים',
-      fields: operationalDetailsFields,
-      splitIndex: 3,
-      trackNumber: 2
-    }
-
-    const burialDetailsFields: IColumn[] = [
-      {field: 'BurialType', header: 'סוג קבורה'},
-      {field: 'IsCivilBurial', header: 'האם קבורה אזרחית'},
-      {field: 'BurialLicenseScanned', header: 'רישיון קבורה סרוק'},
-      {field: 'TaharahStatus', header: 'סטטוס טהרה'},
-      {field: 'TaharahLocation', header: 'מקום טהרה'},
-      {field: 'CoffinType', header: 'סוג ארון'},
-      {field: 'TaharahReceptionDate', header: 'תאריך קליטה לטהרה'}
-    ];
-    const burialDetailsPanel: DeceasedStaticFields = {
-      object: this.deceased?.BurialDetails,
-      title: 'פרטי קבורה',
-      fields: burialDetailsFields,
-      splitIndex: 4,
-      trackNumber: 3
-    }
-
-    const burialCoordinationFields: IColumn[] = [
-      {field: 'SocialWorkerName', header: 'שם עובד סוציאלי/ת'},
-      {field: 'SocialWorkerPhone', header: 'טלפון עובד סוציאלי/ת'},
-      {field: 'BadMessageDeliveredDateTime', header: 'תאריך מסירת הודעה מרה'},
-      {field: 'FamilyContactName', header: 'בן משפחה'},
-      {field: 'FamilyContactPhone', header: 'טלפון בן משפחה'},
-    ]
-    const burialCoordinationPanel: DeceasedStaticFields = {
-      object: this.deceased?.BurialCoordination,
-      title: 'פרטי הודעה מרה',
-      fields: burialCoordinationFields,
-      splitIndex: 3,
-      trackNumber: 4
-    }
-
-    this.deceasedAccordion.push(bagDetailsPanel, DeceasedProcessStatusPanel, burialDetailsPanel, burialCoordinationPanel);*/
-
   }
-
-  switchToTransportTab() {
-    this.activeTab = "1";
-  }
-
-  async loadTransports() {
-
-    this.transports = await this.transportService.getTransportsByDeceasedId(this.deceased.Id.toLocaleString());
-  }
-
-  /*async handleTransportCreated() {
-
-    if (this.deceased) {
-      await this.loadTransports(this.deceased.Id);
-    }
-
-    this.activeAccordionIndex = [2];
-
-    this.activeTab = "0";
-
-  }*/
 
   async saveBurialCoordination(coordinationData: BurialCoordination) {
 
