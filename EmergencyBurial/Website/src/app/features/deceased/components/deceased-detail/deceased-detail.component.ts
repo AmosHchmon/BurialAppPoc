@@ -264,16 +264,15 @@ export class DeceasedDetailComponent implements OnInit {
     this.isTransportDialogOpen = isOpen;
   }
 
-  async saveTransport(transport: Transport) {
+  async saveTransport(newTransport: Transport) {
 
-    transport.DeceasedId = this.deceased.Id;
+    newTransport.DeceasedId = this.deceased.Id;
 
-    await this.transportService.createTransport(transport);
+    const transport = await this.transportService.createTransport(newTransport);
+
+    this.transports.push(transport);
 
     this.isTransportDialogOpen = false;
-
-    // TODO: Ask Gemini if its better to load all transport again or just push the returned transport to the array
-    await this.loadTransports();
 
     this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
 

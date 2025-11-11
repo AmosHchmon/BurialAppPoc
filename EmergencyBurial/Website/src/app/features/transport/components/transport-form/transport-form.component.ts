@@ -1,37 +1,34 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {NgForm} from "@angular/forms";
 
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {Transport} from "../../model/transport";
-import {TransportService} from "../../services/transport.service";
 import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
 
 @Component({
   selector: 'app-transport-form',
-  imports: [
-    UiComponentsModule,
-    ConvertTimezoneDirective,
-  ],
+  imports: [UiComponentsModule, ConvertTimezoneDirective],
   templateUrl: './transport-form.component.html',
   styleUrl: './transport-form.component.scss'
 })
-export class TransportFormComponent {
+export class TransportFormComponent implements OnInit {
 
   @Output() saveTransport = new EventEmitter<Transport>();
+  @ViewChild('transportForm') transportForm: NgForm;
 
-  newTransport: Transport = {}
+  newTransport: Transport;
 
-  constructor(private transportService: TransportService) {
+  ngOnInit() {
+
+    this.newTransport = {};
+    this.newTransport.StartDateTime = new Date();
   }
 
   async createTransport() {
 
-    //this.newTransport.DeceasedId = this.deceasedId;
-
     this.saveTransport.emit(this.newTransport);
 
-    //await this.transportService.createTransport(this.newTransport);
-
-    this.newTransport = {};
+    this.transportForm.resetForm();
 
   }
 

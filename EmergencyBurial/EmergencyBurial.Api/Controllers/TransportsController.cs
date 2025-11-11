@@ -14,10 +14,8 @@ namespace EmergencyBurial.Api.Controllers;
 [Route("[controller]")]
 [ApiController]
 [Authorize]
-public class TransportsController(
-    TransportService transportService,
-    DeceasedService deceasedService,
-    IMapper mapper) : ControllerBase
+public class TransportsController(TransportService transportService, DeceasedService deceasedService, IMapper mapper)
+    : ControllerBase
 {
     [HttpGet("deceased/{id}")]
     public async Task<ActionResult<IEnumerable<Transport>>> GetTransportsByDeceased(string id)
@@ -37,7 +35,7 @@ public class TransportsController(
         var transports = await transportService.GetTransportsByDeceasedId(idValue);
 
         var res = mapper.Map<List<TransportDto>>(transports);
-        
+
         return Ok(res);
     }
 
@@ -51,8 +49,8 @@ public class TransportsController(
 
         var transport = mapper.Map<Transport>(transportDto);
 
-        await transportService.CreateTransport(transport);
+        var res = await transportService.CreateTransport(transport);
 
-        return Ok();
+        return Ok(mapper.Map<TransportDto>(res));
     }
 }

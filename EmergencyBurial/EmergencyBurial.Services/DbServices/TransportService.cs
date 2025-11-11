@@ -20,13 +20,15 @@ public class TransportService(EmergencyBurialContext ctx)
             .ToListAsync();
     }
 
-    public async Task CreateTransport(Transport transport)
+    public async Task<Transport> CreateTransport(Transport transport)
     {
         try
         {
             ctx.Transports.Add(transport);
 
             await ctx.SaveChangesAsync();
+
+            return transport;
         }
         catch (Exception ex)
         {
