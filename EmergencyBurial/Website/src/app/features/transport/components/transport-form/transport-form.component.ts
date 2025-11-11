@@ -16,8 +16,7 @@ import {ConvertTimezoneDirective} from "../../../../core/directives/convert-time
 })
 export class TransportFormComponent {
 
-  @Input() deceasedId: string;
-  @Output() transportCreated = new EventEmitter<Transport>();
+  @Output() saveTransport = new EventEmitter<Transport>();
 
   newTransport: Transport = {}
 
@@ -26,13 +25,13 @@ export class TransportFormComponent {
 
   async createTransport() {
 
-    this.newTransport.DeceasedId = this.deceasedId;
+    //this.newTransport.DeceasedId = this.deceasedId;
 
-    await this.transportService.createTransport(this.newTransport);
+    this.saveTransport.emit(this.newTransport);
+
+    //await this.transportService.createTransport(this.newTransport);
 
     this.newTransport = {};
-
-    this.transportCreated.emit();
 
   }
 

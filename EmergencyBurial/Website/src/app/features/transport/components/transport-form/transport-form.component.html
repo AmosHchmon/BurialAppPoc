@@ -1,39 +1,52 @@
 <div class="w-100 p-3 mb-3 d-flex flex-column">
-  <strong>אנא הזינו את פרטי השינוע:</strong>
   <div class="d-flex">
     <div class="w-50 d-flex flex-column gap-5">
-      <p-floatlabel class="mt-5">
+      <p-floatlabel variant="on">
         <input pInputText
-               class="w-50"
+               class="w-75"
                [(ngModel)]="newTransport.StartLocation"
                [pAutoFocus]="true"
                autocomplete="off"/>
         <label>מקום התחלת שינוע</label>
       </p-floatlabel>
-      <p-floatlabel>
+      <p-floatlabel variant="on">
         <input pInputText
-               class="w-50"
+               class="w-75"
                [(ngModel)]="newTransport.Purpose"
                autocomplete="off"/>
         <label>תכלית השינוע</label>
       </p-floatlabel>
-      <p-floatlabel>
+      <p-floatlabel variant="on">
         <input pInputText
-               class="w-50"
+               class="w-75"
                [(ngModel)]="newTransport.Organization"
                autocomplete="off"/>
         <label>ארגון משנע</label>
       </p-floatlabel>
-      <p-floatlabel>
+      <p-floatlabel variant="on">
         <input pInputText
-               class="w-50"
+               class="w-75"
                [(ngModel)]="newTransport.Destination"
                autocomplete="off"/>
         <label>מקום יעד שינוע</label>
       </p-floatlabel>
     </div>
     <div class="w-50 d-flex flex-column gap-5">
-      <div class="d-flex flex-column w-50">
+      <p-floatlabel variant="on">
+        <input pInputText
+               class="w-75"
+               [(ngModel)]="newTransport.VehicleType"
+               autocomplete="off"/>
+        <label>סוג אמצעי שינוע</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input pInputText
+               class="w-75"
+               [(ngModel)]="newTransport.LicensePlate"
+               autocomplete="off"/>
+        <label>לוחית זיהוי רכב</label>
+      </p-floatlabel>
+      <div class="d-flex flex-column w-75">
         <label>שעת התחלת השינוע</label>
         <p-datePicker
           [(ngModel)]="newTransport.StartDateTime"
@@ -46,20 +59,6 @@
         </p-datePicker>
 
       </div>
-      <p-floatlabel>
-        <input pInputText
-               class="w-50"
-               [(ngModel)]="newTransport.VehicleType"
-               autocomplete="off"/>
-        <label>סוג אמצעי שינוע</label>
-      </p-floatlabel>
-      <p-floatlabel>
-        <input pInputText
-               class="w-50"
-               [(ngModel)]="newTransport.LicensePlate"
-               autocomplete="off"/>
-        <label>לוחית זיהוי רכב</label>
-      </p-floatlabel>
     </div>
 
   </div>

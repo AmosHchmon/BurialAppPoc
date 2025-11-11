@@ -39,7 +39,7 @@
       }
     </p-tabpanel>
     <p-tabpanel value="3">
-      @if(burialProcess){
+      @if (burialProcess) {
         <app-burial-process-form [data]="burialProcess"
                                  (saveBurialProcess)="saveBurialProcess($event)">
         </app-burial-process-form>
@@ -111,8 +111,16 @@
     </p-tabpanel>
     <p-tabpanel value="4">
       <app-transports-table [transports]="transports"
-                            (switchTab)="switchToTransportTab()">
+                            (openDialog)="openTransportDialog($event)">
       </app-transports-table>
+      <p-dialog [(visible)]="isTransportDialogOpen"
+                closeOnEscape="true"
+                dismissableMask="true"
+                [style]="{ width: '50rem', 'max-height': '90vh'}"
+                header="הוספת שינוע"
+                modal="true">
+        <app-transport-form (saveTransport)="saveTransport($event)"></app-transport-form>
+      </p-dialog >
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

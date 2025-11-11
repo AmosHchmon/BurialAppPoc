@@ -13,7 +13,7 @@ import {IColumn} from "../../../../shared/ui-components/model/column";
 export class TransportsTableComponent implements OnInit {
 
   @Input() transports: Transport[];
-  @Output() switchTab = new EventEmitter();
+  @Output() openDialog = new EventEmitter<boolean>();
 
   transportCols: IColumn[];
 
@@ -27,8 +27,8 @@ export class TransportsTableComponent implements OnInit {
     ];
   }
 
-  switchToTransportTab() {
+  openTransportDialog() {
 
-    this.switchTab.emit();
+    this.openDialog.emit(true);
   }
 }

@@ -19,11 +19,12 @@ import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {BurialProcessStatus} from "../../model/BurialProcessStatus";
 import {BurialProcessFormComponent} from "../burial-process-form/burial-process-form.component";
+import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [UiComponentsModule, DeceasedStaticFieldsComponent, TransportsTableComponent, BurialCoordinationFormComponent, BurialProcessFormComponent],
+  imports: [UiComponentsModule, DeceasedStaticFieldsComponent, TransportsTableComponent, BurialCoordinationFormComponent, BurialProcessFormComponent, TransportFormComponent],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
@@ -39,6 +40,7 @@ export class DeceasedDetailComponent implements OnInit {
   burialProcess: BurialProcessStatus;
 
   activeTab: string = "0";
+  isTransportDialogOpen: boolean = false;
   activeAccordionIndex: number[];
 
   constructor(
@@ -217,12 +219,12 @@ export class DeceasedDetailComponent implements OnInit {
     this.activeTab = "1";
   }
 
-  async loadTransports(deceasedId: string) {
+  async loadTransports() {
 
-    this.transports = await this.transportService.getTransportsByDeceasedId(deceasedId?.toLocaleString());
+    this.transports = await this.transportService.getTransportsByDeceasedId(this.deceased.Id.toLocaleString());
   }
 
-  async handleTransportCreated() {
+  /*async handleTransportCreated() {
 
     if (this.deceased) {
       await this.loadTransports(this.deceased.Id);
@@ -232,7 +234,7 @@ export class DeceasedDetailComponent implements OnInit {
 
     this.activeTab = "0";
 
-  }
+  }*/
 
   async saveBurialCoordination(coordinationData: BurialCoordination) {
 
@@ -258,4 +260,22 @@ export class DeceasedDetailComponent implements OnInit {
     }
   }
 
+  openTransportDialog(isOpen: boolean) {
+    this.isTransportDialogOpen = isOpen;
+  }
+
+  async saveTransport(transport: Transport) {
+
+    transport.DeceasedId = this.deceased.Id;
+
+    await this.transportService.createTransport(transport);
+
+    this.isTransportDialogOpen = false;
+
+    // TODO: Ask Gemini if its better to load all transport again or just push the returned transport to the array
+    await this.loadTransports();
+
+    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
+
+  }
 }
