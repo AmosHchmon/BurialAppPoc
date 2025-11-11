@@ -30,6 +30,9 @@ public class BurialDetails
     
     [Description("האם נקבר בארון")]
     public bool InCoffin { get; set; }
+
+    [Description("הערות על מצב הגופה")]
+    public string? BodyConditionNotes { get; set; }
     
     [Description("גוש")]
     public string? Block { get; set; }

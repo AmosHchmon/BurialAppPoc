@@ -16,5 +16,16 @@
 
   TaharahReceptionDate?: Date;
 
-  InCoffin?: boolean;
+  InCoffin?: string;
+
+  BodyConditionNotes?: string
+
+  Block?: string
+
+  Plot?: string
+
+  Row?: string
+
+  Grave?: string
+
 }

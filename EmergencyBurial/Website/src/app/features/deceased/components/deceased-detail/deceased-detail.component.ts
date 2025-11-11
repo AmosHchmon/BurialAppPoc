@@ -127,14 +127,19 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'BurialLicenseScanned', header: 'רישיון קבורה סרוק'},
       {field: 'TaharahStatus', header: 'סטטוס טהרה'},
       {field: 'TaharahLocation', header: 'מקום טהרה'},
-      {field: 'CoffinType', header: 'סוג ארון'},
-      {field: 'TaharahReceptionDate', header: 'תאריך קליטה לטהרה'}
+      {field: 'InCoffin', header: 'האם נקבר בארון'},
+      {field: 'BodyConditionNotes', header: 'הערות על מצב הגופה'},
+      {field: 'Block', header: 'גוש'},
+      {field: 'Plot', header: 'חלקה'},
+      {field: 'Row', header: 'שורה'},
+      {field: 'Grave', header: 'קבר'}
     ];
+
     this.burialDetailsData = {
       object: this.deceased?.BurialDetails,
       title: 'פרטי קבורה',
       fields: burialDetailsFields,
-      splitIndex: 4,
+      splitIndex: 6,
       trackNumber: 3
     }
 

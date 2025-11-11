@@ -28,6 +28,8 @@ public class BurialCoordination
     
     public string? SocialWorkerPhone { get; set; }
     
+    public string? CoordinationNotes { get; set; }
+    
     [Description("זמן קבורה")]
     public DateTime? BurialTime { get; set; }
     

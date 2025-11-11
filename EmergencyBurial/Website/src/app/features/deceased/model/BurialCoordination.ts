@@ -21,4 +21,6 @@
   BadMessageDeliveredDateTime?: Date;
 
   BurialBody?: number;
+
+  CoordinationNotes?: string;
 }

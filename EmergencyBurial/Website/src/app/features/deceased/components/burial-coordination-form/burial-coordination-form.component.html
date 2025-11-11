@@ -66,7 +66,7 @@
       <label>טלפון עובד סוציאלי</label>
     </p-floatlabel>
   </div>
-  <div class="d-flex flex-column w-50 gap-5">
+  <div class="d-flex flex-column w-50">
     <div class="d-flex flex-column w-50 mt-4">
       <label>שעת קבורה</label>
         <p-datePicker
@@ -93,7 +93,15 @@
         appConvertTimezone>
       </p-datePicker>
     </div>
-    <div class="d-flex align-items-center gap-2">
+    <p-floatlabel variant="on" class="mt-5">
+      <textarea pTextarea
+                class="w-75"
+                [(ngModel)]="data.CoordinationNotes"
+                [disabled]="!isEdit"
+                autocomplete="off"></textarea>
+      <label>הערות על תיאום קבורה</label>
+    </p-floatlabel>
+    <div class="d-flex align-items-center gap-2 mt-5">
       <p-checkbox
         inputId="FamilyForumCalled"
         [(ngModel)]="data.IsFamilyForumCalled"
@@ -101,7 +109,7 @@
         [binary]="true"/>
       <label for="FamilyForumCalled">האם מוקד פורום יצר קשר עם המשפחה</label>
     </div>
-    <div class="d-flex align-items-center gap-2">
+    <div class="d-flex align-items-center gap-2 mt-5">
       <p-checkbox
         inputId="HevratKadisha"
         [(ngModel)]="data.IsCoordinatedWithHevratKadisha"
