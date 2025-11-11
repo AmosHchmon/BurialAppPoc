@@ -41,6 +41,7 @@ export class DeceasedDetailComponent implements OnInit {
 
   activeTab: string = "0";
   isTransportDialogOpen: boolean = false;
+  isEdit: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -187,5 +188,23 @@ export class DeceasedDetailComponent implements OnInit {
 
     this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
 
+  }
+
+  onTabChange(newTabValue: any) {
+
+    if (this.isEdit && newTabValue !== this.activeTab) {
+      console.log('ניסיון לעבור לטאב אחר במצב עריכה - פעולה נחסמה');
+
+      // Force the UI back to the old tab
+      this.activeTab = this.activeTab;
+      return;
+    }
+
+    this.activeTab = newTabValue;
+    this.isEdit = false;
+  }
+
+  setEdit(isEdit: boolean){
+    this.isEdit = isEdit
   }
 }

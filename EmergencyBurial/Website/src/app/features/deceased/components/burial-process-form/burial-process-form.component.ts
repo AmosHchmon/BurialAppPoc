@@ -1,10 +1,12 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {ConfirmationService} from "primeng/api";
 
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {ListService} from "../../../../shared/services/list.service";
 import {BurialProcessStatus} from "../../model/BurialProcessStatus";
 import {IOptionItem} from "../../../../shared/model/list-item";
 import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
+import {DialogMessage} from "../../../../shared/static/messages";
 
 @Component({
   selector: 'app-burial-process-form',
@@ -15,7 +17,9 @@ import {ConvertTimezoneDirective} from "../../../../core/directives/convert-time
 export class BurialProcessFormComponent implements OnInit, OnChanges {
 
   @Input('data') data: BurialProcessStatus;
+  @Input('isEdit') isEdit: boolean = false;
   @Output() saveBurialProcess = new EventEmitter<BurialProcessStatus>();
+  @Output() editModeChange = new EventEmitter<boolean>();
 
   private originalDataBackup: string;
 
@@ -23,9 +27,8 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
   badMessageProcessStatus: IOptionItem[];
   collectionStatus: IOptionItem[];
   burialStatus: IOptionItem[];
-  isEdit: boolean = false;
 
-  constructor(private listService: ListService) {
+  constructor(private listService: ListService, private confirmService: ConfirmationService) {
   }
 
   async ngOnInit() {
@@ -50,7 +53,16 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
     this.burialStatus = await this.listService.getBurialStatus();
   }
 
-  toggleEdit() {
+  toggleEdit(){
+
+    if(!this.isEdit){
+      this.originalDataBackup = JSON.stringify(this.data);
+    }
+
+    this.editModeChange.emit(!this.isEdit);
+  }
+
+  /*onEdit() {
 
     if (!this.isEdit) {
 
@@ -58,23 +70,35 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
     }
 
     this.isEdit = !this.isEdit;
-  }
+  }*/
 
   async onSaveBurialProcess() {
 
     this.saveBurialProcess.emit(this.data);
 
-    this.isEdit = false;
   }
 
   cancelEdit() {
 
-    const restoredData = JSON.parse(this.originalDataBackup);
+    this.confirmService.confirm({
+      header: DialogMessage.Cancel,
+      acceptLabel: 'כן',
+      rejectLabel: 'לא',
+      accept: async () => {
 
-    restoredData.BadMessageStartDate = restoredData.BadMessageStartDate ? new Date(restoredData.BadMessageStartDate) : null;
+        const restoredData = JSON.parse(this.originalDataBackup);
 
-    Object.assign(this.data, restoredData);
+        restoredData.BadMessageStartDate = restoredData.BadMessageStartDate ? new Date(restoredData.BadMessageStartDate) : null;
 
-    this.isEdit = false;
+        Object.assign(this.data, restoredData);
+
+        this.editModeChange.emit(false);
+
+      },
+      reject: () => {
+        return;
+      }
+
+    })
   }
 }

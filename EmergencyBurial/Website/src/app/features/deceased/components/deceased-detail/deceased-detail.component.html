@@ -1,10 +1,10 @@
-<p-tabs [(value)]="activeTab">
+<p-tabs [(value)]="activeTab" (valueChange)="onTabChange($event)">
   <p-tablist class="p-4">
-    <p-tab value="0">פרטים</p-tab>
-    <p-tab value="1">פרטי קבורה</p-tab>
-    <p-tab value="2">תיאום קבורה</p-tab>
-    <p-tab value="3">סטטוס תהליך קבורה</p-tab>
-    <p-tab value="4">שינועים</p-tab>
+    <p-tab value="0" [disabled]="isEdit && activeTab !== '0'">פרטים</p-tab>
+    <p-tab value="1" [disabled]="isEdit && activeTab !== '1'">פרטי קבורה</p-tab>
+    <p-tab value="2" [disabled]="isEdit && activeTab !== '2'">תיאום קבורה</p-tab>
+    <p-tab value="3" [disabled]="isEdit && activeTab !== '3'">סטטוס תהליך קבורה</p-tab>
+    <p-tab value="4" [disabled]="isEdit && activeTab !== '4'">שינועים</p-tab>
   </p-tablist>
   <p-tabpanels>
     <p-tabpanel value="0">
@@ -29,6 +29,8 @@
     <p-tabpanel value="2">
       @if (coordinationData) {
         <app-burial-coordination-form [data]="coordinationData"
+                                      [isEdit]="isEdit"
+                                      (editModeChange)="setEdit($event)"
                                       (saveCoordination)="saveBurialCoordination($event)">
         </app-burial-coordination-form>
       }
@@ -36,6 +38,8 @@
     <p-tabpanel value="3">
       @if (burialProcess) {
         <app-burial-process-form [data]="burialProcess"
+                                 [isEdit]="isEdit"
+                                 (editModeChange)="setEdit($event)"
                                  (saveBurialProcess)="saveBurialProcess($event)">
         </app-burial-process-form>
       }
