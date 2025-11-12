@@ -23,5 +23,6 @@ export let DialogMessage = {
   DeleteListItem: 'פעולה זו תמחק פריט זה',
   Cancel: 'האם ברצונך לבטל?',
   ConnectedListItems: 'ישנם רשימות הקשורות לסוג רשימה זו. נא למחוק אותם',
-  AccessDenied : "אינך מורשה גישה."
+  AccessDenied : "אינך מורשה גישה.",
+  EditModeInTab: "מעבר לטופס זה יגרור אי שמירה של "
 };

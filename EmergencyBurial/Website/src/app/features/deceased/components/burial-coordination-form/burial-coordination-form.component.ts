@@ -71,11 +71,7 @@ export class BurialCoordinationFormComponent implements OnInit, OnChanges {
       rejectLabel: 'לא',
       accept: async () => {
 
-        const restoredData = JSON.parse(this.originalDataBackup);
-
-        this.data = this.convertDates(restoredData);
-
-        Object.assign(this.data, restoredData);
+        this.restoreOriginalData();
 
         this.editModeChange.emit(false);
       },
@@ -97,5 +93,15 @@ export class BurialCoordinationFormComponent implements OnInit, OnChanges {
       BurialTime: data.BurialTime ? new Date(data.BurialTime) : null,
       BadMessageDeliveredDateTime: data.BadMessageDeliveredDateTime ? new Date(data.BadMessageDeliveredDateTime) : null
     };
+  }
+
+  restoreOriginalData() {
+
+    const restoredData = JSON.parse(this.originalDataBackup);
+
+    this.data = this.convertDates(this.data);
+
+    Object.assign(this.data, restoredData);
+
   }
 }

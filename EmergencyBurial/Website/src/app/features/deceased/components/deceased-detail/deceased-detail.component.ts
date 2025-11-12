@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {DeceasedService} from '../../services/deceased.service';
@@ -20,6 +20,12 @@ import {DialogMessage} from "../../../../shared/static/messages";
 import {BurialProcessStatus} from "../../model/BurialProcessStatus";
 import {BurialProcessFormComponent} from "../burial-process-form/burial-process-form.component";
 import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
+import {ConfirmationService} from "primeng/api";
+
+interface TabItem {
+  value: string;
+  header: string;
+}
 
 @Component({
   selector: 'app-deceased-detail',
@@ -30,9 +36,19 @@ import {TransportFormComponent} from "../../../transport/components/transport-fo
 })
 export class DeceasedDetailComponent implements OnInit {
 
+  @ViewChild(BurialCoordinationFormComponent) burialCoordinationForm: BurialCoordinationFormComponent;
+  @ViewChild(BurialProcessFormComponent) burialProcessForm: BurialProcessFormComponent;
+
   transports: Transport[] = [];
   deceasedAccordion: DeceasedStaticFields[] = [];
   burialTypes: IOptionItem[];
+  tabItems: TabItem[] = [
+    {value: "0", header: "פרטים"},
+    {value: "1", header: "פרטי קבורה"},
+    {value: "2", header: "תיאום קבורה"},
+    {value: "3", header: "סטטוס תהליך קבורה"},
+    {value: "4", header: "שינועים"},
+  ];
 
   deceased: Deceased;
   burialDetailsData: DeceasedStaticFields;
@@ -48,7 +64,8 @@ export class DeceasedDetailComponent implements OnInit {
     private deceasedService: DeceasedService,
     private transportService: TransportService,
     private listService: ListService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private confirmService: ConfirmationService
   ) {
   }
 
@@ -192,19 +209,36 @@ export class DeceasedDetailComponent implements OnInit {
 
   onTabChange(newTabValue: any) {
 
-    if (this.isEdit && newTabValue !== this.activeTab) {
-      console.log('ניסיון לעבור לטאב אחר במצב עריכה - פעולה נחסמה');
+    const currentTabItem = this.tabItems.find(item => item.value === this.activeTab);
+    const currentTabHeader = currentTabItem ? currentTabItem.header : "";
 
-      // Force the UI back to the old tab
-      //this.activeTab = this.activeTab;
-      return;
+    if (this.isEdit && newTabValue !== this.activeTab) {
+
+      this.confirmService.confirm({
+        header: DialogMessage.EditModeInTab + currentTabHeader,
+        icon: 'pi pi-exclamation-triangle',
+        closable: false,
+        acceptLabel: 'הבנתי',
+        rejectVisible: false,
+        accept: async () => {
+
+          if (newTabValue === "2") {
+            this.burialProcessForm.restoreOriginalData();
+
+          } else if (newTabValue === "3") {
+            this.burialCoordinationForm.restoreOriginalData();
+          }
+
+          this.isEdit = false;
+        },
+      })
     }
 
     this.activeTab = newTabValue;
     this.isEdit = false;
   }
 
-  setEdit(isEdit: boolean){
+  setEdit(isEdit: boolean) {
     this.isEdit = isEdit
   }
 }

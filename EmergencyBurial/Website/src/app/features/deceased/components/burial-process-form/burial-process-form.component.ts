@@ -53,9 +53,9 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
     this.burialStatus = await this.listService.getBurialStatus();
   }
 
-  toggleEdit(){
+  toggleEdit() {
 
-    if(!this.isEdit){
+    if (!this.isEdit) {
       this.originalDataBackup = JSON.stringify(this.data);
     }
 
@@ -86,11 +86,7 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
       rejectLabel: 'לא',
       accept: async () => {
 
-        const restoredData = JSON.parse(this.originalDataBackup);
-
-        restoredData.BadMessageStartDate = restoredData.BadMessageStartDate ? new Date(restoredData.BadMessageStartDate) : null;
-
-        Object.assign(this.data, restoredData);
+        this.restoreOriginalData();
 
         this.editModeChange.emit(false);
 
@@ -100,5 +96,15 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
       }
 
     })
+  }
+
+  restoreOriginalData() {
+
+    const restoredData = JSON.parse(this.originalDataBackup);
+
+    restoredData.BadMessageStartDate = restoredData.BadMessageStartDate ? new Date(restoredData.BadMessageStartDate) : null;
+
+    Object.assign(this.data, restoredData);
+
   }
 }
