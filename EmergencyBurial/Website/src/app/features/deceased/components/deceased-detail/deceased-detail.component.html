@@ -1,10 +1,10 @@
 <p-tabs [(value)]="activeTab" (valueChange)="onTabChange($event)">
   <p-tablist class="p-4">
-    <p-tab value="0" [disabled]="isEdit && activeTab !== '0'">פרטים</p-tab>
-    <p-tab value="1" [disabled]="isEdit && activeTab !== '1'">פרטי קבורה</p-tab>
-    <p-tab value="2" [disabled]="isEdit && activeTab !== '2'">תיאום קבורה</p-tab>
-    <p-tab value="3" [disabled]="isEdit && activeTab !== '3'">סטטוס תהליך קבורה</p-tab>
-    <p-tab value="4" [disabled]="isEdit && activeTab !== '4'">שינועים</p-tab>
+    <p-tab value="0">פרטים</p-tab>
+    <p-tab value="1">פרטי קבורה</p-tab>
+    <p-tab value="2">תיאום קבורה</p-tab>
+    <p-tab value="3">סטטוס תהליך קבורה</p-tab>
+    <p-tab value="4">שינועים</p-tab>
   </p-tablist>
   <p-tabpanels>
     <p-tabpanel value="0">

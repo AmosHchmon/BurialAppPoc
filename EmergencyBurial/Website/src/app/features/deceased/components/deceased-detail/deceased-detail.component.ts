@@ -196,7 +196,7 @@ export class DeceasedDetailComponent implements OnInit {
       console.log('ניסיון לעבור לטאב אחר במצב עריכה - פעולה נחסמה');
 
       // Force the UI back to the old tab
-      this.activeTab = this.activeTab;
+      //this.activeTab = this.activeTab;
       return;
     }
 
