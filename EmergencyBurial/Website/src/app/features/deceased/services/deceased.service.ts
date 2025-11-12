@@ -2,8 +2,8 @@ import {Injectable, Injector} from '@angular/core';
 
 import {Deceased} from "../model/Deceased";
 import {BaseService} from "../../../core/abstract/base-service";
-import {BurialCoordination} from "../model/BurialCoordination";
-import {BurialProcessStatus} from "../model/BurialProcessStatus";
+import {DeceasedBurialCoordination} from "../model/DeceasedBurialCoordination";
+import {DeceasedBurialProcessStatus} from "../model/DeceasedBurialProcessStatus";
 
 @Injectable({
   providedIn: 'root'
@@ -34,12 +34,12 @@ export class DeceasedService extends BaseService {
     return super.delete({path: `/${id}`});
   }
 
-  updateBurialCoordination(coordinationData: BurialCoordination): Promise<BurialCoordination> {
+  updateBurialCoordination(coordinationData: DeceasedBurialCoordination): Promise<DeceasedBurialCoordination> {
 
     return super.put({path: '/burial-coordination', body: coordinationData});
   }
 
-  updateBurialProcess(burialProcess: BurialProcessStatus): Promise<BurialProcessStatus> {
+  updateBurialProcess(burialProcess: DeceasedBurialProcessStatus): Promise<DeceasedBurialProcessStatus> {
 
     return super.put({path: '/burial-process', body: burialProcess});
   }

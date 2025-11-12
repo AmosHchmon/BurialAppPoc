@@ -2,7 +2,7 @@
 
 namespace EmergencyBurial.Api.ViewModel;
 
-public class BurialDetailsDto
+public class DeceasedBurialDetailsDto
 {
     public Guid? DeceasedId { get; set; }
 

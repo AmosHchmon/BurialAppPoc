@@ -31,13 +31,13 @@ public class DeceasedDto
     
     public DateTime? CreatedOn { get; set; }
 
-    public BagDetailsDto? BagDetails { get; set; }
+    public DeceasedBagDetailsDto? DeceasedBagDetails { get; set; }
     
-    public BurialProcessStatusDto? BurialProcessStatus { get; set; }
+    public DeceasedBurialProcessStatusDto? DeceasedBurialProcessStatus { get; set; }
     
-    public BurialDetailsDto? BurialDetails { get; set; }
+    public DeceasedBurialDetailsDto? DeceasedBurialDetails { get; set; }
     
-    public BurialCoordinationDto? BurialCoordination { get; set; }
+    public DeceasedBurialCoordinationDto? DeceasedBurialCoordination { get; set; }
     
     public List<TransportDto> Transports { get; set; }
 }

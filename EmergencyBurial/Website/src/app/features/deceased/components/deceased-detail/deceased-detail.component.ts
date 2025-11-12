@@ -12,12 +12,12 @@ import {ListService} from "../../../../shared/services/list.service";
 import {IOptionItem} from "../../../../shared/model/list-item";
 import {DeceasedStaticFieldsComponent} from "../deceased-static-fields/deceased-static-fields.component";
 import {TransportsTableComponent} from "../../../transport/components/transports-table/transports-table.component";
-import {BurialCoordination} from "../../model/BurialCoordination";
+import {DeceasedBurialCoordination} from "../../model/DeceasedBurialCoordination";
 import {BurialCoordinationFormComponent} from "../burial-coordination-form/burial-coordination-form.component";
 import {AlertService} from "../../../../shared/services/alert.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
-import {BurialProcessStatus} from "../../model/BurialProcessStatus";
+import {DeceasedBurialProcessStatus} from "../../model/DeceasedBurialProcessStatus";
 import {BurialProcessFormComponent} from "../burial-process-form/burial-process-form.component";
 import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
 import {ConfirmationService} from "primeng/api";
@@ -52,8 +52,8 @@ export class DeceasedDetailComponent implements OnInit {
 
   deceased: Deceased;
   burialDetailsData: DeceasedStaticFields;
-  coordinationData: BurialCoordination;
-  burialProcess: BurialProcessStatus;
+  coordinationData: DeceasedBurialCoordination;
+  burialProcess: DeceasedBurialProcessStatus;
 
   activeTab: string = "0";
   isTransportDialogOpen: boolean = false;
@@ -84,9 +84,9 @@ export class DeceasedDetailComponent implements OnInit {
 
     this.transports = this.deceased?.Transports ? [...this.deceased.Transports] : [];
 
-    this.coordinationData = {...this.deceased?.BurialCoordination};
+    this.coordinationData = {...this.deceased?.DeceasedBurialCoordination};
 
-    this.burialProcess = {...this.deceased?.BurialProcessStatus};
+    this.burialProcess = {...this.deceased?.DeceasedBurialProcessStatus};
 
     this.initializeFields();
 
@@ -131,7 +131,7 @@ export class DeceasedDetailComponent implements OnInit {
       {field: 'ObjectsOnDeceased', header: 'פרטים שנמצאו על החלל'}
     ]
     const bagDetailsPanel: DeceasedStaticFields = {
-      object: this.deceased?.BagDetails,
+      object: this.deceased?.DeceasedBagDetails,
       title: 'פרטי שק החלל',
       fields: bagDetailsFields,
       splitIndex: 6,
@@ -154,7 +154,7 @@ export class DeceasedDetailComponent implements OnInit {
     ];
 
     this.burialDetailsData = {
-      object: this.deceased?.BurialDetails,
+      object: this.deceased?.DeceasedBurialDetails,
       title: 'פרטי קבורה',
       fields: burialDetailsFields,
       splitIndex: 6,
@@ -165,7 +165,7 @@ export class DeceasedDetailComponent implements OnInit {
 
   }
 
-  async saveBurialCoordination(coordinationData: BurialCoordination) {
+  async saveBurialCoordination(coordinationData: DeceasedBurialCoordination) {
 
     const updatedCoordination = await this.deceasedService.updateBurialCoordination(coordinationData);
 
@@ -174,18 +174,20 @@ export class DeceasedDetailComponent implements OnInit {
 
       this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
 
+      this.isEdit = false;
     }
   }
 
-  async saveBurialProcess(burialProcess: BurialProcessStatus) {
+  async saveBurialProcess(burialProcess: DeceasedBurialProcessStatus) {
 
-    const updatedBurialProcess: BurialProcessStatus = await this.deceasedService.updateBurialProcess(burialProcess);
+    const updatedBurialProcess: DeceasedBurialProcessStatus = await this.deceasedService.updateBurialProcess(burialProcess);
 
     if (updatedBurialProcess) {
       this.burialProcess = {...updatedBurialProcess};
 
       this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
 
+      this.isEdit = false;
     }
   }
 
@@ -215,8 +217,8 @@ export class DeceasedDetailComponent implements OnInit {
     if (this.isEdit && newTabValue !== this.activeTab) {
 
       this.confirmService.confirm({
-        header: DialogMessage.EditModeInTab + currentTabHeader,
         icon: 'pi pi-exclamation-triangle',
+        message:DialogMessage.EditModeInTab + currentTabHeader,
         closable: false,
         acceptLabel: 'הבנתי',
         rejectVisible: false,

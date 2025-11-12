@@ -1,4 +1,4 @@
-﻿export interface BurialCoordination {
+﻿export interface DeceasedBurialCoordination {
 
   DeceasedId?: string;
 

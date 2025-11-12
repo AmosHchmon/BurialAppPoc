@@ -3,7 +3,7 @@ import {ConfirmationService} from "primeng/api";
 
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {ListService} from "../../../../shared/services/list.service";
-import {BurialProcessStatus} from "../../model/BurialProcessStatus";
+import {DeceasedBurialProcessStatus} from "../../model/DeceasedBurialProcessStatus";
 import {IOptionItem} from "../../../../shared/model/list-item";
 import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
 import {DialogMessage} from "../../../../shared/static/messages";
@@ -16,9 +16,9 @@ import {DialogMessage} from "../../../../shared/static/messages";
 })
 export class BurialProcessFormComponent implements OnInit, OnChanges {
 
-  @Input('data') data: BurialProcessStatus;
+  @Input('data') data: DeceasedBurialProcessStatus;
   @Input('isEdit') isEdit: boolean = false;
-  @Output() saveBurialProcess = new EventEmitter<BurialProcessStatus>();
+  @Output() saveBurialProcess = new EventEmitter<DeceasedBurialProcessStatus>();
   @Output() editModeChange = new EventEmitter<boolean>();
 
   private originalDataBackup: string;

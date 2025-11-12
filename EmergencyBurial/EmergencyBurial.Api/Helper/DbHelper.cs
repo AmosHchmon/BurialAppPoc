@@ -159,7 +159,7 @@ public class DbHelper
             HomeCity = "ירושלים",
             PeleNumber = "PL-789123",
             // יצירת ישויות הבן עם אותו מזהה
-            BagDetails = new BagDetails
+            DeceasedBagDetails = new DeceasedBagDetails
             {
                 DeceasedId = deceased1Id,
                 Affiliation = Affiliation.Civilian,
@@ -167,7 +167,7 @@ public class DbHelper
                 BroughtBy = BurialBody.AbuKabir, CanBeIdentifiedByAcquaintance = true,
                 RelatedBagNumbers = 5
             },
-            BurialProcessStatus = new BurialProcessStatus
+            DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
             {
                 DeceasedId = deceased1Id,
                 IdentificationStatus = IdentificationStatus.Identified,
@@ -177,7 +177,7 @@ public class DbHelper
                 IsBadMessageReceived = true,
                 BadMessageStartDate = DateTime.Now.AddDays(-1),
             },
-            BurialDetails = new BurialDetails
+            DeceasedBurialDetails = new DeceasedBurialDetails
             {
                 DeceasedId = deceased1Id,
                 BurialType = BurialType.Final,
@@ -185,7 +185,7 @@ public class DbHelper
                 TaharahStatus = TaharahStatus.Completed,
                 TaharahLocation = "מכון טהרה גבעת שאול"
             },
-            BurialCoordination = new BurialCoordination
+            DeceasedBurialCoordination = new DeceasedBurialCoordination
             {
                 DeceasedId = deceased1Id,
                 BurialCity = "ירושלים",
@@ -209,14 +209,14 @@ public class DbHelper
             Gender = "נקבה",
             HomeCity = "תל אביב",
             PeleNumber = "PL-456789",
-            BagDetails = new BagDetails
+            DeceasedBagDetails = new DeceasedBagDetails
             {
                 DeceasedId = deceased2Id,
                 Affiliation = Affiliation.SecurityForces,
                 ReceivingStation = TarahStations.Tziporit,
                 BroughtBy = BurialBody.RishonLezion, CanBeIdentifiedByAcquaintance = false
             },
-            BurialProcessStatus = new BurialProcessStatus
+            DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
             {
                 DeceasedId = deceased2Id,
                 IdentificationStatus = IdentificationStatus.NotIdentified,
@@ -226,14 +226,14 @@ public class DbHelper
                 IsBadMessageReceived = false,
                 BadMessageStartDate = DateTime.Now.AddDays(-1),
             },
-            BurialDetails = new BurialDetails
+            DeceasedBurialDetails = new DeceasedBurialDetails
             {
                 DeceasedId = deceased2Id,
                 BurialType = BurialType.Temporary,
                 IsCivilBurial = true,
                 TaharahStatus = TaharahStatus.Pending
             },
-            BurialCoordination = new BurialCoordination
+            DeceasedBurialCoordination = new DeceasedBurialCoordination
             {
                 DeceasedId = deceased2Id,
                 IsCoordinatedWithHevratKadisha = false

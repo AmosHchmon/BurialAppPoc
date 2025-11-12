@@ -1,4 +1,4 @@
-﻿export interface BurialProcessStatus {
+﻿export interface DeceasedBurialProcessStatus {
 
   DeceasedId: string;
 

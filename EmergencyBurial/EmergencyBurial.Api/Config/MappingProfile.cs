@@ -20,17 +20,17 @@ public class MappingProfile : Profile
         CreateMap<Deceased, DeceasedDto>()
             .ReverseMap();
 
-        CreateMap<BagDetails, BagDetailsDto>()
+        CreateMap<DeceasedBagDetails, DeceasedBagDetailsDto>()
             .ForMember(dest => dest.Affiliation, opt => opt.MapFrom(src => src.Affiliation.GetEnumDescription()))
             .ForMember(dest => dest.ReceivingStation, opt => opt.MapFrom(src => src.ReceivingStation.GetEnumDescription()))
             .ForMember(dest => dest.BroughtBy, opt => opt.MapFrom(src => src.BroughtBy.GetEnumDescription()))
             .ForMember(dest => dest.CanBeIdentifiedByAcquaintance, opt => opt.MapFrom(src => src.CanBeIdentifiedByAcquaintance ? "כן" : "לא"))
             .ReverseMap();
 
-        CreateMap<BurialProcessStatus, BurialProcessStatusDto>()
+        CreateMap<DeceasedBurialProcessStatus, DeceasedBurialProcessStatusDto>()
             .ReverseMap();
 
-        CreateMap<BurialDetails, BurialDetailsDto>()
+        CreateMap<DeceasedBurialDetails, DeceasedBurialDetailsDto>()
             .ForMember(dest => dest.BurialType, opt => opt.MapFrom(src => src.BurialType.GetEnumDescription()))
             .ForMember(dest => dest.IsCivilBurial, opt => opt.MapFrom(src => src.IsCivilBurial ? "כן" : "לא"))
             .ForMember(dest => dest.BurialLicenseScanned, opt => opt.MapFrom(src => src.BurialLicenseScanned ? "כן" : "לא"))
@@ -38,7 +38,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.TaharahStatus, opt => opt.MapFrom(src => src.TaharahStatus.GetEnumDescription()))
             .ReverseMap();
 
-        CreateMap<BurialCoordination, BurialCoordinationDto>()
+        CreateMap<DeceasedBurialCoordination, DeceasedBurialCoordinationDto>()
             .ReverseMap();
 
         #endregion

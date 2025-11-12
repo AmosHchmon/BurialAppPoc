@@ -6,7 +6,7 @@ using Core.Helpers;
 
 namespace DataModel.Entities;
 
-public class BurialDetails
+public class DeceasedBurialDetails
 {
     [Required]
     [Key]

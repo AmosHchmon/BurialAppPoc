@@ -1,4 +1,4 @@
-﻿export interface BurialDetails {
+﻿export interface DeceasedBurialDetails {
 
   DeceasedId?: string;
 

@@ -4,7 +4,7 @@ import {ConfirmationService} from "primeng/api";
 import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {ListService} from "../../../../shared/services/list.service";
-import {BurialCoordination} from "../../model/BurialCoordination";
+import {DeceasedBurialCoordination} from "../../model/DeceasedBurialCoordination";
 import {IOptionItem} from "../../../../shared/model/list-item";
 import {DialogMessage} from "../../../../shared/static/messages";
 
@@ -16,9 +16,9 @@ import {DialogMessage} from "../../../../shared/static/messages";
 })
 export class BurialCoordinationFormComponent implements OnInit, OnChanges {
 
-  @Input('data') data: BurialCoordination;
+  @Input('data') data: DeceasedBurialCoordination;
   @Input('isEdit') isEdit: boolean = false;
-  @Output() saveCoordination = new EventEmitter<BurialCoordination>();
+  @Output() saveCoordination = new EventEmitter<DeceasedBurialCoordination>();
   @Output() editModeChange = new EventEmitter<boolean>();
   @ViewChild('burialCityInput') burialCityInputRef: ElementRef<HTMLInputElement>;
 
@@ -82,7 +82,7 @@ export class BurialCoordinationFormComponent implements OnInit, OnChanges {
     })
   }
 
-  private convertDates(data: BurialCoordination) {
+  private convertDates(data: DeceasedBurialCoordination) {
 
     if (!data) {
       return data;

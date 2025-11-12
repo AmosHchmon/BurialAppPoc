@@ -34,13 +34,13 @@ public class Deceased
     
     public DateTime? CreatedOn { get; set; }
 
-    public virtual BagDetails BagDetails { get; set; }
+    public virtual DeceasedBagDetails DeceasedBagDetails { get; set; }
     
-    public virtual BurialProcessStatus BurialProcessStatus { get; set; }
+    public virtual DeceasedBurialProcessStatus DeceasedBurialProcessStatus { get; set; }
     
-    public virtual BurialDetails BurialDetails { get; set; }
+    public virtual DeceasedBurialDetails DeceasedBurialDetails { get; set; }
     
-    public virtual BurialCoordination BurialCoordination { get; set; }
+    public virtual DeceasedBurialCoordination DeceasedBurialCoordination { get; set; }
     
     public virtual IEnumerable<Transport> Transports { get; set; }
 }

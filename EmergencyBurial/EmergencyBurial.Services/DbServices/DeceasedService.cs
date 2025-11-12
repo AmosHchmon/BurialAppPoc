@@ -23,10 +23,10 @@ public class DeceasedService(EmergencyBurialContext ctx)
     public async Task<Deceased> GetDeceased(Guid? id)
     {
         var deceased = await ctx.Deceaseds
-            .Include(d => d.BagDetails)
-            .Include(d => d.BurialProcessStatus)
-            .Include(d => d.BurialDetails)
-            .Include(d => d.BurialCoordination)
+            .Include(d => d.DeceasedBagDetails)
+            .Include(d => d.DeceasedBurialProcessStatus)
+            .Include(d => d.DeceasedBurialDetails)
+            .Include(d => d.DeceasedBurialCoordination)
             .Include(d => d.Transports)
             .FirstOrDefaultAsync(d => d.Id == id);
 
@@ -73,15 +73,15 @@ public class DeceasedService(EmergencyBurialContext ctx)
         return await ctx.Deceaseds.AnyAsync(d => d.Id == id);
     }
 
-    public async Task<BurialCoordination> UpdateBurialCoordination(BurialCoordination burialCoordination)
+    public async Task<DeceasedBurialCoordination> UpdateBurialCoordination(DeceasedBurialCoordination deceasedBurialCoordination)
     {
         try
         {
-            ctx.BurialCoordination.Update(burialCoordination);
+            ctx.DeceasedBurialCoordination.Update(deceasedBurialCoordination);
 
             await ctx.SaveChangesAsync();
 
-            return burialCoordination;
+            return deceasedBurialCoordination;
         }
         catch (Exception ex)
         {
@@ -89,15 +89,15 @@ public class DeceasedService(EmergencyBurialContext ctx)
         }
     }
 
-    public async Task<BurialProcessStatus> UpdateBurialProcessStatus(BurialProcessStatus burialProcessStatus)
+    public async Task<DeceasedBurialProcessStatus> UpdateBurialProcessStatus(DeceasedBurialProcessStatus deceasedBurialProcessStatus)
     {
         try
         {
-            ctx.BurialProcessStatus.Update(burialProcessStatus);
+            ctx.DeceasedBurialProcessStatus.Update(deceasedBurialProcessStatus);
 
             await ctx.SaveChangesAsync();
 
-            return burialProcessStatus;
+            return deceasedBurialProcessStatus;
         }
         catch (Exception ex)
         {

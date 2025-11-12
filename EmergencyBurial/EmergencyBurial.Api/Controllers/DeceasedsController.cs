@@ -84,34 +84,34 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
     }
 
     [HttpPut("burial-coordination")]
-    public async Task<ActionResult<BurialCoordinationDto>> UpdateBurialCoordination(
-        [FromBody] BurialCoordinationDto burialCoordinationDto)
+    public async Task<ActionResult<DeceasedBurialCoordinationDto>> UpdateBurialCoordination(
+        [FromBody] DeceasedBurialCoordinationDto deceasedBurialCoordinationDto)
     {
-        if (burialCoordinationDto == null)
+        if (deceasedBurialCoordinationDto == null)
         {
             return BadRequest();
         }
 
-        var burialCoordination = mapper.Map<BurialCoordination>(burialCoordinationDto);
+        var burialCoordination = mapper.Map<DeceasedBurialCoordination>(deceasedBurialCoordinationDto);
 
         var result = await deceasedService.UpdateBurialCoordination(burialCoordination);
 
-        return Ok(mapper.Map<BurialCoordinationDto>(result));
+        return Ok(mapper.Map<DeceasedBurialCoordinationDto>(result));
     }
 
     [HttpPut("burial-process")]
-    public async Task<ActionResult<BurialProcessStatusDto>> UpdateBurialProcessStatus(
-        [FromBody] BurialProcessStatusDto burialProcessStatusDto)
+    public async Task<ActionResult<DeceasedBurialProcessStatusDto>> UpdateBurialProcessStatus(
+        [FromBody] DeceasedBurialProcessStatusDto deceasedBurialProcessStatusDto)
     {
-        if (burialProcessStatusDto == null)
+        if (deceasedBurialProcessStatusDto == null)
         {
             return BadRequest();
         }
 
-        var burialProcessStatus = mapper.Map<BurialProcessStatus>(burialProcessStatusDto);
+        var burialProcessStatus = mapper.Map<DeceasedBurialProcessStatus>(deceasedBurialProcessStatusDto);
 
         var result = await deceasedService.UpdateBurialProcessStatus(burialProcessStatus);
 
-        return Ok(mapper.Map<BurialProcessStatusDto>(result));
+        return Ok(mapper.Map<DeceasedBurialProcessStatusDto>(result));
     }
 }
