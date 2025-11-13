@@ -232,49 +232,6 @@ export class DeceasedDetailComponent implements OnInit {
 
   }
 
-  /*async onTabChange(newTabValue: any) {
-
-    const currentTabItem = this.tabItems.find(item => item.value === this.activeTab);
-    const currentTabHeader = currentTabItem ? currentTabItem.header : "";
-    const isTabChanging = newTabValue !== this.activeTab;
-
-    if (this.isEdit && isTabChanging) {
-
-      this.confirmService.confirm({
-        icon: 'pi pi-exclamation-triangle',
-        message: DialogMessage.EditModeInTab + currentTabHeader,
-        closable: false,
-        acceptLabel: 'הבנתי',
-        rejectVisible: false,
-        accept: async () => {
-
-          if (this.activeTab === "2") {
-            this.burialCoordinationForm?.restoreOriginalData();
-
-          } else if (this.activeTab === "3") {
-            this.burialProcessForm?.restoreOriginalData();
-          }
-
-          this.isEdit = false;
-
-          await this.loadDataForTab(newTabValue);
-
-          this.activeTab = newTabValue;
-
-        },
-        reject: () => {
-          return;
-        }
-      })
-    } else if (isTabChanging) {
-
-      await this.loadDataForTab(newTabValue);
-
-      this.activeTab = newTabValue;
-      this.isEdit = false;
-    }
-  }*/
-
   async onTabChange(newTabValue: any) {
 
     const currentTab = this.tabItems.find(item => item.value === this.activeTab);
