@@ -62,16 +62,6 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
     this.editModeChange.emit(!this.isEdit);
   }
 
-  /*onEdit() {
-
-    if (!this.isEdit) {
-
-      this.originalDataBackup = JSON.stringify(this.data);
-    }
-
-    this.isEdit = !this.isEdit;
-  }*/
-
   async onSaveBurialProcess() {
 
     this.saveBurialProcess.emit(this.data);
