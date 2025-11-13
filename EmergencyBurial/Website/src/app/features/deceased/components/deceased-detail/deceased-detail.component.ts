@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {ConfirmationService} from "primeng/api";
 
 import {DeceasedService} from '../../services/deceased.service';
 import {IColumn} from "../../../../shared/ui-components/model/column";
@@ -20,7 +21,6 @@ import {DialogMessage} from "../../../../shared/static/messages";
 import {DeceasedBurialProcessStatus} from "../../model/DeceasedBurialProcessStatus";
 import {BurialProcessFormComponent} from "../burial-process-form/burial-process-form.component";
 import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
-import {ConfirmationService} from "primeng/api";
 
 interface TabItem {
   value: string;
@@ -49,6 +49,48 @@ export class DeceasedDetailComponent implements OnInit {
     {value: "3", header: "סטטוס תהליך קבורה"},
     {value: "4", header: "שינועים"},
   ];
+  deceasedFields: IColumn[] = [
+    {field: 'HalalNumber', header: 'מספר חלל'},
+    {field: 'IdentityNumber', header: 'מספר זהות'},
+    {field: 'FirstName', header: 'שם פרטי'},
+    {field: 'LastName', header: 'שם משפחה'},
+    {field: 'FatherName', header: 'שם האב'},
+    {field: 'Gender', header: 'מין'},
+    {field: 'Nationality', header: 'לאום'},
+    {field: 'HomeCity', header: 'עיר מגורים'},
+    {field: 'PeleNumber', header: 'מספר פל"א'},
+    {field: 'HomeAddress', header: 'כתובת מגורים'},
+    {field: 'Notes', header: 'הערות כלליות'},
+    {field: 'CreatedOn', header: 'נוצר בתאריך'}
+  ]
+  bagDetailsFields: IColumn[] = [
+    {field: 'Affiliation', header: 'ארגון שיוך'},
+    {field: 'ReceivingStation', header: 'תחנת קליטה'},
+    {field: 'LastKnownLocation', header: 'מיקום אחרון'},
+    {field: 'PartDescription', header: 'תיאור חלק'},
+    {field: 'RelatedBagNumbers', header: 'מספר שקים מקושרים'},
+    {field: 'CanBeIdentifiedByAcquaintance', header: 'האם ניתן לזהות בהיכרות אישית'},
+    {field: 'ReceivingNotes', header: 'הערות שנרשמו בעת הקליטה בתר"ח'},
+    {field: 'FillerName', header: 'שם ממלא טופס הקליטה'},
+    {field: 'ArrivalDateTime', header: 'תאריך ושעת ההגעה'},
+    {field: 'BroughtBy', header: 'הגורם שהביא את השק'},
+    {field: 'BroughtFrom', header: 'המיקום ממנו הובא השק'},
+    {field: 'ObjectsOnDeceased', header: 'פרטים שנמצאו על החלל'}
+  ]
+  burialDetailsFields: IColumn[] = [
+    {field: 'BurialType', header: 'סוג קבורה'},
+    {field: 'IsCivilBurial', header: 'האם קבורה אזרחית'},
+    {field: 'BurialLicenseNumber', header: 'מספר רישיון קבורה'},
+    {field: 'BurialLicenseScanned', header: 'רישיון קבורה סרוק'},
+    {field: 'TaharahStatus', header: 'סטטוס טהרה'},
+    {field: 'TaharahLocation', header: 'מקום טהרה'},
+    {field: 'InCoffin', header: 'האם נקבר בארון'},
+    {field: 'BodyConditionNotes', header: 'הערות על מצב הגופה'},
+    {field: 'Block', header: 'גוש'},
+    {field: 'Plot', header: 'חלקה'},
+    {field: 'Row', header: 'שורה'},
+    {field: 'Grave', header: 'קבר'}
+  ]
 
   deceased: Deceased;
   burialDetailsData: DeceasedStaticFields;
@@ -58,6 +100,7 @@ export class DeceasedDetailComponent implements OnInit {
   activeTab: string = "0";
   isTransportDialogOpen: boolean = false;
   isEdit: boolean = false;
+  param: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -71,97 +114,77 @@ export class DeceasedDetailComponent implements OnInit {
 
   async ngOnInit() {
 
-    await this.loadDeceasedData();
+    this.param = this.route.snapshot.paramMap.get('id');
+
+    await this.loadDataForTab("0");
 
     this.burialTypes = await this.listService.getBurialTypeList();
-  }
-
-  private async loadDeceasedData() {
-
-    const param = this.route.snapshot.paramMap.get('id');
-
-    this.deceased = await this.deceasedService.getDeceasedById(param);
-
-    this.transports = this.deceased?.Transports ? [...this.deceased.Transports] : [];
-
-    this.coordinationData = {...this.deceased?.DeceasedBurialCoordination};
-
-    this.burialProcess = {...this.deceased?.DeceasedBurialProcessStatus};
-
-    this.initializeFields();
 
   }
 
-  private initializeFields() {
+  private async loadDataForTab(tabValue: string) {
 
-    const deceasedFields: IColumn[] = [
-      {field: 'HalalNumber', header: 'מספר חלל'},
-      {field: 'IdentityNumber', header: 'מספר זהות'},
-      {field: 'FirstName', header: 'שם פרטי'},
-      {field: 'LastName', header: 'שם משפחה'},
-      {field: 'FatherName', header: 'שם האב'},
-      {field: 'Gender', header: 'מין'},
-      {field: 'Nationality', header: 'לאום'},
-      {field: 'HomeCity', header: 'עיר מגורים'},
-      {field: 'PeleNumber', header: 'מספר פל"א'},
-      {field: 'HomeAddress', header: 'כתובת מגורים'},
-      {field: 'Notes', header: 'הערות כלליות'},
-      {field: 'CreatedOn', header: 'נוצר בתאריך'}
-    ]
-    const deceasePanel: DeceasedStaticFields = {
+    switch (tabValue) {
+      case "0":
+
+        this.deceased = await this.deceasedService.getDeceasedById(this.param);
+        this.initializePanels();
+        break;
+
+      case "1":
+
+        const burialDetails = await this.deceasedService.getBurialDetails(this.param);
+        this.burialDetailsData = {
+          object: burialDetails,
+          title: 'פרטי קבורה',
+          fields: this.burialDetailsFields,
+          splitIndex: 6,
+          trackNumber: 3
+        }
+        break;
+
+      case "2":
+
+        const coordination = await this.deceasedService.getDeceasedBurialCoordination(this.param);
+        this.coordinationData = {...coordination};
+        break;
+
+      case "3":
+
+        const burialProcess = await this.deceasedService.getDeceasedBurialProcessStatus(this.param);
+        this.burialProcess = {...burialProcess};
+        break;
+
+      case "4":
+
+        const transports = await this.transportService.getTransportsByDeceasedId(this.param);
+        this.transports = transports ? [...transports] : [];
+        break;
+    }
+
+  }
+
+  private initializePanels() {
+
+    this.deceasedAccordion = [];
+
+    const deceasedPanel: DeceasedStaticFields = {
       object: this.deceased,
       title: 'חלל',
-      fields: deceasedFields,
+      fields: this.deceasedFields,
       splitIndex: 6,
       trackNumber: 1
     }
 
-    const bagDetailsFields: IColumn[] = [
-      {field: 'Affiliation', header: 'ארגון שיוך'},
-      {field: 'ReceivingStation', header: 'תחנת קליטה'},
-      {field: 'LastKnownLocation', header: 'מיקום אחרון'},
-      {field: 'PartDescription', header: 'תיאור חלק'},
-      {field: 'RelatedBagNumbers', header: 'מספר שקים מקושרים'},
-      {field: 'CanBeIdentifiedByAcquaintance', header: 'האם ניתן לזהות בהיכרות אישית'},
-      {field: 'ReceivingNotes', header: 'הערות שנרשמו בעת הקליטה בתר"ח'},
-      {field: 'FillerName', header: 'שם ממלא טופס הקליטה'},
-      {field: 'ArrivalDateTime', header: 'תאריך ושעת ההגעה'},
-      {field: 'BroughtBy', header: 'הגורם שהביא את השק'},
-      {field: 'BroughtFrom', header: 'המיקום ממנו הובא השק'},
-      {field: 'ObjectsOnDeceased', header: 'פרטים שנמצאו על החלל'}
-    ]
     const bagDetailsPanel: DeceasedStaticFields = {
       object: this.deceased?.DeceasedBagDetails,
       title: 'פרטי שק החלל',
-      fields: bagDetailsFields,
+      fields: this.bagDetailsFields,
       splitIndex: 6,
       trackNumber: 1
     }
 
-    const burialDetailsFields: IColumn[] = [
-      {field: 'BurialType', header: 'סוג קבורה'},
-      {field: 'IsCivilBurial', header: 'האם קבורה אזרחית'},
-      {field: 'BurialLicenseNumber', header: 'מספר רישיון קבורה'},
-      {field: 'BurialLicenseScanned', header: 'רישיון קבורה סרוק'},
-      {field: 'TaharahStatus', header: 'סטטוס טהרה'},
-      {field: 'TaharahLocation', header: 'מקום טהרה'},
-      {field: 'InCoffin', header: 'האם נקבר בארון'},
-      {field: 'BodyConditionNotes', header: 'הערות על מצב הגופה'},
-      {field: 'Block', header: 'גוש'},
-      {field: 'Plot', header: 'חלקה'},
-      {field: 'Row', header: 'שורה'},
-      {field: 'Grave', header: 'קבר'}
-    ];
-
-    this.burialDetailsData = {
-      object: this.deceased?.DeceasedBurialDetails,
-      title: 'פרטי קבורה',
-      fields: burialDetailsFields,
-      splitIndex: 6,
-      trackNumber: 3
-    }
-
-    this.deceasedAccordion.push(deceasePanel, bagDetailsPanel);
+    this.deceasedAccordion.push(deceasedPanel, bagDetailsPanel);
 
   }
 
@@ -209,32 +232,96 @@ export class DeceasedDetailComponent implements OnInit {
 
   }
 
-  onTabChange(newTabValue: any) {
+  /*async onTabChange(newTabValue: any) {
 
     const currentTabItem = this.tabItems.find(item => item.value === this.activeTab);
     const currentTabHeader = currentTabItem ? currentTabItem.header : "";
+    const isTabChanging = newTabValue !== this.activeTab;
 
-    if (this.isEdit && newTabValue !== this.activeTab) {
+    if (this.isEdit && isTabChanging) {
 
       this.confirmService.confirm({
         icon: 'pi pi-exclamation-triangle',
-        message:DialogMessage.EditModeInTab + currentTabHeader,
+        message: DialogMessage.EditModeInTab + currentTabHeader,
         closable: false,
         acceptLabel: 'הבנתי',
         rejectVisible: false,
         accept: async () => {
 
-          if (newTabValue === "2") {
-            this.burialProcessForm.restoreOriginalData();
+          if (this.activeTab === "2") {
+            this.burialCoordinationForm?.restoreOriginalData();
 
-          } else if (newTabValue === "3") {
-            this.burialCoordinationForm.restoreOriginalData();
+          } else if (this.activeTab === "3") {
+            this.burialProcessForm?.restoreOriginalData();
           }
 
           this.isEdit = false;
+
+          await this.loadDataForTab(newTabValue);
+
+          this.activeTab = newTabValue;
+
         },
+        reject: () => {
+          return;
+        }
       })
+    } else if (isTabChanging) {
+
+      await this.loadDataForTab(newTabValue);
+
+      this.activeTab = newTabValue;
+      this.isEdit = false;
     }
+  }*/
+
+  async onTabChange(newTabValue: any) {
+
+    const currentTab = this.tabItems.find(item => item.value === this.activeTab);
+    const currentTabHeader = currentTab?.header ?? "";
+
+    if (this.isEdit) {
+
+      this.confirmService.confirm({
+        icon: 'pi pi-exclamation-triangle',
+        message: DialogMessage.EditModeInTab + currentTabHeader,
+        closable: false,
+        acceptLabel: 'הבנתי',
+        rejectVisible: false,
+        accept: async () => await this.handleTabAccept(newTabValue)
+      });
+
+      return;
+    }
+
+    await this.switchTab(newTabValue);
+  }
+
+  private async handleTabAccept(newTabValue: any) {
+
+    this.restoreCurrentForm();
+
+    this.isEdit = false;
+
+    await this.switchTab(newTabValue);
+  }
+
+  private restoreCurrentForm() {
+
+    switch (this.activeTab) {
+      case "2":
+        this.burialCoordinationForm?.restoreOriginalData();
+        break;
+      case "3":
+        this.burialProcessForm?.restoreOriginalData();
+        break;
+    }
+
+  }
+
+  private async switchTab(newTabValue: any) {
+
+    await this.loadDataForTab(newTabValue);
 
     this.activeTab = newTabValue;
     this.isEdit = false;

@@ -83,6 +83,19 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
         return Ok();
     }
 
+    [HttpGet("burial-coordination/{id}")]
+    public async Task<ActionResult<DeceasedBurialCoordinationDto>> GetBurialCoordination(string id)
+    {
+        if (!Guid.TryParse(id, out Guid deceasedId))
+        {
+            return BadRequest();
+        }
+
+        var burialCoordination = await deceasedService.GetBurialCoordination(deceasedId);
+
+        return Ok(mapper.Map<DeceasedBurialCoordinationDto>(burialCoordination));
+    }
+
     [HttpPut("burial-coordination")]
     public async Task<ActionResult<DeceasedBurialCoordinationDto>> UpdateBurialCoordination(
         [FromBody] DeceasedBurialCoordinationDto deceasedBurialCoordinationDto)
@@ -99,6 +112,19 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
         return Ok(mapper.Map<DeceasedBurialCoordinationDto>(result));
     }
 
+    [HttpGet("burial-process/{id}")]
+    public async Task<ActionResult<DeceasedBurialCoordinationDto>> GetBurialProcess(string id)
+    {
+        if (!Guid.TryParse(id, out Guid deceasedId))
+        {
+            return BadRequest();
+        }
+        
+        var burialProcess = await deceasedService.GetBurialProcess(deceasedId);
+
+        return Ok(mapper.Map<DeceasedBurialProcessStatusDto>(burialProcess));
+    }
+    
     [HttpPut("burial-process")]
     public async Task<ActionResult<DeceasedBurialProcessStatusDto>> UpdateBurialProcessStatus(
         [FromBody] DeceasedBurialProcessStatusDto deceasedBurialProcessStatusDto)
@@ -113,5 +139,18 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
         var result = await deceasedService.UpdateBurialProcessStatus(burialProcessStatus);
 
         return Ok(mapper.Map<DeceasedBurialProcessStatusDto>(result));
+    }
+    
+    [HttpGet("burial-details/{id}")]
+    public async Task<ActionResult<DeceasedBurialDetailsDto>> GetBurialDetails(string id)
+    {
+        if (!Guid.TryParse(id, out Guid deceasedId))
+        {
+            return BadRequest();
+        }
+
+        var burialDetails = await deceasedService.GetBurialDetails(deceasedId);
+        
+        return Ok(mapper.Map<DeceasedBurialDetailsDto>(burialDetails));
     }
 }

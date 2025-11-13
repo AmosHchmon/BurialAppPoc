@@ -24,10 +24,6 @@ public class DeceasedService(EmergencyBurialContext ctx)
     {
         var deceased = await ctx.Deceaseds
             .Include(d => d.DeceasedBagDetails)
-            .Include(d => d.DeceasedBurialProcessStatus)
-            .Include(d => d.DeceasedBurialDetails)
-            .Include(d => d.DeceasedBurialCoordination)
-            .Include(d => d.Transports)
             .FirstOrDefaultAsync(d => d.Id == id);
 
         return deceased;
@@ -73,7 +69,8 @@ public class DeceasedService(EmergencyBurialContext ctx)
         return await ctx.Deceaseds.AnyAsync(d => d.Id == id);
     }
 
-    public async Task<DeceasedBurialCoordination> UpdateBurialCoordination(DeceasedBurialCoordination deceasedBurialCoordination)
+    public async Task<DeceasedBurialCoordination> UpdateBurialCoordination(
+        DeceasedBurialCoordination deceasedBurialCoordination)
     {
         try
         {
@@ -89,7 +86,33 @@ public class DeceasedService(EmergencyBurialContext ctx)
         }
     }
 
-    public async Task<DeceasedBurialProcessStatus> UpdateBurialProcessStatus(DeceasedBurialProcessStatus deceasedBurialProcessStatus)
+    public async Task<DeceasedBurialCoordination> GetBurialCoordination(Guid? deceasedId)
+    {
+        var burialCoordination = await ctx.DeceasedBurialCoordination
+            .FirstOrDefaultAsync(d => d.DeceasedId == deceasedId);
+
+        return burialCoordination;
+    }
+
+    public async Task<DeceasedBurialProcessStatus> GetBurialProcess(Guid? deceasedId)
+    {
+        var burialProcessStatus = await ctx.DeceasedBurialProcessStatus
+            .FirstOrDefaultAsync(d => d.DeceasedId == deceasedId);
+
+        return burialProcessStatus;
+    }
+
+    public async Task<DeceasedBurialDetails> GetBurialDetails(Guid? deceasedId)
+    {
+        var burialDetails = await ctx.DeceasedBurialDetails
+            .FirstOrDefaultAsync(d => d.DeceasedId == deceasedId);
+
+        return burialDetails;
+    }
+
+
+    public async Task<DeceasedBurialProcessStatus> UpdateBurialProcessStatus(
+        DeceasedBurialProcessStatus deceasedBurialProcessStatus)
     {
         try
         {
