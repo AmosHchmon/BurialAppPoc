@@ -39,6 +39,7 @@ public class DeceasedBagDetails
     [Description("המיקום ממנו הובא השק")]
     public string? BroughtFrom { get; set; }
     
+    [Description("חפצים שנמצאו על החלל")]
     public string? ObjectsOnDeceased { get; set; }
     
     [ForeignKey(nameof(DeceasedId))]
