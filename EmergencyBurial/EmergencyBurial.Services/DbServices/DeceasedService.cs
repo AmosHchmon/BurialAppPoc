@@ -31,8 +31,6 @@ public class DeceasedService(EmergencyBurialContext ctx)
 
     public async Task<Deceased> CreateDeceased(Deceased deceased)
     {
-        throw new Exception("Booo! Database exploded.");
-        
         await ctx.Deceaseds.AddAsync(deceased);
 
         await ctx.SaveChangesAsync();

@@ -22,7 +22,6 @@ public class TransportService(EmergencyBurialContext ctx)
 
     public async Task<Transport> CreateTransport(Transport transport)
     {
-        throw new Exception("Booo! Database exploded.");
         
         ctx.Transports.Add(transport);
 
