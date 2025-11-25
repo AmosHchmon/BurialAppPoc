@@ -96,18 +96,6 @@ export class DeceasedDetailComponent implements OnInit {
         }
         break;
 
-      case "2":
-
-        const coordination = await this.deceasedService.getDeceasedBurialCoordination(this.param);
-        this.coordinationData = {...coordination};
-        break;
-
-      case "3":
-
-        const burialProcess = await this.deceasedService.getDeceasedBurialProcessStatus(this.param);
-        this.burialProcess = {...burialProcess};
-        break;
-
       case "4":
 
         const transports = await this.transportService.getTransportsByDeceasedId(this.param);
@@ -139,32 +127,6 @@ export class DeceasedDetailComponent implements OnInit {
 
     this.deceasedAccordion.push(deceasedPanel, bagDetailsPanel);
 
-  }
-
-  async saveBurialCoordination(coordinationData: DeceasedBurialCoordination) {
-
-    const updatedCoordination = await this.deceasedService.updateBurialCoordination(coordinationData);
-
-    if (updatedCoordination) {
-      this.coordinationData = {...updatedCoordination};
-
-      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
-
-      this.isEdit = false;
-    }
-  }
-
-  async saveBurialProcess(burialProcess: DeceasedBurialProcessStatus) {
-
-    const updatedBurialProcess: DeceasedBurialProcessStatus = await this.deceasedService.updateBurialProcess(burialProcess);
-
-    if (updatedBurialProcess) {
-      this.burialProcess = {...updatedBurialProcess};
-
-      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
-
-      this.isEdit = false;
-    }
   }
 
   openTransportDialog(isOpen: boolean) {

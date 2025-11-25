@@ -7,6 +7,9 @@ import {DeceasedBurialProcessStatus} from "../../model/DeceasedBurialProcessStat
 import {IOptionItem} from "../../../../shared/model/list-item";
 import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
 import {DialogMessage} from "../../../../shared/static/messages";
+import {DeceasedService} from "../../services/deceased.service";
+import {AlertService} from "../../../../shared/services/alert.service";
+import {AlertType} from "../../../../core/enums/alert.enum";
 
 @Component({
   selector: 'app-burial-process-form',
@@ -16,32 +19,38 @@ import {DialogMessage} from "../../../../shared/static/messages";
 })
 export class BurialProcessFormComponent implements OnInit, OnChanges {
 
-  @Input('data') data: DeceasedBurialProcessStatus;
   @Input('isEdit') isEdit: boolean = false;
-  @Output() saveBurialProcess = new EventEmitter<DeceasedBurialProcessStatus>();
+  @Input('deceasedId') deceasedId: string = '';
   @Output() editModeChange = new EventEmitter<boolean>();
 
   private originalDataBackup: string;
+
+  burialProcessData: DeceasedBurialProcessStatus;
 
   identificationStatus: IOptionItem[];
   badMessageProcessStatus: IOptionItem[];
   collectionStatus: IOptionItem[];
   burialStatus: IOptionItem[];
 
-  constructor(private listService: ListService, private confirmService: ConfirmationService) {
+  constructor(private listService: ListService,
+              private deceasedService: DeceasedService,
+              private alertService: AlertService,
+              private confirmService: ConfirmationService) {
   }
 
   async ngOnInit() {
 
-    this.data.BadMessageStartDate = this.data.BadMessageStartDate ? new Date(this.data.BadMessageStartDate) : null;
+    this.burialProcessData = await this.deceasedService.getDeceasedBurialProcessStatus(this.deceasedId);
+
+    this.burialProcessData.BadMessageStartDate = this.burialProcessData.BadMessageStartDate ? new Date(this.burialProcessData.BadMessageStartDate) : null;
 
     await this.loadLists();
   }
 
   ngOnChanges() {
 
-    if (this.data) {
-      this.data.BadMessageStartDate = this.data.BadMessageStartDate ? new Date(this.data.BadMessageStartDate) : null;
+    if (this.burialProcessData) {
+      this.burialProcessData.BadMessageStartDate = this.burialProcessData.BadMessageStartDate ? new Date(this.burialProcessData.BadMessageStartDate) : null;
     }
   }
 
@@ -56,7 +65,7 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
   toggleEdit() {
 
     if (!this.isEdit) {
-      this.originalDataBackup = JSON.stringify(this.data);
+      this.originalDataBackup = JSON.stringify(this.burialProcessData);
     }
 
     this.editModeChange.emit(!this.isEdit);
@@ -64,7 +73,15 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
 
   async onSaveBurialProcess() {
 
-    this.saveBurialProcess.emit(this.data);
+    const updatedBurialProcess = await this.deceasedService.updateBurialProcess(this.burialProcessData);
+
+    if (updatedBurialProcess) {
+      this.burialProcessData = {...updatedBurialProcess};
+
+      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
+
+      this.editModeChange.emit(false);
+    }
 
   }
 
@@ -94,7 +111,7 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
 
     restoredData.BadMessageStartDate = restoredData.BadMessageStartDate ? new Date(restoredData.BadMessageStartDate) : null;
 
-    Object.assign(this.data, restoredData);
+    Object.assign(this.burialProcessData, restoredData);
 
   }
 }

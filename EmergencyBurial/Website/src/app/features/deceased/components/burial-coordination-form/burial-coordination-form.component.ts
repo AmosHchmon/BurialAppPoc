@@ -1,4 +1,15 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, afterNextRender, Injector} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild,
+  afterNextRender,
+  Injector
+} from '@angular/core';
 import {ConfirmationService} from "primeng/api";
 
 import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
@@ -7,6 +18,9 @@ import {ListService} from "../../../../shared/services/list.service";
 import {DeceasedBurialCoordination} from "../../model/DeceasedBurialCoordination";
 import {IOptionItem} from "../../../../shared/model/list-item";
 import {DialogMessage} from "../../../../shared/static/messages";
+import {DeceasedService} from "../../services/deceased.service";
+import {AlertType} from "../../../../core/enums/alert.enum";
+import {AlertService} from "../../../../shared/services/alert.service";
 
 @Component({
   selector: 'app-burial-coordination-form',
@@ -16,30 +30,36 @@ import {DialogMessage} from "../../../../shared/static/messages";
 })
 export class BurialCoordinationFormComponent implements OnInit, OnChanges {
 
-  @Input('data') data: DeceasedBurialCoordination;
   @Input('isEdit') isEdit: boolean = false;
-  @Output() saveCoordination = new EventEmitter<DeceasedBurialCoordination>();
+  @Input('deceasedId') deceasedId: string = '';
   @Output() editModeChange = new EventEmitter<boolean>();
   @ViewChild('burialCityInput') burialCityInputRef: ElementRef<HTMLInputElement>;
 
   private originalDataBackup: string;
+  coordinationData: DeceasedBurialCoordination;
 
   burialBody: IOptionItem[];
 
-  constructor(private listService: ListService, private confirmService: ConfirmationService, private injector: Injector) {
+  constructor(private listService: ListService,
+              private confirmService: ConfirmationService,
+              private deceasedService: DeceasedService,
+              private alertService: AlertService,
+              private injector: Injector) {
   }
 
   async ngOnInit() {
 
-    this.data = this.convertDates(this.data);
+    this.coordinationData = await this.deceasedService.getDeceasedBurialCoordination(this.deceasedId);
+
+    this.coordinationData = this.convertDates(this.coordinationData);
 
     this.burialBody = await this.listService.getBurialBodyList();
   }
 
   ngOnChanges() {
 
-    if (this.data) {
-      this.data = this.convertDates(this.data);
+    if (this.coordinationData) {
+      this.coordinationData = this.convertDates(this.coordinationData);
     }
   }
 
@@ -50,9 +70,9 @@ export class BurialCoordinationFormComponent implements OnInit, OnChanges {
       afterNextRender(() => {
 
         this.burialCityInputRef?.nativeElement.focus();
-      }, { injector: this.injector });
+      }, {injector: this.injector});
 
-      this.originalDataBackup = JSON.stringify(this.data);
+      this.originalDataBackup = JSON.stringify(this.coordinationData);
     }
 
     this.editModeChange.emit(!this.isEdit);
@@ -60,8 +80,15 @@ export class BurialCoordinationFormComponent implements OnInit, OnChanges {
 
   async onSaveCoordination() {
 
-    this.saveCoordination.emit(this.data);
+    const updatedCoordination = await this.deceasedService.updateBurialCoordination(this.coordinationData);
 
+    if (updatedCoordination) {
+      this.coordinationData = {...updatedCoordination};
+
+      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
+
+      this.editModeChange.emit(false);
+    }
   }
 
   cancelEdit() {
@@ -100,9 +127,9 @@ export class BurialCoordinationFormComponent implements OnInit, OnChanges {
 
     const restoredData = JSON.parse(this.originalDataBackup);
 
-    this.data = this.convertDates(this.data);
+    this.coordinationData = this.convertDates(this.coordinationData);
 
-    Object.assign(this.data, restoredData);
+    Object.assign(this.coordinationData, restoredData);
 
   }
 }

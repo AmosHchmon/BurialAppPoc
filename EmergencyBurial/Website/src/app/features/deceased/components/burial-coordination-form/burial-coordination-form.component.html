@@ -10,112 +10,117 @@
             class="mt-3"
             (click)="toggleEdit()"/>
 }
-<div class="d-flex gap-5">
-  <div class="d-flex flex-column w-50 gap-5">
-    <p-floatlabel class="mt-5" variant="on">
-      <input pInputText
-             class="w-100"
-             #burialCityInput
-             [(ngModel)]="data.BurialCity"
-             [disabled]="!isEdit"
-             autocomplete="off"/>
-      <label>עיר קבורה</label>
-    </p-floatlabel>
-    <div class="d-flex justify-content-center">
-      <p-floatlabel class="w-100 md:w-56" variant="on">
-        <p-select [options]="burialBody"
-                  [(ngModel)]="data.BurialBody"
-                  [disabled]="!isEdit"
-                  optionLabel="Text"
-                  optionValue="Value"
-                  [filter]="true"
-                  class="w-100"/>
-        <label>בית עלמין</label>
+@if(coordinationData){
+  <div class="d-flex gap-5">
+    <div class="d-flex flex-column w-50 gap-5">
+      <p-floatlabel class="mt-5" variant="on">
+        <input pInputText
+               class="w-100"
+               #burialCityInput
+               [(ngModel)]="coordinationData.BurialCity"
+               [disabled]="!isEdit"
+               autocomplete="off"/>
+        <label>עיר קבורה</label>
+      </p-floatlabel>
+      <div class="d-flex justify-content-center">
+        <p-floatlabel class="w-100 md:w-56" variant="on">
+          <p-select [options]="burialBody"
+                    [(ngModel)]="coordinationData.BurialBody"
+                    [disabled]="!isEdit"
+                    optionLabel="Text"
+                    optionValue="Value"
+                    [filter]="true"
+                    class="w-100"/>
+          <label>בית עלמין</label>
+        </p-floatlabel>
+      </div>
+      <p-floatlabel variant="on">
+        <input pInputText
+               class="w-100"
+               [(ngModel)]="coordinationData.FamilyContactName"
+               [disabled]="!isEdit"
+               autocomplete="off"/>
+        <label>איש קשר מטעם המשפחה</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input pInputText
+               class="w-100"
+               [(ngModel)]="coordinationData.FamilyContactPhone"
+               [disabled]="!isEdit"
+               autocomplete="off"/>
+        <label>טלפון איש קשר מטעם המשפחה</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input pInputText
+               class="w-100"
+               [(ngModel)]="coordinationData.SocialWorkerName"
+               [disabled]="!isEdit"
+               autocomplete="off"/>
+        <label>שם עובד סוציאלי</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input pInputText
+               class="w-100"
+               [(ngModel)]="coordinationData.SocialWorkerPhone"
+               [disabled]="!isEdit"
+               autocomplete="off"/>
+        <label>טלפון עובד סוציאלי</label>
       </p-floatlabel>
     </div>
-    <p-floatlabel variant="on">
-      <input pInputText
-             class="w-100"
-             [(ngModel)]="data.FamilyContactName"
-             [disabled]="!isEdit"
-             autocomplete="off"/>
-      <label>איש קשר מטעם המשפחה</label>
-    </p-floatlabel>
-    <p-floatlabel variant="on">
-      <input pInputText
-             class="w-100"
-             [(ngModel)]="data.FamilyContactPhone"
-             [disabled]="!isEdit"
-             autocomplete="off"/>
-      <label>טלפון איש קשר מטעם המשפחה</label>
-    </p-floatlabel>
-    <p-floatlabel variant="on">
-      <input pInputText
-             class="w-100"
-             [(ngModel)]="data.SocialWorkerName"
-             [disabled]="!isEdit"
-             autocomplete="off"/>
-      <label>שם עובד סוציאלי</label>
-    </p-floatlabel>
-    <p-floatlabel variant="on">
-      <input pInputText
-             class="w-100"
-             [(ngModel)]="data.SocialWorkerPhone"
-             [disabled]="!isEdit"
-             autocomplete="off"/>
-      <label>טלפון עובד סוציאלי</label>
-    </p-floatlabel>
-  </div>
-  <div class="d-flex flex-column w-50">
-    <div class="d-flex flex-column w-50 mt-4">
-      <label>שעת קבורה</label>
-      <p-datePicker
-        [(ngModel)]="data.BurialTime"
-        [showTime]="true"
-        [showIcon]="true"
-        dateFormat="dd/mm/yy"
-        [hourFormat]="'24'"
-        [disabled]="!isEdit"
-        class="w-75"
-        appConvertTimezone>
-      </p-datePicker>
-    </div>
-    <div class="d-flex flex-column w-50 mt-4">
-      <label>תאריך ושעת מסירת ההודעה המרה</label>
-      <p-datePicker
-        [(ngModel)]="data.BadMessageDeliveredDateTime"
-        [showTime]="true"
-        [showIcon]="true"
-        dateFormat="dd/mm/yy"
-        [hourFormat]="'24'"
-        [disabled]="!isEdit"
-        class="w-75"
-        appConvertTimezone>
-      </p-datePicker>
-    </div>
-    <p-floatlabel variant="on" class="mt-5">
+    <div class="d-flex flex-column w-50">
+      <div class="d-flex flex-column w-50 mt-4">
+        <label>שעת קבורה</label>
+        <p-datePicker
+          [(ngModel)]="coordinationData.BurialTime"
+          [showTime]="true"
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+          [hourFormat]="'24'"
+          [disabled]="!isEdit"
+          class="w-75"
+          appConvertTimezone>
+        </p-datePicker>
+      </div>
+      <div class="d-flex flex-column w-50 mt-4">
+        <label>תאריך ושעת מסירת ההודעה המרה</label>
+        <p-datePicker
+          [(ngModel)]="coordinationData.BadMessageDeliveredDateTime"
+          [showTime]="true"
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+          [hourFormat]="'24'"
+          [disabled]="!isEdit"
+          class="w-75"
+          appConvertTimezone>
+        </p-datePicker>
+      </div>
+      <p-floatlabel variant="on" class="mt-5">
       <textarea pTextarea
                 class="w-50"
-                [(ngModel)]="data.CoordinationNotes"
+                [(ngModel)]="coordinationData.CoordinationNotes"
                 [disabled]="!isEdit"
                 autocomplete="off"></textarea>
-      <label>הערות על תיאום קבורה</label>
-    </p-floatlabel>
-    <div class="d-flex align-items-center gap-2 mt-5">
-      <p-checkbox
-        inputId="FamilyForumCalled"
-        [(ngModel)]="data.IsFamilyForumCalled"
-        [disabled]="!isEdit"
-        [binary]="true"/>
-      <label for="FamilyForumCalled">האם מוקד פורום יצר קשר עם המשפחה</label>
-    </div>
-    <div class="d-flex align-items-center gap-2 mt-5">
-      <p-checkbox
-        inputId="HevratKadisha"
-        [(ngModel)]="data.IsCoordinatedWithHevratKadisha"
-        [disabled]="!isEdit"
-        [binary]="true"/>
-      <label for="HevratKadisha">האם בוצע תיאום מול חברה קדישא</label>
+        <label>הערות על תיאום קבורה</label>
+      </p-floatlabel>
+      <div class="d-flex align-items-center gap-2 mt-5">
+        <p-checkbox
+          inputId="FamilyForumCalled"
+          [(ngModel)]="coordinationData.IsFamilyForumCalled"
+          [disabled]="!isEdit"
+          [binary]="true"/>
+        <label for="FamilyForumCalled">האם מוקד פורום יצר קשר עם המשפחה</label>
+      </div>
+      <div class="d-flex align-items-center gap-2 mt-5">
+        <p-checkbox
+          inputId="HevratKadisha"
+          [(ngModel)]="coordinationData.IsCoordinatedWithHevratKadisha"
+          [disabled]="!isEdit"
+          [binary]="true"/>
+        <label for="HevratKadisha">האם בוצע תיאום מול חברה קדישא</label>
+      </div>
     </div>
   </div>
-</div>
+}@else{
+  <p>טוען נתונים...</p>
+}
+

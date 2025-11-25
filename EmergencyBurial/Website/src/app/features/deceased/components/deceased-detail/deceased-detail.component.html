@@ -25,22 +25,16 @@
       }
     </p-tabpanel>
     <p-tabpanel value="2">
-      @if (coordinationData) {
-        <app-burial-coordination-form [data]="coordinationData"
-                                      [isEdit]="isEdit"
-                                      (editModeChange)="setEdit($event)"
-                                      (saveCoordination)="saveBurialCoordination($event)">
-        </app-burial-coordination-form>
-      }
+      <app-burial-coordination-form [deceasedId]="this.param"
+                                    [isEdit]="isEdit"
+                                    (editModeChange)="setEdit($event)">
+      </app-burial-coordination-form>
     </p-tabpanel>
     <p-tabpanel value="3">
-      @if (burialProcess) {
-        <app-burial-process-form [data]="burialProcess"
-                                 [isEdit]="isEdit"
-                                 (editModeChange)="setEdit($event)"
-                                 (saveBurialProcess)="saveBurialProcess($event)">
-        </app-burial-process-form>
-      }
+      <app-burial-process-form [deceasedId]="this.param"
+                               [isEdit]="isEdit"
+                               (editModeChange)="setEdit($event)">
+      </app-burial-process-form>
     </p-tabpanel>
     <p-tabpanel value="4">
       <app-transports-table [transports]="transports"
