@@ -31,32 +31,20 @@ public class DeceasedService(EmergencyBurialContext ctx)
 
     public async Task<Deceased> CreateDeceased(Deceased deceased)
     {
-        try
-        {
-            await ctx.Deceaseds.AddAsync(deceased);
+        throw new Exception("Booo! Database exploded.");
+        
+        await ctx.Deceaseds.AddAsync(deceased);
 
-            await ctx.SaveChangesAsync();
+        await ctx.SaveChangesAsync();
 
-            return deceased;
-        }
-        catch (Exception ex)
-        {
-            throw new ApplicationException(UserMessage.ErrorSave, ex);
-        }
+        return deceased;
     }
 
     public async Task UpdateDeceased(Deceased deceased)
     {
-        try
-        {
-            ctx.Deceaseds.Update(deceased);
+        ctx.Deceaseds.Update(deceased);
 
-            await ctx.SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-            throw new ApplicationException(UserMessage.ErrorSave, ex);
-        }
+        await ctx.SaveChangesAsync();
     }
 
     public async Task DeleteDeceased(Guid id)
@@ -72,18 +60,11 @@ public class DeceasedService(EmergencyBurialContext ctx)
     public async Task<DeceasedBurialCoordination> UpdateBurialCoordination(
         DeceasedBurialCoordination deceasedBurialCoordination)
     {
-        try
-        {
-            ctx.DeceasedBurialCoordination.Update(deceasedBurialCoordination);
+        ctx.DeceasedBurialCoordination.Update(deceasedBurialCoordination);
 
-            await ctx.SaveChangesAsync();
+        await ctx.SaveChangesAsync();
 
-            return deceasedBurialCoordination;
-        }
-        catch (Exception ex)
-        {
-            throw new ApplicationException(UserMessage.ErrorSave, ex);
-        }
+        return deceasedBurialCoordination;
     }
 
     public async Task<DeceasedBurialCoordination> GetBurialCoordination(Guid? deceasedId)
@@ -114,17 +95,10 @@ public class DeceasedService(EmergencyBurialContext ctx)
     public async Task<DeceasedBurialProcessStatus> UpdateBurialProcessStatus(
         DeceasedBurialProcessStatus deceasedBurialProcessStatus)
     {
-        try
-        {
-            ctx.DeceasedBurialProcessStatus.Update(deceasedBurialProcessStatus);
+        ctx.DeceasedBurialProcessStatus.Update(deceasedBurialProcessStatus);
 
-            await ctx.SaveChangesAsync();
+        await ctx.SaveChangesAsync();
 
-            return deceasedBurialProcessStatus;
-        }
-        catch (Exception ex)
-        {
-            throw new ApplicationException(UserMessage.ErrorSave, ex);
-        }
+        return deceasedBurialProcessStatus;
     }
 }

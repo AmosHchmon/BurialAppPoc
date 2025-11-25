@@ -22,17 +22,12 @@ public class TransportService(EmergencyBurialContext ctx)
 
     public async Task<Transport> CreateTransport(Transport transport)
     {
-        try
-        {
-            ctx.Transports.Add(transport);
+        throw new Exception("Booo! Database exploded.");
+        
+        ctx.Transports.Add(transport);
 
-            await ctx.SaveChangesAsync();
+        await ctx.SaveChangesAsync();
 
-            return transport;
-        }
-        catch (Exception ex)
-        {
-            throw new ApplicationException(UserMessage.ErrorSave, ex);
-        }
+        return transport;
     }
 }
