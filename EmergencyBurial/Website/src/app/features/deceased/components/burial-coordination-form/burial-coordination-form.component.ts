@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, afterNextRender, Injector} from '@angular/core';
 import {ConfirmationService} from "primeng/api";
 
 import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
@@ -26,7 +26,7 @@ export class BurialCoordinationFormComponent implements OnInit, OnChanges {
 
   burialBody: IOptionItem[];
 
-  constructor(private listService: ListService, private confirmService: ConfirmationService) {
+  constructor(private listService: ListService, private confirmService: ConfirmationService, private injector: Injector) {
   }
 
   async ngOnInit() {
@@ -47,9 +47,10 @@ export class BurialCoordinationFormComponent implements OnInit, OnChanges {
 
     if (!this.isEdit) {
 
-      setTimeout(() => {
-        this.burialCityInputRef.nativeElement.focus();
-      }, 0);
+      afterNextRender(() => {
+
+        this.burialCityInputRef?.nativeElement.focus();
+      }, { injector: this.injector });
 
       this.originalDataBackup = JSON.stringify(this.data);
     }

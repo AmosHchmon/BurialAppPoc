@@ -56,7 +56,7 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
     }
 
     [HttpPut]
-    public async Task<ActionResult<DeceasedDto>> UpdateDeceased([FromBody] DeceasedDto deceasedDto)
+    public async Task<ActionResult<DeceasedDto>> UpdateDeceased(DeceasedDto deceasedDto)
     {
         if (deceasedDto == null)
         {

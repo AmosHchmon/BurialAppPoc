@@ -25,7 +25,7 @@ public class ListController(ListService listService, IMapper mapper) : Controlle
     }
 
     [HttpPost("list-type")]
-    public async Task<ActionResult<ListTypeDto>> CreateListType([FromBody] ListTypeDto listTypeDto)
+    public async Task<ActionResult<ListTypeDto>> CreateListType(ListTypeDto listTypeDto)
     {
         if (listTypeDto == null)
         {

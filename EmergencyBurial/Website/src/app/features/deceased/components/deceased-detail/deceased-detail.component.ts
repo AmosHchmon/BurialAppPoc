@@ -21,11 +21,8 @@ import {DialogMessage} from "../../../../shared/static/messages";
 import {DeceasedBurialProcessStatus} from "../../model/DeceasedBurialProcessStatus";
 import {BurialProcessFormComponent} from "../burial-process-form/burial-process-form.component";
 import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
-
-interface TabItem {
-  value: string;
-  header: string;
-}
+import {TabItem, tabItems} from "../../../../shared/static/tabs-items";
+import {bagDetailsFields, burialDetailsFields, deceasedFields} from "../../../../shared/static/deceased-forms-fields";
 
 @Component({
   selector: 'app-deceased-detail',
@@ -39,58 +36,14 @@ export class DeceasedDetailComponent implements OnInit {
   @ViewChild(BurialCoordinationFormComponent) burialCoordinationForm: BurialCoordinationFormComponent;
   @ViewChild(BurialProcessFormComponent) burialProcessForm: BurialProcessFormComponent;
 
+  tabItems: TabItem[] = tabItems;
+  deceasedFields: IColumn[] = deceasedFields;
+  bagDetailsFields: IColumn[] = bagDetailsFields;
+  burialDetailsFields: IColumn[] = burialDetailsFields;
+
   transports: Transport[] = [];
   deceasedAccordion: DeceasedStaticFields[] = [];
   burialTypes: IOptionItem[];
-  tabItems: TabItem[] = [
-    {value: "0", header: "פרטים"},
-    {value: "1", header: "פרטי קבורה"},
-    {value: "2", header: "תיאום קבורה"},
-    {value: "3", header: "סטטוס תהליך קבורה"},
-    {value: "4", header: "שינועים"},
-  ];
-  deceasedFields: IColumn[] = [
-    {field: 'HalalNumber', header: 'מספר חלל'},
-    {field: 'IdentityNumber', header: 'מספר זהות'},
-    {field: 'FirstName', header: 'שם פרטי'},
-    {field: 'LastName', header: 'שם משפחה'},
-    {field: 'FatherName', header: 'שם האב'},
-    {field: 'Gender', header: 'מין'},
-    {field: 'Nationality', header: 'לאום'},
-    {field: 'HomeCity', header: 'עיר מגורים'},
-    {field: 'PeleNumber', header: 'מספר פל"א'},
-    {field: 'HomeAddress', header: 'כתובת מגורים'},
-    {field: 'Notes', header: 'הערות כלליות'},
-    {field: 'CreatedOn', header: 'נוצר בתאריך'}
-  ]
-  bagDetailsFields: IColumn[] = [
-    {field: 'Affiliation', header: 'ארגון שיוך'},
-    {field: 'ReceivingStation', header: 'תחנת קליטה'},
-    {field: 'LastKnownLocation', header: 'מיקום אחרון'},
-    {field: 'PartDescription', header: 'תיאור חלק'},
-    {field: 'RelatedBagNumbers', header: 'מספר שקים מקושרים'},
-    {field: 'CanBeIdentifiedByAcquaintance', header: 'האם ניתן לזהות בהיכרות אישית'},
-    {field: 'ReceivingNotes', header: 'הערות שנרשמו בעת הקליטה בתר"ח'},
-    {field: 'FillerName', header: 'שם ממלא טופס הקליטה'},
-    {field: 'ArrivalDateTime', header: 'תאריך ושעת ההגעה'},
-    {field: 'BroughtBy', header: 'הגורם שהביא את השק'},
-    {field: 'BroughtFrom', header: 'המיקום ממנו הובא השק'},
-    {field: 'ObjectsOnDeceased', header: 'פרטים שנמצאו על החלל'}
-  ]
-  burialDetailsFields: IColumn[] = [
-    {field: 'BurialType', header: 'סוג קבורה'},
-    {field: 'IsCivilBurial', header: 'האם קבורה אזרחית'},
-    {field: 'BurialLicenseNumber', header: 'מספר רישיון קבורה'},
-    {field: 'BurialLicenseScanned', header: 'רישיון קבורה סרוק'},
-    {field: 'TaharahStatus', header: 'סטטוס טהרה'},
-    {field: 'TaharahLocation', header: 'מקום טהרה'},
-    {field: 'InCoffin', header: 'האם נקבר בארון'},
-    {field: 'BodyConditionNotes', header: 'הערות על מצב הגופה'},
-    {field: 'Block', header: 'גוש'},
-    {field: 'Plot', header: 'חלקה'},
-    {field: 'Row', header: 'שורה'},
-    {field: 'Grave', header: 'קבר'}
-  ]
 
   deceased: Deceased;
   burialDetailsData: DeceasedStaticFields;
