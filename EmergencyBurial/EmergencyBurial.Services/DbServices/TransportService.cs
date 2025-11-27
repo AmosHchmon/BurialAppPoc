@@ -22,7 +22,6 @@ public class TransportService(EmergencyBurialContext ctx)
 
     public async Task<Transport> CreateTransport(Transport transport)
     {
-        
         ctx.Transports.Add(transport);
 
         await ctx.SaveChangesAsync();

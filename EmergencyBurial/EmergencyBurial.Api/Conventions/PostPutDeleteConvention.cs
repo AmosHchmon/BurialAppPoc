@@ -17,9 +17,13 @@ public class PostPutDeleteConvention : IActionModelConvention
             .SelectMany(c => c.HttpMethods)
             .ToList();
         
-        if (httpMethods.Any(m => m == "POST" || m == "PUT" || m == "DELETE"))
+        if (httpMethods.Contains("DELETE"))
         {
-            action.Filters.Add(new ApiExceptionFilter(UserMessage.ErrorSave));
+            action.Filters.Add(new CrudExceptionFilter(UserMessage.ErrorDelete));
+        }
+        else if (httpMethods.Contains("POST") || httpMethods.Contains("PUT"))
+        {
+            action.Filters.Add(new CrudExceptionFilter(UserMessage.ErrorSave));
         }
     }
 }

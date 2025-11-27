@@ -10,6 +10,12 @@ import {DialogMessage} from "../../../../shared/static/messages";
 import {DeceasedService} from "../../services/deceased.service";
 import {AlertService} from "../../../../shared/services/alert.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
+import {
+  BadMessageProcessOptions,
+  BadMessageProcessStatus,
+  CollectionStatus, CollectionStatusOptions,
+  IdentificationStatus, IdentificationStatusOptions
+} from "../../../../shared/enum/status.enum";
 
 @Component({
   selector: 'app-burial-process-form',
@@ -27,9 +33,9 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
 
   burialProcessData: DeceasedBurialProcessStatus;
 
-  identificationStatus: IOptionItem[];
-  badMessageProcessStatus: IOptionItem[];
-  collectionStatus: IOptionItem[];
+  identificationStatus: IOptionItem[] = BadMessageProcessOptions;
+  badMessageProcessStatus: IOptionItem[] = CollectionStatusOptions;
+  collectionStatus: IOptionItem[] = IdentificationStatusOptions;
   burialStatus: IOptionItem[];
 
   constructor(private listService: ListService,
@@ -55,10 +61,6 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
   }
 
   private async loadLists() {
-
-    this.badMessageProcessStatus = await this.listService.getBadMessageProcessStatus();
-    this.identificationStatus = await this.listService.getIdentificationStatus();
-    this.collectionStatus = await this.listService.getCollectionStatus();
     this.burialStatus = await this.listService.getBurialStatus();
   }
 

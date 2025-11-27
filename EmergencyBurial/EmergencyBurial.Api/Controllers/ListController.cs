@@ -133,30 +133,6 @@ public class ListController(ListService listService, IMapper mapper) : Controlle
 
         return Ok(list);
     }
-
-    [HttpGet("identification-status")]
-    public ActionResult<List<OptionItem>> GetIdentificationStatus()
-    {
-        var list = EnumHelper.EnumNamedValues<IdentificationStatus>();
-
-        return Ok(list);
-    }
-    
-    [HttpGet("bad-message-status")]
-    public ActionResult<List<OptionItem>> GetBadMessageProcessStatus()
-    {
-        var list = EnumHelper.EnumNamedValues<BadMessageProcessStatus>();
-
-        return Ok(list);
-    }
-    
-    [HttpGet("collection-status")]
-    public ActionResult<List<OptionItem>> GetCollectionStatus()
-    {
-        var list = EnumHelper.EnumNamedValues<CollectionStatus>();
-
-        return Ok(list);
-    }
     
     [HttpGet("burial-status")]
     public ActionResult<List<OptionItem>> GetBurialStatus()
