@@ -20,18 +20,11 @@ public class MemberService(EmergencyBurialContext ctx)
 
     public async Task<Member> AddMember(Member member)
     {
-        try
-        {
-            await ctx.Members.AddAsync(member);
+        await ctx.Members.AddAsync(member);
 
-            await ctx.SaveChangesAsync();
+        await ctx.SaveChangesAsync();
 
-            return member;
-        }
-        catch (Exception ex)
-        {
-            throw new ApplicationException(UserMessage.ErrorSave, ex);
-        }
+        return member;
     }
 
     public async Task<Member> UpdateMember(Member member)

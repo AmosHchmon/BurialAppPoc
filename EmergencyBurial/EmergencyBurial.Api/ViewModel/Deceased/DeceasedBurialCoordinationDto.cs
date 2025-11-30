@@ -8,8 +8,6 @@ public class DeceasedBurialCoordinationDto
 
     public string? BurialCity { get; set; }
     
-    public DateTime? BurialTime { get; set; }
-    
     public bool? IsCoordinatedWithHevratKadisha { get; set; }
     
     public string? FamilyContactName { get; set; }
@@ -22,7 +20,11 @@ public class DeceasedBurialCoordinationDto
     
     public string? SocialWorkerPhone { get; set; }
     
-    public string? BurialBody { get; set; }
+    public string? CoordinationNotes { get; set; }
+    
+    public int? BurialBody { get; set; }
+    
+    public DateTime? BurialTime { get; set; }
     
     public DateTime? BadMessageDeliveredDateTime { get; set; }
 }

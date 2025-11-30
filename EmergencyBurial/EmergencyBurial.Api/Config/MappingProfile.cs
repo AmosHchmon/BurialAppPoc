@@ -27,16 +27,14 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.CanBeIdentifiedByAcquaintance, opt => opt.MapFrom(src => src.CanBeIdentifiedByAcquaintance ? "כן" : "לא"))
             .ReverseMap();
 
-        CreateMap<DeceasedOperational, DeceasedOperationalDto>()
-            .ForMember(dest => dest.IdentificationStatus, opt => opt.MapFrom(src => src.IdentificationStatus.GetEnumDescription()))
-            .ForMember(dest => dest.BurialProcessStatus, opt => opt.MapFrom(src => src.BurialProcessStatus.GetEnumDescription()))
-            .ForMember(dest => dest.BadMessageStartDate, opt => opt.MapFrom(src => src.BadMessageStartDate.ToString("dd/MM/yyyy")))
+        CreateMap<DeceasedBurialProcessStatus, DeceasedBurialProcessStatusDto>()
             .ReverseMap();
 
-        CreateMap<DeceasedBurial, DeceasedBurialDto>()
+        CreateMap<DeceasedBurialDetails, DeceasedBurialDetailsDto>()
             .ForMember(dest => dest.BurialType, opt => opt.MapFrom(src => src.BurialType.GetEnumDescription()))
             .ForMember(dest => dest.IsCivilBurial, opt => opt.MapFrom(src => src.IsCivilBurial ? "כן" : "לא"))
             .ForMember(dest => dest.BurialLicenseScanned, opt => opt.MapFrom(src => src.BurialLicenseScanned ? "כן" : "לא"))
+            .ForMember(dest => dest.InCoffin, opt => opt.MapFrom(src => src.InCoffin ? "כן" : "לא"))
             .ForMember(dest => dest.TaharahStatus, opt => opt.MapFrom(src => src.TaharahStatus.GetEnumDescription()))
             .ReverseMap();
 

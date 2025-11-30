@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {ConfirmationService} from "primeng/api";
 
 import {DeceasedService} from '../../services/deceased.service';
 import {IColumn} from "../../../../shared/ui-components/model/column";
@@ -7,164 +8,198 @@ import {UiComponentsModule} from "../../../../shared/ui-components/ui-components
 import {Transport} from "../../../transport/model/transport";
 import {TransportService} from "../../../transport/services/transport.service";
 import {Deceased} from "../../model/Deceased";
-import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
-import {DeceasedAccordion} from "../../model/DeceasedAccordion";
-import {DeceasedAccordionContentComponent} from "../deceased-accordion-content/deceased-accordion-content.component";
-import {TransportsTableComponent} from "../../../transport/components/transports-table/transports-table.component";
-import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
+import {DeceasedStaticFields} from "../../model/DeceasedStaticFields";
 import {ListService} from "../../../../shared/services/list.service";
 import {IOptionItem} from "../../../../shared/model/list-item";
+import {DeceasedStaticFieldsComponent} from "../deceased-static-fields/deceased-static-fields.component";
+import {TransportsTableComponent} from "../../../transport/components/transports-table/transports-table.component";
+import {DeceasedBurialCoordination} from "../../model/DeceasedBurialCoordination";
+import {BurialCoordinationFormComponent} from "../burial-coordination-form/burial-coordination-form.component";
+import {AlertService} from "../../../../shared/services/alert.service";
+import {AlertType} from "../../../../core/enums/alert.enum";
+import {DialogMessage} from "../../../../shared/static/messages";
+import {DeceasedBurialProcessStatus} from "../../model/DeceasedBurialProcessStatus";
+import {BurialProcessFormComponent} from "../burial-process-form/burial-process-form.component";
+import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
+import {TabItem, tabItems} from "../../../../shared/static/tabs-items";
+import {bagDetailsFields, burialDetailsFields, deceasedFields} from "../../../../shared/static/deceased-forms-fields";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [UiComponentsModule, TransportFormComponent, DeceasedAccordionContentComponent, TransportsTableComponent, ConvertTimezoneDirective],
+  imports: [UiComponentsModule, DeceasedStaticFieldsComponent, TransportsTableComponent, BurialCoordinationFormComponent, BurialProcessFormComponent, TransportFormComponent],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
 export class DeceasedDetailComponent implements OnInit {
 
-  deceased: Deceased;
+  @ViewChild(BurialCoordinationFormComponent) burialCoordinationForm: BurialCoordinationFormComponent;
+  @ViewChild(BurialProcessFormComponent) burialProcessForm: BurialProcessFormComponent;
+
+  tabItems: TabItem[] = tabItems;
+  deceasedFields: IColumn[] = deceasedFields;
+  bagDetailsFields: IColumn[] = bagDetailsFields;
+  burialDetailsFields: IColumn[] = burialDetailsFields;
+
   transports: Transport[] = [];
-  deceasedAccordion: DeceasedAccordion[] = [];
+  deceasedAccordion: DeceasedStaticFields[] = [];
   burialTypes: IOptionItem[];
-  burialBody: IOptionItem[];
+
+  deceased: Deceased;
+  burialDetailsData: DeceasedStaticFields;
+  coordinationData: DeceasedBurialCoordination;
+  burialProcess: DeceasedBurialProcessStatus;
 
   activeTab: string = "0";
-  activeAccordionIndex: number[];
+  isTransportDialogOpen: boolean = false;
+  isEdit: boolean = false;
+  param: string = "";
 
   constructor(
     private route: ActivatedRoute,
     private deceasedService: DeceasedService,
     private transportService: TransportService,
-    private listService: ListService
+    private listService: ListService,
+    private alertService: AlertService,
+    private confirmService: ConfirmationService
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
-    this.loadDeceasedData();
+    this.param = this.route.snapshot.paramMap.get('id');
 
-  }
+    await this.loadDataForTab("0");
 
-  private async loadDeceasedData(): Promise<void> {
-
-    const param = this.route.snapshot.paramMap.get('id');
-
-    this.deceased = await this.deceasedService.getDeceasedById(param);
-    this.burialBody = await this.listService.getBurialBodyList();
     this.burialTypes = await this.listService.getBurialTypeList();
 
-    this.deceased.BagDetails.FullName = this.deceased?.FirstName + ' ' + this.deceased?.LastName;
-    this.deceased.BagDetails.IdentityNumber = this.deceased?.IdentityNumber;
+  }
 
-    this.transports = this.deceased.Transports;
+  private async loadDataForTab(tabValue: string) {
 
-    this.initializeFields();
+    switch (tabValue) {
+      case "0":
+
+        this.deceased = await this.deceasedService.getDeceasedById(this.param);
+        this.initializePanels();
+        break;
+
+      case "1":
+
+        const burialDetails = await this.deceasedService.getBurialDetails(this.param);
+        this.burialDetailsData = {
+          object: burialDetails,
+          title: 'פרטי קבורה',
+          fields: this.burialDetailsFields,
+          splitIndex: 6,
+          trackNumber: 3
+        }
+        break;
+
+      case "4":
+
+        const transports = await this.transportService.getTransportsByDeceasedId(this.param);
+        this.transports = transports ? [...transports] : [];
+        break;
+    }
 
   }
 
-  private initializeFields(): void {
+  private initializePanels() {
 
-    const bagDetailsFields: IColumn[] = [
-      {field: 'FullName', header: 'חלל'},
-      {field: 'IdentityNumber', header: 'מספר תעודת זהות'},
-      {field: 'Affiliation', header: 'ארגון שיוך'},
-      {field: 'ReceivingStation', header: 'תחנת קליטה'},
-      {field: 'LastKnownLocation', header: 'מיקום אחרון'},
-      {field: 'PartDescription', header: 'תיאור חלק'},
-      {field: 'RelatedBagNumbers', header: 'מספר שקים מקושרים'},
-      {field: 'CanBeIdentifiedByAcquaintance', header: 'האם ניתן לזהות בהיכרות אישית'},
-      {field: 'ReceivingNotes', header: 'הערות שנרשמו בעת הקליטה בתר"ח'},
-      {field: 'FillerName', header: 'שם ממלא טופס הקליטה'},
-      {field: 'ArrivalDateTime', header: 'תאריך ושעת ההגעה'},
-      {field: 'BroughtBy', header: 'הגורם שהביא את השק'},
-      {field: 'BroughtFrom', header: 'המיקום ממנו הובא השק'}
-    ]
-    const bagDetailsPanel: DeceasedAccordion = {
-      object: this.deceased?.BagDetails,
-      title: 'פרטי שק חלל',
-      fields: bagDetailsFields,
-      splitIndex: 7,
+    this.deceasedAccordion = [];
+
+    const deceasedPanel: DeceasedStaticFields = {
+      object: this.deceased,
+      title: 'חלל',
+      fields: this.deceasedFields,
+      splitIndex: 6,
       trackNumber: 1
     }
 
-    const operationalDetailsFields: IColumn[] = [
-      {field: 'IdentificationStatus', header: 'סטטוס זיהוי'},
-      {field: 'BadMessageProcessStatus', header: 'סטטוס תהליך הודעה מרה'},
-      {field: 'CollectionStatus', header: 'סטטוס איסוף'},
-      {field: 'BadMessageStartDate', header: 'תאריך אישור תחילת הודעה מרה'},
-      {field: 'BurialProcessStatus', header: 'סטטוס תהליך קבורה'}
-    ];
-    const operationalDetailsPanel: DeceasedAccordion = {
-      object: this.deceased?.OperationalDetails,
-      title: 'פרטים תפעוליים',
-      fields: operationalDetailsFields,
-      splitIndex: 3,
-      trackNumber: 2
+    const bagDetailsPanel: DeceasedStaticFields = {
+      object: this.deceased?.DeceasedBagDetails,
+      title: 'פרטי שק החלל',
+      fields: this.bagDetailsFields,
+      splitIndex: 6,
+      trackNumber: 1
     }
 
-    const burialDetailsFields: IColumn[] = [
-      {field: 'BurialType', header: 'סוג קבורה'},
-      {field: 'IsCivilBurial', header: 'האם קבורה אזרחית'},
-      {field: 'BurialLicenseScanned', header: 'רישיון קבורה סרוק'},
-      {field: 'TaharahStatus', header: 'סטטוס טהרה'},
-      {field: 'TaharahLocation', header: 'מקום טהרה'},
-      {field: 'CoffinType', header: 'סוג ארון'},
-      {field: 'TaharahReceptionDate', header: 'תאריך קליטה לטהרה'}
-    ];
-    const burialDetailsPanel: DeceasedAccordion = {
-      object: this.deceased?.BurialDetails,
-      title: 'פרטי קבורה',
-      fields: burialDetailsFields,
-      splitIndex: 4,
-      trackNumber: 3
+    this.deceasedAccordion.push(deceasedPanel, bagDetailsPanel);
+
+  }
+
+  openTransportDialog(isOpen: boolean) {
+    this.isTransportDialogOpen = isOpen;
+  }
+
+  async saveTransport(newTransport: Transport) {
+
+    newTransport.DeceasedId = this.deceased.Id;
+
+    const transport = await this.transportService.createTransport(newTransport);
+
+    this.transports.push(transport);
+
+    this.isTransportDialogOpen = false;
+
+    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
+
+  }
+
+  async onTabChange(newTabValue: any) {
+
+    const currentTab = this.tabItems.find(item => item.value === this.activeTab);
+    const currentTabHeader = currentTab?.header ?? "";
+
+    if (this.isEdit) {
+
+      this.confirmService.confirm({
+        icon: 'pi pi-exclamation-triangle',
+        message: DialogMessage.EditModeInTab + currentTabHeader,
+        closable: false,
+        acceptLabel: 'הבנתי',
+        rejectVisible: false,
+        accept: async () => await this.handleTabAccept(newTabValue)
+      });
+
+      return;
     }
 
-    const burialCoordinationFields: IColumn[] = [
-      {field: 'SocialWorkerName', header: 'שם עובד סוציאלי/ת'},
-      {field: 'SocialWorkerPhone', header: 'טלפון עובד סוציאלי/ת'},
-      {field: 'BadMessageDeliveredDateTime', header: 'תאריך מסירת הודעה מרה'},
-      {field: 'FamilyContactName', header: 'בן משפחה'},
-      {field: 'FamilyContactPhone', header: 'טלפון בן משפחה'},
-    ]
-    const burialCoordinationPanel: DeceasedAccordion = {
-      object: this.deceased?.BurialCoordination,
-      title: 'פרטי הודעה מרה',
-      fields: burialCoordinationFields,
-      splitIndex: 3,
-      trackNumber: 4
+    await this.switchTab(newTabValue);
+  }
+
+  private async handleTabAccept(newTabValue: any) {
+
+    this.restoreCurrentForm();
+
+    this.isEdit = false;
+
+    await this.switchTab(newTabValue);
+  }
+
+  private restoreCurrentForm() {
+
+    switch (this.activeTab) {
+      case "2":
+        this.burialCoordinationForm?.restoreOriginalData();
+        break;
+      case "3":
+        this.burialProcessForm?.restoreOriginalData();
+        break;
     }
 
-    this.deceasedAccordion.push(bagDetailsPanel, operationalDetailsPanel, burialDetailsPanel, burialCoordinationPanel);
   }
 
-  switchToTransportTab() {
-    this.activeTab = "1";
+  private async switchTab(newTabValue: any) {
+
+    await this.loadDataForTab(newTabValue);
+
+    this.activeTab = newTabValue;
+    this.isEdit = false;
   }
 
-  async loadTransports(deceasedId: string) {
-
-    this.transports = await this.transportService.getTransportsByDeceasedId(deceasedId?.toLocaleString());
-  }
-
-  async handleTransportCreated() {
-
-    if (this.deceased) {
-      await this.loadTransports(this.deceased.Id);
-    }
-
-    this.activeAccordionIndex = [2];
-
-    this.activeTab = "0";
-
-  }
-
-  saveBurialDetails() {
-
-  }
-
-  saveBurialCoordination() {
-
+  setEdit(isEdit: boolean) {
+    this.isEdit = isEdit
   }
 }

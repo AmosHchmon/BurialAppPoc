@@ -17,7 +17,7 @@ export class TransportService extends BaseService {
     return super.get({path: `/deceased/${id}`});
   }
 
-  async createTransport(transport: Transport): Promise<void> {
+  async createTransport(transport: Transport): Promise<Transport> {
 
     return super.post({body: transport});
   }

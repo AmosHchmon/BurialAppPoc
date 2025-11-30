@@ -108,22 +108,20 @@ namespace Core.Helpers
 
     public enum BurialBody
     {
-        [Description("לטרון")]
+        [Description("ראשון לציון")]
         RishonLezion = 5001,
         [Description("עמק חפר")]
         EmekHefer = 5002,
-        [Description("לטרון")]
+        [Description("אילת")]
         Eilat = 5003,
         [Description("אבו כביר")]
         AbuKabir = 5004,
-        [Description("א.חולון")]
+        [Description("חולון")]
         Holon = 5005,
-        [Description("ח'ק ראשל'צ")]
-        Rishon = 5006,
-        [Description("ח'ק ת'א")]
-        TelAviv = 5007,
-        [Description("ח'ק פ'ת")]
-        PetahTikva = 5008,
+        [Description("תל אביב")]
+        TelAviv = 5006,
+        [Description("פתח תקווה")]
+        PetahTikva = 5007,
     }
 
     #endregion
@@ -140,7 +138,7 @@ namespace Core.Helpers
         Deleted,
     }
     
-    public enum BurialProcessStatus
+    public enum BurialStatus
     {
         [Description("נקבר")]
         Buried = 0,
@@ -164,6 +162,22 @@ namespace Core.Helpers
         InProgress = 1,
         [Description("הושלם")]
         Completed = 2
+    }
+
+    public enum BadMessageProcessStatus
+    {
+        [Description("הודעה לא נמסרה")]
+        NotDelivered = 0,
+        [Description("הודעה נמסרה")]
+        Delivered = 1
+    }
+    
+    public enum CollectionStatus
+    {
+        [Description("לא נאסף")]
+        NotCollected = 0,
+        [Description("נאסף")]
+        Collected = 1
     }
     
     public enum BurialType

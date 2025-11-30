@@ -1,5 +1,4 @@
 ﻿using System;
-using Core.Helpers;
 
 namespace EmergencyBurial.Api.ViewModel;
 
@@ -29,7 +28,5 @@ public class DeceasedBagDetailsDto
     
     public string? BroughtFrom { get; set; }
     
-    public string? FullName { get; set; }
-    
-    public string? IdentityNumber { get; set; }
+    public string? ObjectsOnDeceased { get; set; }
 }

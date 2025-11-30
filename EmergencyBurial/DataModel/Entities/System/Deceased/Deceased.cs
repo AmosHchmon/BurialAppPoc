@@ -26,7 +26,7 @@ public class Deceased
     
     public string? HomeCity { get; set; }
     
-    public string? PoliceCaseNumber { get; set; }
+    public string? PeleNumber { get; set; }
     
     public string? HomeAddress { get; set; }
     
@@ -34,13 +34,13 @@ public class Deceased
     
     public DateTime? CreatedOn { get; set; }
 
-    public virtual DeceasedBagDetails BagDetails { get; set; }
+    public virtual DeceasedBagDetails DeceasedBagDetails { get; set; }
     
-    public virtual DeceasedOperational OperationalDetails { get; set; }
+    public virtual DeceasedBurialProcessStatus DeceasedBurialProcessStatus { get; set; }
     
-    public virtual DeceasedBurial BurialDetails { get; set; }
+    public virtual DeceasedBurialDetails DeceasedBurialDetails { get; set; }
     
-    public virtual DeceasedBurialCoordination BurialCoordination { get; set; }
+    public virtual DeceasedBurialCoordination DeceasedBurialCoordination { get; set; }
     
     public virtual IEnumerable<Transport> Transports { get; set; }
 }

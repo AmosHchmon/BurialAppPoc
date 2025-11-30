@@ -1,15 +1,16 @@
 ﻿using System;
-using Core.Helpers;
 
 namespace EmergencyBurial.Api.ViewModel;
 
-public class DeceasedBurialDto
+public class DeceasedBurialDetailsDto
 {
     public Guid? DeceasedId { get; set; }
 
     public string? BurialType { get; set; }
     
     public string? IsCivilBurial { get; set; }
+    
+    public string? BurialLicenseNumber { get; set; }
     
     public string? BurialLicenseScanned { get; set; }
     
@@ -19,7 +20,9 @@ public class DeceasedBurialDto
     
     public DateTime? TaharahReceptionDate { get; set; }
     
-    public bool? InCoffin { get; set; }
+    public string? InCoffin { get; set; }
+    
+    public string? BodyConditionNotes { get; set; }
     
     public string? Block { get; set; }
     

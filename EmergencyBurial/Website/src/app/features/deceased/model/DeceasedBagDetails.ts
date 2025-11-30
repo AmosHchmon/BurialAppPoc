@@ -24,7 +24,6 @@
 
   BroughtFrom?: string;
 
-  FullName?: string;
+  ObjectsOnDeceased?: string;
 
-  IdentityNumber?: string;
 }

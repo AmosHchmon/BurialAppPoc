@@ -45,18 +45,18 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
         {
             return BadRequest();
         }
-        
+
         deceasedDto.HalalNumber = $"C-{DateTime.Now.Ticks}";
-        
+
         var deceased = mapper.Map<Deceased>(deceasedDto);
 
         await deceasedService.CreateDeceased(deceased);
 
         return Ok();
     }
-    
+
     [HttpPut]
-    public async Task<ActionResult<DeceasedDto>> UpdateDeceased([FromBody] DeceasedDto deceasedDto)
+    public async Task<ActionResult<DeceasedDto>> UpdateDeceased(DeceasedDto deceasedDto)
     {
         if (deceasedDto == null)
         {
@@ -69,7 +69,7 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
 
         return Ok();
     }
-    
+
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteDeceased(string id)
     {
@@ -81,5 +81,76 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
         await deceasedService.DeleteDeceased(idValue);
 
         return Ok();
+    }
+
+    [HttpGet("burial-coordination/{id}")]
+    public async Task<ActionResult<DeceasedBurialCoordinationDto>> GetBurialCoordination(string id)
+    {
+        if (!Guid.TryParse(id, out Guid deceasedId))
+        {
+            return BadRequest();
+        }
+
+        var burialCoordination = await deceasedService.GetBurialCoordination(deceasedId);
+
+        return Ok(mapper.Map<DeceasedBurialCoordinationDto>(burialCoordination));
+    }
+
+    [HttpPut("burial-coordination")]
+    public async Task<ActionResult<DeceasedBurialCoordinationDto>> UpdateBurialCoordination(
+        [FromBody] DeceasedBurialCoordinationDto deceasedBurialCoordinationDto)
+    {
+        if (deceasedBurialCoordinationDto == null)
+        {
+            return BadRequest();
+        }
+
+        var burialCoordination = mapper.Map<DeceasedBurialCoordination>(deceasedBurialCoordinationDto);
+
+        var result = await deceasedService.UpdateBurialCoordination(burialCoordination);
+
+        return Ok(mapper.Map<DeceasedBurialCoordinationDto>(result));
+    }
+
+    [HttpGet("burial-process/{id}")]
+    public async Task<ActionResult<DeceasedBurialCoordinationDto>> GetBurialProcess(string id)
+    {
+        if (!Guid.TryParse(id, out Guid deceasedId))
+        {
+            return BadRequest();
+        }
+        
+        var burialProcess = await deceasedService.GetBurialProcess(deceasedId);
+
+        return Ok(mapper.Map<DeceasedBurialProcessStatusDto>(burialProcess));
+    }
+    
+    [HttpPut("burial-process")]
+    public async Task<ActionResult<DeceasedBurialProcessStatusDto>> UpdateBurialProcessStatus(
+        [FromBody] DeceasedBurialProcessStatusDto deceasedBurialProcessStatusDto)
+    {
+        if (deceasedBurialProcessStatusDto == null)
+        {
+            return BadRequest();
+        }
+
+        var burialProcessStatus = mapper.Map<DeceasedBurialProcessStatus>(deceasedBurialProcessStatusDto);
+
+        var result = await deceasedService.UpdateBurialProcessStatus(burialProcessStatus);
+
+        return Ok(mapper.Map<DeceasedBurialProcessStatusDto>(result));
+    }
+    
+    [HttpGet("burial-details/{id}")]
+    public async Task<ActionResult<DeceasedBurialDetailsDto>> GetBurialDetails(string id)
+    {
+        if (!Guid.TryParse(id, out Guid deceasedId))
+        {
+            return BadRequest();
+        }
+
+        var burialDetails = await deceasedService.GetBurialDetails(deceasedId);
+        
+        return Ok(mapper.Map<DeceasedBurialDetailsDto>(burialDetails));
     }
 }

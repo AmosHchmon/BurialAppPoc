@@ -25,7 +25,7 @@ public class ListController(ListService listService, IMapper mapper) : Controlle
     }
 
     [HttpPost("list-type")]
-    public async Task<ActionResult<ListTypeDto>> CreateListType([FromBody] ListTypeDto listTypeDto)
+    public async Task<ActionResult<ListTypeDto>> CreateListType(ListTypeDto listTypeDto)
     {
         if (listTypeDto == null)
         {
@@ -61,7 +61,7 @@ public class ListController(ListService listService, IMapper mapper) : Controlle
         {
             return BadRequest();
         }
-        
+
         await listService.DeleteListType(idValue);
 
         return Ok();
@@ -134,13 +134,19 @@ public class ListController(ListService listService, IMapper mapper) : Controlle
         return Ok(list);
     }
     
+    [HttpGet("burial-status")]
+    public ActionResult<List<OptionItem>> GetBurialStatus()
+    {
+        var list = EnumHelper.EnumNamedValues<BurialStatus>();
+
+        return Ok(list);
+    }
+
     [HttpGet("role-access-type")]
     public ActionResult<List<OptionItem>> GetRoleAccessTypeEnumsValues()
     {
         var list = EnumHelper.EnumNamedValues<RoleAccessType>();
-        
+
         return Ok(list);
     }
-    
-    
 }

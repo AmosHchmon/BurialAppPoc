@@ -1,160 +1,55 @@
-<p-tabs [(value)]="activeTab">
+<p-tabs [value]="activeTab" (valueChange)="onTabChange($event)">
   <p-tablist class="p-4">
-    <p-tab value="0">פרטים</p-tab>
-    <p-tab value="1">שינוע להכנה לקבורה</p-tab>
-    <p-tab value="2">תיאום קבורה</p-tab>
-    <p-tab value="3">עדכון קבורה</p-tab>
+    @for (tab of tabItems; track tab.value) {
+      <p-tab [value]="tab.value">{{ tab.header }}</p-tab>
+    }
   </p-tablist>
   <p-tabpanels>
     <p-tabpanel value="0">
       <div class="p-3">
-        <p-accordion [multiple]="true">
-
+        <p-accordion [value]="[0]" [multiple]="true">
           @for (panel of deceasedAccordion; track panel.title; let i = $index) {
             <p-accordion-panel [value]="i" pRipple>
               <p-accordion-header class="fw-bold">{{ panel.title }}</p-accordion-header>
               <p-accordion-content>
-                <app-deceased-accordion-content [data]="panel"></app-deceased-accordion-content>
+                <app-deceased-static-fields [data]="panel"></app-deceased-static-fields>
               </p-accordion-content>
             </p-accordion-panel>
           }
-
-          <p-accordion-panel [value]="4" pRipple>
-            <p-accordion-header class="fw-bold">טבלת שינועים</p-accordion-header>
-            <p-accordion-content>
-              <app-transports-table [transports]="transports"
-                                    (switchTab)="switchToTransportTab()">
-              </app-transports-table>
-            </p-accordion-content>
-          </p-accordion-panel>
-
         </p-accordion>
       </div>
     </p-tabpanel>
     <p-tabpanel value="1">
-      <app-transport-form [deceasedId]="deceased?.Id"
-                          (transportCreated)="handleTransportCreated()">
-      </app-transport-form>
+      @if (burialDetailsData) {
+        <app-deceased-static-fields [data]="burialDetailsData"></app-deceased-static-fields>
+      }
     </p-tabpanel>
     <p-tabpanel value="2">
-      <div class="d-flex flex-column">
-        <div class="d-flex align-items-center p-3 gap-2">
-          <p-checkbox
-            inputId="badMessage"
-            [(ngModel)]="deceased?.BurialDetails.InCoffin"
-            [binary]="true"/>
-          <label for="badMessage">אושר מתן הודעה מרה ממוקד משפחות</label>
-        </div>
-        <div class="d-flex align-items-center p-3 gap-2">
-          <p-checkbox inputId="isCoffin"
-                      [(ngModel)]="deceased?.BurialDetails.InCoffin"
-                      [binary]="true"/>
-          <label for="isCoffin">האם נקבר בארון</label>
-        </div>
-        <div class="mt-3">
-          <p-floatlabel variant="on">
-        <textarea pTextarea
-                  id="objectsOnDeceased"
-                  rows="3"
-                  cols="30"
-                  style="resize: none"
-                  class="h-full w-50"></textarea>
-            <label class="text" for="objectsOnDeceased">פרטים שנמצאו על החלל</label>
-          </p-floatlabel>
-
-        </div>
-        <div class="mt-4">
-          <p-floatlabel variant="on">
-        <textarea pTextarea
-                  id="bodyNotes"
-                  rows="3"
-                  cols="30"
-                  style="resize: none"
-                  class="h-full w-50"></textarea>
-            <label class="text" for="bodyNotes">הערות על מצב הגופה</label>
-          </p-floatlabel>
-        </div>
-        <div class="mt-4">
-          <p-floatlabel variant="on">
-        <textarea pTextarea
-                  id="burialDetails"
-                  rows="3"
-                  cols="30"
-                  style="resize: none"
-                  class="h-full w-50"></textarea>
-            <label class="text" for="burialDetails">פרטים על תיאום הלוויה</label>
-          </p-floatlabel>
-        </div>
-        <p-button (click)="saveBurialCoordination()" class="mt-4">עדכן</p-button>
-      </div>
-
+      <app-burial-coordination-form [deceasedId]="this.param"
+                                    [isEdit]="isEdit"
+                                    (editModeChange)="setEdit($event)">
+      </app-burial-coordination-form>
     </p-tabpanel>
     <p-tabpanel value="3">
-      <div class="d-flex gap-5">
-        <div class="d-flex flex-column mt-4 w-50 gap-5">
-          <div class="d-flex justify-content-center">
-            <p-select [options]="burialTypes"
-                      [(ngModel)]="deceased?.BurialDetails.BurialType"
-                      optionLabel="Text"
-                      optionValue="Value"
-                      placeholder="סוג קבורה"
-                      class="w-100 md:w-56"/>
-          </div>
-          <div class="d-flex justify-content-center">
-            <p-select [options]="burialBody"
-                      [(ngModel)]="deceased?.BurialCoordination.BurialBody"
-                      optionLabel="Text"
-                      optionValue="Value"
-                      placeholder="בית עלמין"
-                      class="w-100 md:w-56"/>
-          </div>
-        </div>
-        <div class="d-flex flex-column w-50">
-          <div class="d-flex flex-column w-50">
-            <label>שעת קבורה</label>
-            <p-datePicker
-              [(ngModel)]="deceased?.BurialCoordination.BurialTime"
-              [showTime]="true"
-              [showIcon]="true"
-              dateFormat="dd/mm/yy"
-              [hourFormat]="'24'"
-              [pAutoFocus]="false"
-              appConvertTimezone>
-            </p-datePicker>
-          </div>
-          <div class="d-flex flex-column w-100">
-            <p-floatlabel class="mt-5">
-              <input pInputText
-                     class="w-100"
-                     [pAutoFocus]="true"
-                     autocomplete="off"/>
-              <label>גוש</label>
-            </p-floatlabel>
-            <p-floatlabel class="mt-5">
-              <input pInputText
-                     class="w-100"
-                     [pAutoFocus]="true"
-                     autocomplete="off"/>
-              <label>חלקה</label>
-            </p-floatlabel>
-            <p-floatlabel class="mt-5">
-              <input pInputText
-                     class="w-100"
-                     [pAutoFocus]="true"
-                     autocomplete="off"/>
-              <label>שורה</label>
-            </p-floatlabel>
-            <p-floatlabel class="mt-5">
-              <input pInputText
-                     class="w-100"
-                     [pAutoFocus]="true"
-                     autocomplete="off"/>
-              <label>קבר</label>
-            </p-floatlabel>
-          </div>
-        </div>
-      </div>
-      <p-button (click)="saveBurialDetails()" class="mt-4">עדכן</p-button>
+      <app-burial-process-form [deceasedId]="this.param"
+                               [isEdit]="isEdit"
+                               (editModeChange)="setEdit($event)">
+      </app-burial-process-form>
+    </p-tabpanel>
+    <p-tabpanel value="4">
+      <app-transports-table [transports]="transports"
+                            (openDialog)="openTransportDialog($event)">
+      </app-transports-table>
+      <p-dialog [(visible)]="isTransportDialogOpen"
+                closeOnEscape="true"
+                dismissableMask="true"
+                [style]="{ width: '70rem', maxHeight: '90vh'}"
+                header="הוספת שינוע"
+                modal="true">
+        @if (isTransportDialogOpen) {
+          <app-transport-form (saveTransport)="saveTransport($event)"></app-transport-form>
+        }
+      </p-dialog>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

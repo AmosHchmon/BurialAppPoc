@@ -6,7 +6,7 @@ using Core.Helpers;
 
 namespace DataModel.Entities;
 
-public class DeceasedBurial
+public class DeceasedBurialDetails
 {
     [Required]
     [Key]
@@ -15,6 +15,8 @@ public class DeceasedBurial
     public BurialType? BurialType { get; set; }
     
     public bool IsCivilBurial { get; set; }
+    
+    public string? BurialLicenseNumber { get; set; }
     
     [Description("האם רישיון הקבורה נסרק למערכת")]
     public bool BurialLicenseScanned { get; set; }
@@ -28,6 +30,9 @@ public class DeceasedBurial
     
     [Description("האם נקבר בארון")]
     public bool InCoffin { get; set; }
+
+    [Description("הערות על מצב הגופה")]
+    public string? BodyConditionNotes { get; set; }
     
     [Description("גוש")]
     public string? Block { get; set; }

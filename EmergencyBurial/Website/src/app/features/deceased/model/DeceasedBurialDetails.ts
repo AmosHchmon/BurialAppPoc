@@ -1,10 +1,12 @@
-﻿export interface DeceasedBurial {
+﻿export interface DeceasedBurialDetails {
 
   DeceasedId?: string;
 
   BurialType?: string;
 
   IsCivilBurial?: string;
+
+  BurialLicenseNumber?: string;
 
   BurialLicenseScanned?: string;
 
@@ -14,5 +16,16 @@
 
   TaharahReceptionDate?: Date;
 
-  InCoffin?: boolean;
+  InCoffin?: string;
+
+  BodyConditionNotes?: string
+
+  Block?: string
+
+  Plot?: string
+
+  Row?: string
+
+  Grave?: string
+
 }

@@ -1,7 +1,7 @@
 import {DeceasedBurialCoordination} from "./DeceasedBurialCoordination";
-import {DeceasedOperational} from "./DeceasedOperational";
+import {DeceasedBurialProcessStatus} from "./DeceasedBurialProcessStatus";
 import {DeceasedBagDetails} from "./DeceasedBagDetails";
-import {DeceasedBurial} from "./DeceasedBurial";
+import {DeceasedBurialDetails} from "./DeceasedBurialDetails";
 import {Transport} from "../../transport/model/transport";
 
 export interface Deceased {
@@ -26,19 +26,19 @@ export interface Deceased {
 
   HomeAddress?: string;
 
-  PoliceCaseNumber?: string;
+  PeleNumber?: string;
 
   Notes?: string;
 
   CreatedOn?: Date;
 
-  BagDetails?: DeceasedBagDetails;
+  DeceasedBagDetails?: DeceasedBagDetails;
 
-  OperationalDetails?: DeceasedOperational;
+  DeceasedBurialProcessStatus?: DeceasedBurialProcessStatus;
 
-  BurialDetails?: DeceasedBurial;
+  DeceasedBurialDetails?: DeceasedBurialDetails;
 
-  BurialCoordination?: DeceasedBurialCoordination;
+  DeceasedBurialCoordination?: DeceasedBurialCoordination;
 
   Transports?: Transport[];
 

@@ -8,6 +8,7 @@ using Core.Helpers;
 using Core.Middleware;
 using DataModel;
 using DataModel.Triggers;
+using EmergencyBurial.Api.Conventions;
 using EmergencyBurial.Api.Jobs;
 using EmergencyBurial.Services;
 using EmergencyBurial.Services.DbServices;
@@ -133,7 +134,10 @@ namespace EmergencyBurial.Api
                 
             });
 
-            services.AddControllers()
+            services.AddControllers(options =>
+                {
+                    options.Conventions.Add(new PostPutDeleteConvention());
+                })
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver();
