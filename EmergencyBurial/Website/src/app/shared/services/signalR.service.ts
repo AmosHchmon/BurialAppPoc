@@ -20,7 +20,6 @@ export class SignalRService {
 
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(this.url, {
-        skipNegotiation: true,
         transport: signalR.HttpTransportType.ServerSentEvents
       })
       .withAutomaticReconnect([0, 2000, 5000, 10000])
