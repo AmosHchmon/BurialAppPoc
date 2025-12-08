@@ -19,6 +19,9 @@ public class MappingProfile : Profile
 
         CreateMap<Deceased, DeceasedDto>()
             .ReverseMap();
+        
+        CreateMap<Deceased, ExternalDeceasedDto>()
+            .ReverseMap();
 
         CreateMap<DeceasedBagDetails, DeceasedBagDetailsDto>()
             .ForMember(dest => dest.Affiliation, opt => opt.MapFrom(src => src.Affiliation.GetEnumDescription()))
@@ -48,7 +51,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Deceased.FirstName))
             .ReverseMap()
             .ForMember(dest => dest.Deceased, opt => opt.Ignore());
-
+        
         #region common
 
         CreateMap<ListType, ListTypeDto>()

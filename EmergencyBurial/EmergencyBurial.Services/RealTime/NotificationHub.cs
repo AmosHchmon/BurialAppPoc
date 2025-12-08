@@ -9,4 +9,14 @@ public class NotificationHub : Hub
     {
         await Clients.All.SendAsync("ReceiveMessage", user, message);
     }
+    
+    public async Task SendNewDeceased(object deceased)
+    {
+        await Clients.All.SendAsync("NewDeceased", deceased);
+    }
+    
+    public async Task SendDeceasedUpdate(object deceased)
+    {
+        await Clients.All.SendAsync("DeceasedUpdate", deceased);
+    }
 }

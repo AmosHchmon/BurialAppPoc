@@ -98,7 +98,7 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
 
   private subscribeToHubEvents(): void {
 
-    this.deceasedSubscription = this.signalRService.deceased.subscribe(
+    this.deceasedSubscription = this.signalRService.newDeceased.subscribe(
       (newDeceased: Deceased) => {
 
         this.deceasedList.unshift(newDeceased);

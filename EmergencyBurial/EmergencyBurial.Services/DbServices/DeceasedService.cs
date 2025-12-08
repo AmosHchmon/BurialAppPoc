@@ -99,4 +99,10 @@ public class DeceasedService(EmergencyBurialContext ctx)
 
         return deceasedBurialProcessStatus;
     }
+
+    public async Task<Deceased> GetDeceasedByHalalNumber(string halalNumber)
+    {
+        return await ctx.Deceaseds
+            .FirstOrDefaultAsync(d => d.HalalNumber == halalNumber);
+    }
 }

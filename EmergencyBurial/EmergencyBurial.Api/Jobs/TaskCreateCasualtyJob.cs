@@ -4,13 +4,18 @@ using DataModel;
 using DataModel.Entities;
 using Microsoft.Extensions.Logging;
 using System;
+using AutoMapper;
+using Core.Model;
 using EmergencyBurial.Services.RealTime;
 
 namespace EmergencyBurial.Api.Jobs
 {
-    public class TaskCreateCasualtyJob(EmergencyBurialContext context, ILogger<TaskCreateCasualtyJob> logger, NotificationService notificationService) : IInvocable
+    public class TaskCreateCasualtyJob(
+        EmergencyBurialContext context,
+        ILogger<TaskCreateCasualtyJob> logger,
+        IMapper mapper,
+        NotificationService notificationService) : IInvocable
     {
-
         // The Invoke method remains the same
         public async Task Invoke()
         {
@@ -36,8 +41,10 @@ namespace EmergencyBurial.Api.Jobs
 
                 logger.LogInformation("Successfully created a new casualty with HalalNumber: {halalNumber}",
                     newCasualty.HalalNumber);
-                
-                await notificationService.SendDeceasedNotificationAsync(newCasualty);
+
+                var res = mapper.Map<ExternalDeceasedDto>(newCasualty);
+
+                await notificationService.NotifyDeceasedCreatedAsync(res);
             }
             catch (Exception ex)
             {

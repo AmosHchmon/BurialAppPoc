@@ -11,10 +11,12 @@ import {Deceased} from "../../features/deceased/model/Deceased";
 export class SignalRService {
 
   private hubConnection: signalR.HubConnection;
-  private deceasedSubject = new Subject<Deceased>();
+  private newDeceasedSubject = new Subject<Deceased>();
+  private updatedDeceasedSubject = new Subject<Deceased>();
   private url = environment.hubUrl;
 
-  public deceased = this.deceasedSubject.asObservable();
+  public newDeceased = this.newDeceasedSubject.asObservable();
+  public updatedDeceased = this.updatedDeceasedSubject.asObservable();
 
   constructor() {
 
@@ -39,11 +41,18 @@ export class SignalRService {
 
   private registerOnEvents(): void {
 
-    this.hubConnection.on('sendDeceased', (data: Deceased) => {
+    this.hubConnection.on('NewDeceased', (data: Deceased) => {
 
       console.log('Received new deceased notification:', data);
 
-      this.deceasedSubject.next(data);
+      this.newDeceasedSubject.next(data);
+    });
+
+    this.hubConnection.on('DeceasedUpdate', (data: Deceased) => {
+
+      console.log('Received updated deceased notification:', data);
+
+      this.updatedDeceasedSubject.next(data);
     });
   }
 
