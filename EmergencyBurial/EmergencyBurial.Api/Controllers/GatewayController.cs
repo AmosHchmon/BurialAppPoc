@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
+using Core.Helpers;
 using Core.Model;
 using DataModel.Entities;
 using EmergencyBurial.Api.ViewModel;
@@ -17,30 +18,30 @@ public class GatewayController(DeceasedService deceasedService, NotificationServ
     : ControllerBase
 {
     [HttpPost("police")]
-    public async Task<ActionResult> ReceivePoliceData([FromBody] ExternalDeceasedDto deceasedDto)
+    public async Task<ActionResult> ReceivePoliceData(ExternalDeceasedDto deceasedDto)
     {
-        return await ProcessGatewayData(deceasedDto, "Police");
+        return await ProcessGatewayData(deceasedDto, GatewaySource.Police);
     }
 
     [HttpPost("ometz")]
-    public async Task<ActionResult> ReceiveOmetzData([FromBody] ExternalDeceasedDto deceasedDto)
+    public async Task<ActionResult> ReceiveOmetzData(ExternalDeceasedDto deceasedDto)
     {
-        return await ProcessGatewayData(deceasedDto, "Ometz");
+        return await ProcessGatewayData(deceasedDto, GatewaySource.Ometz);
     }
 
     [HttpPost("welfare")]
-    public async Task<ActionResult> ReceiveWelfareData([FromBody] ExternalDeceasedDto deceasedDto)
+    public async Task<ActionResult> ReceiveWelfareData(ExternalDeceasedDto deceasedDto)
     {
-        return await ProcessGatewayData(deceasedDto, "Welfare");
+        return await ProcessGatewayData(deceasedDto, GatewaySource.Welfare);
     }
 
     [HttpPost("health")]
-    public async Task<ActionResult> ReceiveHealthData([FromBody] ExternalDeceasedDto deceasedDto)
+    public async Task<ActionResult> ReceiveHealthData(ExternalDeceasedDto deceasedDto)
     {
-        return await ProcessGatewayData(deceasedDto, "Health");
+        return await ProcessGatewayData(deceasedDto, GatewaySource.Health);
     }
 
-    private async Task<ActionResult> ProcessGatewayData(ExternalDeceasedDto obj, string source)
+    private async Task<ActionResult> ProcessGatewayData(ExternalDeceasedDto obj, GatewaySource source)
     {
         if (obj == null)
         {
@@ -70,7 +71,7 @@ public class GatewayController(DeceasedService deceasedService, NotificationServ
         {
             if (string.IsNullOrEmpty(obj.HalalNumber))
             {
-                obj.HalalNumber = $"{source}-{DateTime.Now.Ticks}";
+                obj.HalalNumber = $"{source.GetEnumDescription()}-{DateTime.Now.Ticks}";
             }
 
             var newDeceased = mapper.Map<Deceased>(obj);

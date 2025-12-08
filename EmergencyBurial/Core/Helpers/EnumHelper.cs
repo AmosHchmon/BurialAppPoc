@@ -206,6 +206,18 @@ namespace Core.Helpers
         View = 3
     }
 
+    public enum GatewaySource
+    {
+        [Description("משטרה")]
+        Police = 1,
+        [Description("אומץ")]
+        Ometz = 2,
+        [Description("רווחה")]
+        Welfare = 3,
+        [Description("בריאות")]
+        Health = 4
+    }
+
     #endregion
 
     #region [communication]
