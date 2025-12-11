@@ -208,10 +208,10 @@ namespace Core.Helpers
 
     public enum GatewaySource
     {
-        [Description("משטרה")]
+        [Description("משטרה - פלא")]
         Police = 1,
-        [Description("אומץ")]
-        Ometz = 2,
+        [Description("פיקוד העורף - אומץ")]
+        IDF = 2,
         [Description("רווחה")]
         Welfare = 3,
         [Description("בריאות")]
