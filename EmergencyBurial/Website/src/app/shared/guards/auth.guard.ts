@@ -1,18 +1,13 @@
 import {Injectable} from '@angular/core';
-import {CanActivate, CanMatch, Route, Router, UrlSegment, UrlTree} from '@angular/router';
+import {CanMatch, Route, Router, UrlSegment, UrlTree} from '@angular/router';
 
 import {AuthContextService} from "../services/auth-context.service";
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate, CanMatch {
+export class AuthGuard implements CanMatch {
   constructor(private authCtx: AuthContextService, private router: Router) {
-  }
-
-  async canActivate(): Promise<boolean | UrlTree> {
-
-    return this.checkAuth();
   }
 
   async canMatch(route: Route, segments: UrlSegment[]): Promise<boolean | UrlTree> {

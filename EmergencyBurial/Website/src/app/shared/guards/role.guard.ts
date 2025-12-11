@@ -1,13 +1,5 @@
 import {Injectable} from '@angular/core';
-import {
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  Router,
-  CanMatch,
-  Route,
-  UrlSegment
-} from '@angular/router';
+import {Router, CanMatch, Route, UrlSegment} from '@angular/router';
 import {AuthContextService} from '../services/auth-context.service';
 import {enmOrganizationType} from '../enum/organization-type.enum';
 import {AlertType} from 'src/app/core/enums/alert.enum';
@@ -15,15 +7,8 @@ import {AlertService} from '../services/alert.service';
 import {DialogMessage} from '../static/messages';
 
 @Injectable({providedIn: 'root'})
-export class RoleGuard implements CanActivate, CanMatch {
+export class RoleGuard implements CanMatch {
   constructor(private authCtx: AuthContextService, private alertService: AlertService, private router: Router) {
-  }
-
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-
-    const roles = route.data['roles'];
-
-    return this.checkRole(roles);
   }
 
   canMatch(route: Route, segments: UrlSegment[]): boolean {
