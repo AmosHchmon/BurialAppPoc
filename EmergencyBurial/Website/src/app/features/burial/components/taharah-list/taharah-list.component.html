@@ -1,0 +1,124 @@
+<div class="card p-3">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+  </div>
+
+  <p-table #dt
+           [columns]="cols"
+           showGridlines="true"
+           [value]="deceasedList"
+           [size]="'small'"
+           [paginator]="true"
+           [rows]="10"
+           [showCurrentPageReport]="true"
+           currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
+           [globalFilterFields]="['HalalNumber', 'IdentityNumber', 'FirstName', 'LastName']">
+
+    <ng-template #caption>
+      <div class="d-flex align-items-center justify-content-start gap-3 p-3">
+        <div class="d-flex flex-column align-items-start justify-content-between">
+          <p-iconfield>
+            <p-inputicon class="pi pi-search"/>
+            <input pInputText
+                   type="text"
+                   (input)="dt.filterGlobal($event.target.value, 'contains')"
+                   [(ngModel)]="searchText"
+                   placeholder="חפש חלל..."/>
+            <p-inputicon class="pi pi-times cursor-pointer"
+                         (click)="clearSearch()"/>
+          </p-iconfield>
+        </div>
+        <div class="d-flex gap-3 align-items-center">
+
+          <p-button type="button"
+                    [label]="'חיפוש מתקדם'"
+                    icon="pi pi-filter"
+                    (onClick)="toggle($event)"/>
+
+          <p-popover #op>
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex align-items-center gap-2">
+                <p-checkbox
+                  inputId="showAllDeceased"
+                  name="showAllDeceased"
+                  [(ngModel)]="showAll"
+                  [binary]="true"/>
+                <label for="showAllDeceased" class="mr-3">הצג חללים שנקברו</label>
+              </div>
+              <div class="d-flex flex-column mt-2">
+                <label>בחר תאריך</label>
+                <p-datePicker
+                  [(ngModel)]="selectedMonth"
+                  name="selectedMonth"
+                  view="month"
+                  [showIcon]="true"
+                  dateFormat="mm/yy"
+                  [readonlyInput]="true"
+                  appendTo="body"
+                  appConvertTimezone
+                  [showOnFocus]="false"
+                  placeholder="בחר חודש">
+                </p-datePicker>
+              </div>
+              <div class="d-flex w-100 gap-3">
+                <button class="w-50" pButton (click)="applyFilter()">סנן</button>
+                <button class="w-50" pButton (click)="clearFilter()">נקה</button>
+              </div>
+            </div>
+          </p-popover>
+
+
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        @for (col of cols; track col.field) {
+          <th>{{ col.header }}</th>
+        }
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-deceased>
+      <tr>
+        <td>
+          {{ deceased.HalalNumber }}
+        </td>
+        <td>
+          {{ deceased.FirstName }}
+        </td>
+        <td>
+          {{ deceased.LastName }}
+        </td>
+        <td>
+          {{ deceased.FatherName }}
+        </td>
+        <td>
+          <div class="d-flex align-items-center gap-2">
+            <p-checkbox
+              inputId="IsBuried"
+              [(ngModel)]="deceased.DeceasedBurialProcessStatus.IsBuried"
+              [disabled]="true"
+              [binary]="true"/>
+          </div>
+        </td>
+        <td>
+          <div class="d-flex justify-content-start align-items-center cursor-pointer gap-2"
+               (click)="openDetails(deceased)">
+            <span>מידע נוסף</span>
+            <span class="pi pi-info-circle"></span>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center p-4">
+          <span>לא נמצאו חללים</span>
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+</div>

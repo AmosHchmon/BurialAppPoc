@@ -28,6 +28,9 @@ import {DialogModule} from "primeng/dialog";
 import {AutoFocusModule} from "primeng/autofocus";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {RadioButtonModule} from "primeng/radiobutton";
+import {ToggleButtonModule} from "primeng/togglebutton";
+import {TooltipModule} from "primeng/tooltip";
+import {PopoverModule} from "primeng/popover";
 
 @NgModule({
   imports: [
@@ -59,7 +62,10 @@ import {RadioButtonModule} from "primeng/radiobutton";
     DialogModule,
     AutoFocusModule,
     ConfirmDialogModule,
-    RadioButtonModule
+    RadioButtonModule,
+    ToggleButtonModule,
+    TooltipModule,
+    PopoverModule
   ],
   exports: [
     NgOptimizedImage,
@@ -91,7 +97,10 @@ import {RadioButtonModule} from "primeng/radiobutton";
     DialogModule,
     AutoFocusModule,
     ConfirmDialogModule,
-    RadioButtonModule
+    RadioButtonModule,
+    ToggleButtonModule,
+    TooltipModule,
+    PopoverModule
   ],
   declarations: [],
   providers: [

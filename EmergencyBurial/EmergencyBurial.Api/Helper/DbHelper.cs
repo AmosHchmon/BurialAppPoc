@@ -176,6 +176,10 @@ public class DbHelper
                 BurialStatus = BurialStatus.Buried,
                 IsBadMessageReceived = true,
                 BadMessageStartDate = DateTime.Now.AddDays(-1),
+                IsReleasedFromTarah = true,
+                ReleasedFromTarahDate = DateTime.Now.AddDays(-1),
+                IsBuried = false,
+                BurialDate = null
             },
             DeceasedBurialDetails = new DeceasedBurialDetails
             {
@@ -202,45 +206,112 @@ public class DbHelper
         {
             Id = deceased2Id,
             HalalNumber = "C-1002",
-            IdentityNumber = "987654321",
-            FirstName = "יעל",
-            LastName = "כהן",
-            FatherName = "משה",
-            Gender = "נקבה",
-            HomeCity = "תל אביב",
-            PeleNumber = "PL-456789",
+            IdentityNumber = "1234456",
+            FirstName = "אבי",
+            LastName = "אביהו",
+            FatherName = "אברהם",
+            Gender = "זכר",
+            HomeCity = "ירושלים",
+            PeleNumber = "PL-789123",
+            // יצירת ישויות הבן עם אותו מזהה
             DeceasedBagDetails = new DeceasedBagDetails
             {
                 DeceasedId = deceased2Id,
-                Affiliation = Affiliation.SecurityForces,
-                ReceivingStation = TarahStations.Tziporit,
-                BroughtBy = BurialBody.RishonLezion, CanBeIdentifiedByAcquaintance = false
+                Affiliation = Affiliation.Civilian,
+                ReceivingStation = TarahStations.Shura,
+                BroughtBy = BurialBody.AbuKabir, CanBeIdentifiedByAcquaintance = true,
+                RelatedBagNumbers = 5
             },
             DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
             {
                 DeceasedId = deceased2Id,
-                IdentificationStatus = IdentificationStatus.NotIdentified,
+                IdentificationStatus = IdentificationStatus.Identified,
                 BadMessageProcessStatus = BadMessageProcessStatus.NotDelivered,
                 CollectionStatus = CollectionStatus.Collected,
-                BurialStatus = BurialStatus.AtBurialCompany,
-                IsBadMessageReceived = false,
+                BurialStatus = BurialStatus.Buried,
+                IsBadMessageReceived = true,
                 BadMessageStartDate = DateTime.Now.AddDays(-1),
+                IsReleasedFromTarah = false,
+                ReleasedFromTarahDate = null,
+                IsBuried = false,
+                BurialDate = null
             },
             DeceasedBurialDetails = new DeceasedBurialDetails
             {
                 DeceasedId = deceased2Id,
-                BurialType = BurialType.Temporary,
-                IsCivilBurial = true,
-                TaharahStatus = TaharahStatus.Pending
+                BurialType = BurialType.Final,
+                IsCivilBurial = false,
+                TaharahStatus = TaharahStatus.Completed,
+                TaharahLocation = "מכון טהרה גבעת שאול"
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination
             {
                 DeceasedId = deceased2Id,
-                IsCoordinatedWithHevratKadisha = false
+                BurialCity = "ירושלים",
+                BurialTime = DateTime.Now.Date,
+                BurialBody = BurialBody.Eilat,
+                IsCoordinatedWithHevratKadisha = true,
+                FamilyContactName = "משה ישראלי",
+                FamilyContactPhone = "050-1234567"
+            }
+        };
+        
+        var deceased3Id = Guid.NewGuid();
+        var deceased3 = new Deceased
+        {
+            Id = deceased3Id,
+            HalalNumber = "C-1003",
+            IdentityNumber = "12886415",
+            FirstName = "יוסי",
+            LastName = "ציון",
+            FatherName = "אברהם",
+            Gender = "זכר",
+            HomeCity = "ירושלים",
+            PeleNumber = "PL-789123",
+            // יצירת ישויות הבן עם אותו מזהה
+            DeceasedBagDetails = new DeceasedBagDetails
+            {
+                DeceasedId = deceased3Id,
+                Affiliation = Affiliation.Civilian,
+                ReceivingStation = TarahStations.Shura,
+                BroughtBy = BurialBody.AbuKabir, CanBeIdentifiedByAcquaintance = true,
+                RelatedBagNumbers = 5
+            },
+            DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
+            {
+                DeceasedId = deceased3Id,
+                IdentificationStatus = IdentificationStatus.Identified,
+                BadMessageProcessStatus = BadMessageProcessStatus.NotDelivered,
+                CollectionStatus = CollectionStatus.Collected,
+                BurialStatus = BurialStatus.Buried,
+                IsBadMessageReceived = true,
+                BadMessageStartDate = DateTime.Now.AddDays(-6),
+                IsReleasedFromTarah = true,
+                ReleasedFromTarahDate = DateTime.Now.AddDays(-3),
+                IsBuried = true,
+                BurialDate = DateTime.Now.AddDays(-1)
+            },
+            DeceasedBurialDetails = new DeceasedBurialDetails
+            {
+                DeceasedId = deceased3Id,
+                BurialType = BurialType.Final,
+                IsCivilBurial = false,
+                TaharahStatus = TaharahStatus.Completed,
+                TaharahLocation = "מכון טהרה גבעת שאול"
+            },
+            DeceasedBurialCoordination = new DeceasedBurialCoordination
+            {
+                DeceasedId = deceased3Id,
+                BurialCity = "ירושלים",
+                BurialTime = DateTime.Now.Date,
+                BurialBody = BurialBody.Eilat,
+                IsCoordinatedWithHevratKadisha = true,
+                FamilyContactName = "משה ישראלי",
+                FamilyContactPhone = "050-1234567"
             }
         };
 
-        db.Deceaseds.AddRange(deceased1, deceased2);
+        db.Deceaseds.AddRange(deceased1, deceased2, deceased3);
         db.SaveChanges();
     }
 

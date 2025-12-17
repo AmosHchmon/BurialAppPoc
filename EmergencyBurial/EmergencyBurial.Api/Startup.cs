@@ -92,9 +92,13 @@ namespace EmergencyBurial.Api
             services.AddScoped<TransportService>();
             services.AddScoped<FileService>();
             
+            var enableCasualtyJob = Configuration.GetValue<bool>("Scheduler:EnableCasualtyCreationJob", false);
 
-            services.AddTransient<TaskCreateCasualtyJob>();
-
+            if (enableCasualtyJob)
+            {
+                services.AddTransient<TaskCreateCasualtyJob>();
+            }
+            
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -158,7 +162,11 @@ namespace EmergencyBurial.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmergencyBurial.Api v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmergencyBurial.Api v1");
+                    c.RoutePrefix = string.Empty;
+                });
             }
 
             app.UseHttpsRedirection();

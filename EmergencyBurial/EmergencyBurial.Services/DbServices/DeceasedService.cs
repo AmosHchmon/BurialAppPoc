@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Helpers;
 using Core.Resources;
 using DataModel;
 using DataModel.Entities;
@@ -89,7 +90,6 @@ public class DeceasedService(EmergencyBurialContext ctx)
         return burialDetails;
     }
 
-
     public async Task<DeceasedBurialProcessStatus> UpdateBurialProcessStatus(
         DeceasedBurialProcessStatus deceasedBurialProcessStatus)
     {
@@ -98,5 +98,42 @@ public class DeceasedService(EmergencyBurialContext ctx)
         await ctx.SaveChangesAsync();
 
         return deceasedBurialProcessStatus;
+    }
+
+    public async Task<List<Deceased>> GetPendingTaharahDeceaseds()
+    {
+        return await ctx.Deceaseds
+            .Include(d => d.DeceasedBurialProcessStatus)
+            .Where(d => d.DeceasedBurialProcessStatus.IsReleasedFromTarah && !d.DeceasedBurialProcessStatus.IsBuried)
+            .OrderByDescending(d => d.DeceasedBurialProcessStatus.ReleasedFromTarahDate)
+            .ToListAsync();
+    }
+
+    public async Task<List<Deceased>> GetTaharahHistory(int month, int year)
+    {
+        return await ctx.Deceaseds
+            .Include(d => d.DeceasedBurialProcessStatus)
+            .Where(d => d.DeceasedBurialProcessStatus.IsBuried
+                        && d.DeceasedBurialProcessStatus.BurialDate.HasValue
+                        && d.DeceasedBurialProcessStatus.BurialDate.Value.Month == month
+                        && d.DeceasedBurialProcessStatus.BurialDate.Value.Year == year)
+            .OrderByDescending(d => d.DeceasedBurialProcessStatus.BurialDate)
+            .ToListAsync();
+    }
+
+    public async Task MarkAsBuried(Guid deceasedId, DateTime burialDate)
+    {
+        var status = await ctx.DeceasedBurialProcessStatus
+            .AsTracking()
+            .FirstOrDefaultAsync(s => s.DeceasedId == deceasedId);
+
+        if (status != null)
+        {
+            status.IsBuried = true;
+            status.BurialDate = burialDate;
+            status.BurialStatus = BurialStatus.Buried;
+
+            await ctx.SaveChangesAsync();
+        }
     }
 }
