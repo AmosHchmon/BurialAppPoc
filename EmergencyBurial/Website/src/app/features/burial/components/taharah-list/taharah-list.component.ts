@@ -21,11 +21,10 @@ export class TaharahListComponent implements OnInit {
   @ViewChild('dt') dt: Table | undefined;
 
   cols: IColumn[] = [
-    {field: 'HalalNumber', header: 'מספר חלל'},
+    {field: 'HalalNumber', header: 'מספר שק חלל'},
     {field: 'FirstName', header: 'שם פרטי'},
     {field: 'LastName', header: 'שם משפחה'},
     {field: 'FatherName', header: 'שם האב'},
-    {field: 'IsBuried', header: 'האם נקבר'},
     {field: 'Actions', header: 'פעולות'}
   ];
 

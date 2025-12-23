@@ -22,7 +22,7 @@
                    type="text"
                    (input)="dt.filterGlobal($event.target.value, 'contains')"
                    [(ngModel)]="searchText"
-                   placeholder="חפש חלל..."/>
+                   placeholder="חפש שק חלל..."/>
             <p-inputicon class="pi pi-times cursor-pointer"
                          (click)="clearSearch()"/>
           </p-iconfield>
@@ -92,15 +92,6 @@
         </td>
         <td>
           {{ deceased.FatherName }}
-        </td>
-        <td>
-          <div class="d-flex align-items-center gap-2">
-            <p-checkbox
-              inputId="IsBuried"
-              [(ngModel)]="deceased.DeceasedBurialProcessStatus.IsBuried"
-              [disabled]="true"
-              [binary]="true"/>
-          </div>
         </td>
         <td>
           <div class="d-flex justify-content-start align-items-center cursor-pointer gap-2"
