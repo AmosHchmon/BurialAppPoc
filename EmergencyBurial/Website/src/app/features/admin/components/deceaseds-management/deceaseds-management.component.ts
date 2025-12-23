@@ -43,6 +43,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
   }
 
+  //#region [Lifecycle events]
   async ngOnInit() {
 
     await this.loadDeceased();
@@ -81,25 +82,43 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
     ];
   }
 
-  getGlobalFilterFields(): string[] {
+  private async loadDeceased() {
 
-    return this.cols.map(col => col.field);
+    this.deceasedList = await this.deceasedService.getDeceaseds();
+
   }
 
-  showDeceased(deceased: Deceased): void {
+  ngOnDestroy(): void {
 
-    this.router.navigate(['/dashboard/deceaseds', deceased.Id]);
+    this.unSubscribeToHubEvents();
+
   }
 
-  clearSearch() {
+  //endregion
 
-    this.searchText = '';
+  //#region [Realtime]
+  unSubscribeToHubEvents() {
 
-    if (this.dt) {
-      this.dt.filterGlobal(null, 'contains');
+    if (this.deceasedSubscription) {
+      this.deceasedSubscription.unsubscribe();
     }
+
   }
 
+  private subscribeToHubEvents(): void {
+
+    this.deceasedSubscription = this.signalRService.newDeceased.subscribe(
+      (newDeceased: Deceased) => {
+
+        this.deceasedList.unshift(newDeceased);
+
+        this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.NewDeceasedAdded});
+      }
+    );
+  }
+  //endregion
+
+  //#region [Client events]
   onAddDeceased() {
 
     this.newDeceased = {};
@@ -162,37 +181,24 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
   }
 
-  unSubscribeToHubEvents() {
+  getGlobalFilterFields(): string[] {
 
-    if (this.deceasedSubscription) {
-      this.deceasedSubscription.unsubscribe();
+    return this.cols.map(col => col.field);
+  }
+
+  showDeceased(deceased: Deceased): void {
+
+    this.router.navigate(['/dashboard/deceaseds', deceased.Id]);
+  }
+
+  clearSearch() {
+
+    this.searchText = '';
+
+    if (this.dt) {
+      this.dt.filterGlobal(null, 'contains');
     }
-
   }
 
-  ngOnDestroy(): void {
-
-    this.unSubscribeToHubEvents();
-
-  }
-
-  private async loadDeceased() {
-
-    this.deceasedList = await this.deceasedService.getDeceaseds();
-
-  }
-
-  private subscribeToHubEvents(): void {
-
-    this.deceasedSubscription = this.signalRService.newDeceased.subscribe(
-      (newDeceased: Deceased) => {
-
-        this.deceasedList.unshift(newDeceased);
-
-        this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.NewDeceasedAdded});
-      }
-    );
-  }
-
-
+  //endregion
 }
