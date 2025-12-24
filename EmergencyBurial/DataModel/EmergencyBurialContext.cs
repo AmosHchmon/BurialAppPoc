@@ -26,7 +26,7 @@ public partial class EmergencyBurialContext : DbContext
     {
         modelBuilder.Entity<Member>().HasIndex(m => m.UserName).IsUnique(true);
         modelBuilder.Entity<ListType>().HasIndex(u => u.Text);
-        modelBuilder.Entity<Deceased>().HasIndex(d => d.HalalNumber).IsUnique(true);
+        modelBuilder.Entity<DeceasedBagDetails>().HasIndex(d => d.BagNumber).IsUnique(true);
         modelBuilder.Entity<Transport>().HasIndex(d => d.Id).IsUnique(true);
 
         foreach (var relationship in modelBuilder.Model.GetEntityTypes()

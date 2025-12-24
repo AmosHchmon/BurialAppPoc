@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using Core.Helpers;
 using Core.Model;
 using DataModel.Entities;
@@ -18,6 +19,9 @@ public class MappingProfile : Profile
         #region Deceased
 
         CreateMap<Deceased, DeceasedDto>()
+            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
+            .ForMember(dest => dest.BagNumbersDisplay, opt => 
+                opt.MapFrom(src => string.Join(" | ", src.DeceasedBagDetails.Select(b => b.BagNumber))))
             .ReverseMap();
         
         CreateMap<Deceased, ExternalDeceasedDto>()
@@ -47,10 +51,10 @@ public class MappingProfile : Profile
         #endregion
 
         CreateMap<Transport, TransportDto>()
-            .ForMember(dest => dest.HalalNumber, opt => opt.MapFrom(src => src.Deceased.HalalNumber))
-            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Deceased.FirstName))
+            .ForMember(dest => dest.BagNumber, opt => opt.MapFrom(src => src.DeceasedBagDetails.BagNumber))
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.DeceasedBagDetails.Deceased.FirstName))
             .ReverseMap()
-            .ForMember(dest => dest.Deceased, opt => opt.Ignore());
+            .ForMember(dest => dest.DeceasedBagDetails, opt => opt.Ignore());
         
         #region common
 

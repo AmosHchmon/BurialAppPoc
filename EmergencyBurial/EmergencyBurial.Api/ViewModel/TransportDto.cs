@@ -6,7 +6,7 @@ public class TransportDto
 {
     public int? Id { get; set; }
     
-    public Guid? DeceasedId { get; set; }
+    public Guid? DeceasedBagDetailsId { get; set; }
     
     public string StartLocation { get; set; }
     
@@ -22,7 +22,7 @@ public class TransportDto
 
     public string LicensePlate { get; set; }
     
-    public string HalalNumber { get; set; }
+    public string BagNumber { get; set; }
     
     public string FirstName { get; set; }
 }

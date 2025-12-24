@@ -32,7 +32,7 @@ public class TransportsController(TransportService transportService, DeceasedSer
             return NotFound();
         }
 
-        var transports = await transportService.GetTransportsByDeceasedId(idValue);
+        var transports = await transportService.GetTransportsByBagDetailsId(idValue);
 
         var res = mapper.Map<List<TransportDto>>(transports);
 

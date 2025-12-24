@@ -4,7 +4,6 @@ using AutoMapper;
 using Core.Helpers;
 using Core.Model;
 using DataModel.Entities;
-using EmergencyBurial.Api.ViewModel;
 using EmergencyBurial.Services.DbServices;
 using EmergencyBurial.Services.RealTime;
 using Microsoft.AspNetCore.Mvc;
@@ -23,10 +22,10 @@ public class GatewayController(DeceasedService deceasedService, NotificationServ
         return await ProcessGatewayData(deceasedDto, GatewaySource.Police);
     }
 
-    [HttpPost("ometz")]
-    public async Task<ActionResult> ReceiveOmetzData(ExternalDeceasedDto deceasedDto)
+    [HttpPost("idf")]
+    public async Task<ActionResult> ReceiveIdfData(ExternalDeceasedDto deceasedDto)
     {
-        return await ProcessGatewayData(deceasedDto, GatewaySource.Ometz);
+        return await ProcessGatewayData(deceasedDto, GatewaySource.IDF);
     }
 
     [HttpPost("welfare")]
@@ -52,7 +51,7 @@ public class GatewayController(DeceasedService deceasedService, NotificationServ
 
         if (!string.IsNullOrEmpty(obj.HalalNumber))
         {
-            existingDeceased = await deceasedService.GetDeceasedByHalalNumber(obj.HalalNumber);
+            existingDeceased = await deceasedService.GetDeceasedByBagNumber(obj.HalalNumber);
         }
 
         ExternalDeceasedDto resultDto = null;

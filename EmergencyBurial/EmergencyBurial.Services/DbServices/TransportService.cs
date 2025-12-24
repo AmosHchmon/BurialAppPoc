@@ -11,11 +11,12 @@ namespace EmergencyBurial.Services.DbServices;
 
 public class TransportService(EmergencyBurialContext ctx)
 {
-    public async Task<List<Transport>> GetTransportsByDeceasedId(Guid? deceasedId)
+    public async Task<List<Transport>> GetTransportsByBagDetailsId(Guid? deceasedBagDetailsId)
     {
         return await ctx.Transports
-            .Where(t => t.DeceasedId == deceasedId)
-            .Include(t => t.Deceased)
+            .Where(t => t.DeceasedBagDetailsId == deceasedBagDetailsId)
+            .Include(t => t.DeceasedBagDetails)
+            .ThenInclude(b => b.Deceased)
             .OrderByDescending(t => t.StartDateTime)
             .ToListAsync();
     }

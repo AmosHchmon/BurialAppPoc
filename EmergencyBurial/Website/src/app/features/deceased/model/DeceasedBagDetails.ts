@@ -1,6 +1,12 @@
-﻿export interface DeceasedBagDetails {
+﻿import {Transport} from "../../transport/model/transport";
+
+export interface DeceasedBagDetails {
+
+  Id: string;
 
   DeceasedId: string;
+
+  BagNumber?: string;
 
   Affiliation?: string;
 
@@ -26,4 +32,5 @@
 
   ObjectsOnDeceased?: string;
 
+  Transports?: Transport[];
 }

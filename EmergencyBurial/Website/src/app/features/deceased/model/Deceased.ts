@@ -8,13 +8,9 @@ export interface Deceased {
 
   Id?: string;
 
-  HalalNumber?: string;
-
   IdentityNumber?: string;
 
-  FirstName?: string;
-
-  LastName?: string;
+  FullName?: string;
 
   FatherName?: string;
 
@@ -30,16 +26,15 @@ export interface Deceased {
 
   Notes?: string;
 
+  BagNumbersDisplay?: string;
+
   CreatedOn?: Date;
 
-  DeceasedBagDetails?: DeceasedBagDetails;
+  DeceasedBagDetails?: DeceasedBagDetails[];
 
   DeceasedBurialProcessStatus?: DeceasedBurialProcessStatus;
 
   DeceasedBurialDetails?: DeceasedBurialDetails;
 
   DeceasedBurialCoordination?: DeceasedBurialCoordination;
-
-  Transports?: Transport[];
-
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.Resources;
 using DataModel;
 using DataModel.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -100,9 +99,10 @@ public class DeceasedService(EmergencyBurialContext ctx)
         return deceasedBurialProcessStatus;
     }
 
-    public async Task<Deceased> GetDeceasedByHalalNumber(string halalNumber)
+    public async Task<Deceased> GetDeceasedByBagNumber(string bagNumber)
     {
         return await ctx.Deceaseds
-            .FirstOrDefaultAsync(d => d.HalalNumber == halalNumber);
+            .Include(d => d.DeceasedBagDetails)
+            .FirstOrDefaultAsync(d => d.DeceasedBagDetails.Any(b => b.BagNumber == bagNumber));
     }
 }
