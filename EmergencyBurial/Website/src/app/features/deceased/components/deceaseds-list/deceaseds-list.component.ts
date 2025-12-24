@@ -38,6 +38,8 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
 
   }
 
+  //#region [Lifecycle events]
+
   async ngOnInit() {
 
     this.deceasedList = await this.deceasedService.getDeceaseds();
@@ -77,6 +79,16 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
     ];
   }
 
+  ngOnDestroy(): void {
+
+    this.unSubscribeToHubEvents();
+
+  }
+
+  //endregion
+
+  //#region [Client events]
+
   getGlobalFilterFields(): string[] {
 
     return this.cols.map(col => col.field);
@@ -96,9 +108,13 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
     }
   }
 
+  //endregion
+
+  //#region [Realtime events]
+
   private subscribeToHubEvents(): void {
 
-    this.deceasedSubscription = this.signalRService.deceased.subscribe(
+    this.deceasedSubscription = this.signalRService.newDeceased.subscribe(
       (newDeceased: Deceased) => {
 
         this.deceasedList.unshift(newDeceased);
@@ -116,9 +132,5 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy(): void {
-
-    this.unSubscribeToHubEvents();
-
-  }
+  //endregion
 }

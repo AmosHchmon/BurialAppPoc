@@ -1,6 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ConfirmationService} from "primeng/api";
+import {Subscription} from "rxjs";
 
 import {DeceasedService} from '../../services/deceased.service';
 import {IColumn} from "../../../../shared/ui-components/model/column";
@@ -13,16 +14,15 @@ import {ListService} from "../../../../shared/services/list.service";
 import {IOptionItem} from "../../../../shared/model/list-item";
 import {DeceasedStaticFieldsComponent} from "../deceased-static-fields/deceased-static-fields.component";
 import {TransportsTableComponent} from "../../../transport/components/transports-table/transports-table.component";
-import {DeceasedBurialCoordination} from "../../model/DeceasedBurialCoordination";
 import {BurialCoordinationFormComponent} from "../burial-coordination-form/burial-coordination-form.component";
 import {AlertService} from "../../../../shared/services/alert.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
-import {DeceasedBurialProcessStatus} from "../../model/DeceasedBurialProcessStatus";
 import {BurialProcessFormComponent} from "../burial-process-form/burial-process-form.component";
 import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
 import {TabItem, tabItems} from "../../../../shared/static/tabs-items";
 import {bagDetailsFields, burialDetailsFields, deceasedFields} from "../../../../shared/static/deceased-forms-fields";
+import {SignalRService} from "../../../../shared/services/signalR.service";
 
 @Component({
   selector: 'app-deceased-detail',
@@ -31,10 +31,12 @@ import {bagDetailsFields, burialDetailsFields, deceasedFields} from "../../../..
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
-export class DeceasedDetailComponent implements OnInit {
+export class DeceasedDetailComponent implements OnInit, OnDestroy {
 
   @ViewChild(BurialCoordinationFormComponent) burialCoordinationForm: BurialCoordinationFormComponent;
   @ViewChild(BurialProcessFormComponent) burialProcessForm: BurialProcessFormComponent;
+
+  private updateSubscription: Subscription;
 
   tabItems: TabItem[] = tabItems;
   deceasedFields: IColumn[] = deceasedFields;
@@ -47,8 +49,6 @@ export class DeceasedDetailComponent implements OnInit {
 
   deceased: Deceased;
   burialDetailsData: DeceasedStaticFields;
-  coordinationData: DeceasedBurialCoordination;
-  burialProcess: DeceasedBurialProcessStatus;
 
   activeTab: string = "0";
   isTransportDialogOpen: boolean = false;
@@ -61,9 +61,12 @@ export class DeceasedDetailComponent implements OnInit {
     private transportService: TransportService,
     private listService: ListService,
     private alertService: AlertService,
-    private confirmService: ConfirmationService
+    private confirmService: ConfirmationService,
+    private signalRService: SignalRService
   ) {
   }
+
+  //#region [Lifecycle events]
 
   async ngOnInit() {
 
@@ -72,6 +75,32 @@ export class DeceasedDetailComponent implements OnInit {
     await this.loadDataForTab("0");
 
     this.burialTypes = await this.listService.getBurialTypeList();
+
+    this.listenToRealTimeUpdates();
+
+  }
+
+  private initializePanels() {
+
+    this.deceasedAccordion = [];
+
+    const deceasedPanel: DeceasedStaticFields = {
+      object: this.deceased,
+      title: 'חלל',
+      fields: this.deceasedFields,
+      splitIndex: 6,
+      trackNumber: 1
+    }
+
+    const bagDetailsPanel: DeceasedStaticFields = {
+      object: this.deceased?.DeceasedBagDetails,
+      title: 'פרטי שק החלל',
+      fields: this.bagDetailsFields,
+      splitIndex: 6,
+      trackNumber: 1
+    }
+
+    this.deceasedAccordion.push(deceasedPanel, bagDetailsPanel);
 
   }
 
@@ -105,29 +134,56 @@ export class DeceasedDetailComponent implements OnInit {
 
   }
 
-  private initializePanels() {
+  private restoreCurrentForm() {
 
-    this.deceasedAccordion = [];
-
-    const deceasedPanel: DeceasedStaticFields = {
-      object: this.deceased,
-      title: 'חלל',
-      fields: this.deceasedFields,
-      splitIndex: 6,
-      trackNumber: 1
+    switch (this.activeTab) {
+      case "2":
+        this.burialCoordinationForm?.restoreOriginalData();
+        break;
+      case "3":
+        this.burialProcessForm?.restoreOriginalData();
+        break;
     }
-
-    const bagDetailsPanel: DeceasedStaticFields = {
-      object: this.deceased?.DeceasedBagDetails,
-      title: 'פרטי שק החלל',
-      fields: this.bagDetailsFields,
-      splitIndex: 6,
-      trackNumber: 1
-    }
-
-    this.deceasedAccordion.push(deceasedPanel, bagDetailsPanel);
 
   }
+
+  ngOnDestroy(): void {
+
+    this.unSubscribeToHubEvents();
+
+  }
+
+  //endregion
+
+  //#region [Realtime events]
+
+  private listenToRealTimeUpdates() {
+
+    this.updateSubscription = this.signalRService.updatedDeceased.subscribe(async (updatedDeceased: any) => {
+
+      // בדיקה שהחלל שמעודכן הוא החלל שמוצג על המסך
+      if (updatedDeceased.HalalNumber === this.deceased?.HalalNumber) {
+
+        this.deceased = {...this.deceased, ...updatedDeceased};
+
+        this.initializePanels();
+
+        this.alertService.alert(AlertType.Info, {ClientMessage: DialogMessage.DeceasedUpdated});
+      }
+    });
+  }
+
+  unSubscribeToHubEvents() {
+
+    if (this.updateSubscription) {
+      this.updateSubscription.unsubscribe();
+    }
+
+  }
+
+  //endregion
+
+  //#region [Client events]
 
   openTransportDialog(isOpen: boolean) {
     this.isTransportDialogOpen = isOpen;
@@ -169,6 +225,10 @@ export class DeceasedDetailComponent implements OnInit {
     await this.switchTab(newTabValue);
   }
 
+  setEdit(isEdit: boolean) {
+    this.isEdit = isEdit
+  }
+
   private async handleTabAccept(newTabValue: any) {
 
     this.restoreCurrentForm();
@@ -176,19 +236,6 @@ export class DeceasedDetailComponent implements OnInit {
     this.isEdit = false;
 
     await this.switchTab(newTabValue);
-  }
-
-  private restoreCurrentForm() {
-
-    switch (this.activeTab) {
-      case "2":
-        this.burialCoordinationForm?.restoreOriginalData();
-        break;
-      case "3":
-        this.burialProcessForm?.restoreOriginalData();
-        break;
-    }
-
   }
 
   private async switchTab(newTabValue: any) {
@@ -199,7 +246,5 @@ export class DeceasedDetailComponent implements OnInit {
     this.isEdit = false;
   }
 
-  setEdit(isEdit: boolean) {
-    this.isEdit = isEdit
-  }
+  //endregion
 }

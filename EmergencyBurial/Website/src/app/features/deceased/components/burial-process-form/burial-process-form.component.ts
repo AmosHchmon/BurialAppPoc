@@ -12,9 +12,8 @@ import {AlertService} from "../../../../shared/services/alert.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {
   BadMessageProcessOptions,
-  BadMessageProcessStatus,
-  CollectionStatus, CollectionStatusOptions,
-  IdentificationStatus, IdentificationStatusOptions
+  CollectionStatusOptions,
+  IdentificationStatusOptions
 } from "../../../../shared/enum/status.enum";
 
 @Component({
@@ -44,6 +43,8 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
               private confirmService: ConfirmationService) {
   }
 
+  //#region [Lifecycle events]
+
   async ngOnInit() {
 
     this.burialProcessData = await this.deceasedService.getDeceasedBurialProcessStatus(this.deceasedId);
@@ -63,6 +64,10 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
   private async loadLists() {
     this.burialStatus = await this.listService.getBurialStatus();
   }
+
+  //endregion
+
+  //#region [Client events]
 
   toggleEdit() {
 
@@ -116,4 +121,6 @@ export class BurialProcessFormComponent implements OnInit, OnChanges {
     Object.assign(this.burialProcessData, restoredData);
 
   }
+
+  //endregion
 }

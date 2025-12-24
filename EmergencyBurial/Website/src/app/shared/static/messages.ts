@@ -24,5 +24,6 @@ export let DialogMessage = {
   Cancel: 'האם ברצונך לבטל?',
   ConnectedListItems: 'ישנם רשימות הקשורות לסוג רשימה זו. נא למחוק אותם',
   AccessDenied : "אינך מורשה גישה.",
-  EditModeInTab: "מעבר לטופס זה יגרור אי שמירה של "
+  EditModeInTab: "מעבר לטופס זה יגרור אי שמירה של ",
+  DeceasedUpdated: 'הנתונים של חלל זה עודכנו'
 };
