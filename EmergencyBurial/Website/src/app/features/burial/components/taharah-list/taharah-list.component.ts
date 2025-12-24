@@ -63,7 +63,7 @@ export class TaharahListComponent implements OnInit {
   }
 
   openDetails(deceased: Deceased) {
-    this.router.navigate(['/taharah/details', deceased.Id]);
+    this.router.navigate(['/burial/details', deceased.Id]);
   }
 
   clearSearch() {
