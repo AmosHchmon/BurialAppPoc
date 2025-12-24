@@ -66,6 +66,8 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
   ) {
   }
 
+  //#region [Lifecycle events]
+
   async ngOnInit() {
 
     this.param = this.route.snapshot.paramMap.get('id');
@@ -75,6 +77,30 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
     this.burialTypes = await this.listService.getBurialTypeList();
 
     this.listenToRealTimeUpdates();
+
+  }
+
+  private initializePanels() {
+
+    this.deceasedAccordion = [];
+
+    const deceasedPanel: DeceasedStaticFields = {
+      object: this.deceased,
+      title: 'חלל',
+      fields: this.deceasedFields,
+      splitIndex: 6,
+      trackNumber: 1
+    }
+
+    const bagDetailsPanel: DeceasedStaticFields = {
+      object: this.deceased?.DeceasedBagDetails,
+      title: 'פרטי שק החלל',
+      fields: this.bagDetailsFields,
+      splitIndex: 6,
+      trackNumber: 1
+    }
+
+    this.deceasedAccordion.push(deceasedPanel, bagDetailsPanel);
 
   }
 
@@ -108,29 +134,56 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
 
   }
 
-  private initializePanels() {
+  private restoreCurrentForm() {
 
-    this.deceasedAccordion = [];
-
-    const deceasedPanel: DeceasedStaticFields = {
-      object: this.deceased,
-      title: 'חלל',
-      fields: this.deceasedFields,
-      splitIndex: 6,
-      trackNumber: 1
+    switch (this.activeTab) {
+      case "2":
+        this.burialCoordinationForm?.restoreOriginalData();
+        break;
+      case "3":
+        this.burialProcessForm?.restoreOriginalData();
+        break;
     }
-
-    const bagDetailsPanel: DeceasedStaticFields = {
-      object: this.deceased?.DeceasedBagDetails,
-      title: 'פרטי שק החלל',
-      fields: this.bagDetailsFields,
-      splitIndex: 6,
-      trackNumber: 1
-    }
-
-    this.deceasedAccordion.push(deceasedPanel, bagDetailsPanel);
 
   }
+
+  ngOnDestroy(): void {
+
+    this.unSubscribeToHubEvents();
+
+  }
+
+  //endregion
+
+  //#region [Realtime events]
+
+  private listenToRealTimeUpdates() {
+
+    this.updateSubscription = this.signalRService.updatedDeceased.subscribe(async (updatedDeceased: any) => {
+
+      // בדיקה שהחלל שמעודכן הוא החלל שמוצג על המסך
+      if (updatedDeceased.HalalNumber === this.deceased?.HalalNumber) {
+
+        this.deceased = {...this.deceased, ...updatedDeceased};
+
+        this.initializePanels();
+
+        this.alertService.alert(AlertType.Info, {ClientMessage: DialogMessage.DeceasedUpdated});
+      }
+    });
+  }
+
+  unSubscribeToHubEvents() {
+
+    if (this.updateSubscription) {
+      this.updateSubscription.unsubscribe();
+    }
+
+  }
+
+  //endregion
+
+  //#region [Client events]
 
   openTransportDialog(isOpen: boolean) {
     this.isTransportDialogOpen = isOpen;
@@ -172,6 +225,10 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
     await this.switchTab(newTabValue);
   }
 
+  setEdit(isEdit: boolean) {
+    this.isEdit = isEdit
+  }
+
   private async handleTabAccept(newTabValue: any) {
 
     this.restoreCurrentForm();
@@ -179,19 +236,6 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
     this.isEdit = false;
 
     await this.switchTab(newTabValue);
-  }
-
-  private restoreCurrentForm() {
-
-    switch (this.activeTab) {
-      case "2":
-        this.burialCoordinationForm?.restoreOriginalData();
-        break;
-      case "3":
-        this.burialProcessForm?.restoreOriginalData();
-        break;
-    }
-
   }
 
   private async switchTab(newTabValue: any) {
@@ -202,37 +246,5 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
     this.isEdit = false;
   }
 
-  setEdit(isEdit: boolean) {
-    this.isEdit = isEdit
-  }
-
-  private listenToRealTimeUpdates() {
-
-    this.updateSubscription = this.signalRService.updatedDeceased.subscribe(async (updatedDeceased: any) => {
-
-      // בדיקה שהחלל שמעודכן הוא החלל שמוצג על המסך
-      if (updatedDeceased.HalalNumber === this.deceased?.HalalNumber) {
-
-        this.deceased = {...this.deceased, ...updatedDeceased};
-
-        this.initializePanels();
-
-        this.alertService.alert(AlertType.Info, {ClientMessage: DialogMessage.DeceasedUpdated});
-      }
-    });
-  }
-
-  unSubscribeToHubEvents() {
-
-    if (this.updateSubscription) {
-      this.updateSubscription.unsubscribe();
-    }
-
-  }
-
-  ngOnDestroy(): void {
-
-    this.unSubscribeToHubEvents();
-
-  }
+  //endregion
 }

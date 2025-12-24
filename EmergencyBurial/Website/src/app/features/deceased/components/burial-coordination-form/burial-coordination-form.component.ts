@@ -47,6 +47,8 @@ export class BurialCoordinationFormComponent implements OnInit, OnChanges {
               private injector: Injector) {
   }
 
+  //#region [Lifecycle events]
+
   async ngOnInit() {
 
     this.coordinationData = await this.deceasedService.getDeceasedBurialCoordination(this.deceasedId);
@@ -62,6 +64,10 @@ export class BurialCoordinationFormComponent implements OnInit, OnChanges {
       this.coordinationData = this.convertDates(this.coordinationData);
     }
   }
+
+  //endregion
+
+  //#region [Client events]
 
   toggleEdit() {
 
@@ -132,4 +138,6 @@ export class BurialCoordinationFormComponent implements OnInit, OnChanges {
     Object.assign(this.coordinationData, restoredData);
 
   }
+
+  //endregion
 }

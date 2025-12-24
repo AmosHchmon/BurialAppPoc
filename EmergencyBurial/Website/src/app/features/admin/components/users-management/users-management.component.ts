@@ -70,6 +70,8 @@ export class UsersManagementComponent implements OnInit {
               private confirmService: ConfirmationService) {
   }
 
+  //#region [Lifecycle events]
+
   async ngOnInit() {
 
     await this.loadLists();
@@ -84,11 +86,6 @@ export class UsersManagementComponent implements OnInit {
     this.rolesList = await this.listService.getRolesAccessList();
 
     this.splitLists();
-  }
-
-  private async loadMembers() {
-
-    this.members = await this.memberService.getMembers();
 
   }
 
@@ -99,6 +96,16 @@ export class UsersManagementComponent implements OnInit {
     this.stationsList = this.allListItems.filter(x => x.ListTypeId == enmListType.StationType);
 
   }
+
+  private async loadMembers() {
+
+    this.members = await this.memberService.getMembers();
+
+  }
+
+  //endregion
+
+  //#region [Client events]
 
   async onSaveMember() {
 
@@ -166,4 +173,5 @@ export class UsersManagementComponent implements OnInit {
 
   }
 
+  //endregion
 }

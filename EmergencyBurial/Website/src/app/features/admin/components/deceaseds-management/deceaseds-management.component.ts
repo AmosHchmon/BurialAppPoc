@@ -116,6 +116,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
       }
     );
   }
+
   //endregion
 
   //#region [Client events]
