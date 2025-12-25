@@ -55,6 +55,7 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
     this.fields = [
       {field: 'IdentityNumber', header: 'מספר זהות'},
       {field: 'BagNumbersDisplay', header: 'שקי חלל מקושרים'},
+      {field: 'RelatedBagNumbers', header: 'מספר שקים'},
       {field: 'FullName', header: 'שם מלא'},
       {field: 'FatherName', header: 'שם האב'},
       {field: 'Gender', header: 'מין'},
@@ -72,6 +73,7 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
     this.cols = [
       {field: 'IdentityNumber', header: 'מספר זהות'},
       {field: 'BagNumbersDisplay', header: 'שקי חלל מקושרים'},
+      {field: 'RelatedBagNumbers', header: 'מספר שקים'},
       {field: 'FullName', header: 'שם מלא'},
       {field: 'FatherName', header: 'שם האב'},
     ];

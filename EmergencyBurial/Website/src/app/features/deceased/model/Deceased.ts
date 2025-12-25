@@ -27,6 +27,8 @@ export interface Deceased {
 
   BagNumbersDisplay?: string;
 
+  RelatedBagNumbers?: number;
+
   CreatedOn?: Date;
 
   DeceasedBagDetails?: DeceasedBagDetails[];

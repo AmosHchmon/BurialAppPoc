@@ -27,6 +27,8 @@ public class DeceasedDto
     
     public string? BagNumbersDisplay { get; set; }
     
+    public int? RelatedBagNumbers { get; set; }
+    
     public DateTime? CreatedOn { get; set; }
 
     public List<DeceasedBagDetailsDto> DeceasedBagDetails { get; set; }

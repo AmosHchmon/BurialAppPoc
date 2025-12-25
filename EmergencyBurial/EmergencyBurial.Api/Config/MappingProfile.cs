@@ -20,6 +20,7 @@ public class MappingProfile : Profile
 
         CreateMap<Deceased, DeceasedDto>()
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
+            .ForMember(dest => dest.RelatedBagNumbers, opt => opt.MapFrom(src => src.DeceasedBagDetails.Count))
             .ForMember(dest => dest.BagNumbersDisplay, opt => 
                 opt.MapFrom(src => string.Join(" | ", src.DeceasedBagDetails.Select(b => b.BagNumber))))
             .ReverseMap();
