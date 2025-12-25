@@ -30,10 +30,10 @@ namespace EmergencyBurial.Api.Jobs
                 
                 var newCasualty = new Deceased
                 {
-                    FirstName = "חלל אוטומטי",
-                    LastName = $"מס' {randomId}",
+                    FirstName = "ישראל",
+                    LastName = "ישראלי",
                     IdentityNumber = randomId.ToString(),
-                    FatherName = "לא ידוע",
+                    FatherName = "ישראלוף",
                     Gender = "לא ידוע",
                     Nationality = "ישראלי",
                     HomeCity = "תל אביב",
@@ -49,11 +49,11 @@ namespace EmergencyBurial.Api.Jobs
                     }
                 };
 
-                context.Deceaseds.Add(newCasualty);
+                /*context.Deceaseds.Add(newCasualty);
                 await context.SaveChangesAsync();
 
                 logger.LogInformation("Successfully created a new casualty with bagNumber: {bagNumber}",
-                    bagNumber);
+                    bagNumber);*/
 
                 var res = mapper.Map<ExternalDeceasedDto>(newCasualty);
 

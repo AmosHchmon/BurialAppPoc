@@ -19,15 +19,15 @@ import {AlertService} from "../../../../shared/services/alert.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {BurialProcessFormComponent} from "../burial-process-form/burial-process-form.component";
-import {TransportFormComponent} from "../../../transport/components/transport-form/transport-form.component";
 import {TabItem, tabItems} from "../../../../shared/static/tabs-items";
 import {bagDetailsFields, burialDetailsFields, deceasedFields} from "../../../../shared/static/deceased-forms-fields";
 import {SignalRService} from "../../../../shared/services/signalR.service";
+import {DeceasedBagDetails} from "../../model/DeceasedBagDetails";
 
 @Component({
   selector: 'app-deceased-detail',
   standalone: true,
-  imports: [UiComponentsModule, DeceasedStaticFieldsComponent, TransportsTableComponent, BurialCoordinationFormComponent, BurialProcessFormComponent, TransportFormComponent],
+  imports: [UiComponentsModule, DeceasedStaticFieldsComponent, TransportsTableComponent, BurialCoordinationFormComponent, BurialProcessFormComponent],
   templateUrl: './deceased-detail.component.html',
   styleUrl: './deceased-detail.component.scss'
 })
@@ -43,17 +43,18 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
   bagDetailsFields: IColumn[] = bagDetailsFields;
   burialDetailsFields: IColumn[] = burialDetailsFields;
 
+  burialTypes: IOptionItem[];
   transports: Transport[] = [];
   deceasedAccordion: DeceasedStaticFields[] = [];
-  burialTypes: IOptionItem[];
 
   deceased: Deceased;
+  selectedBag: DeceasedBagDetails;
   burialDetailsData: DeceasedStaticFields;
 
-  activeTab: string = "0";
-  isTransportDialogOpen: boolean = false;
-  isEdit: boolean = false;
   param: string = "";
+  activeTab: string = "0";
+  isEdit: boolean = false;
+  isTransportDialogOpen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -72,7 +73,7 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
 
     this.param = this.route.snapshot.paramMap.get('id');
 
-    await this.loadDataForTab("0");
+    await this.loadDataForTab(this.activeTab);
 
     this.burialTypes = await this.listService.getBurialTypeList();
 
@@ -93,8 +94,8 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
     }
 
     const bagDetailsPanel: DeceasedStaticFields = {
-      object: this.deceased?.DeceasedBagDetails,
-      title: 'פרטי שק החלל',
+      object: this.selectedBag,
+      title: 'פרטי שק ' + this.selectedBag.BagNumber,
       fields: this.bagDetailsFields,
       splitIndex: 6,
       trackNumber: 1
@@ -109,29 +110,38 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
     switch (tabValue) {
       case "0":
 
-        this.deceased = await this.deceasedService.getDeceasedById(this.param);
-        this.initializePanels();
+        if (!this.deceased) {
+          this.deceased = await this.deceasedService.getDeceasedById(this.param);
+
+          if (this.deceased.DeceasedBagDetails && this.deceased.DeceasedBagDetails.length > 0) {
+            this.onSelectBag(this.deceased.DeceasedBagDetails[0]);
+          }
+        }
         break;
 
       case "1":
 
         const burialDetails = await this.deceasedService.getBurialDetails(this.param);
+
         this.burialDetailsData = {
           object: burialDetails,
           title: 'פרטי קבורה',
           fields: this.burialDetailsFields,
           splitIndex: 6,
           trackNumber: 3
-        }
+        };
         break;
 
       case "4":
 
-        const transports = await this.transportService.getTransportsByDeceasedId(this.param);
-        this.transports = transports ? [...transports] : [];
+        if (this.selectedBag) {
+
+          const transports = await this.transportService.getTransportsByBagDetailsId(this.selectedBag.Id);
+
+          this.transports = transports ? [...transports] : [];
+        }
         break;
     }
-
   }
 
   private restoreCurrentForm() {
@@ -159,10 +169,10 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
 
   private listenToRealTimeUpdates() {
 
-    this.updateSubscription = this.signalRService.updatedDeceased.subscribe(async (updatedDeceased: any) => {
+    this.updateSubscription = this.signalRService.updatedDeceased.subscribe(async (updatedDeceased: Deceased) => {
 
       // בדיקה שהחלל שמעודכן הוא החלל שמוצג על המסך
-      if (updatedDeceased.HalalNumber === this.deceased?.HalalNumber) {
+      if (updatedDeceased.Id === this.deceased?.Id) {
 
         this.deceased = {...this.deceased, ...updatedDeceased};
 
@@ -184,6 +194,19 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
   //endregion
 
   //#region [Client events]
+
+  onSelectBag(bag: DeceasedBagDetails) {
+
+    if (!bag) {
+      return;
+    }
+
+    this.selectedBag = bag;
+    this.initializePanels();
+
+    this.transports = bag.Transports || [];
+
+  }
 
   openTransportDialog(isOpen: boolean) {
     this.isTransportDialogOpen = isOpen;
@@ -221,8 +244,9 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
 
       return;
     }
-
-    await this.switchTab(newTabValue);
+    this.activeTab = newTabValue;
+    await this.loadDataForTab(newTabValue); // קריאה לטעינה בעת החלפת טאב
+    //await this.switchTab(newTabValue);
   }
 
   setEdit(isEdit: boolean) {

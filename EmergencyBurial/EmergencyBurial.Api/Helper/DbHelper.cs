@@ -165,6 +165,7 @@ public class DbHelper
                 Id = Guid.NewGuid(),
                 DeceasedId = deceased1Id,
                 BagNumber = "C-1001",
+                PartDescription = "ראש",
                 Affiliation = Affiliation.Civilian,
                 ReceivingStation = TarahStations.Shura,
                 BroughtBy = BurialBody.AbuKabir, 

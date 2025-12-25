@@ -117,28 +117,15 @@
 
           <p-floatlabel variant="on">
             <input pInputText
-                   #firstName="ngModel"
+                   #fullName="ngModel"
                    class="w-75"
                    required
-                   [(ngModel)]="newDeceased.FirstName"
-                   [invalid]="firstName.invalid && firstName.touched"
+                   [(ngModel)]="newDeceased.FullName"
+                   [invalid]="fullName.invalid && fullName.touched"
                    name="firstName"
                    autocomplete="off"/>
-            <label>שם פרטי</label>
+            <label>שם מלא</label>
           </p-floatlabel>
-
-          <p-floatlabel variant="on">
-            <input pInputText
-                   #lastName="ngModel"
-                   class="w-75"
-                   required
-                   [(ngModel)]="newDeceased.LastName"
-                   [invalid]="lastName.invalid && lastName.touched"
-                   name="lastName"
-                   autocomplete="off"/>
-            <label>שם משפחה</label>
-          </p-floatlabel>
-
         </div>
 
         <div class="w-50 d-flex flex-column gap-5">

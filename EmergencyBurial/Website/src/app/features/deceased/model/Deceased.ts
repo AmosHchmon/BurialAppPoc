@@ -2,7 +2,6 @@ import {DeceasedBurialCoordination} from "./DeceasedBurialCoordination";
 import {DeceasedBurialProcessStatus} from "./DeceasedBurialProcessStatus";
 import {DeceasedBagDetails} from "./DeceasedBagDetails";
 import {DeceasedBurialDetails} from "./DeceasedBurialDetails";
-import {Transport} from "../../transport/model/transport";
 
 export interface Deceased {
 

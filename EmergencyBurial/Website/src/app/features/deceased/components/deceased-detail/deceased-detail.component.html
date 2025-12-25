@@ -1,3 +1,4 @@
+<!--
 <p-tabs [value]="activeTab" (valueChange)="onTabChange($event)">
   <p-tablist class="p-4">
     @for (tab of tabItems; track tab.value) {
@@ -55,3 +56,96 @@
 </p-tabs>
 
 
+-->
+<p-tabs [value]="activeTab" (valueChange)="onTabChange($event)">
+  <p-tablist class="p-4">
+    @for (tab of tabItems; track tab.value) {
+      <p-tab [value]="tab.value">{{ tab.header }}</p-tab>
+    }
+  </p-tablist>
+
+  <p-tabpanels>
+
+    <p-tabpanel value="0">
+      <div class="grid p-3">
+
+        <div class="col-12 md:col-3 border-left-1 surface-border pl-3">
+          <div class="flex flex-column gap-2">
+            <div class="d-flex justify-content-center w-25">
+              <p-floatlabel class="w-100 md:w-56" variant="on">
+                <p-select [options]="deceased?.DeceasedBagDetails"
+                          [(ngModel)]="selectedBag"
+                          (onChange)="onSelectBag($event.value)"
+                          optionLabel="BagNumber"
+                          class="w-100"/>
+                <label>רשימת שקים המקשורים לחלל</label>
+              </p-floatlabel>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-12 md:col-9 pr-4">
+          @if (selectedBag) {
+            <p-accordion [value]="[0]" [multiple]="true">
+              @for (panel of deceasedAccordion; track panel.title; let i = $index) {
+                <p-accordion-panel [value]="i" pRipple>
+                  <p-accordion-header class="fw-bold">{{ panel.title }}</p-accordion-header>
+                  <p-accordion-content>
+                    <app-deceased-static-fields [data]="panel"></app-deceased-static-fields>
+                  </p-accordion-content>
+                </p-accordion-panel>
+              }
+            </p-accordion>
+          } @else {
+            <div class="flex align-items-center justify-content-center h-full text-500">
+              <i class="pi pi-info-circle mr-2"></i> בחר שק לצפייה בפרטים
+            </div>
+          }
+        </div>
+
+      </div>
+    </p-tabpanel>
+
+    <p-tabpanel value="1">
+      @if (burialDetailsData) {
+        <app-deceased-static-fields [data]="burialDetailsData"></app-deceased-static-fields>
+      }
+    </p-tabpanel>
+
+    <p-tabpanel value="2">
+      <app-burial-coordination-form [deceasedId]="this.param"
+                                    [isEdit]="isEdit"
+                                    (editModeChange)="setEdit($event)">
+      </app-burial-coordination-form>
+    </p-tabpanel>
+
+    <p-tabpanel value="3">
+      <app-burial-process-form [deceasedId]="this.param"
+                               [isEdit]="isEdit"
+                               (editModeChange)="setEdit($event)">
+      </app-burial-process-form>
+    </p-tabpanel>
+
+    <p-tabpanel value="4">
+      <div class="mb-3 p-2 surface-100 border-round">
+        <span class="font-bold">שינועים עבור שק: </span>
+        <span class="text-primary">{{ selectedBag?.BagNumber || 'לא נבחר שק' }}</span>
+      </div>
+
+      <app-transports-table [transports]="transports"
+                            (openDialog)="openTransportDialog($event)">
+      </app-transports-table>
+
+      <p-dialog [(visible)]="isTransportDialogOpen"
+                closeOnEscape="true"
+                dismissableMask="true"
+                [style]="{ width: '70rem', maxHeight: '90vh'}"
+                header="הוספת שינוע"
+                [modal]="true">
+
+      </p-dialog>
+    </p-tabpanel>
+
+  </p-tabpanels>
+</p-tabs>

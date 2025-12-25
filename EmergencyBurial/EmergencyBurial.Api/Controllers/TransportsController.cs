@@ -17,7 +17,7 @@ namespace EmergencyBurial.Api.Controllers;
 public class TransportsController(TransportService transportService, DeceasedService deceasedService, IMapper mapper)
     : ControllerBase
 {
-    [HttpGet("deceased/{id}")]
+    [HttpGet("bag-number/{id}")]
     public async Task<ActionResult<IEnumerable<Transport>>> GetTransportsByDeceased(string id)
     {
         if (!Guid.TryParse(id, out Guid idValue))
