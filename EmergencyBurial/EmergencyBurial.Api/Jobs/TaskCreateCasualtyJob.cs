@@ -4,7 +4,9 @@ using DataModel;
 using DataModel.Entities;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using AutoMapper;
+using Core.Helpers;
 using Core.Model;
 using EmergencyBurial.Services.RealTime;
 
@@ -24,23 +26,34 @@ namespace EmergencyBurial.Api.Jobs
                 logger.LogInformation("CreateCasualtyJob (Coravel) is running.");
 
                 var randomId = new Random().Next(1000, 9999);
+                var bagNumber = $"C-{DateTime.Now.Ticks}";
+                
                 var newCasualty = new Deceased
                 {
-                    HalalNumber = $"C-{DateTime.Now.Ticks}",
-                    FirstName = "חלל אוטומטי",
-                    LastName = $"מס' {randomId}",
+                    FirstName = "ישראל",
+                    LastName = "ישראלי",
                     IdentityNumber = randomId.ToString(),
-                    FatherName = "לא ידוע",
+                    FatherName = "ישראלוף",
                     Gender = "לא ידוע",
                     Nationality = "ישראלי",
                     HomeCity = "תל אביב",
+                    DeceasedBags = new List<DeceasedBag>
+                    {
+                        new DeceasedBag
+                        {
+                            Id = Guid.NewGuid(),
+                            BagNumber = bagNumber,
+                            ReceivingStation = TarahStations.Shura,
+                            ArrivalDateTime = DateTime.Now
+                        }
+                    }
                 };
 
-                context.Deceaseds.Add(newCasualty);
+                /*context.Deceaseds.Add(newCasualty);
                 await context.SaveChangesAsync();
 
-                logger.LogInformation("Successfully created a new casualty with HalalNumber: {halalNumber}",
-                    newCasualty.HalalNumber);
+                logger.LogInformation("Successfully created a new casualty with bagNumber: {bagNumber}",
+                    bagNumber);*/
 
                 var res = mapper.Map<ExternalDeceasedDto>(newCasualty);
 

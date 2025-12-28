@@ -1,11 +1,11 @@
-import {DeceasedBagDetails} from "./DeceasedBagDetails";
+import {DeceasedBag} from "./DeceasedBag";
 import {IColumn} from "../../../shared/ui-components/model/column";
 import {Deceased} from "./Deceased";
 import {DeceasedBurialDetails} from "./DeceasedBurialDetails";
 
 export interface DeceasedStaticFields {
 
-  object: Deceased | DeceasedBagDetails | DeceasedBurialDetails
+  object: Deceased | DeceasedBag | DeceasedBurialDetails
 
   title: string;
 

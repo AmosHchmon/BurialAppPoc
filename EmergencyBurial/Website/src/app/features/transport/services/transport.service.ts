@@ -12,9 +12,9 @@ export class TransportService extends BaseService {
     super("TransportsService", injector);
   }
 
-  async getTransportsByDeceasedId(id: string): Promise<Transport[]> {
+  async getTransportsByBagDetailsId(id: string): Promise<Transport[]> {
 
-    return super.get({path: `/deceased/${id}`});
+    return super.get({path: `/bag-number/${id}`});
   }
 
   async createTransport(transport: Transport): Promise<Transport> {

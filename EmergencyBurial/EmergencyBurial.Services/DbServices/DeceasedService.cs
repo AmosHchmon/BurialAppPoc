@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.Resources;
 using DataModel;
 using DataModel.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +13,7 @@ public class DeceasedService(EmergencyBurialContext ctx)
     public async Task<List<Deceased>> GetDeceaseds()
     {
         var deceaseds = await ctx.Deceaseds
+            .Include(d => d.DeceasedBags)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
 
@@ -23,7 +23,7 @@ public class DeceasedService(EmergencyBurialContext ctx)
     public async Task<Deceased> GetDeceased(Guid? id)
     {
         var deceased = await ctx.Deceaseds
-            .Include(d => d.DeceasedBagDetails)
+            .Include(d => d.DeceasedBags)
             .FirstOrDefaultAsync(d => d.Id == id);
 
         return deceased;
@@ -100,9 +100,10 @@ public class DeceasedService(EmergencyBurialContext ctx)
         return deceasedBurialProcessStatus;
     }
 
-    public async Task<Deceased> GetDeceasedByHalalNumber(string halalNumber)
+    public async Task<Deceased> GetDeceasedByBagNumber(string bagNumber)
     {
         return await ctx.Deceaseds
-            .FirstOrDefaultAsync(d => d.HalalNumber == halalNumber);
+            .Include(d => d.DeceasedBags)
+            .FirstOrDefaultAsync(d => d.DeceasedBags.Any(b => b.BagNumber == bagNumber));
     }
 }

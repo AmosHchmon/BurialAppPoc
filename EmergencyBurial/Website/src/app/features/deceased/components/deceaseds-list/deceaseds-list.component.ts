@@ -53,10 +53,10 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
   initCols() {
 
     this.fields = [
-      {field: 'HalalNumber', header: 'מספר חלל'},
       {field: 'IdentityNumber', header: 'מספר זהות'},
-      {field: 'FirstName', header: 'שם פרטי'},
-      {field: 'LastName', header: 'שם משפחה'},
+      {field: 'BagNumbersDisplay', header: 'שקי חלל מקושרים'},
+      {field: 'RelatedBagNumbers', header: 'מספר שקים'},
+      {field: 'FullName', header: 'שם מלא'},
       {field: 'FatherName', header: 'שם האב'},
       {field: 'Gender', header: 'מין'},
       {field: 'Nationality', header: 'לאום'},
@@ -71,10 +71,10 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
     ];
 
     this.cols = [
-      {field: 'HalalNumber', header: 'מספר חלל'},
       {field: 'IdentityNumber', header: 'מספר זהות'},
-      {field: 'FirstName', header: 'שם פרטי'},
-      {field: 'LastName', header: 'שם משפחה'},
+      {field: 'BagNumbersDisplay', header: 'שקי חלל מקושרים'},
+      {field: 'RelatedBagNumbers', header: 'מספר שקים'},
+      {field: 'FullName', header: 'שם מלא'},
       {field: 'FatherName', header: 'שם האב'},
     ];
   }

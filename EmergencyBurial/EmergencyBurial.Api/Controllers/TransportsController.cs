@@ -17,7 +17,7 @@ namespace EmergencyBurial.Api.Controllers;
 public class TransportsController(TransportService transportService, DeceasedService deceasedService, IMapper mapper)
     : ControllerBase
 {
-    [HttpGet("deceased/{id}")]
+    [HttpGet("bag-number/{id}")]
     public async Task<ActionResult<IEnumerable<Transport>>> GetTransportsByDeceased(string id)
     {
         if (!Guid.TryParse(id, out Guid idValue))
@@ -32,7 +32,7 @@ public class TransportsController(TransportService transportService, DeceasedSer
             return NotFound();
         }
 
-        var transports = await transportService.GetTransportsByDeceasedId(idValue);
+        var transports = await transportService.GetTransportsByBagDetailsId(idValue);
 
         var res = mapper.Map<List<TransportDto>>(transports);
 

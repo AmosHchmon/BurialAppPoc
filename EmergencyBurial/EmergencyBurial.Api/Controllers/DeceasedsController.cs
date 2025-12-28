@@ -46,8 +46,6 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
             return BadRequest();
         }
 
-        deceasedDto.HalalNumber = $"C-{DateTime.Now.Ticks}";
-
         var deceased = mapper.Map<Deceased>(deceasedDto);
 
         await deceasedService.CreateDeceased(deceased);
