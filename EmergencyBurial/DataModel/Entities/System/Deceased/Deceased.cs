@@ -36,6 +36,8 @@ public class Deceased
     public DateTime? CreatedOn { get; set; }
     
     public ProcessStatus ProcessStatus { get; set; }
+    
+    public virtual ICollection<DeceasedStatusHistory> StatusHistory { get; set; }
 
     public virtual DeceasedBagDetails DeceasedBagDetails { get; set; }
     

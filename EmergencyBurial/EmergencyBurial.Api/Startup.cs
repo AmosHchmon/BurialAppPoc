@@ -74,7 +74,7 @@ namespace EmergencyBurial.Api
                 options.UseSqlServer(Configuration.GetConnectionString("EmergencyBurialDbConfig"))
                     .UseTriggers(triggerOption =>
                     {
-                        triggerOption.AddTrigger<SaveMembersTrigger>();
+                        triggerOption.AddTrigger<DeceasedStatusTrigger>();
                     });
             });
 
