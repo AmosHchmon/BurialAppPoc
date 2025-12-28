@@ -11,7 +11,7 @@ public partial class EmergencyBurialContext : DbContext
     public virtual DbSet<AppFile> Files { get; set; }
     public virtual DbSet<Member> Members { get; set; }
     public virtual DbSet<Deceased> Deceaseds { get; set; }
-    public virtual DbSet<DeceasedBagDetails> DeceasedBagDetails { get; set; }
+    public virtual DbSet<DeceasedBag> DeceasedBag { get; set; }
     public virtual DbSet<DeceasedBurialProcessStatus> DeceasedBurialProcessStatus { get; set; }
     public virtual DbSet<DeceasedBurialDetails> DeceasedBurialDetails { get; set; }
     public virtual DbSet<DeceasedBurialCoordination> DeceasedBurialCoordination { get; set; }
@@ -26,7 +26,7 @@ public partial class EmergencyBurialContext : DbContext
     {
         modelBuilder.Entity<Member>().HasIndex(m => m.UserName).IsUnique(true);
         modelBuilder.Entity<ListType>().HasIndex(u => u.Text);
-        modelBuilder.Entity<DeceasedBagDetails>().HasIndex(d => d.BagNumber).IsUnique(true);
+        modelBuilder.Entity<DeceasedBag>().HasIndex(d => d.BagNumber).IsUnique(true);
         modelBuilder.Entity<Transport>().HasIndex(d => d.Id).IsUnique(true);
 
         foreach (var relationship in modelBuilder.Model.GetEntityTypes()

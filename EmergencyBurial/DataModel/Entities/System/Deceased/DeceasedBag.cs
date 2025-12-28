@@ -7,7 +7,7 @@ using Core.Helpers;
 
 namespace DataModel.Entities;
 
-public class DeceasedBagDetails
+public class DeceasedBag
 {
     
     [Key]

@@ -20,15 +20,15 @@ public class MappingProfile : Profile
 
         CreateMap<Deceased, DeceasedDto>()
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
-            .ForMember(dest => dest.RelatedBagNumbers, opt => opt.MapFrom(src => src.DeceasedBagDetails.Count))
+            .ForMember(dest => dest.RelatedBagNumbers, opt => opt.MapFrom(src => src.DeceasedBags.Count))
             .ForMember(dest => dest.BagNumbersDisplay, opt => 
-                opt.MapFrom(src => string.Join(" | ", src.DeceasedBagDetails.Select(b => b.BagNumber))))
+                opt.MapFrom(src => string.Join(" | ", src.DeceasedBags.Select(b => b.BagNumber))))
             .ReverseMap();
         
         CreateMap<Deceased, ExternalDeceasedDto>()
             .ReverseMap();
 
-        CreateMap<DeceasedBagDetails, DeceasedBagDetailsDto>()
+        CreateMap<DeceasedBag, DeceasedBagDto>()
             .ForMember(dest => dest.Affiliation, opt => opt.MapFrom(src => src.Affiliation.GetEnumDescription()))
             .ForMember(dest => dest.ReceivingStation, opt => opt.MapFrom(src => src.ReceivingStation.GetEnumDescription()))
             .ForMember(dest => dest.BroughtBy, opt => opt.MapFrom(src => src.BroughtBy.GetEnumDescription()))
@@ -52,10 +52,10 @@ public class MappingProfile : Profile
         #endregion
 
         CreateMap<Transport, TransportDto>()
-            .ForMember(dest => dest.BagNumber, opt => opt.MapFrom(src => src.DeceasedBagDetails.BagNumber))
-            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.DeceasedBagDetails.Deceased.FirstName))
+            .ForMember(dest => dest.BagNumber, opt => opt.MapFrom(src => src.DeceasedBag.BagNumber))
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.DeceasedBag.Deceased.FirstName))
             .ReverseMap()
-            .ForMember(dest => dest.DeceasedBagDetails, opt => opt.Ignore());
+            .ForMember(dest => dest.DeceasedBag, opt => opt.Ignore());
         
         #region common
 

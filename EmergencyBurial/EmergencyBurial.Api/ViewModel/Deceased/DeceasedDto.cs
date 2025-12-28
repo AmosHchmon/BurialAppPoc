@@ -31,7 +31,7 @@ public class DeceasedDto
     
     public DateTime? CreatedOn { get; set; }
 
-    public List<DeceasedBagDetailsDto> DeceasedBagDetails { get; set; }
+    public List<DeceasedBagDto> DeceasedBags { get; set; }
     
     public DeceasedBurialProcessStatusDto? DeceasedBurialProcessStatus { get; set; }
     

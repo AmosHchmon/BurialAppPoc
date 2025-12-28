@@ -158,9 +158,9 @@ public class DbHelper
         HomeCity = "ירושלים",
         PeleNumber = "PL-789123",
         
-        DeceasedBagDetails = new List<DeceasedBagDetails>
+        DeceasedBags = new List<DeceasedBag>
         {
-            new DeceasedBagDetails
+            new DeceasedBag
             {
                 Id = Guid.NewGuid(),
                 DeceasedId = deceased1Id,
@@ -173,7 +173,7 @@ public class DbHelper
                 RelatedBagNumbers = 2,
                 ArrivalDateTime = DateTime.Now.AddDays(-2)
             },
-            new DeceasedBagDetails
+            new DeceasedBag
             {
                 Id = Guid.NewGuid(),
                 DeceasedId = deceased1Id,
@@ -185,7 +185,7 @@ public class DbHelper
                 RelatedBagNumbers = 2,
                 ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(2)
             },
-            new DeceasedBagDetails
+            new DeceasedBag
             {
                 Id = Guid.NewGuid(),
                 DeceasedId = deceased1Id,
@@ -241,9 +241,9 @@ public class DbHelper
         PeleNumber = "PL-456789",
         
         // חלל עם שק אחד בלבד
-        DeceasedBagDetails = new List<DeceasedBagDetails>
+        DeceasedBags = new List<DeceasedBag>
         {
-            new DeceasedBagDetails
+            new DeceasedBag
             {
                 Id = Guid.NewGuid(),
                 DeceasedId = deceased2Id,
@@ -290,7 +290,7 @@ public class DbHelper
             return;
         }
         
-        var bagDetail = db.DeceasedBagDetails.FirstOrDefault(b => b.BagNumber == "C-1001");
+        var bagDetail = db.DeceasedBag.FirstOrDefault(b => b.BagNumber == "C-1001");
 
         if (bagDetail == null)
         {
@@ -301,7 +301,7 @@ public class DbHelper
         {
             new Transport
             {
-                DeceasedBagDetailsId = bagDetail.Id,
+                DeceasedBagId = bagDetail.Id,
                 StartLocation = "בית חולים הדסה עין כרם",
                 Purpose = "העברה למכון טהרה",
                 Organization = "חברה קדישא קהילת ירושלים",
@@ -312,7 +312,7 @@ public class DbHelper
             },
             new Transport
             {
-                DeceasedBagDetailsId = bagDetail.Id,
+                DeceasedBagId = bagDetail.Id,
                 StartLocation = "מכון טהרה גבעת שאול",
                 Purpose = "העברה לקירור זמני",
                 Organization = "חברה קדישא קהילת ירושלים",
@@ -323,7 +323,7 @@ public class DbHelper
             },
             new Transport
             {
-                DeceasedBagDetailsId = bagDetail.Id,
+                DeceasedBagId = bagDetail.Id,
                 StartLocation = "חדר קירור, הר המנוחות",
                 Purpose = "העברה לקבורה",
                 Organization = "מועצה דתית ירושלים",

@@ -37,9 +37,9 @@ namespace EmergencyBurial.Api.Jobs
                     Gender = "לא ידוע",
                     Nationality = "ישראלי",
                     HomeCity = "תל אביב",
-                    DeceasedBagDetails = new List<DeceasedBagDetails>
+                    DeceasedBags = new List<DeceasedBag>
                     {
-                        new DeceasedBagDetails
+                        new DeceasedBag
                         {
                             Id = Guid.NewGuid(),
                             BagNumber = bagNumber,

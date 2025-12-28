@@ -22,7 +22,7 @@ import {BurialProcessFormComponent} from "../burial-process-form/burial-process-
 import {TabItem, tabItems} from "../../../../shared/static/tabs-items";
 import {bagDetailsFields, burialDetailsFields, deceasedFields} from "../../../../shared/static/deceased-forms-fields";
 import {SignalRService} from "../../../../shared/services/signalR.service";
-import {DeceasedBagDetails} from "../../model/DeceasedBagDetails";
+import {DeceasedBag} from "../../model/DeceasedBag";
 
 @Component({
   selector: 'app-deceased-detail',
@@ -48,7 +48,7 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
   deceasedAccordion: DeceasedStaticFields[] = [];
 
   deceased: Deceased;
-  selectedBag: DeceasedBagDetails;
+  selectedBag: DeceasedBag;
   burialDetailsData: DeceasedStaticFields;
 
   param: string = "";
@@ -113,8 +113,8 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
         if (!this.deceased) {
           this.deceased = await this.deceasedService.getDeceasedById(this.param);
 
-          if (this.deceased.DeceasedBagDetails && this.deceased.DeceasedBagDetails.length > 0) {
-            this.onSelectBag(this.deceased.DeceasedBagDetails[0]);
+          if (this.deceased.DeceasedBags && this.deceased.DeceasedBags.length > 0) {
+            this.onSelectBag(this.deceased.DeceasedBags[0]);
           }
         }
         break;
@@ -195,7 +195,7 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
 
   //#region [Client events]
 
-  onSelectBag(bag: DeceasedBagDetails) {
+  onSelectBag(bag: DeceasedBag) {
 
     if (!bag) {
       return;

@@ -1,6 +1,6 @@
 import {DeceasedBurialCoordination} from "./DeceasedBurialCoordination";
 import {DeceasedBurialProcessStatus} from "./DeceasedBurialProcessStatus";
-import {DeceasedBagDetails} from "./DeceasedBagDetails";
+import {DeceasedBag} from "./DeceasedBag";
 import {DeceasedBurialDetails} from "./DeceasedBurialDetails";
 
 export interface Deceased {
@@ -31,7 +31,7 @@ export interface Deceased {
 
   CreatedOn?: Date;
 
-  DeceasedBagDetails?: DeceasedBagDetails[];
+  DeceasedBags?: DeceasedBag[];
 
   DeceasedBurialProcessStatus?: DeceasedBurialProcessStatus;
 

@@ -31,7 +31,7 @@ public class Deceased
     
     public DateTime? CreatedOn { get; set; }
 
-    public virtual ICollection<DeceasedBagDetails> DeceasedBagDetails { get; set; }
+    public virtual ICollection<DeceasedBag> DeceasedBags { get; set; }
     
     public virtual DeceasedBurialProcessStatus DeceasedBurialProcessStatus { get; set; }
     

@@ -10,7 +10,7 @@ namespace DataModel.Entities
         public int? Id { get; set; }
 
         [Required]
-        public Guid DeceasedBagDetailsId { get; set; }
+        public Guid DeceasedBagId { get; set; }
 
         [Required]
         public string StartLocation { get; set; }
@@ -37,7 +37,7 @@ namespace DataModel.Entities
         
         public DateTime? ExitDateTime { get; set; }
         
-        [ForeignKey(nameof(DeceasedBagDetailsId))]
-        public virtual DeceasedBagDetails DeceasedBagDetails { get; set; }
+        [ForeignKey(nameof(DeceasedBagId))]
+        public virtual DeceasedBag DeceasedBag { get; set; }
     }
 }

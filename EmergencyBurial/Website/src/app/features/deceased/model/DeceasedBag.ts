@@ -1,6 +1,6 @@
 ﻿import {Transport} from "../../transport/model/transport";
 
-export interface DeceasedBagDetails {
+export interface DeceasedBag {
 
   Id: string;
 

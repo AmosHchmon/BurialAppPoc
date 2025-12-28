@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace EmergencyBurial.Api.ViewModel;
 
-public class DeceasedBagDetailsDto
+public class DeceasedBagDto
 {
     public Guid Id { get; set; }
     

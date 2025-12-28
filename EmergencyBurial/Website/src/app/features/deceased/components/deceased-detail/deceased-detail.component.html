@@ -73,7 +73,7 @@
           <div class="flex flex-column gap-2">
             <div class="d-flex justify-content-center w-25">
               <p-floatlabel class="w-100 md:w-56" variant="on">
-                <p-select [options]="deceased?.DeceasedBagDetails"
+                <p-select [options]="deceased?.DeceasedBags"
                           [(ngModel)]="selectedBag"
                           (onChange)="onSelectBag($event.value)"
                           optionLabel="BagNumber"
