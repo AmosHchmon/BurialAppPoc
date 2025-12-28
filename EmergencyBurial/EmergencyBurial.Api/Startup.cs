@@ -83,12 +83,13 @@ namespace EmergencyBurial.Api
 
             services.AddScoped<EmailHandler>();
             services.AddScoped<SmsHandler>();
+            
             services.AddScoped<ListService>();
             services.AddScoped<AccountService>();
             services.AddScoped<DeceasedService>();
             services.AddScoped<NotificationService>();
             services.AddScoped<MemberService>();
-
+            services.AddScoped<TaharahService>();
             services.AddScoped<TransportService>();
             services.AddScoped<FileService>();
             

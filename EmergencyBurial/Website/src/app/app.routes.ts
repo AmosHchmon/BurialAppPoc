@@ -58,7 +58,7 @@ export const routes: Routes = [
     children:[
       {
         path: '',
-        loadChildren: () => import('./features/burial/burial.routing').then(m => m.BurialRouting)
+        loadChildren: () => import('./features/taharah/taharah.routing').then(m => m.TaharahRouting)
       },
 
     ],
