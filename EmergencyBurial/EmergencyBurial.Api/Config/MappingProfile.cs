@@ -18,6 +18,7 @@ public class MappingProfile : Profile
         #region Deceased
 
         CreateMap<Deceased, DeceasedDto>()
+            .ForMember(dest => dest.ProcessStatusDesc, opt => opt.MapFrom(src => src.ProcessStatus.GetEnumDescription()))
             .ReverseMap();
 
         CreateMap<DeceasedBagDetails, DeceasedBagDetailsDto>()

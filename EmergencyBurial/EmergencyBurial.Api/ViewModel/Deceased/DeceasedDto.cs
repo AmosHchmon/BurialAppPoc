@@ -29,6 +29,10 @@ public class DeceasedDto
     
     public string? Notes { get; set; }
     
+    public int? ProcessStatus { get; set; }
+    
+    public string? ProcessStatusDesc { get; set; }
+    
     public DateTime? CreatedOn { get; set; }
 
     public DeceasedBagDetailsDto? DeceasedBagDetails { get; set; }

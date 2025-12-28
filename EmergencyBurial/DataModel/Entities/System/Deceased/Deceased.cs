@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Core.Helpers;
 
 namespace DataModel.Entities;
 
@@ -33,6 +34,8 @@ public class Deceased
     public string? Notes { get; set; }
     
     public DateTime? CreatedOn { get; set; }
+    
+    public ProcessStatus ProcessStatus { get; set; }
 
     public virtual DeceasedBagDetails DeceasedBagDetails { get; set; }
     

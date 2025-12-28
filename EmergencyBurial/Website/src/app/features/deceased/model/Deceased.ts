@@ -30,6 +30,10 @@ export interface Deceased {
 
   Notes?: string;
 
+  ProcessStatus?: number;
+
+  ProcessStatusDesc?: string;
+
   CreatedOn?: Date;
 
   DeceasedBagDetails?: DeceasedBagDetails;

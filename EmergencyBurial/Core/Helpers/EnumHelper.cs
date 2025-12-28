@@ -206,6 +206,34 @@ namespace Core.Helpers
         View = 3
     }
 
+    public enum ProcessStatus 
+    {
+        [Description("קליטה בתר\"ח")]
+        ReceptionAtTarah = 1,
+        [Description("שחרור תר\"ח")]
+        ReleaseFromTarah = 2,
+        [Description("שינוע למכון רפואה משפטית")]
+        TransportToForensicInstitute = 3,
+        [Description("חזרה משינוע מכון רפואה משפטית")]
+        ReturnFromForensicInstitute = 4,
+        [Description("שינוע להכנה לקבורה")]
+        TransportToBurialPreparation = 5,
+        [Description("סיום שינוע הכנה לקבורה")]
+        EndTransportBurialPreparation = 6,
+        [Description("קליטה הכנה לקבורה")]
+        ReceptionBurialPreparation = 7,
+        [Description("שחרור הכנה לקבורה")]
+        ReleaseBurialPreparation = 8,
+        [Description("שינוע לגוף קבורה")]
+        TransportToBurialEntity = 9,
+        [Description("סיום שינוע גוף קבורה")]
+        EndTransportBurialEntity = 10,
+        [Description("קבורה")]
+        Burial = 11,
+        [Description("ארכיב")]
+        Archive = 12
+    }
+
     #endregion
 
     #region [communication]

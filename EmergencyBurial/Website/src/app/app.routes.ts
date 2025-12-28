@@ -62,7 +62,7 @@ export const routes: Routes = [
       },
 
     ],
-    canMatch: [RoleGuard], data: {roles: [enmOrganizationType.All]},
+    canMatch: [RoleGuard], data: {roles: [enmOrganizationType.BurialPreparation]},
   },
   {
     path: 'admin',
