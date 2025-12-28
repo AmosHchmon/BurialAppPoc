@@ -73,6 +73,9 @@ export class ListsManagementComponent implements OnInit {
               private confirmService: ConfirmationService) {
   }
 
+
+  //#region [Lifecycle events]
+
   async ngOnInit() {
 
     await this.loadListTypes();
@@ -94,14 +97,23 @@ export class ListsManagementComponent implements OnInit {
     await this.loadListItems();
   }
 
-  //#region [ListType methods]
-
   private async loadListTypes() {
 
     this.listTypes = await this.listService.getTypeList();
 
     this.selectedType = this.selectedType ?? this.listTypes.at(0).Id;
   }
+
+  private async loadListItems() {
+
+    this.allListItems = await this.listService.getItemList();
+
+    this.changeListItems();
+  }
+
+  //endregion
+
+  //#region [Client events]
 
   onNewListType() {
 
@@ -168,17 +180,6 @@ export class ListsManagementComponent implements OnInit {
 
     this.afterCloseDialog();
 
-  }
-
-  //#endregion
-
-  //#region [ListItem methods]
-
-  private async loadListItems() {
-
-    this.allListItems = await this.listService.getItemList();
-
-    this.changeListItems();
   }
 
   changeListItems() {
@@ -267,6 +268,5 @@ export class ListsManagementComponent implements OnInit {
 
   }
 
-
-  //#endregion
+  //endregion
 }

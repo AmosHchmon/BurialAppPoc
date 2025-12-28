@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,11 +7,18 @@ using Core.Helpers;
 
 namespace DataModel.Entities;
 
-public class DeceasedBagDetails
+public class DeceasedBag
 {
-    [Required]
+    
     [Key]
+    public Guid Id { get; set; }
+    
+    [Required]
     public Guid DeceasedId { get; set; }
+    
+    [Required]
+    [Description("מספר שק")]
+    public string BagNumber { get; set; }
 
     [Description("שיוך ארגוני")]
     public Affiliation? Affiliation { get; set; }
@@ -44,4 +52,6 @@ public class DeceasedBagDetails
     
     [ForeignKey(nameof(DeceasedId))]
     public virtual Deceased Deceased { get; set; }
+    
+    public virtual IEnumerable<Transport> Transports { get; set; }
 }

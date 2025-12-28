@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace EmergencyBurial.Api.ViewModel;
 
-public class DeceasedBagDetailsDto
+public class DeceasedBagDto
 {
+    public Guid Id { get; set; }
+    
     public Guid? DeceasedId { get; set; }
+    
+    public string BagNumber { get; set; }
 
     public string? Affiliation { get; set; }
 
@@ -29,4 +34,6 @@ public class DeceasedBagDetailsDto
     public string? BroughtFrom { get; set; }
     
     public string? ObjectsOnDeceased { get; set; }
+    
+    public List<TransportDto> Transports { get; set; }
 }

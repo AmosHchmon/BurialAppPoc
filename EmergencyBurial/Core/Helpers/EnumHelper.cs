@@ -234,6 +234,18 @@ namespace Core.Helpers
         Archive = 12
     }
 
+    public enum GatewaySource
+    {
+        [Description("משטרה - פלא")]
+        Police = 1,
+        [Description("פיקוד העורף - אומץ")]
+        IDF = 2,
+        [Description("רווחה")]
+        Welfare = 3,
+        [Description("בריאות")]
+        Health = 4
+    }
+
     #endregion
 
     #region [communication]

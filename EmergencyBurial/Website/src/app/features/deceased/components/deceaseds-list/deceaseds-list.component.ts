@@ -38,6 +38,8 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
 
   }
 
+  //#region [Lifecycle events]
+
   async ngOnInit() {
 
     this.deceasedList = await this.deceasedService.getDeceaseds();
@@ -51,10 +53,10 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
   initCols() {
 
     this.fields = [
-      {field: 'HalalNumber', header: 'מספר חלל'},
       {field: 'IdentityNumber', header: 'מספר זהות'},
-      {field: 'FirstName', header: 'שם פרטי'},
-      {field: 'LastName', header: 'שם משפחה'},
+      {field: 'BagNumbersDisplay', header: 'שקי חלל מקושרים'},
+      {field: 'RelatedBagNumbers', header: 'מספר שקים'},
+      {field: 'FullName', header: 'שם מלא'},
       {field: 'FatherName', header: 'שם האב'},
       {field: 'Gender', header: 'מין'},
       {field: 'Nationality', header: 'לאום'},
@@ -69,13 +71,23 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
     ];
 
     this.cols = [
-      {field: 'HalalNumber', header: 'מספר חלל'},
       {field: 'IdentityNumber', header: 'מספר זהות'},
-      {field: 'FirstName', header: 'שם פרטי'},
-      {field: 'LastName', header: 'שם משפחה'},
+      {field: 'BagNumbersDisplay', header: 'שקי חלל מקושרים'},
+      {field: 'RelatedBagNumbers', header: 'מספר שקים'},
+      {field: 'FullName', header: 'שם מלא'},
       {field: 'FatherName', header: 'שם האב'},
     ];
   }
+
+  ngOnDestroy(): void {
+
+    this.unSubscribeToHubEvents();
+
+  }
+
+  //endregion
+
+  //#region [Client events]
 
   getGlobalFilterFields(): string[] {
 
@@ -96,9 +108,13 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
     }
   }
 
+  //endregion
+
+  //#region [Realtime events]
+
   private subscribeToHubEvents(): void {
 
-    this.deceasedSubscription = this.signalRService.deceased.subscribe(
+    this.deceasedSubscription = this.signalRService.newDeceased.subscribe(
       (newDeceased: Deceased) => {
 
         this.deceasedList.unshift(newDeceased);
@@ -116,9 +132,5 @@ export class DeceasedsListComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy(): void {
-
-    this.unSubscribeToHubEvents();
-
-  }
+  //endregion
 }

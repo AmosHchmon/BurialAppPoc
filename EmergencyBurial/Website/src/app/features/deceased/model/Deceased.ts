@@ -1,20 +1,15 @@
 import {DeceasedBurialCoordination} from "./DeceasedBurialCoordination";
 import {DeceasedBurialProcessStatus} from "./DeceasedBurialProcessStatus";
-import {DeceasedBagDetails} from "./DeceasedBagDetails";
+import {DeceasedBag} from "./DeceasedBag";
 import {DeceasedBurialDetails} from "./DeceasedBurialDetails";
-import {Transport} from "../../transport/model/transport";
 
 export interface Deceased {
 
   Id?: string;
 
-  HalalNumber?: string;
-
   IdentityNumber?: string;
 
-  FirstName?: string;
-
-  LastName?: string;
+  FullName?: string;
 
   FatherName?: string;
 
@@ -30,20 +25,21 @@ export interface Deceased {
 
   Notes?: string;
 
+  BagNumbersDisplay?: string;
+
+  RelatedBagNumbers?: number;
+
   ProcessStatus?: number;
 
   ProcessStatusDesc?: string;
 
   CreatedOn?: Date;
 
-  DeceasedBagDetails?: DeceasedBagDetails;
+  DeceasedBags?: DeceasedBag[];
 
   DeceasedBurialProcessStatus?: DeceasedBurialProcessStatus;
 
   DeceasedBurialDetails?: DeceasedBurialDetails;
 
   DeceasedBurialCoordination?: DeceasedBurialCoordination;
-
-  Transports?: Transport[];
-
 }

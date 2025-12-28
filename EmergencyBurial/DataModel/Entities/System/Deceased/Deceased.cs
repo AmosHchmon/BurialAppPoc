@@ -10,9 +10,6 @@ public class Deceased
     [Key]
     public Guid Id { get; set; }
 
-    [Required]
-    public string HalalNumber { get; set; }
-
     public string? IdentityNumber { get; set; }
     
     public string? FirstName { get; set; }
@@ -39,13 +36,11 @@ public class Deceased
     
     public virtual ICollection<DeceasedStatusHistory> StatusHistory { get; set; }
 
-    public virtual DeceasedBagDetails DeceasedBagDetails { get; set; }
+    public virtual ICollection<DeceasedBag> DeceasedBags { get; set; }
     
     public virtual DeceasedBurialProcessStatus DeceasedBurialProcessStatus { get; set; }
     
     public virtual DeceasedBurialDetails DeceasedBurialDetails { get; set; }
     
     public virtual DeceasedBurialCoordination DeceasedBurialCoordination { get; set; }
-    
-    public virtual IEnumerable<Transport> Transports { get; set; }
 }
