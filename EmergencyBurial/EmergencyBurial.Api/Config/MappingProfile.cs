@@ -45,7 +45,12 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.BurialLicenseScanned, opt => opt.MapFrom(src => src.BurialLicenseScanned ? "כן" : "לא"))
             .ForMember(dest => dest.InCoffin, opt => opt.MapFrom(src => src.InCoffin ? "כן" : "לא"))
             .ForMember(dest => dest.TaharahStatus, opt => opt.MapFrom(src => src.TaharahStatus.GetEnumDescription()))
-            .ReverseMap();
+            .ReverseMap()
+            .ForMember(dest => dest.BurialType, opt => opt.Ignore())
+            .ForMember(dest => dest.IsCivilBurial, opt => opt.Ignore())
+            .ForMember(dest => dest.BurialLicenseScanned, opt => opt.Ignore())
+            .ForMember(dest => dest.TaharahStatus, opt => opt.Ignore())
+            .ForMember(dest => dest.InCoffin, opt => opt.Ignore());
 
         CreateMap<DeceasedBurialCoordination, DeceasedBurialCoordinationDto>()
             .ReverseMap();

@@ -53,7 +53,7 @@ export const routes: Routes = [
     canMatch: [AuthGuard],
   },
   {
-    path: 'burial',
+    path: 'taharah',
     component: BurialPreparationLayoutComponent,
     children:[
       {
@@ -62,7 +62,7 @@ export const routes: Routes = [
       },
 
     ],
-    canMatch: [RoleGuard], data: {roles: [enmOrganizationType.BurialPreparation]},
+    canMatch: [RoleGuard], data: {roles: [enmOrganizationType.All]},
   },
   {
     path: 'admin',

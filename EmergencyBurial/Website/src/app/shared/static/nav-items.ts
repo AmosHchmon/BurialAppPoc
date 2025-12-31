@@ -26,7 +26,7 @@ export const NavMenuItems: Array<INavItem> = [
   {
     name: "הכנה לקבורה",
     module: "taharah",
-    url: "/burial",
+    url: "/taharah",
     icon: "pi pi-users",
     // TODO: Change to BurialPreparation role
     roles: [enmOrganizationType.All]

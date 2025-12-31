@@ -2,6 +2,7 @@
 
 import {BaseService} from "../../../core/abstract/base-service";
 import {Deceased} from "../../deceased/model/Deceased";
+import {DeceasedBurialDetails} from "../../deceased/model/DeceasedBurialDetails";
 
 @Injectable({
   providedIn: 'root'
@@ -17,18 +18,19 @@ export class TaharahService extends BaseService {
     return super.get({path: `/pending`});
   }
 
-  async getHistoryList(month: number, year: number): Promise<Deceased[]> {
+  async getActiveList(month: number, year: number): Promise<Deceased[]> {
 
-    return super.get({path: `/history/${month}/${year}`});
+    return super.get({path: `/active/${month}/${year}`});
   }
 
-  async updateDeceasedDetails(deceased: Deceased): Promise<any> {
+  async updateDeceasedDetails(burialDetails: DeceasedBurialDetails): Promise<any> {
 
-    return super.put({path: `/update-details`});
+    return super.put({path: '/update-details', body: burialDetails});
   }
 
-  async markAsBuried(id: string): Promise<any> {
+  async receiveDeceased(burialDetails: DeceasedBurialDetails): Promise<any> {
 
-    return super.post({path: `/mark-as-buried/${id}`});
+    return super.put({path: '/receive', body: burialDetails});
   }
+
 }

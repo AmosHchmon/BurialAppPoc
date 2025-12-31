@@ -31,6 +31,9 @@ import {RadioButtonModule} from "primeng/radiobutton";
 import {ToggleButtonModule} from "primeng/togglebutton";
 import {TooltipModule} from "primeng/tooltip";
 import {PopoverModule} from "primeng/popover";
+import {TagModule} from "primeng/tag";
+import {SelectButtonModule} from "primeng/selectbutton";
+import {DividerModule} from "primeng/divider";
 
 @NgModule({
   imports: [
@@ -57,6 +60,7 @@ import {PopoverModule} from "primeng/popover";
     CheckboxModule,
     TextareaModule,
     SelectModule,
+    SelectButtonModule,
     DatePickerModule,
     ToolbarModule,
     DialogModule,
@@ -65,7 +69,9 @@ import {PopoverModule} from "primeng/popover";
     RadioButtonModule,
     ToggleButtonModule,
     TooltipModule,
-    PopoverModule
+    PopoverModule,
+    TagModule,
+    DividerModule
   ],
   exports: [
     NgOptimizedImage,
@@ -92,6 +98,7 @@ import {PopoverModule} from "primeng/popover";
     CheckboxModule,
     TextareaModule,
     SelectModule,
+    SelectButtonModule,
     DatePickerModule,
     ToolbarModule,
     DialogModule,
@@ -100,7 +107,9 @@ import {PopoverModule} from "primeng/popover";
     RadioButtonModule,
     ToggleButtonModule,
     TooltipModule,
-    PopoverModule
+    PopoverModule,
+    TagModule,
+    DividerModule
   ],
   declarations: [],
   providers: [

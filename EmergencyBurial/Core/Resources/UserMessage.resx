@@ -168,4 +168,7 @@
   <data name="PhoneNumberNotExists" xml:space="preserve">
     <value>מספר הפלאפון לא קיים במערכת. נא להתחבר בעזרת אימייל ולהוסיפו בפרופיל האישי</value>
   </data>
+  <data name="DeceasedNotExists" xml:space="preserve">
+    <value>חלל לא נמצא</value>
+  </data>
 </root>

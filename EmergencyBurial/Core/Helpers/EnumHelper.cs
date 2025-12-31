@@ -11,6 +11,9 @@ namespace Core.Helpers
         public static string GetEnumDescription(this Enum e)
         {
 
+            if (e == null)
+                return string.Empty;
+            
             FieldInfo fieldInfo = e.GetType().GetField(e.ToString());
             DescriptionAttribute[] enumAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
@@ -220,10 +223,10 @@ namespace Core.Helpers
         TransportToBurialPreparation = 5,
         [Description("סיום שינוע הכנה לקבורה")]
         EndTransportBurialPreparation = 6,
-        [Description("קליטה הכנה לקבורה")]
-        ReceptionBurialPreparation = 7,
-        [Description("שחרור הכנה לקבורה")]
-        ReleaseBurialPreparation = 8,
+        [Description("נקלט להכנה לקבורה")]
+        ReceivedForBurialPreparation = 7,
+        [Description("שוחרר מהכנה לקבורה")]
+        ReleasedFromBurialPreparation = 8,
         [Description("שינוע לגוף קבורה")]
         TransportToBurialEntity = 9,
         [Description("סיום שינוע גוף קבורה")]

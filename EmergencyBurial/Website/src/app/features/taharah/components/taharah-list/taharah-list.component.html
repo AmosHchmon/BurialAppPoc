@@ -1,115 +1,342 @@
 <div class="card p-3">
+
   <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="font-bold">ניהול הכנה לקבורה (טהרה)</h4>
   </div>
 
+  <div class="d-flex justify-content-between align-items-center mb-3 bg-gray-50 p-3 border-round">
+
+    <p-selectButton [options]="viewOptions"
+                    [(ngModel)]="isPendingView"
+                    optionLabel="label"
+                    optionValue="value"
+                    (onChange)="onViewChange()">
+    </p-selectButton>
+
+    <div class="d-flex gap-2">
+
+      @if (isPendingView) {
+        <p-button label="קליטה"
+                  icon="pi pi-download"
+                  severity="success"
+                  [disabled]="!selectedDeceased"
+                  (click)="openIntakeDialog()">
+        </p-button>
+      }
+
+      @if (!isPendingView) {
+        <p-button label="עדכון פרטים"
+                  icon="pi pi-file-edit"
+                  severity="info"
+                  [disabled]="!selectedDeceased"
+                  (click)="openUpdateDetailsDialog()">
+        </p-button>
+      }
+    </div>
+  </div>
+  <div class="d-flex gap-3 align-items-center m-3">
+    <p-iconfield>
+      <p-inputicon class="pi pi-search"/>
+      <input pInputText
+             type="text"
+             [(ngModel)]="searchText"
+             (input)="dt.filterGlobal($event.target.value, 'contains')"
+             placeholder="חיפוש חלל..."/>
+      @if (searchText) {
+        <p-inputicon class="pi pi-times cursor-pointer"
+                     (click)="clearSearch()"/>
+      }
+    </p-iconfield>
+
+    @if (!isPendingView) {
+
+      <p-button icon="pi pi-calendar"
+                (click)="op.toggle($event)"
+                label="סינון חודשי"
+                severity="secondary"
+                [outlined]="true"></p-button>
+
+      <p-popover #op>
+        <div class="d-flex flex-column gap-3 p-3">
+          <p-datePicker view="month" dateFormat="mm/yy" [(ngModel)]="selectedMonth"></p-datePicker>
+          <div class="d-flex gap-3">
+            <p-button label="סנן" (click)="applyFilter()" size="small"></p-button>
+            <p-button label="היום" (click)="clearFilter()" [outlined]="true" size="small"></p-button>
+          </div>
+        </div>
+      </p-popover>
+    }
+  </div>
   <p-table #dt
            [columns]="cols"
            showGridlines="true"
            [value]="deceasedList"
+           [tableStyle]="{ 'min-width': '50rem' }"
            [size]="'small'"
            [paginator]="true"
            [rows]="10"
            [showCurrentPageReport]="true"
+           selectionMode="single"
+           [(selection)]="selectedDeceased"
            currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
-           [globalFilterFields]="['HalalNumber', 'IdentityNumber', 'FirstName', 'LastName']">
+           [globalFilterFields]="getGlobalFilterFields()"
+           [rowHover]="true"
+           dataKey="Id">
 
-    <ng-template #caption>
-      <div class="d-flex align-items-center justify-content-start gap-3 p-3">
-        <div class="d-flex flex-column align-items-start justify-content-between">
-          <p-iconfield>
-            <p-inputicon class="pi pi-search"/>
-            <input pInputText
-                   type="text"
-                   (input)="dt.filterGlobal($event.target.value, 'contains')"
-                   [(ngModel)]="searchText"
-                   placeholder="חפש שק חלל..."/>
-            <p-inputicon class="pi pi-times cursor-pointer"
-                         (click)="clearSearch()"/>
-          </p-iconfield>
-        </div>
-        <div class="d-flex gap-3 align-items-center">
-
-          <p-button type="button"
-                    [label]="'חיפוש מתקדם'"
-                    icon="pi pi-filter"
-                    (onClick)="toggle($event)"/>
-
-          <p-popover #op>
-            <div class="d-flex flex-column gap-3">
-              <div class="d-flex align-items-center gap-2">
-                <p-checkbox
-                  inputId="showAllDeceased"
-                  name="showAllDeceased"
-                  [(ngModel)]="showAll"
-                  [binary]="true"/>
-                <label for="showAllDeceased" class="mr-3">הצג חללים שנקברו</label>
-              </div>
-              <div class="d-flex flex-column mt-2">
-                <label>בחר תאריך</label>
-                <p-datePicker
-                  [(ngModel)]="selectedMonth"
-                  name="selectedMonth"
-                  view="month"
-                  [showIcon]="true"
-                  dateFormat="mm/yy"
-                  [readonlyInput]="true"
-                  appendTo="body"
-                  appConvertTimezone
-                  [showOnFocus]="false"
-                  placeholder="בחר חודש">
-                </p-datePicker>
-              </div>
-              <div class="d-flex w-100 gap-3">
-                <button class="w-50" pButton (click)="applyFilter()">סנן</button>
-                <button class="w-50" pButton (click)="clearFilter()">נקה</button>
-              </div>
-            </div>
-          </p-popover>
-
-
-        </div>
-      </div>
-    </ng-template>
-
-    <ng-template #header>
+    <ng-template pTemplate="header" let-columns>
       <tr>
-        @for (col of cols; track col.field) {
-          <th>{{ col.header }}</th>
+        @for (col of columns; track col.field) {
+          <th [pSortableColumn]="col.field">
+            <div class="d-flex align-items-center gap-1 px-2">
+              {{ col.header }}
+              <p-sortIcon [field]="col.field"/>
+            </div>
+          </th>
         }
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-deceased>
-      <tr>
+      <tr [pSelectableRow]="deceased">
+        <td style="width: 3rem">
+          <p-tableRadioButton [value]="deceased"/>
+        </td>
+        <td>{{ deceased.IdentityNumber }}</td>
+        <td>{{ deceased.FullName }}</td>
+        <td>{{ deceased.FatherName }}</td>
         <td>
-          {{ deceased.HalalNumber }}
+          <p-tag [value]="deceased.ProcessStatusDesc" [severity]="isPendingView ? 'info' : 'warning'"></p-tag>
         </td>
         <td>
-          {{ deceased.FirstName }}
+          <span class="text-ellipsis"
+                [pTooltip]="deceased.BagNumbersDisplay"
+                tooltipPosition="top">
+                {{ deceased.BagNumbersDisplay }}
+          </span>
         </td>
-        <td>
-          {{ deceased.LastName }}
-        </td>
-        <td>
-          {{ deceased.FatherName }}
-        </td>
-        <td>
-          <div class="d-flex justify-content-start align-items-center cursor-pointer gap-2"
-               (click)="openDetails(deceased)">
-            <span>מידע נוסף</span>
-            <span class="pi pi-info-circle"></span>
-          </div>
-        </td>
+        <td>{{ deceased.RelatedBagNumbers }}</td>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="6" class="text-center p-4">
-          <span>לא נמצאו חללים</span>
+        <td [attr.colspan]="cols.length + 1" class="text-center p-4">
+
+          @if (isPendingView) {
+            <span>אין חללים הממתינים לקליטה כרגע.</span>
+          } @else {
+            <span>לא נמצאו נתונים לחודש זה.</span>
+          }
         </td>
       </tr>
     </ng-template>
 
   </p-table>
 </div>
+
+<p-dialog [(visible)]="isPendingDialogOpen"
+          closeOnEscape="true"
+          dismissableMask="true"
+          header="קליטת חלל לטהרה"
+          [modal]="true"
+          [style]="{width: '450px'}"
+          [draggable]="true">
+
+  @if (selectedDeceased && selectedDeceased.DeceasedBurialDetails) {
+    <div class="d-flex flex-column justify-content-between mt-2 p-3">
+
+      <div class="d-flex flex-column gap-2">
+        <p-floatlabel variant="on">
+          <input pInputText
+                 class="w-100"
+                 [(ngModel)]="selectedDeceased.DeceasedBurialDetails.TaharahReceptionStaff"
+                 autocomplete="off"/>
+          <label>שם ממלא (קולט לטהרה)</label>
+        </p-floatlabel>
+      </div>
+
+      <div class="d-flex flex-column mt-4">
+        <label for="receptionTime" class="font-bold mb-2">תאריך קליטה</label>
+        <p-datePicker
+          [(ngModel)]="selectedDeceased.DeceasedBurialDetails.TaharahReceptionDate"
+          name="StartDateTime"
+          [showTime]="true"
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+          [readonlyInput]="true"
+          [hourFormat]="'24'"
+          appendTo="body"
+          required
+          appConvertTimezone
+          [iconDisplay]="'input'"
+          inputId="receptionTime"/>
+      </div>
+
+    </div>
+  }
+
+  <ng-template pTemplate="footer">
+    <p-button label="ביטול"
+              (click)="isPendingDialogOpen = false"
+              [text]="true"
+              severity="secondary">
+    </p-button>
+    <p-button label="שמור וקלוט"
+              (click)="submitIntake()"
+              icon="pi pi-check"
+              severity="success">
+    </p-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="isUpdateDialogOpen"
+          closeOnEscape="true"
+          dismissableMask="true"
+          header="עדכון פרטי טהרה"
+          [modal]="true"
+          [style]="{width: '60vw'}"
+          [draggable]="false">
+
+  @if (selectedDeceased && selectedDeceased.DeceasedBurialDetails) {
+
+    <div class="d-flex my-4 w-50 gap-4">
+
+      <div class="d-flex flex-column gap-4 w-100">
+        <div>
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText
+                   class="w-100"
+                   [ngModel]="selectedDeceased.FullName"
+                   [readonly]="true"/>
+            <label>שם מלא</label>
+          </p-floatlabel>
+        </div>
+
+        <div>
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText
+                   class="w-100"
+                   [ngModel]="selectedDeceased.IdentityNumber"
+                   [readonly]="true"/>
+            <label>מספר זהות</label>
+          </p-floatlabel>
+        </div>
+      </div>
+      <div class="d-flex flex-column gap-4 w-100">
+        <div>
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText
+                   class="w-100"
+                   [ngModel]="selectedDeceased.FatherName"
+                   [readonly]="true"/>
+            <label>שם האב</label>
+          </p-floatlabel>
+        </div>
+
+        <div>
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText
+                   class="w-100"
+                   [ngModel]="selectedDeceased.Gender"
+                   [readonly]="true"/>
+            <label>מגדר</label>
+          </p-floatlabel>
+        </div>
+      </div>
+    </div>
+
+    <p-divider></p-divider>
+
+    <div class="d-flex w-100 pt-3">
+
+      <div class="d-flex flex-column w-50 gap-3">
+        <div class="w-75">
+          <p-floatlabel variant="on" class="w-100">
+            <p-select [options]="taharahLocations"
+                      [(ngModel)]="selectedDeceased.DeceasedBurialDetails.TaharahLocation"
+                      optionLabel="Text"
+                      optionValue="Value"
+                      appendTo="body"
+                      class="w-100"></p-select>
+            <label>מקום הטהרה</label>
+          </p-floatlabel>
+        </div>
+
+        <div class="w-75 mt-3">
+          <p-floatlabel variant="on" class="w-100">
+            <p-datePicker [(ngModel)]="selectedDeceased.DeceasedBurialDetails.TaharahProcessStartDate"
+                          [showTime]="true"
+                          hourFormat="24"
+                          dateFormat="dd/mm/yy"
+                          appendTo="body"
+                          class="w-100"></p-datePicker>
+            <label>תאריך תחילת תהליך טהרה</label>
+          </p-floatlabel>
+        </div>
+
+        <div class="w-75 mt-3">
+          <p-floatlabel variant="on" class="w-100">
+            <p-datePicker [(ngModel)]="selectedDeceased.DeceasedBurialDetails.TaharahClosingDate"
+                          [showTime]="true"
+                          hourFormat="24"
+                          dateFormat="dd/mm/yy"
+                          appendTo="body"
+                          class="w-100"></p-datePicker>
+            <label>תאריך סגירת הכנה לקבורה</label>
+          </p-floatlabel>
+        </div>
+
+        <div class="w-75 mt-3">
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText
+                   [(ngModel)]="selectedDeceased.DeceasedBurialDetails.ExitTransportBy"
+                   class="w-100"/>
+            <label>מבצע שינוע יציאה לקבורה</label>
+          </p-floatlabel>
+        </div>
+      </div>
+
+      <div class=" d-flex flex-column w-50 gap-3">
+        <div class="d-flex align-items-center gap-2">
+          <p-checkbox [(ngModel)]="selectedDeceased.DeceasedBurialDetails.IsTaharahPerformed"
+                      [binary]="true"
+                      inputId="isTaharah"></p-checkbox>
+          <label for="isTaharah" class="font-bold cursor-pointer">האם בוצעה טהרה?</label>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <p-checkbox [(ngModel)]="selectedDeceased.DeceasedBurialDetails.HasTachrichim"
+                      [binary]="true"
+                      inputId="shrouds"></p-checkbox>
+          <label for="shrouds" class="font-bold cursor-pointer">האם יש תכריכי פשתן?</label>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <p-checkbox [(ngModel)]="selectedDeceased.DeceasedBurialDetails.InCoffin"
+                      [binary]="true"
+                      inputId="isCoffin"></p-checkbox>
+          <label for="isCoffin" class="font-bold cursor-pointer">האם הוכנס לארון?</label>
+        </div>
+
+        <div class="w-75 mt-3">
+
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText
+                   [disabled]="!selectedDeceased.DeceasedBurialDetails.InCoffin"
+                   [required]="selectedDeceased.DeceasedBurialDetails.InCoffin"
+                   [(ngModel)]="selectedDeceased.DeceasedBurialDetails.CoffinReason"
+                   class="w-100"/>
+            <label>סיבת הכנסה לארון</label>
+          </p-floatlabel>
+
+        </div>
+      </div>
+    </div>
+  }
+
+  <ng-template pTemplate="footer">
+    <p-button label="ביטול" (click)="isUpdateDialogOpen = false" [text]="true" severity="secondary"></p-button>
+    <p-button label="שמור שינויים" (click)="submitUpdate()" icon="pi pi-save" severity="primary"></p-button>
+  </ng-template>
+
+</p-dialog>

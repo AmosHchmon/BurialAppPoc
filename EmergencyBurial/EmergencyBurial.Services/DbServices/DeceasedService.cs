@@ -66,6 +66,13 @@ public class DeceasedService(EmergencyBurialContext ctx)
         return deceasedBurialCoordination;
     }
 
+    public async Task UpdateDetails(DeceasedBurialDetails deceasedBurialDetails)
+    {
+        ctx.DeceasedBurialDetails.Update(deceasedBurialDetails);
+
+        await ctx.SaveChangesAsync();
+    }
+
     public async Task<DeceasedBurialCoordination> GetBurialCoordination(Guid? deceasedId)
     {
         var burialCoordination = await ctx.DeceasedBurialCoordination

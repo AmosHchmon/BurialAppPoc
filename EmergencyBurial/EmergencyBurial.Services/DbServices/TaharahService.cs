@@ -28,15 +28,14 @@ public class TaharahService(EmergencyBurialContext ctx)
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedBurialDetails)
             .Include(d => d.DeceasedBurialProcessStatus)
-            .Where(d => d.ProcessStatus >= ProcessStatus.TransportToBurialPreparation
-                        && d.ProcessStatus < ProcessStatus.Burial);
+            .Where(d => d.ProcessStatus == ProcessStatus.ReceivedForBurialPreparation);
 
-        if (month > 0 && year > 0)
+        /*if (month > 0 && year > 0)
         {
             query = query.Where(d => d.CreatedOn.HasValue &&
                                      d.CreatedOn.Value.Month == month &&
                                      d.CreatedOn.Value.Year == year);
-        }
+        }*/
 
         var list = await query
             .OrderByDescending(d => d.CreatedOn)
@@ -45,21 +44,22 @@ public class TaharahService(EmergencyBurialContext ctx)
         return list;
     }
 
-    public async Task ReceiveDeceasedToTaharah(Guid deceasedId)
+    public async Task ReceiveDeceasedToTaharah(DeceasedBurialDetails obj)
     {
         var deceased = await ctx.Deceaseds
             .Include(d => d.DeceasedBurialDetails)
             .AsTracking()
-            .FirstOrDefaultAsync(d => d.Id == deceasedId);
+            .FirstOrDefaultAsync(d => d.Id == obj.DeceasedId);
 
         if (deceased == null)
         {
             throw new ApplicationException(UserMessage.DeceasedNotExists);
         }
 
-        deceased.ProcessStatus = ProcessStatus.ReceptionBurialPreparation;
-        deceased.DeceasedBurialDetails.TaharahReceptionDate = DateTime.Now;
-
+        deceased.ProcessStatus = ProcessStatus.ReceivedForBurialPreparation;
+        deceased.DeceasedBurialDetails.TaharahReceptionStaff = obj.TaharahReceptionStaff;
+        deceased.DeceasedBurialDetails.TaharahReceptionDate = obj.TaharahReceptionDate ?? DateTime.Now;
+        
         await ctx.SaveChangesAsync();
     }
 }

@@ -20,7 +20,21 @@ public class DeceasedBurialDetailsDto
     
     public DateTime? TaharahReceptionDate { get; set; }
     
+    public string? TaharahReceptionStaff { get; set; }
+    
+    public DateTime? TaharahProcessStartDate { get; set; }
+    
+    public DateTime? TaharahClosingDate { get; set; }
+    
+    public bool? IsTaharahPerformed { get; set; }
+    
+    public string? ExitTransportBy { get; set; }
+    
+    public bool HasTachrichim { get; set; }
+    
     public string? InCoffin { get; set; }
+    
+    public string? CoffinReason { get; set; }
     
     public string? BodyConditionNotes { get; set; }
     
