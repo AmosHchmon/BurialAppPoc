@@ -224,7 +224,11 @@ public class DbHelper
                 DeceasedId = deceased1Id,
                 BurialType = BurialType.Final,
                 IsCivilBurial = false,
-                TaharahStatus = TaharahStatus.Pending,
+            },
+            DeceasedTaharahDetails = new DeceasedTaharahDetails
+            {
+                DeceasedId = deceased1Id,
+                TaharahStatus = TaharahStatus.Pending
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination
             {
@@ -291,7 +295,11 @@ public class DbHelper
             {
                 DeceasedId = deceased2Id,
                 BurialType = BurialType.Final,
-                TaharahStatus = TaharahStatus.Pending,
+            },
+            DeceasedTaharahDetails = new DeceasedTaharahDetails
+            {
+                DeceasedId = deceased2Id,
+                TaharahStatus = TaharahStatus.InProgress,
                 TaharahReceptionDate = DateTime.Now
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination
@@ -346,6 +354,10 @@ public class DbHelper
             {
                 DeceasedId = deceased3Id,
                 BurialType = BurialType.Final,
+            },
+            DeceasedTaharahDetails = new DeceasedTaharahDetails
+            {
+                DeceasedId = deceased3Id,
                 TaharahStatus = TaharahStatus.Completed,
                 TaharahReceptionStaff = "אבי",
                 TaharahLocation = BurialPreparation.RishonLezion,
@@ -354,7 +366,7 @@ public class DbHelper
                 TaharahProcessStartDate = DateTime.Now.AddDays(-25),
                 HasTachrichim = false,
                 IsTaharahPerformed = true,
-                InCoffin = false,
+                InCoffin = false
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination
             {

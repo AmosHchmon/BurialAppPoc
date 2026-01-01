@@ -25,12 +25,7 @@ public class TransportsController(TransportService transportService, DeceasedSer
             return BadRequest();
         }
 
-        var deceasedExists = await deceasedService.DeceasedExistsAsync(idValue);
-
-        if (!deceasedExists)
-        {
-            return NotFound();
-        }
+        await deceasedService.DeceasedBagExists(idValue);
 
         var transports = await transportService.GetTransportsByBagDetailsId(idValue);
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Helpers;
+using Core.Resources;
 using DataModel;
 using DataModel.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -51,9 +52,15 @@ public class DeceasedService(EmergencyBurialContext ctx)
         await ctx.Deceaseds.Where(x => x.Id == id).ExecuteDeleteAsync();
     }
 
-    public async Task<bool> DeceasedExistsAsync(Guid? id)
+    public async Task DeceasedBagExists(Guid? id)
     {
-        return await ctx.Deceaseds.AnyAsync(d => d.Id == id);
+        var isExists = await ctx.DeceasedBag
+            .AnyAsync(d => d.Id == id);
+
+        if (!isExists)
+        {
+            throw new Exception(UserMessage.DeceasedNotExists);
+        }
     }
 
     public async Task<DeceasedBurialCoordination> UpdateBurialCoordination(
@@ -92,6 +99,8 @@ public class DeceasedService(EmergencyBurialContext ctx)
     public async Task<DeceasedBurialDetails> GetBurialDetails(Guid? deceasedId)
     {
         var burialDetails = await ctx.DeceasedBurialDetails
+            .Include(d => d.Deceased)
+            .ThenInclude(d => d.DeceasedTaharahDetails)
             .FirstOrDefaultAsync(d => d.DeceasedId == deceasedId);
 
         return burialDetails;

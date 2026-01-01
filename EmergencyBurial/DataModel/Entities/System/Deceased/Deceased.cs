@@ -42,5 +42,7 @@ public class Deceased
     
     public virtual DeceasedBurialDetails DeceasedBurialDetails { get; set; }
     
+    public virtual DeceasedTaharahDetails DeceasedTaharahDetails { get; set; }
+    
     public virtual DeceasedBurialCoordination DeceasedBurialCoordination { get; set; }
 }

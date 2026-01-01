@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataModel.Entities;
@@ -11,59 +12,89 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-/*
-[Authorize(Roles = nameof(OrganizationType.BurialPreparation), Policy = nameof(RoleAccessType.Admin))]
-*/
-public class TaharahsController(TaharahService taharahService, DeceasedService deceasedService, IMapper mapper) : ControllerBase
+public class TaharahsController(TaharahService taharahService, IMapper mapper) : ControllerBase
 {
     [HttpGet("pending")]
-    public async Task<ActionResult<List<DeceasedDto>>> GetPending()
+    public async Task<ActionResult<List<TaharahListDto>>> GetPending()
     {
-        var result = await taharahService.GetPendingDeceaseds();
-
-        return Ok(mapper.Map<List<DeceasedDto>>(result));
+        var entities = await taharahService.GetPendingDeceaseds();
+        
+        return Ok(mapper.Map<List<TaharahListDto>>(entities));
     }
 
     [HttpGet("active/{month}/{year}")]
-    public async Task<ActionResult<List<DeceasedDto>>> GetActive(string month, string year)
+    public async Task<ActionResult<List<TaharahListDto>>> GetActive(int month, int year)
     {
-        if (!int.TryParse(month, out int monthValue) || !int.TryParse(year, out int yearValue))
+        var entities = await taharahService.GetActiveDeceasedInTaharah(month, year);
+        
+        return Ok(mapper.Map<List<TaharahListDto>>(entities));
+    }
+    
+    [HttpGet("released/{month}/{year}")]
+    public async Task<ActionResult<List<TaharahListDto>>> GetReleased(int month, int year)
+    {
+        var result = await taharahService.GetReleasedFromTaharah(month, year);
+        
+        return Ok(mapper.Map<List<TaharahListDto>>(result));
+    }
+
+    [HttpPut("receive")]
+    public async Task<ActionResult> ReceiveDeceased([FromBody] TaharahIntakeDto dto)
+    {
+        if (dto == null)
         {
             return BadRequest();
         }
 
-        var result = await taharahService.GetActiveDeceasedInTaharah(monthValue, yearValue);
+        var entity = mapper.Map<DeceasedTaharahDetails>(dto);
+        
+        await taharahService.ReceiveDeceasedToTaharah(entity);
 
-        return Ok(mapper.Map<List<DeceasedDto>>(result));
+        return Ok();
     }
 
-    [HttpPut("update-details")]
-    public async Task<ActionResult> UpdateDetails(DeceasedBurialDetailsDto deceasedBurialDetailsDto)
+    [HttpGet("details/{id}")]
+    public async Task<ActionResult<TaharahProcessDto>> GetDetails(string id)
     {
-        if (deceasedBurialDetailsDto == null)
+        if (!Guid.TryParse(id, out Guid idValue))
         {
             return BadRequest();
         }
         
-        var burialDetails = mapper.Map<DeceasedBurialDetails>(deceasedBurialDetailsDto);
+        var entity = await taharahService.GetDeceasedForEdit(idValue);
 
-        await deceasedService.UpdateDetails(burialDetails);
+        var res = mapper.Map<TaharahProcessDto>(entity);
+
+        return Ok(res);
+    }
+
+    [HttpPut("update-details")]
+    public async Task<ActionResult> UpdateDetails(TaharahProcessDto dto)
+    {
+        if (dto == null)
+        {
+            return BadRequest();
+        }
+        
+        var entity = mapper.Map<DeceasedTaharahDetails>(dto);
+
+        await taharahService.UpdateTaharahDetails(entity);
 
         return Ok();
     }
     
-    [HttpPut("receive")]
-    public async Task<ActionResult> ReceiveDeceased(DeceasedBurialDetailsDto deceasedBurialDetailsDto)
+    [HttpPost("release")]
+    public async Task<ActionResult> ReleaseFromTaharah(TaharahProcessDto dto)
     {
-        if (deceasedBurialDetailsDto == null)
+        if (dto == null)
         {
             return BadRequest();
         }
-
-        var burialDetails = mapper.Map<DeceasedBurialDetails>(deceasedBurialDetailsDto);
         
-        await taharahService.ReceiveDeceasedToTaharah(burialDetails);
-
+        var entity = mapper.Map<DeceasedTaharahDetails>(dto);
+        
+        await taharahService.ReleaseFromTaharah(entity);
+        
         return Ok();
     }
 }

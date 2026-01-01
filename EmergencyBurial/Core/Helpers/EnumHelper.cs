@@ -159,11 +159,11 @@ namespace Core.Helpers
     
     public enum TaharahStatus
     {
-        [Description("ממתין")]
+        [Description("ממתין לקבלה")]
         Pending = 0,
-        [Description("בתהליך")]
+        [Description("בתהליך טהרה")]
         InProgress = 1,
-        [Description("הושלם")]
+        [Description("שוחרר מטהרה")]
         Completed = 2
     }
 

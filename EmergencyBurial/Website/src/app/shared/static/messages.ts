@@ -26,5 +26,8 @@ export let DialogMessage = {
   AccessDenied : "אינך מורשה גישה.",
   EditModeInTab: "מעבר לטופס זה יגרור אי שמירה של ",
   DeceasedUpdated: 'הנתונים של חלל זה עודכנו',
-  DeceasedReceived: 'חלל נקלט בהצלחה'
+  DeceasedReceived: 'חלל נקלט בהצלחה',
+  ReleaseFromTaharah: 'אישור שחרור מטהרה',
+  ShouldReleaseFromTaharah: 'האם לשחרר את החלל מתהליך הטהרה?',
+  DeceasedReleasedFromTaharah: 'החלל שוחרר מטהרה בהצלחה'
 };

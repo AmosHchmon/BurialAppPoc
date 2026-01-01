@@ -1,0 +1,44 @@
+<p-dialog [(visible)]="visible"
+          (onShow)="onShow()"
+          (onHide)="closeDialog()"
+          closeOnEscape="true"
+          dismissableMask="true"
+          header="קליטת חלל לטהרה"
+          [modal]="true"
+          [style]="{width: '450px'}"
+          [draggable]="true">
+
+  <div class="d-flex flex-column justify-content-between mt-2 p-3">
+    <div class="d-flex flex-column gap-2">
+      <p-floatlabel variant="on">
+        <input pInputText
+               class="w-100"
+               [(ngModel)]="intakeData.TaharahReceptionStaff"
+               autocomplete="off"/>
+        <label>שם ממלא (קולט לטהרה)</label>
+      </p-floatlabel>
+    </div>
+
+    <div class="d-flex flex-column mt-4">
+      <label for="receptionTime" class="font-bold mb-2">תאריך קליטה</label>
+      <p-datePicker
+        [(ngModel)]="intakeData.TaharahReceptionDate"
+        name="StartDateTime"
+        [showTime]="true"
+        [showIcon]="true"
+        dateFormat="dd/mm/yy"
+        [readonlyInput]="true"
+        [hourFormat]="'24'"
+        appendTo="body"
+        required
+        appConvertTimezone
+        [iconDisplay]="'input'"
+        inputId="receptionTime"/>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button label="ביטול" (click)="closeDialog()" [text]="true" severity="secondary"></p-button>
+    <p-button label="שמור וקלוט" (click)="submitIntake()" icon="pi pi-check" severity="success"></p-button>
+  </ng-template>
+</p-dialog>

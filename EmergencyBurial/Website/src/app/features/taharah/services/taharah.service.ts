@@ -1,8 +1,9 @@
 ﻿import {Injectable, Injector} from '@angular/core';
 
 import {BaseService} from "../../../core/abstract/base-service";
-import {Deceased} from "../../deceased/model/Deceased";
-import {DeceasedBurialDetails} from "../../deceased/model/DeceasedBurialDetails";
+import {TaharahList} from "../model/TaharahList";
+import {TaharahProcess} from "../model/TaharahProcess";
+import {TaharahIntake} from "../model/TaharahIntake";
 
 @Injectable({
   providedIn: 'root'
@@ -13,24 +14,32 @@ export class TaharahService extends BaseService {
     super("TaharahsService", injector);
   }
 
-  async getPendingList(): Promise<Deceased[]> {
-
+  async getPendingList(): Promise<TaharahList[]> {
     return super.get({path: `/pending`});
   }
 
-  async getActiveList(month: number, year: number): Promise<Deceased[]> {
-
+  async getActiveList(month: number, year: number): Promise<TaharahList[]> {
     return super.get({path: `/active/${month}/${year}`});
   }
 
-  async updateDeceasedDetails(burialDetails: DeceasedBurialDetails): Promise<any> {
-
-    return super.put({path: '/update-details', body: burialDetails});
+  async getReleasedList(month: number, year: number): Promise<TaharahList[]> {
+    return super.get({path: `/released/${month}/${year}`});
   }
 
-  async receiveDeceased(burialDetails: DeceasedBurialDetails): Promise<any> {
+  async getDetailsForEdit(id: string): Promise<TaharahProcess> {
+    return super.get({path: `/details/${id}`});
+  }
 
-    return super.put({path: '/receive', body: burialDetails});
+  async receiveDeceased(dto: TaharahIntake): Promise<any> {
+    return super.put({path: `/receive`, body: dto});
+  }
+
+  async updateDeceasedDetails(dto: TaharahProcess): Promise<any> {
+    return super.put({path: `/update-details`, body: dto});
+  }
+
+  async releaseFromTaharah(dto: TaharahProcess): Promise<any> {
+    return super.post({path: `/release`, body: dto});
   }
 
 }

@@ -14,6 +14,7 @@ public partial class EmergencyBurialContext : DbContext
     public virtual DbSet<DeceasedBag> DeceasedBag { get; set; }
     public virtual DbSet<DeceasedBurialProcessStatus> DeceasedBurialProcessStatus { get; set; }
     public virtual DbSet<DeceasedBurialDetails> DeceasedBurialDetails { get; set; }
+    public virtual DbSet<DeceasedTaharahDetails> DeceasedTaharahDetails { get; set; }
     public virtual DbSet<DeceasedBurialCoordination> DeceasedBurialCoordination { get; set; }
 
     public virtual DbSet<Transport> Transports { get; set; }
