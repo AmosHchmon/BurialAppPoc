@@ -34,6 +34,7 @@ import {PopoverModule} from "primeng/popover";
 import {TagModule} from "primeng/tag";
 import {SelectButtonModule} from "primeng/selectbutton";
 import {DividerModule} from "primeng/divider";
+import {ChipModule} from "primeng/chip";
 
 @NgModule({
   imports: [
@@ -71,7 +72,8 @@ import {DividerModule} from "primeng/divider";
     TooltipModule,
     PopoverModule,
     TagModule,
-    DividerModule
+    DividerModule,
+    ChipModule
   ],
   exports: [
     NgOptimizedImage,
@@ -109,7 +111,8 @@ import {DividerModule} from "primeng/divider";
     TooltipModule,
     PopoverModule,
     TagModule,
-    DividerModule
+    DividerModule,
+    ChipModule
   ],
   declarations: [],
   providers: [

@@ -67,22 +67,21 @@
     </p-iconfield>
 
 
+    <p-button icon="pi pi-calendar"
+              (click)="op.toggle($event)"
+              label="סינון חודשי"
+              severity="secondary"
+              [outlined]="true"></p-button>
 
-      <p-button icon="pi pi-calendar"
-                (click)="op.toggle($event)"
-                label="סינון חודשי"
-                severity="secondary"
-                [outlined]="true"></p-button>
-
-      <p-popover #op>
-        <div class="d-flex flex-column gap-3 p-3">
-          <p-datePicker view="month" dateFormat="mm/yy" [(ngModel)]="selectedMonth"></p-datePicker>
-          <div class="d-flex gap-3">
-            <p-button label="סנן" (click)="applyFilter()" size="small"></p-button>
-            <p-button label="היום" (click)="clearFilter()" [outlined]="true" size="small"></p-button>
-          </div>
+    <p-popover #op>
+      <div class="d-flex flex-column gap-3 p-3">
+        <p-datePicker view="month" dateFormat="mm/yy" [(ngModel)]="selectedMonth"></p-datePicker>
+        <div class="d-flex gap-3">
+          <p-button label="סנן" (click)="applyFilter()" size="small"></p-button>
+          <p-button label="היום" (click)="clearFilter()" [outlined]="true" size="small"></p-button>
         </div>
-      </p-popover>
+      </div>
+    </p-popover>
 
   </div>
   <p-table #dt
@@ -126,7 +125,8 @@
           <p-tag [value]="deceased.ProcessStatusDesc" [severity]="viewMode === 'pending' ? 'info' : 'warning'"></p-tag>
         </td>
         <td>
-          <p-tag [value]="deceased.TaharahStatusDesc" [severity]="getTaharahStatusSeverity(deceased.TaharahStatus)"></p-tag>
+          <p-tag [value]="deceased.TaharahStatusDesc"
+                 [severity]="getTaharahStatusSeverity(deceased.TaharahStatus)"></p-tag>
         </td>
         <td>
           <span class="text-ellipsis"
@@ -155,18 +155,16 @@
   </p-table>
 </div>
 
-<div class="card p-3">
-  <app-taharah-intake-dialog
-    [(visible)]="isPendingDialogOpen"
-    [deceasedId]="selectedDeceased?.Id"
-    (onSaved)="onDialogSaved()">
-  </app-taharah-intake-dialog>
 
-  <app-taharah-update-dialog
-    [(visible)]="isUpdateDialogOpen"
-    [isReleasedMode]="viewMode === 'released'"
-    [deceasedId]="selectedDeceased?.Id"
-    (onSaved)="onDialogSaved()">
-  </app-taharah-update-dialog>
+<app-taharah-intake-dialog
+  [(visible)]="isPendingDialogOpen"
+  [deceasedId]="selectedDeceased?.Id"
+  (onSaved)="onDialogSaved()">
+</app-taharah-intake-dialog>
 
-</div>
+<app-taharah-update-dialog
+  [(visible)]="isUpdateDialogOpen"
+  [isReleasedMode]="viewMode === 'released'"
+  [deceasedId]="selectedDeceased?.Id"
+  (onSaved)="onDialogSaved()">
+</app-taharah-update-dialog>

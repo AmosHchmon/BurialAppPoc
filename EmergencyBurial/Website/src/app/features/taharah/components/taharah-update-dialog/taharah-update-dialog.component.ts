@@ -9,11 +9,12 @@ import {IOptionItem} from "../../../../shared/model/list-item";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {ConfirmationService} from "primeng/api";
+import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
 
 @Component({
   selector: 'app-taharah-update-dialog',
   standalone: true,
-  imports: [UiComponentsModule],
+  imports: [UiComponentsModule, ConvertTimezoneDirective],
   templateUrl: './taharah-update-dialog.component.html'
 })
 export class TaharahUpdateDialogComponent implements OnChanges {
@@ -49,8 +50,6 @@ export class TaharahUpdateDialogComponent implements OnChanges {
       return;
     }
 
-    this.taharahLocations = await this.listService.getTaharahLocations();
-
     this.processData = await this.taharahService.getDetailsForEdit(this.deceasedId);
 
     if (this.processData) {
@@ -71,6 +70,22 @@ export class TaharahUpdateDialogComponent implements OnChanges {
     this.processData = null;
   }
 
+  onTaharahPerformedChange() {
+
+    if (this.processData?.IsTaharahPerformed && !this.processData.TaharahExecutionTime) {
+      this.processData.TaharahExecutionTime = new Date();
+    } else {
+      this.processData.TaharahExecutionTime = null;
+    }
+  }
+
+  onPendingExitChange() {
+
+    if (this.processData && !this.processData.IsPendingExit) {
+      this.processData.PendingExitReason = '';
+    }
+  }
+
   async submitUpdate() {
 
     if (!this.processData) {
@@ -89,6 +104,11 @@ export class TaharahUpdateDialogComponent implements OnChanges {
   async onRelease() {
 
     if (!this.processData?.DeceasedId) {
+      return;
+    }
+
+    if (!this.processData.HasTachrichim) {
+      this.alertService.alert(AlertType.Warning, {ClientMessage: DialogMessage.TachrichimIsRequired});
       return;
     }
 

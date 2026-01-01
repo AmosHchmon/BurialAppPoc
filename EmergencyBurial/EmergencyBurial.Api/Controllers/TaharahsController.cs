@@ -39,7 +39,7 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
     }
 
     [HttpPut("receive")]
-    public async Task<ActionResult> ReceiveDeceased([FromBody] TaharahIntakeDto dto)
+    public async Task<ActionResult> ReceiveDeceased(TaharahIntakeDto dto)
     {
         if (dto == null)
         {
@@ -78,6 +78,9 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
         
         var entity = mapper.Map<DeceasedTaharahDetails>(dto);
 
+        // TODO: Insert location by user
+        // entity.TaharahLocation = UserLocation...
+        
         await taharahService.UpdateTaharahDetails(entity);
 
         return Ok();

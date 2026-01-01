@@ -10,15 +10,21 @@
 
   Gender?: string;
 
-  TaharahLocation?: number;
+  TaharahTeamManager?: string;
+
+  IntermediateStorage?: string;
+
+  IsPendingExit?: boolean;
+
+  PendingExitReason?: string;
 
   TaharahProcessStartDate?: Date;
 
   TaharahClosingDate?: Date;
 
-  ExitTransportBy?: string;
-
   IsTaharahPerformed?: boolean;
+
+  TaharahExecutionTime?: Date;
 
   HasTachrichim?: boolean;
 
@@ -26,4 +32,5 @@
 
   CoffinReason?: string;
 
+  BagNumbers?: string[];
 }

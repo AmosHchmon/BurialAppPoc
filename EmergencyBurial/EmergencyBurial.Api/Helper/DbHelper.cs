@@ -146,8 +146,6 @@ public class DbHelper
         }
 
         var deceased1Id = Guid.NewGuid();
-        var bag1Id = Guid.NewGuid();
-        var bag1PartId = Guid.NewGuid();
 
         var deceased1 = new Deceased
         {
@@ -165,7 +163,7 @@ public class DbHelper
             {
                 new DeceasedBag
                 {
-                    Id = bag1Id,
+                    Id = Guid.NewGuid(),
                     DeceasedId = deceased1Id,
                     BagNumber = "C-1001",
                     Affiliation = Affiliation.Civilian,
@@ -173,16 +171,28 @@ public class DbHelper
                     BroughtBy = BurialBody.AbuKabir,
                     CanBeIdentifiedByAcquaintance = true,
                     RelatedBagNumbers = 5,
-                    ArrivalDateTime = DateTime.Now.AddDays(-2)
+                    ArrivalDateTime = DateTime.Now.AddDays(-2),
+                    PartDescription = "חלק גוף תחתון"
                 },
                 new DeceasedBag
                 {
-                    Id = bag1PartId,
+                    Id = Guid.NewGuid(),
                     DeceasedId = deceased1Id,
                     BagNumber = "C-1001-B",
                     Affiliation = Affiliation.Civilian,
                     BroughtBy = BurialBody.AbuKabir,
-                    PartDescription = "חלק גוף תחתון",
+                    PartDescription = "חלק גוף עליון",
+                    ReceivingStation = TarahStations.Shura,
+                    ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(2)
+                },
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased1Id,
+                    BagNumber = "C-1001-C",
+                    Affiliation = Affiliation.Civilian,
+                    BroughtBy = BurialBody.AbuKabir,
+                    PartDescription = "ראש",
                     ReceivingStation = TarahStations.Shura,
                     ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(2)
                 }
@@ -228,7 +238,8 @@ public class DbHelper
             DeceasedTaharahDetails = new DeceasedTaharahDetails
             {
                 DeceasedId = deceased1Id,
-                TaharahStatus = TaharahStatus.Pending
+                TaharahStatus = TaharahStatus.Pending,
+                IsTaharahPerformed = false
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination
             {
@@ -241,7 +252,6 @@ public class DbHelper
         };
 
         var deceased2Id = Guid.NewGuid();
-        var bag2Id = Guid.NewGuid();
 
         var deceased2 = new Deceased
         {
@@ -258,12 +268,24 @@ public class DbHelper
             {
                 new DeceasedBag
                 {
-                    Id = bag2Id,
+                    Id = Guid.NewGuid(),
                     DeceasedId = deceased2Id,
                     BagNumber = "C-1002",
                     Affiliation = Affiliation.SecurityForces,
                     ReceivingStation = TarahStations.Tziporit,
                     BroughtBy = BurialBody.AbuKabir,
+                    ArrivalDateTime = DateTime.Now.AddDays(-1),
+                    PartDescription = "ראש"
+                },
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased2Id,
+                    BagNumber = "C-1002-B",
+                    Affiliation = Affiliation.SecurityForces,
+                    ReceivingStation = TarahStations.Tziporit,
+                    BroughtBy = BurialBody.AbuKabir,
+                    PartDescription = "חלק גוף עליון",
                     ArrivalDateTime = DateTime.Now.AddDays(-1)
                 }
             },
@@ -300,7 +322,8 @@ public class DbHelper
             {
                 DeceasedId = deceased2Id,
                 TaharahStatus = TaharahStatus.InProgress,
-                TaharahReceptionDate = DateTime.Now
+                TaharahReceptionDate = DateTime.Now,
+                IsTaharahPerformed = false
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination
             {
@@ -310,7 +333,6 @@ public class DbHelper
         };
 
         var deceased3Id = Guid.NewGuid();
-        var bag3Id = Guid.NewGuid();
 
         var deceased3 = new Deceased
         {
@@ -326,7 +348,7 @@ public class DbHelper
             {
                 new DeceasedBag
                 {
-                    Id = bag3Id,
+                    Id = Guid.NewGuid(),
                     DeceasedId = deceased3Id,
                     BagNumber = "C-1003",
                     Affiliation = Affiliation.Civilian,
@@ -360,12 +382,11 @@ public class DbHelper
                 DeceasedId = deceased3Id,
                 TaharahStatus = TaharahStatus.Completed,
                 TaharahReceptionStaff = "אבי",
-                TaharahLocation = BurialPreparation.RishonLezion,
                 TaharahReceptionDate = DateTime.Now.AddDays(-30),
                 TaharahClosingDate = DateTime.Now.AddDays(-15),
                 TaharahProcessStartDate = DateTime.Now.AddDays(-25),
                 HasTachrichim = false,
-                IsTaharahPerformed = true,
+                IsTaharahPerformed = true,      
                 InCoffin = false
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination

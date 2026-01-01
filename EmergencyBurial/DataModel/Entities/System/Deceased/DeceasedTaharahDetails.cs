@@ -21,18 +21,30 @@ namespace DataModel.Entities
 
         [Description("שם העובד שקלט את החלל לטהרה")]
         public string? TaharahReceptionStaff { get; set; }
+        
+        [Description("שם מבצע הטהרה/מנהל הצוות")]
+        public string? TaharahTeamManager { get; set; }
 
-        [Description("תאריך ושעה תחילת תהליך הטהרה")]
-        public DateTime? TaharahProcessStartDate { get; set; }
+        [Description("פרטי אחסון ביניים (מכולה)")]
+        public string? IntermediateStorage { get; set; }
+
+        [Description("האם ממתין ליציאה")]
+        public bool IsPendingExit { get; set; }
+
+        [Description("סיבת המתנה ליציאה")]
+        public string? PendingExitReason { get; set; }
 
         [Description("תאריך ושעה סגירת הכנה לקבורה")]
         public DateTime? TaharahClosingDate { get; set; }
 
         [Description("האם בוצעה טהרה")]
         public bool? IsTaharahPerformed { get; set; }
-
-        [Description("שם הגורם המבצע את שינוע היציאה לקבורה")]
-        public string? ExitTransportBy { get; set; }
+        
+        [Description("תאריך ושעה תחילת הטהרה")]
+        public DateTime? TaharahProcessStartDate { get; set; }
+        
+        [Description("תאריך ושעה ביצוע טהרה")]
+        public DateTime? TaharahExecutionTime { get; set; }
 
         [Description("האם יש תכריכי פשתן")]
         public bool HasTachrichim { get; set; }

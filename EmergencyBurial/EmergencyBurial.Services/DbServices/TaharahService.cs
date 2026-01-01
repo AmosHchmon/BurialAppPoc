@@ -32,17 +32,17 @@ public class TaharahService(EmergencyBurialContext ctx)
                         d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.InProgress)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
-        
+
         /*if (month > 0 && year > 0)
         {
             query = query.Where(d => d.CreatedOn.HasValue &&
                                      d.CreatedOn.Value.Month == month &&
                                      d.CreatedOn.Value.Year == year);
         }*/
-        
+
         return list;
     }
-    
+
     public async Task<List<Deceased>> GetReleasedFromTaharah(int? month, int? year)
     {
         var list = await ctx.Deceaseds
@@ -52,7 +52,7 @@ public class TaharahService(EmergencyBurialContext ctx)
                         d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.Completed)
             .OrderByDescending(d => d.DeceasedTaharahDetails.TaharahClosingDate)
             .ToListAsync();
-        
+
         /*if (month > 0 && year > 0)
         {
             query = query.Where(d => d.DeceasedTaharahDetails.TaharahClosingDate.HasValue &&
@@ -74,19 +74,19 @@ public class TaharahService(EmergencyBurialContext ctx)
         {
             throw new ApplicationException(UserMessage.DeceasedNotExists);
         }
-        
-        if (deceased.DeceasedTaharahDetails == null)
-        {
-            deceased.DeceasedTaharahDetails = new DeceasedTaharahDetails { DeceasedId = deceased.Id };
-        }
+
+        deceased.DeceasedTaharahDetails ??= new DeceasedTaharahDetails { DeceasedId = deceased.Id };
 
         deceased.ProcessStatus = ProcessStatus.ReceivedForBurialPreparation;
+        deceased.DeceasedTaharahDetails.TaharahStatus = TaharahStatus.InProgress;
         deceased.DeceasedTaharahDetails.TaharahReceptionStaff = details.TaharahReceptionStaff;
+
+        deceased.DeceasedTaharahDetails.TaharahProcessStartDate = details.TaharahProcessStartDate ?? DateTime.Now;
         deceased.DeceasedTaharahDetails.TaharahReceptionDate = details.TaharahReceptionDate ?? DateTime.Now;
-        
+
         await ctx.SaveChangesAsync();
     }
-    
+
     public async Task UpdateTaharahDetails(DeceasedTaharahDetails details)
     {
         ctx.DeceasedTaharahDetails
@@ -94,22 +94,23 @@ public class TaharahService(EmergencyBurialContext ctx)
 
         await ctx.SaveChangesAsync();
     }
-    
+
     public async Task<Deceased> GetDeceasedForEdit(Guid id)
     {
         return await ctx.Deceaseds
             .Include(d => d.DeceasedTaharahDetails)
+            .Include(d => d.DeceasedBags)
             .FirstOrDefaultAsync(d => d.Id == id);
     }
-    
+
     public async Task ReleaseFromTaharah(DeceasedTaharahDetails taharahDetails)
     {
         var details = await ctx.DeceasedTaharahDetails
             .FirstOrDefaultAsync(d => d.DeceasedId == taharahDetails.DeceasedId);
-        
+
         details.TaharahStatus = TaharahStatus.Completed;
         details.TaharahClosingDate = DateTime.Now;
 
-        await this.UpdateTaharahDetails(taharahDetails);
+        await UpdateTaharahDetails(taharahDetails);
     }
 }

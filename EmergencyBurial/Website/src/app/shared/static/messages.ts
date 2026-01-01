@@ -29,5 +29,6 @@ export let DialogMessage = {
   DeceasedReceived: 'חלל נקלט בהצלחה',
   ReleaseFromTaharah: 'אישור שחרור מטהרה',
   ShouldReleaseFromTaharah: 'האם לשחרר את החלל מתהליך הטהרה?',
-  DeceasedReleasedFromTaharah: 'החלל שוחרר מטהרה בהצלחה'
+  DeceasedReleasedFromTaharah: 'החלל שוחרר מטהרה בהצלחה',
+  TachrichimIsRequired: 'יש להכניס תכריכי פשתן לטובת שחרור מטהרה'
 };

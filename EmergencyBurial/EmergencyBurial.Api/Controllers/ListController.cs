@@ -149,12 +149,4 @@ public class ListController(ListService listService, IMapper mapper) : Controlle
 
         return Ok(list);
     }
-    
-    [HttpGet("taharah-location")]
-    public ActionResult<List<OptionItem>> GetTaharahLocationsEnumsValues()
-    {
-        var list = EnumHelper.EnumNamedValues<BurialPreparation>();
-
-        return Ok(list);
-    }
 }

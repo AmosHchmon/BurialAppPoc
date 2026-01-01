@@ -46,10 +46,6 @@ export class ListService extends BaseService {
 
   }
 
-  getTaharahLocations(): Promise<IOptionItem[]> {
-    return super.get<IOptionItem[]>({path: '/taharah-location'});
-  }
-
   getIdentificationStatus(): Promise<IOptionItem[]> {
 
     return super.get<IOptionItem[]>({path: '/identification-status'})
