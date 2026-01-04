@@ -27,6 +27,7 @@ export let DialogMessage = {
   EditModeInTab: "מעבר לטופס זה יגרור אי שמירה של ",
   DeceasedUpdated: 'הנתונים של חלל זה עודכנו',
   DeceasedReceived: 'חלל נקלט בהצלחה',
+  InCoffinReasonRequired: 'יש להזין סיבת הכנסה לארון',
   ReleaseFromTaharah: 'אישור שחרור מטהרה',
   ShouldReleaseFromTaharah: 'האם לשחרר את החלל מתהליך הטהרה?',
   DeceasedReleasedFromTaharah: 'החלל שוחרר מטהרה בהצלחה',

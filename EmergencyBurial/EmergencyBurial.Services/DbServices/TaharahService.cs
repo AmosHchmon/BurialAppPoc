@@ -23,7 +23,7 @@ public class TaharahService(EmergencyBurialContext ctx)
             .ToListAsync();
     }
 
-    public async Task<List<Deceased>> GetActiveDeceasedInTaharah(int? month, int? year)
+    public async Task<List<Deceased>> GetActiveDeceasedInTaharah()
     {
         var list = await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
@@ -33,32 +33,17 @@ public class TaharahService(EmergencyBurialContext ctx)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
 
-        /*if (month > 0 && year > 0)
-        {
-            query = query.Where(d => d.CreatedOn.HasValue &&
-                                     d.CreatedOn.Value.Month == month &&
-                                     d.CreatedOn.Value.Year == year);
-        }*/
-
         return list;
     }
 
-    public async Task<List<Deceased>> GetReleasedFromTaharah(int? month, int? year)
+    public async Task<List<Deceased>> GetReleasedFromTaharah()
     {
         var list = await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
-            .Where(d => d.ProcessStatus == ProcessStatus.ReceivedForBurialPreparation &&
-                        d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.Completed)
-            .OrderByDescending(d => d.DeceasedTaharahDetails.TaharahClosingDate)
+            .Where(d => d.ProcessStatus == ProcessStatus.ReleasedFromBurialPreparation)
+            .OrderByDescending(d => d.DeceasedTaharahDetails.TaharahReleaseDate)
             .ToListAsync();
-
-        /*if (month > 0 && year > 0)
-        {
-            query = query.Where(d => d.DeceasedTaharahDetails.TaharahClosingDate.HasValue &&
-                                     d.DeceasedTaharahDetails.TaharahClosingDate.Value.Month == month &&
-                                     d.DeceasedTaharahDetails.TaharahClosingDate.Value.Year == year);
-        }*/
 
         return list;
     }
@@ -75,22 +60,19 @@ public class TaharahService(EmergencyBurialContext ctx)
             throw new ApplicationException(UserMessage.DeceasedNotExists);
         }
 
-        deceased.DeceasedTaharahDetails ??= new DeceasedTaharahDetails { DeceasedId = deceased.Id };
-
         deceased.ProcessStatus = ProcessStatus.ReceivedForBurialPreparation;
+        
         deceased.DeceasedTaharahDetails.TaharahStatus = TaharahStatus.InProgress;
         deceased.DeceasedTaharahDetails.TaharahReceptionStaff = details.TaharahReceptionStaff;
-
-        deceased.DeceasedTaharahDetails.TaharahProcessStartDate = details.TaharahProcessStartDate ?? DateTime.Now;
         deceased.DeceasedTaharahDetails.TaharahReceptionDate = details.TaharahReceptionDate ?? DateTime.Now;
 
         await ctx.SaveChangesAsync();
     }
 
-    public async Task UpdateTaharahDetails(DeceasedTaharahDetails details)
+    public async Task UpdateTaharahDetails(DeceasedTaharahDetails taharahDetails)
     {
         ctx.DeceasedTaharahDetails
-            .Update(details);
+            .Update(taharahDetails);
 
         await ctx.SaveChangesAsync();
     }
@@ -105,12 +87,17 @@ public class TaharahService(EmergencyBurialContext ctx)
 
     public async Task ReleaseFromTaharah(DeceasedTaharahDetails taharahDetails)
     {
-        var details = await ctx.DeceasedTaharahDetails
-            .FirstOrDefaultAsync(d => d.DeceasedId == taharahDetails.DeceasedId);
+        var deceased = await ctx.Deceaseds
+            .AsTracking()
+            .Include(d => d.DeceasedTaharahDetails)
+            .FirstOrDefaultAsync(d => d.Id == taharahDetails.DeceasedId);
+        
+        deceased.ProcessStatus = ProcessStatus.ReleasedFromBurialPreparation;
+        
+        deceased.DeceasedTaharahDetails.TaharahStatus = TaharahStatus.Completed;
+        deceased.DeceasedTaharahDetails.IsPendingExit = false;
+        deceased.DeceasedTaharahDetails.TaharahReleaseDate = DateTime.Now;
 
-        details.TaharahStatus = TaharahStatus.Completed;
-        details.TaharahClosingDate = DateTime.Now;
-
-        await UpdateTaharahDetails(taharahDetails);
+        await ctx.SaveChangesAsync();
     }
 }

@@ -6,12 +6,11 @@ import {AlertService} from "../../../../shared/services/alert.service";
 import {TaharahIntake} from "../../model/TaharahIntake";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
-import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
 
 @Component({
   selector: 'app-taharah-intake-dialog',
   standalone: true,
-  imports: [UiComponentsModule, ConvertTimezoneDirective],
+  imports: [UiComponentsModule],
   templateUrl: './taharah-intake-dialog.component.html'
 })
 export class TaharahIntakeDialogComponent {
@@ -25,7 +24,6 @@ export class TaharahIntakeDialogComponent {
   intakeData: TaharahIntake = {
     DeceasedId: '',
     TaharahReceptionStaff: '',
-    TaharahReceptionDate: new Date()
   };
 
   constructor(
@@ -41,15 +39,16 @@ export class TaharahIntakeDialogComponent {
       this.intakeData = {
         DeceasedId: this.deceasedId,
         TaharahReceptionStaff: '',
-        TaharahReceptionDate: new Date()
       };
 
     }
   }
 
   closeDialog() {
+
     this.visible = false;
     this.visibleChange.emit(false);
+    this.intakeData = {TaharahReceptionStaff: ''};
   }
 
   async submitIntake() {

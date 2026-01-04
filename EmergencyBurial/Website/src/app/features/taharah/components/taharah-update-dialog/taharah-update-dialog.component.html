@@ -53,60 +53,67 @@
 
     <p-divider></p-divider>
 
-    <div class="d-flex w-100 pt-2 gap-5">
+    <form class="d-flex w-100 pt-2 gap-5">
       <div class="d-flex flex-column w-50 gap-4">
 
         <p-floatlabel variant="on" class="w-100">
-          <input pInputText [(ngModel)]="processData.TaharahTeamManager" class="w-100"/>
+          <input pInputText
+                 name="TaharahTeamManager"
+                 [disabled]="isReleasedMode"
+                 autocomplete="off"
+                 [(ngModel)]="processData.TaharahTeamManager"
+                 class="w-100"/>
           <label>שם מבצע הטהרה / מנהל צוות</label>
         </p-floatlabel>
 
         <p-floatlabel variant="on" class="w-100">
-          <input pInputText [(ngModel)]="processData.IntermediateStorage" class="w-100"/>
+          <input pInputText
+                 name="IntermediateStorage"
+                 [disabled]="isReleasedMode"
+                 autocomplete="off"
+                 [(ngModel)]="processData.IntermediateStorage"
+                 class="w-100"/>
           <label>פרטי אחסון ביניים (מכולה)</label>
         </p-floatlabel>
 
-        <p-floatlabel variant="on" class="w-100">
-          <p-datePicker [(ngModel)]="processData.TaharahExecutionTime"
-                        disabled
-                        [showTime]="true" hourFormat="24" dateFormat="dd/mm/yy" appendTo="body"
-                        class="w-100" appConvertTimezone></p-datePicker>
-          <label>תאריך ביצוע הטהרה (מחושב)</label>
-        </p-floatlabel>
+        <div class="d-flex align-items-center gap-2">
+          <p-checkbox [(ngModel)]="processData.IsTaharahPerformed"
+                      [disabled]="isReleasedMode"
+                      name="IsTaharahPerformed"
+                      [binary]="true"
+                      inputId="isTaharah"></p-checkbox>
+          <label for="isTaharah" class="font-bold cursor-pointer">בוצעה טהרה</label>
+        </div>
 
-        <p-floatlabel variant="on" class="w-100">
-          <p-datePicker [(ngModel)]="processData.TaharahClosingDate"
-                        [showTime]="true" hourFormat="24" dateFormat="dd/mm/yy" appendTo="body"
-                        class="w-100" appConvertTimezone></p-datePicker>
-          <label>תאריך סגירת הכנה לקבורה</label>
-        </p-floatlabel>
+        <div class="d-flex align-items-center gap-2">
+          <p-checkbox [(ngModel)]="processData.HasTachrichim"
+                      [disabled]="isReleasedMode"
+                      name="HasTachrichim"
+                      [binary]="true"
+                      inputId="shrouds"></p-checkbox>
+          <label for="shrouds" class="font-bold cursor-pointer text-red-500">תכריכי פשתן (חובה לשחרור)</label>
+        </div>
 
       </div>
 
       <div class="d-flex flex-column w-50 gap-3">
 
         <div class="d-flex align-items-center gap-2">
-          <p-checkbox [(ngModel)]="processData.IsTaharahPerformed"
+          <p-checkbox [(ngModel)]="processData.InCoffin"
+                      [disabled]="isReleasedMode"
+                      name="InCoffin"
                       [binary]="true"
-                      inputId="isTaharah"
-                      (onChange)="onTaharahPerformedChange()"></p-checkbox>
-          <label for="isTaharah" class="font-bold cursor-pointer">בוצעה טהרה</label>
-        </div>
-
-        <div class="d-flex align-items-center gap-2">
-          <p-checkbox [(ngModel)]="processData.HasTachrichim" [binary]="true" inputId="shrouds"></p-checkbox>
-          <label for="shrouds" class="font-bold cursor-pointer text-red-500">תכריכי פשתן (חובה לשחרור)</label>
-        </div>
-
-        <div class="d-flex align-items-center gap-2">
-          <p-checkbox [(ngModel)]="processData.InCoffin" [binary]="true" inputId="isCoffin"></p-checkbox>
+                      inputId="isCoffin"></p-checkbox>
           <label for="isCoffin" class="font-bold cursor-pointer">הוכנס לארון</label>
         </div>
 
         <p-floatlabel variant="on" class="w-100 mt-2">
           <input pInputText
+                 name="CoffinReason"
+                 autocomplete="off"
                  [(ngModel)]="processData.CoffinReason"
-                 [disabled]="!processData.InCoffin"
+                 [disabled]="!processData.InCoffin || isReleasedMode"
+                 [required]="processData.InCoffin"
                  class="w-100"/>
           <label>סיבת הכנסה לארון</label>
         </p-floatlabel>
@@ -115,6 +122,8 @@
 
         <div class="d-flex align-items-center gap-2">
           <p-checkbox [(ngModel)]="processData.IsPendingExit"
+                      [disabled]="isReleasedMode"
+                      name="IsPendingExit"
                       [binary]="true"
                       inputId="pendingExit"
                       (onChange)="onPendingExitChange()"></p-checkbox>
@@ -123,28 +132,31 @@
 
         <p-floatlabel variant="on" class="w-100 mt-2">
           <input pInputText
-                 [disabled]="!processData.IsPendingExit"
+                 name="PendingExitReason"
+                 [disabled]="!processData.IsPendingExit || isReleasedMode"
                  [(ngModel)]="processData.PendingExitReason"
                  class="w-100"/>
           <label>סיבת המתנה (לדוג': יום שישי)</label>
         </p-floatlabel>
       </div>
-    </div>
+    </form>
   }
 
   <ng-template pTemplate="footer">
     <div class="d-flex justify-content-between w-100 mt-4">
 
-      @if (!isReleasedMode) {
+      @if (!isReleasedMode && showReleaseButton) {
         <p-button label="שחרור"
                   (click)="onRelease()"
                   icon="pi pi-sign-out"
                   severity="warn">
         </p-button>
-
+      } @else if (isReleasedMode) {
+        <div></div>
+      } @else {
         <div class="d-flex gap-2">
-          <p-button label="ביטול" (click)="closeDialog()" [text]="true" severity="secondary"></p-button>
           <p-button label="שמור שינויים" (click)="submitUpdate()" icon="pi pi-save" severity="primary"></p-button>
+          <p-button label="ביטול" (click)="closeDialog()" [text]="true" severity="secondary"></p-button>
         </div>
       }
     </div>

@@ -18,12 +18,12 @@ export class TaharahService extends BaseService {
     return super.get({path: `/pending`});
   }
 
-  async getActiveList(month: number, year: number): Promise<TaharahList[]> {
-    return super.get({path: `/active/${month}/${year}`});
+  async getActiveList(): Promise<TaharahList[]> {
+    return super.get({path: `/active`});
   }
 
-  async getReleasedList(month: number, year: number): Promise<TaharahList[]> {
-    return super.get({path: `/released/${month}/${year}`});
+  async getReleasedList(): Promise<TaharahList[]> {
+    return super.get({path: `/released`});
   }
 
   async getDetailsForEdit(id: string): Promise<TaharahProcess> {

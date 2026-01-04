@@ -1,20 +1,17 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {ConfirmationService} from "primeng/api";
 
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {TaharahService} from "../../services/taharah.service";
-import {ListService} from "../../../../shared/services/list.service";
 import {AlertService} from "../../../../shared/services/alert.service";
 import {TaharahProcess} from "../../model/TaharahProcess";
-import {IOptionItem} from "../../../../shared/model/list-item";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
-import {ConfirmationService} from "primeng/api";
-import {ConvertTimezoneDirective} from "../../../../core/directives/convert-timezone.directive";
 
 @Component({
   selector: 'app-taharah-update-dialog',
   standalone: true,
-  imports: [UiComponentsModule, ConvertTimezoneDirective],
+  imports: [UiComponentsModule],
   templateUrl: './taharah-update-dialog.component.html'
 })
 export class TaharahUpdateDialogComponent implements OnChanges {
@@ -22,16 +19,15 @@ export class TaharahUpdateDialogComponent implements OnChanges {
   @Input() visible: boolean = false;
   @Input() deceasedId: string | undefined;
   @Input() isReleasedMode: boolean = false;
+  @Input() showReleaseButton: boolean = false;
 
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() onSaved = new EventEmitter<void>();
 
   processData: TaharahProcess | null = null;
-  taharahLocations: IOptionItem[] = [];
 
   constructor(
     private taharahService: TaharahService,
-    private listService: ListService,
     private alertService: AlertService,
     private confirmService: ConfirmationService
   ) {
@@ -51,16 +47,6 @@ export class TaharahUpdateDialogComponent implements OnChanges {
     }
 
     this.processData = await this.taharahService.getDetailsForEdit(this.deceasedId);
-
-    if (this.processData) {
-
-      this.processData.TaharahProcessStartDate = this.processData.TaharahProcessStartDate ??
-        new Date(this.processData.TaharahProcessStartDate);
-
-      this.processData.TaharahClosingDate = this.processData.TaharahClosingDate ??
-        new Date(this.processData.TaharahClosingDate);
-
-    }
   }
 
   closeDialog() {
@@ -68,15 +54,6 @@ export class TaharahUpdateDialogComponent implements OnChanges {
     this.visible = false;
     this.visibleChange.emit(false);
     this.processData = null;
-  }
-
-  onTaharahPerformedChange() {
-
-    if (this.processData?.IsTaharahPerformed && !this.processData.TaharahExecutionTime) {
-      this.processData.TaharahExecutionTime = new Date();
-    } else {
-      this.processData.TaharahExecutionTime = null;
-    }
   }
 
   onPendingExitChange() {
@@ -92,6 +69,12 @@ export class TaharahUpdateDialogComponent implements OnChanges {
       return;
     }
 
+    if (this.processData.InCoffin && !this.processData.CoffinReason) {
+
+      this.alertService.alert(AlertType.Warning, {ClientMessage: DialogMessage.InCoffinReasonRequired});
+      return;
+    }
+
     await this.taharahService.updateDeceasedDetails(this.processData);
 
     this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.DeceasedUpdated});
@@ -104,6 +87,11 @@ export class TaharahUpdateDialogComponent implements OnChanges {
   async onRelease() {
 
     if (!this.processData?.DeceasedId) {
+      return;
+    }
+
+    if (this.processData.InCoffin && !this.processData.CoffinReason) {
+      this.alertService.alert(AlertType.Warning, {ClientMessage: DialogMessage.InCoffinReasonRequired});
       return;
     }
 

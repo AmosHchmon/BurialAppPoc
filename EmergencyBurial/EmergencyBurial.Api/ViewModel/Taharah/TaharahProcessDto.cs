@@ -27,14 +27,9 @@ public class TaharahProcessDto
     public bool IsPendingExit { get; set; }
     
     public string PendingExitReason { get; set; }
-
-    public DateTime? TaharahProcessStartDate { get; set; }
-
-    public DateTime? TaharahClosingDate { get; set; }
     
     public bool IsTaharahPerformed { get; set; }
     
-    public DateTime? TaharahExecutionTime { get; set; }
     public bool HasTachrichim { get; set; }
     public bool InCoffin { get; set; }
     public string CoffinReason { get; set; }

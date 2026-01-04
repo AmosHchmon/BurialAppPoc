@@ -45,7 +45,7 @@ export class TaharahListComponent implements OnInit {
   viewMode: ViewMode = 'pending';
   isPendingDialogOpen: boolean = false;
   isUpdateDialogOpen: boolean = false;
-  selectedMonth: Date = new Date();
+  isReleaseAction: boolean = false;
   searchText: string;
 
   constructor(private taharahService: TaharahService) {
@@ -58,11 +58,7 @@ export class TaharahListComponent implements OnInit {
 
   async loadData() {
 
-    this.selectedDeceased = null;
     this.deceasedList = [];
-
-    const month = this.selectedMonth.getMonth() + 1;
-    const year = this.selectedMonth.getFullYear();
 
     switch (this.viewMode) {
 
@@ -71,11 +67,11 @@ export class TaharahListComponent implements OnInit {
         break;
 
       case 'active':
-        this.deceasedList = await this.taharahService.getActiveList(month, year);
+        this.deceasedList = await this.taharahService.getActiveList();
         break;
 
       case 'released':
-        this.deceasedList = await this.taharahService.getReleasedList(month, year);
+        this.deceasedList = await this.taharahService.getReleasedList();
         break;
     }
   }
@@ -96,6 +92,17 @@ export class TaharahListComponent implements OnInit {
   openUpdateDetailsDialog() {
 
     if (this.selectedDeceased) {
+
+      this.isReleaseAction = false;
+      this.isUpdateDialogOpen = true;
+    }
+  }
+
+  openReleaseDialog() {
+
+    if (this.selectedDeceased) {
+
+      this.isReleaseAction = true;
       this.isUpdateDialogOpen = true;
     }
   }
@@ -114,7 +121,6 @@ export class TaharahListComponent implements OnInit {
 
   clearFilter() {
 
-    this.selectedMonth = new Date();
     this.loadData();
     this.op.hide();
   }

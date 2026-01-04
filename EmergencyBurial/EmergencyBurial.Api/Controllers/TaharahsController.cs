@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Core.Helpers;
 using DataModel.Entities;
 using EmergencyBurial.Api.ViewModel;
 using EmergencyBurial.Services.DbServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmergencyBurial.Api.Controllers;
@@ -12,29 +14,30 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
+[Authorize(Roles = nameof(OrganizationType.BurialPreparation), Policy = nameof(RoleAccessType.Edit))]
 public class TaharahsController(TaharahService taharahService, IMapper mapper) : ControllerBase
 {
     [HttpGet("pending")]
     public async Task<ActionResult<List<TaharahListDto>>> GetPending()
     {
         var entities = await taharahService.GetPendingDeceaseds();
-        
+
         return Ok(mapper.Map<List<TaharahListDto>>(entities));
     }
 
-    [HttpGet("active/{month}/{year}")]
-    public async Task<ActionResult<List<TaharahListDto>>> GetActive(int month, int year)
+    [HttpGet("active")]
+    public async Task<ActionResult<List<TaharahListDto>>> GetActive()
     {
-        var entities = await taharahService.GetActiveDeceasedInTaharah(month, year);
-        
+        var entities = await taharahService.GetActiveDeceasedInTaharah();
+
         return Ok(mapper.Map<List<TaharahListDto>>(entities));
     }
-    
-    [HttpGet("released/{month}/{year}")]
-    public async Task<ActionResult<List<TaharahListDto>>> GetReleased(int month, int year)
+
+    [HttpGet("released")]
+    public async Task<ActionResult<List<TaharahListDto>>> GetReleased()
     {
-        var result = await taharahService.GetReleasedFromTaharah(month, year);
-        
+        var result = await taharahService.GetReleasedFromTaharah();
+
         return Ok(mapper.Map<List<TaharahListDto>>(result));
     }
 
@@ -47,7 +50,7 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
         }
 
         var entity = mapper.Map<DeceasedTaharahDetails>(dto);
-        
+
         await taharahService.ReceiveDeceasedToTaharah(entity);
 
         return Ok();
@@ -60,7 +63,7 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
         {
             return BadRequest();
         }
-        
+
         var entity = await taharahService.GetDeceasedForEdit(idValue);
 
         var res = mapper.Map<TaharahProcessDto>(entity);
@@ -75,17 +78,19 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
         {
             return BadRequest();
         }
-        
+
         var entity = mapper.Map<DeceasedTaharahDetails>(dto);
+
+        entity.TaharahStatus = TaharahStatus.InProgress;
 
         // TODO: Insert location by user
         // entity.TaharahLocation = UserLocation...
-        
+
         await taharahService.UpdateTaharahDetails(entity);
 
         return Ok();
     }
-    
+
     [HttpPost("release")]
     public async Task<ActionResult> ReleaseFromTaharah(TaharahProcessDto dto)
     {
@@ -93,11 +98,11 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
         {
             return BadRequest();
         }
-        
+
         var entity = mapper.Map<DeceasedTaharahDetails>(dto);
-        
+
         await taharahService.ReleaseFromTaharah(entity);
-        
+
         return Ok();
     }
 }

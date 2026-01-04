@@ -10,6 +10,7 @@
                     [(ngModel)]="viewMode"
                     optionLabel="label"
                     optionValue="value"
+                    [unselectable]="true"
                     (onChange)="onViewChange()">
     </p-selectButton>
 
@@ -37,7 +38,7 @@
                     icon="pi pi-sign-out"
                     severity="warn"
                     [disabled]="!selectedDeceased"
-                    (click)="openUpdateDetailsDialog()">
+                    (click)="openReleaseDialog()">
           </p-button>
         </div>
       }
@@ -65,23 +66,6 @@
                      (click)="clearSearch()"/>
       }
     </p-iconfield>
-
-
-    <p-button icon="pi pi-calendar"
-              (click)="op.toggle($event)"
-              label="סינון חודשי"
-              severity="secondary"
-              [outlined]="true"></p-button>
-
-    <p-popover #op>
-      <div class="d-flex flex-column gap-3 p-3">
-        <p-datePicker view="month" dateFormat="mm/yy" [(ngModel)]="selectedMonth"></p-datePicker>
-        <div class="d-flex gap-3">
-          <p-button label="סנן" (click)="applyFilter()" size="small"></p-button>
-          <p-button label="היום" (click)="clearFilter()" [outlined]="true" size="small"></p-button>
-        </div>
-      </div>
-    </p-popover>
 
   </div>
   <p-table #dt
@@ -165,6 +149,7 @@
 <app-taharah-update-dialog
   [(visible)]="isUpdateDialogOpen"
   [isReleasedMode]="viewMode === 'released'"
+  [showReleaseButton]="isReleaseAction"
   [deceasedId]="selectedDeceased?.Id"
   (onSaved)="onDialogSaved()">
 </app-taharah-update-dialog>

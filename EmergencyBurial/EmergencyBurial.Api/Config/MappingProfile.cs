@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutoMapper;
 using Core.Helpers;
 using Core.Model;
@@ -55,10 +56,10 @@ public class MappingProfile : Profile
                 opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahReceptionDate))
             .ForMember(dest => dest.TaharahReceptionStaff,
                 opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahReceptionStaff))
-            .ForMember(dest => dest.TaharahProcessStartDate,
-                opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahProcessStartDate))
-            .ForMember(dest => dest.TaharahClosingDate,
-                opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahClosingDate))
+            .ForMember(dest => dest.TaharahReceptionDate,
+                opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahReceptionDate))
+            .ForMember(dest => dest.TaharahReleaseDate,
+                opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahReleaseDate))
             .ForMember(dest => dest.IsTaharahPerformed,
                 opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.IsTaharahPerformed))
             .ForMember(dest => dest.HasTachrichim,
@@ -93,21 +94,23 @@ public class MappingProfile : Profile
                     ? src.DeceasedTaharahDetails.TaharahStatus.GetEnumDescription()
                     : "טרם הוגדר"));
 
-        CreateMap<TaharahIntakeDto, DeceasedTaharahDetails>()
+        CreateMap<DeceasedTaharahDetails, TaharahIntakeDto>()
             .ReverseMap();
-
+        
         CreateMap<Deceased, TaharahProcessDto>()
             .ForMember(dest => dest.DeceasedId, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.IsTaharahPerformed,
-                opt => opt.MapFrom(src => src.DeceasedTaharahDetails.IsTaharahPerformed))
-            .ForMember(dest => dest.TaharahExecutionTime,
-                opt => opt.MapFrom(src => src.DeceasedTaharahDetails.TaharahExecutionTime))
-            .ForMember(dest => dest.HasTachrichim, opt => opt.MapFrom(src => src.DeceasedTaharahDetails.HasTachrichim))
-            .ForMember(dest => dest.InCoffin, opt => opt.MapFrom(src => src.DeceasedTaharahDetails.InCoffin))
-            .ForMember(dest => dest.CoffinReason, opt => opt.MapFrom(src => src.DeceasedTaharahDetails.CoffinReason))
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
             .ForMember(dest => dest.BagNumbers,
-                opt => opt.MapFrom(src => src.DeceasedBags.Select(b => b.BagNumber).ToList()));
+                opt => opt.MapFrom(src => src.DeceasedBags.Select(b => b.BagNumber).ToList()))
+            .ForMember(dest => dest.TaharahTeamManager, opt => opt.MapFrom(src => src.DeceasedTaharahDetails.TaharahTeamManager))
+            .ForMember(dest => dest.IntermediateStorage, opt => opt.MapFrom(src => src.DeceasedTaharahDetails.IntermediateStorage))
+            .ForMember(dest => dest.IsPendingExit, opt => opt.MapFrom(src => src.DeceasedTaharahDetails.IsPendingExit))
+            .ForMember(dest => dest.PendingExitReason, opt => opt.MapFrom(src => src.DeceasedTaharahDetails.PendingExitReason))
+            .ForMember(dest => dest.IsTaharahPerformed,
+                opt => opt.MapFrom(src => src.DeceasedTaharahDetails.IsTaharahPerformed))
+            .ForMember(dest => dest.HasTachrichim, opt => opt.MapFrom(src => src.DeceasedTaharahDetails.HasTachrichim))
+            .ForMember(dest => dest.InCoffin, opt => opt.MapFrom(src => src.DeceasedTaharahDetails.InCoffin))
+            .ForMember(dest => dest.CoffinReason, opt => opt.MapFrom(src => src.DeceasedTaharahDetails.CoffinReason));
 
         CreateMap<DeceasedTaharahDetails, TaharahProcessDto>()
             .ReverseMap();

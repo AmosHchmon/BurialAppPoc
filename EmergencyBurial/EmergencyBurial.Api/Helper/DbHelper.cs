@@ -203,22 +203,22 @@ public class DbHelper
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased1Id,
-                    Status = ProcessStatus.ReceptionAtTarah,
-                    CreatedOn = DateTime.Now.AddDays(-2),
+                    Status = ProcessStatus.ReleaseFromTarah,
+                    CreatedOn = DateTime.Now.AddDays(-7),
                     CreatedBy = "System"
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased1Id,
-                    Status = ProcessStatus.ReleasedFromBurialPreparation,
-                    CreatedOn = DateTime.Now.AddDays(-1),
+                    Status = ProcessStatus.TransportToBurialPreparation,
+                    CreatedOn = DateTime.Now.AddDays(-6),
                     CreatedBy = "System"
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased1Id,
-                    Status = ProcessStatus.TransportToBurialEntity,
-                    CreatedOn = DateTime.Now.AddHours(-5),
+                    Status = ProcessStatus.EndTransportBurialPreparation,
+                    CreatedOn = DateTime.Now.AddHours(-6),
                     CreatedBy = "System"
                 }
             },
@@ -226,7 +226,7 @@ public class DbHelper
             {
                 DeceasedId = deceased1Id,
                 IdentificationStatus = IdentificationStatus.Identified,
-                IsReleasedFromTarah = false,
+                IsReleasedFromTarah = true,
                 IsBuried = false
             },
             DeceasedBurialDetails = new DeceasedBurialDetails
@@ -245,7 +245,7 @@ public class DbHelper
             {
                 DeceasedId = deceased1Id,
                 BurialCity = "ירושלים",
-                IsCoordinatedWithHevratKadisha = true,
+                IsCoordinatedWithHevratKadisha = false,
                 FamilyContactName = "משה ישראלי",
                 FamilyContactPhone = "050-1234567"
             }
@@ -262,7 +262,7 @@ public class DbHelper
             FatherName = "משה",
             Gender = "נקבה",
             HomeCity = "תל אביב",
-            ProcessStatus = ProcessStatus.ReceivedForBurialPreparation,
+            ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
 
             DeceasedBags = new List<DeceasedBag>
             {
@@ -295,23 +295,37 @@ public class DbHelper
                 {
                     DeceasedId = deceased2Id,
                     Status = ProcessStatus.ReceptionAtTarah,
-                    CreatedOn = DateTime.Now.AddDays(-1),
+                    CreatedOn = DateTime.Now.AddDays(-5),
                     CreatedBy = "System"
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased2Id,
-                    Status = ProcessStatus.EndTransportBurialEntity,
-                    CreatedOn = DateTime.Now.AddHours(-2),
+                    Status = ProcessStatus.ReleaseFromTarah,
+                    CreatedOn = DateTime.Now.AddDays(-4),
+                    CreatedBy = "Driver"
+                },
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased2Id,
+                    Status = ProcessStatus.TransportToBurialPreparation,
+                    CreatedOn = DateTime.Now.AddDays(-3),
+                    CreatedBy = "Driver"
+                },
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased2Id,
+                    Status = ProcessStatus.EndTransportBurialPreparation,
+                    CreatedOn = DateTime.Now.AddDays(-3),
                     CreatedBy = "Driver"
                 }
             },
             DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
             {
                 DeceasedId = deceased2Id,
-                IdentificationStatus = IdentificationStatus.NotIdentified,
+                IdentificationStatus = IdentificationStatus.Identified,
                 IsReleasedFromTarah = true,
-                ReleasedFromTarahDate = DateTime.Now.AddHours(-3)
+                ReleasedFromTarahDate = DateTime.Now.AddDays(-4)
             },
             DeceasedBurialDetails = new DeceasedBurialDetails
             {
@@ -321,8 +335,7 @@ public class DbHelper
             DeceasedTaharahDetails = new DeceasedTaharahDetails
             {
                 DeceasedId = deceased2Id,
-                TaharahStatus = TaharahStatus.InProgress,
-                TaharahReceptionDate = DateTime.Now,
+                TaharahStatus = TaharahStatus.Pending,
                 IsTaharahPerformed = false
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination
@@ -342,7 +355,7 @@ public class DbHelper
             LastName = "המלך",
             Gender = "זכר",
             FatherName = "ישי",
-            ProcessStatus = ProcessStatus.ReceivedForBurialPreparation,
+            ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
 
             DeceasedBags = new List<DeceasedBag>
             {
@@ -361,16 +374,38 @@ public class DbHelper
             {
                 new DeceasedStatusHistory
                 {
-                    DeceasedId = deceased3Id, Status = ProcessStatus.Burial, CreatedOn = DateTime.Now.AddDays(-1),
+                    DeceasedId = deceased3Id,
+                    Status = ProcessStatus.ReceptionAtTarah,
+                    CreatedOn = DateTime.Now.AddDays(-5),
                     CreatedBy = "System"
+                },
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased3Id,
+                    Status = ProcessStatus.ReleaseFromTarah,
+                    CreatedOn = DateTime.Now.AddHours(-3),
+                    CreatedBy = "Driver"
+                },
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased3Id,
+                    Status = ProcessStatus.TransportToBurialPreparation,
+                    CreatedOn = DateTime.Now.AddHours(-3),
+                    CreatedBy = "Driver"
+                },
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased3Id,
+                    Status = ProcessStatus.EndTransportBurialPreparation,
+                    CreatedOn = DateTime.Now.AddHours(-3),
+                    CreatedBy = "Driver"
                 }
             },
             DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
             {
                 DeceasedId = deceased3Id,
                 IsReleasedFromTarah = true,
-                IsBuried = true,
-                BurialDate = DateTime.Now.AddDays(-1)
+                IsBuried = false,
             },
             DeceasedBurialDetails = new DeceasedBurialDetails
             {
@@ -380,14 +415,8 @@ public class DbHelper
             DeceasedTaharahDetails = new DeceasedTaharahDetails
             {
                 DeceasedId = deceased3Id,
-                TaharahStatus = TaharahStatus.Completed,
-                TaharahReceptionStaff = "אבי",
-                TaharahReceptionDate = DateTime.Now.AddDays(-30),
-                TaharahClosingDate = DateTime.Now.AddDays(-15),
-                TaharahProcessStartDate = DateTime.Now.AddDays(-25),
-                HasTachrichim = false,
-                IsTaharahPerformed = true,      
-                InCoffin = false
+                TaharahStatus = TaharahStatus.Pending,
+                IsTaharahPerformed = false,
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination
             {
@@ -464,10 +493,10 @@ public class DbHelper
                 FullName = "עוז שורקי",
                 UserName = "308015205",
                 Mail = "OzS@dat.gov.il",
-                RoleAccessTypeId = RoleAccessType.Admin,
-                OrganizationTypeId = (int)OrganizationType.Tarah,
-                StationTypeId = (int)StationType.TarahStations,
-                StationId = (int)TarahStations.Shura,
+                RoleAccessTypeId = RoleAccessType.Edit,
+                OrganizationTypeId = (int)OrganizationType.BurialPreparation,
+                StationTypeId = (int)StationType.BurialPreparation,
+                StationId = (int)BurialPreparation.RishonLezion,
                 IsActive = true,
             },
             new()

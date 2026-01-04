@@ -19,6 +19,9 @@ namespace DataModel.Entities
         [Description("תאריך קליטת החלל במכון הטהרה")]
         public DateTime? TaharahReceptionDate { get; set; }
 
+        [Description("תאריך שחרור החלל ממכון טהרה")]
+        public DateTime? TaharahReleaseDate { get; set; }
+        
         [Description("שם העובד שקלט את החלל לטהרה")]
         public string? TaharahReceptionStaff { get; set; }
         
@@ -34,17 +37,8 @@ namespace DataModel.Entities
         [Description("סיבת המתנה ליציאה")]
         public string? PendingExitReason { get; set; }
 
-        [Description("תאריך ושעה סגירת הכנה לקבורה")]
-        public DateTime? TaharahClosingDate { get; set; }
-
         [Description("האם בוצעה טהרה")]
         public bool? IsTaharahPerformed { get; set; }
-        
-        [Description("תאריך ושעה תחילת הטהרה")]
-        public DateTime? TaharahProcessStartDate { get; set; }
-        
-        [Description("תאריך ושעה ביצוע טהרה")]
-        public DateTime? TaharahExecutionTime { get; set; }
 
         [Description("האם יש תכריכי פשתן")]
         public bool HasTachrichim { get; set; }

@@ -20,11 +20,9 @@ public class DeceasedBurialDetailsDto
     
     public DateTime? TaharahReceptionDate { get; set; }
     
+    public DateTime? TaharahReleaseDate { get; set; }
+    
     public string? TaharahReceptionStaff { get; set; }
-    
-    public DateTime? TaharahProcessStartDate { get; set; }
-    
-    public DateTime? TaharahClosingDate { get; set; }
     
     public bool? IsTaharahPerformed { get; set; }
     

@@ -3,6 +3,4 @@
   DeceasedId?: string;
 
   TaharahReceptionStaff?: string;
-
-  TaharahReceptionDate?: Date;
 }

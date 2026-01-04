@@ -18,13 +18,7 @@
 
   PendingExitReason?: string;
 
-  TaharahProcessStartDate?: Date;
-
-  TaharahClosingDate?: Date;
-
   IsTaharahPerformed?: boolean;
-
-  TaharahExecutionTime?: Date;
 
   HasTachrichim?: boolean;
 

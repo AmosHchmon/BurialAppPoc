@@ -16,11 +16,9 @@
 
   TaharahReceptionDate?: Date;
 
+  TaharahReleaseDate?: Date;
+
   TaharahReceptionStaff?: string;
-
-  TaharahProcessStartDate?: Date;
-
-  TaharahClosingDate?: Date;
 
   IsTaharahPerformed?: boolean;
 
