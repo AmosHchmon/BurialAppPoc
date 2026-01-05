@@ -16,7 +16,8 @@ export class GlobalErrorHandlerService implements ErrorHandler {
         case 401: // Unauthorized
            return;
       case 403://Forbidden
-           return;
+        this.alertService.alert(AlertType.Error, {ClientMessage : DialogMessage.ForbiddenAction}, error)
+        return;
     }
 
     if (error instanceof HttpErrorResponse) {

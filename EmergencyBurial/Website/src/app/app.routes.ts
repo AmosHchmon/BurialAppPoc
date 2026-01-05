@@ -25,10 +25,6 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'access-denied',
-    component: NotAuthorizedComponent
-  },
-  {
     path: 'dashboard',
     component: DashboardLayoutComponent,
     children: [
@@ -64,6 +60,10 @@ export const routes: Routes = [
       }
     ],
     canMatch: [RoleGuard], data: {roles: [enmOrganizationType.Hamal]},
+  },
+  {
+    path: 'access-denied',
+    component: NotAuthorizedComponent
   },
   {
     path: '**',
