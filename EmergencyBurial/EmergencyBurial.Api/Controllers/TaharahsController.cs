@@ -32,7 +32,7 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
 
         return Ok(mapper.Map<List<TaharahListDto>>(entities));
     }
-    
+
     [HttpGet("released")]
     public async Task<ActionResult<List<TaharahListDto>>> GetReleased()
     {

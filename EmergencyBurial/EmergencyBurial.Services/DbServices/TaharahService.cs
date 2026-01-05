@@ -75,7 +75,7 @@ public class TaharahService(EmergencyBurialContext ctx)
 
         deceased.ProcessStatus = ProcessStatus.ReceivedForBurialPreparation;
         ctx.Entry(deceased.DeceasedTaharahDetails).CurrentValues.SetValues(details);
-        
+
         await ctx.SaveChangesAsync();
     }
 
