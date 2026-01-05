@@ -20,7 +20,7 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
     [HttpGet("pending")]
     public async Task<ActionResult<List<TaharahListDto>>> GetPending()
     {
-        var entities = await taharahService.GetPendingDeceaseds();
+        var entities = await taharahService.GetPendingList();
 
         return Ok(mapper.Map<List<TaharahListDto>>(entities));
     }
@@ -28,15 +28,15 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
     [HttpGet("active")]
     public async Task<ActionResult<List<TaharahListDto>>> GetActive()
     {
-        var entities = await taharahService.GetActiveDeceasedInTaharah();
+        var entities = await taharahService.GetActiveList();
 
         return Ok(mapper.Map<List<TaharahListDto>>(entities));
     }
-
+    
     [HttpGet("released")]
     public async Task<ActionResult<List<TaharahListDto>>> GetReleased()
     {
-        var result = await taharahService.GetReleasedFromTaharah();
+        var result = await taharahService.GetReleasedList();
 
         return Ok(mapper.Map<List<TaharahListDto>>(result));
     }
@@ -49,7 +49,14 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
             return BadRequest();
         }
 
-        var entity = mapper.Map<DeceasedTaharahDetails>(dto);
+        var entity = await taharahService.GetTaharahDetailsById(dto.DeceasedId);
+
+        mapper.Map(dto, entity);
+
+        entity.TaharahLocation = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationTypeId));
+        entity.ReceivedBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
+        entity.TaharahStatus = TaharahStatus.InProgress;
+        entity.TaharahReceptionDate = DateTime.Now;
 
         await taharahService.ReceiveDeceasedToTaharah(entity);
 
@@ -79,19 +86,16 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
             return BadRequest();
         }
 
-        var entity = mapper.Map<DeceasedTaharahDetails>(dto);
+        var entity = await taharahService.GetTaharahDetailsById(dto.DeceasedId);
 
-        entity.TaharahStatus = TaharahStatus.InProgress;
-
-        // TODO: Insert location by user
-        // entity.TaharahLocation = UserLocation...
+        mapper.Map(dto, entity);
 
         await taharahService.UpdateTaharahDetails(entity);
 
         return Ok();
     }
 
-    [HttpPost("release")]
+    [HttpPut("release")]
     public async Task<ActionResult> ReleaseFromTaharah(TaharahProcessDto dto)
     {
         if (dto == null)
@@ -99,7 +103,13 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
             return BadRequest();
         }
 
-        var entity = mapper.Map<DeceasedTaharahDetails>(dto);
+        var entity = await taharahService.GetTaharahDetailsById(dto.DeceasedId);
+
+        mapper.Map(dto, entity);
+
+        entity.TaharahStatus = TaharahStatus.Completed;
+        entity.IsPendingExit = false;
+        entity.TaharahReleaseDate = DateTime.Now;
 
         await taharahService.ReleaseFromTaharah(entity);
 

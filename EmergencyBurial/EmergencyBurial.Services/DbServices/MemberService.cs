@@ -18,6 +18,18 @@ public class MemberService(EmergencyBurialContext ctx)
         return members;
     }
 
+    public async Task<int?> GetMember(Guid id)
+    {
+        var member = await ctx.Members.FirstOrDefaultAsync(m => m.Id == id);
+        
+        if (member == null)
+        {
+            throw new ApplicationException(UserMessage.UserNotExist);
+        }
+        
+        return member.StationTypeId;
+    }
+
     public async Task<Member> AddMember(Member member)
     {
         await ctx.Members.AddAsync(member);

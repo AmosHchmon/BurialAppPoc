@@ -39,7 +39,7 @@ export class TaharahService extends BaseService {
   }
 
   async releaseFromTaharah(dto: TaharahProcess): Promise<any> {
-    return super.post({path: `/release`, body: dto});
+    return super.put({path: `/release`, body: dto});
   }
 
 }

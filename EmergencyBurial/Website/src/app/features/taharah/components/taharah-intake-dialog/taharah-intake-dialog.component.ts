@@ -6,6 +6,7 @@ import {AlertService} from "../../../../shared/services/alert.service";
 import {TaharahIntake} from "../../model/TaharahIntake";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
+import {AuthContextService} from "../../../../shared/services/auth-context.service";
 
 @Component({
   selector: 'app-taharah-intake-dialog',
@@ -28,7 +29,8 @@ export class TaharahIntakeDialogComponent {
 
   constructor(
     private taharahService: TaharahService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private AuthCtx: AuthContextService
   ) {
   }
 
@@ -38,7 +40,7 @@ export class TaharahIntakeDialogComponent {
 
       this.intakeData = {
         DeceasedId: this.deceasedId,
-        TaharahReceptionStaff: '',
+        TaharahReceptionStaff: this.AuthCtx.UserRBAC.FullName,
       };
 
     }

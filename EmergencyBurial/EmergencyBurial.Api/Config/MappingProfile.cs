@@ -54,8 +54,6 @@ public class MappingProfile : Profile
                 opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahStatus.GetEnumDescription()))
             .ForMember(dest => dest.TaharahReceptionDate,
                 opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahReceptionDate))
-            .ForMember(dest => dest.TaharahReceptionStaff,
-                opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahReceptionStaff))
             .ForMember(dest => dest.TaharahReceptionDate,
                 opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahReceptionDate))
             .ForMember(dest => dest.TaharahReleaseDate,

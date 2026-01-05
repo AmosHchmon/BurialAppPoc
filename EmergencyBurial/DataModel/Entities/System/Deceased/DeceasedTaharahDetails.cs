@@ -14,7 +14,7 @@ namespace DataModel.Entities
 
         public TaharahStatus? TaharahStatus { get; set; }
 
-        public BurialPreparation? TaharahLocation { get; set; }
+        public int? TaharahLocation { get; set; }
 
         [Description("תאריך קליטת החלל במכון הטהרה")]
         public DateTime? TaharahReceptionDate { get; set; }
@@ -22,8 +22,8 @@ namespace DataModel.Entities
         [Description("תאריך שחרור החלל ממכון טהרה")]
         public DateTime? TaharahReleaseDate { get; set; }
         
-        [Description("שם העובד שקלט את החלל לטהרה")]
-        public string? TaharahReceptionStaff { get; set; }
+        [Description("נקלט על ידי")]
+        public Guid? ReceivedBy { get; set; }
         
         [Description("שם מבצע הטהרה/מנהל הצוות")]
         public string? TaharahTeamManager { get; set; }
@@ -48,6 +48,9 @@ namespace DataModel.Entities
 
         [Description("סיבת הכנסה לארון")]
         public string? CoffinReason { get; set; }
+        
+        [ForeignKey(nameof(ReceivedBy))]
+        public virtual Member ReceivedByMember { get; set; }
         
         [ForeignKey(nameof(DeceasedId))]
         public virtual Deceased Deceased { get; set; }
