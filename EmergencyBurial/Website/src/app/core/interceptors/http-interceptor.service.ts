@@ -22,6 +22,7 @@ export function httpInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
           router.navigate(['/login'], {queryParams: {returnUrl: router.url}});
           return throwError(() => error);
         case 403://Forbidden
+          router.navigate(['/access-denied']);
           return throwError(() => error);
         case 500: // InternalServerError
         case 400: // BadRequest
