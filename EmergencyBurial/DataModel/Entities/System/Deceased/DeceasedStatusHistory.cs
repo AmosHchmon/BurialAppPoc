@@ -12,14 +12,15 @@ namespace DataModel.Entities
 
         [Required]
         public Guid DeceasedId { get; set; }
-
+        
+        public ProcessStatus? OldStatus { get; set; }
+        
         [Required]
-        public ProcessStatus Status { get; set; }
+        public ProcessStatus CurrentStatus { get; set; }
 
         public DateTime CreatedOn { get; set; }
-
-        // TODO: Change to Guid later
-        public string CreatedBy { get; set; } 
+        
+        public Guid CreatedBy { get; set; } 
         
         [ForeignKey(nameof(DeceasedId))]
         public virtual Deceased Deceased { get; set; }

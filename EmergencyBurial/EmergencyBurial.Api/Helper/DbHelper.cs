@@ -203,23 +203,26 @@ public class DbHelper
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased1Id,
-                    Status = ProcessStatus.ReleaseFromTarah,
+                    OldStatus = ProcessStatus.ReceptionAtTarah,
+                    CurrentStatus = ProcessStatus.ReleaseFromTarah,
                     CreatedOn = DateTime.Now.AddDays(-7),
-                    CreatedBy = "System"
+                    CreatedBy = deceased1Id
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased1Id,
-                    Status = ProcessStatus.TransportToBurialPreparation,
+                    OldStatus = ProcessStatus.ReleaseFromTarah,
+                    CurrentStatus = ProcessStatus.TransportToBurialPreparation,
                     CreatedOn = DateTime.Now.AddDays(-6),
-                    CreatedBy = "System"
+                    CreatedBy = deceased1Id
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased1Id,
-                    Status = ProcessStatus.EndTransportBurialPreparation,
+                    CurrentStatus = ProcessStatus.EndTransportBurialPreparation,
+                    OldStatus = ProcessStatus.ReceivedForBurialPreparation,
                     CreatedOn = DateTime.Now.AddHours(-6),
-                    CreatedBy = "System"
+                    CreatedBy = deceased1Id
                 }
             },
             DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
@@ -294,30 +297,33 @@ public class DbHelper
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased2Id,
-                    Status = ProcessStatus.ReceptionAtTarah,
+                    CurrentStatus = ProcessStatus.ReceptionAtTarah,
                     CreatedOn = DateTime.Now.AddDays(-5),
-                    CreatedBy = "System"
+                    CreatedBy = deceased2Id
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased2Id,
-                    Status = ProcessStatus.ReleaseFromTarah,
+                    OldStatus = ProcessStatus.ReceptionAtTarah,
+                    CurrentStatus = ProcessStatus.ReleaseFromTarah,
                     CreatedOn = DateTime.Now.AddDays(-4),
-                    CreatedBy = "Driver"
+                    CreatedBy = deceased2Id
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased2Id,
-                    Status = ProcessStatus.TransportToBurialPreparation,
+                    CurrentStatus = ProcessStatus.TransportToBurialPreparation,
+                    OldStatus = ProcessStatus.ReceivedForBurialPreparation,
                     CreatedOn = DateTime.Now.AddDays(-3),
-                    CreatedBy = "Driver"
+                    CreatedBy = deceased2Id
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased2Id,
-                    Status = ProcessStatus.EndTransportBurialPreparation,
+                    CurrentStatus = ProcessStatus.EndTransportBurialPreparation,
+                    OldStatus = ProcessStatus.TransportToBurialPreparation,
                     CreatedOn = DateTime.Now.AddDays(-3),
-                    CreatedBy = "Driver"
+                    CreatedBy = deceased2Id
                 }
             },
             DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
@@ -375,30 +381,33 @@ public class DbHelper
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased3Id,
-                    Status = ProcessStatus.ReceptionAtTarah,
+                    CurrentStatus = ProcessStatus.ReceptionAtTarah,
                     CreatedOn = DateTime.Now.AddDays(-5),
-                    CreatedBy = "System"
+                    CreatedBy = deceased3Id
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased3Id,
-                    Status = ProcessStatus.ReleaseFromTarah,
+                    OldStatus = ProcessStatus.ReceptionAtTarah,
+                    CurrentStatus = ProcessStatus.ReleaseFromTarah,
                     CreatedOn = DateTime.Now.AddHours(-3),
-                    CreatedBy = "Driver"
+                    CreatedBy = deceased3Id
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased3Id,
-                    Status = ProcessStatus.TransportToBurialPreparation,
+                    OldStatus = ProcessStatus.ReleaseFromTarah,
+                    CurrentStatus = ProcessStatus.TransportToBurialPreparation,
                     CreatedOn = DateTime.Now.AddHours(-3),
-                    CreatedBy = "Driver"
+                    CreatedBy = deceased3Id
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased3Id,
-                    Status = ProcessStatus.EndTransportBurialPreparation,
+                    OldStatus = ProcessStatus.TransportToBurialPreparation,
+                    CurrentStatus = ProcessStatus.EndTransportBurialPreparation,
                     CreatedOn = DateTime.Now.AddHours(-3),
-                    CreatedBy = "Driver"
+                    CreatedBy = deceased3Id
                 }
             },
             DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus

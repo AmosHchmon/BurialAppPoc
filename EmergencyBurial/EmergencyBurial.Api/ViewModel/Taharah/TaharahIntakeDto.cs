@@ -4,7 +4,7 @@ namespace EmergencyBurial.Api.ViewModel;
 
 public class TaharahIntakeDto
 {
-    public Guid DeceasedId { get; set; }
+    public Guid? DeceasedId { get; set; }
 
     public string TaharahReceptionStaff { get; set; }
 }

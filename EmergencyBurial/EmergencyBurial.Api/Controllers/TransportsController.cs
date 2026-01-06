@@ -18,14 +18,12 @@ public class TransportsController(TransportService transportService, DeceasedSer
     : ControllerBase
 {
     [HttpGet("bag-number/{id}")]
-    public async Task<ActionResult<IEnumerable<Transport>>> GetTransportsByDeceased(string id)
+    public async Task<ActionResult<List<Transport>>> GetTransportsByDeceased(string id)
     {
         if (!Guid.TryParse(id, out Guid idValue))
         {
             return BadRequest();
         }
-
-        await deceasedService.DeceasedBagExists(idValue);
 
         var transports = await transportService.GetTransportsByBagDetailsId(idValue);
 

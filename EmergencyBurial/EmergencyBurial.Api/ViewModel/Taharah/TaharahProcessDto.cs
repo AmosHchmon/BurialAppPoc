@@ -5,7 +5,7 @@ namespace EmergencyBurial.Api.ViewModel;
 
 public class TaharahProcessDto
 {
-    public Guid DeceasedId { get; set; }
+    public Guid? DeceasedId { get; set; }
 
     // שדות ReadOnly לתצוגה בדיאלוג
     public string FullName { get; set; }

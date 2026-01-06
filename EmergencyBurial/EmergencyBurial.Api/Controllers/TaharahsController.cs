@@ -53,7 +53,7 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
 
         mapper.Map(dto, entity);
 
-        entity.TaharahLocation = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationTypeId));
+        entity.TaharahLocation = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
         entity.ReceivedBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
 
         entity.TaharahStatus = TaharahStatus.InProgress;

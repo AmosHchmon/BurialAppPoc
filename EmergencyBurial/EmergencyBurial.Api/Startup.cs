@@ -93,9 +93,7 @@ namespace EmergencyBurial.Api
             services.AddScoped<TransportService>();
             services.AddScoped<FileService>();
             
-            var enableCasualtyJob = Configuration.GetValue<bool>("Scheduler:EnableCasualtyCreationJob", false);
-
-            if (enableCasualtyJob)
+            if (envConfig.Scheduler.EnableCasualtyCreationJob)
             {
                 services.AddTransient<TaskCreateCasualtyJob>();
             }

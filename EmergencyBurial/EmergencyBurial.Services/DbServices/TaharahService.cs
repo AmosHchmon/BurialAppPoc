@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Helpers;
-using Core.Resources;
 using DataModel;
 using DataModel.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +11,10 @@ namespace EmergencyBurial.Services.DbServices;
 
 public class TaharahService(EmergencyBurialContext ctx)
 {
-    public async Task<DeceasedTaharahDetails> GetTaharahDetailsById(Guid id)
+    public async Task<DeceasedTaharahDetails> GetTaharahDetailsById(Guid? id)
     {
-        var entity = await ctx.DeceasedTaharahDetails
+        return await ctx.DeceasedTaharahDetails
             .FirstOrDefaultAsync(d => d.DeceasedId == id);
-
-        if (entity == null)
-        {
-            throw new ApplicationException(UserMessage.ErrorLoadData);
-        }
-
-        return entity;
     }
 
     public async Task<List<Deceased>> GetPendingList()
@@ -68,11 +60,6 @@ public class TaharahService(EmergencyBurialContext ctx)
             .AsTracking()
             .FirstOrDefaultAsync(d => d.Id == details.DeceasedId);
 
-        if (deceased == null)
-        {
-            throw new ApplicationException(UserMessage.DeceasedNotExists);
-        }
-
         deceased.ProcessStatus = ProcessStatus.ReceivedForBurialPreparation;
         ctx.Entry(deceased.DeceasedTaharahDetails).CurrentValues.SetValues(details);
 
@@ -101,11 +88,6 @@ public class TaharahService(EmergencyBurialContext ctx)
             .Include(d => d.DeceasedTaharahDetails)
             .AsTracking()
             .FirstOrDefaultAsync(d => d.Id == taharahDetails.DeceasedId);
-
-        if (deceased == null)
-        {
-            throw new ApplicationException(UserMessage.DeceasedNotExists);
-        }
 
         deceased.ProcessStatus = ProcessStatus.ReleasedFromBurialPreparation;
         ctx.Entry(deceased.DeceasedTaharahDetails).CurrentValues.SetValues(taharahDetails);
