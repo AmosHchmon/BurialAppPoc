@@ -31,8 +31,6 @@ public class Deceased: BaseUpdatedEntity
     
     public string? Notes { get; set; }
     
-    public DateTime? CreatedOn { get; set; }
-    
     public ProcessStatus ProcessStatus { get; set; }
     
     public virtual ICollection<DeceasedStatusHistory> StatusHistory { get; set; }
