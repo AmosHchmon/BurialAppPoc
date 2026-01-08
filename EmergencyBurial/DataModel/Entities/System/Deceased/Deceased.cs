@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Core.Helpers;
+using DataModel.Abstract;
 
 namespace DataModel.Entities;
 
-public class Deceased
+public class Deceased: BaseUpdatedEntity
 {
     [Key]
     public Guid Id { get; set; }

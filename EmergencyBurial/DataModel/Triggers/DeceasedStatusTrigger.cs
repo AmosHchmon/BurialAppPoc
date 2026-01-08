@@ -7,9 +7,9 @@ using EntityFrameworkCore.Triggered;
 
 namespace DataModel.Triggers;
 
-public class DeceasedStatusTrigger : IBeforeSaveTrigger<Deceased>
+public class DeceasedStatusTrigger() : IAfterSaveTrigger<Deceased>
 {
-    public Task BeforeSave(ITriggerContext<Deceased> context, CancellationToken cancellationToken)
+    public Task AfterSave(ITriggerContext<Deceased> context, CancellationToken cancellationToken)
     {
         if (context.ChangeType == ChangeType.Modified || context.ChangeType == ChangeType.Added)
         {
@@ -33,7 +33,7 @@ public class DeceasedStatusTrigger : IBeforeSaveTrigger<Deceased>
                 OldStatus = oldStatus,
                 CurrentStatus = newStatus,
                 CreatedOn = DateTime.Now,
-                CreatedBy = Guid.Empty
+                CreatedBy = context.Entity.UpdateBy ?? Guid.Empty
             });
         }
 

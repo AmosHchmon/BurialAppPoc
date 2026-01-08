@@ -53,7 +53,7 @@ public class TaharahService(EmergencyBurialContext ctx)
         return list;
     }
 
-    public async Task ReceiveDeceasedToTaharah(DeceasedTaharahDetails details)
+    public async Task ReceiveDeceasedToTaharah(DeceasedTaharahDetails details, Guid? updateBy)
     {
         var deceased = await ctx.Deceaseds
             .Include(d => d.DeceasedTaharahDetails)
@@ -61,6 +61,8 @@ public class TaharahService(EmergencyBurialContext ctx)
             .FirstOrDefaultAsync(d => d.Id == details.DeceasedId);
 
         deceased.ProcessStatus = ProcessStatus.ReceivedForBurialPreparation;
+        deceased.UpdateBy = updateBy;
+        deceased.UpdateOn = DateTime.Now;
         ctx.Entry(deceased.DeceasedTaharahDetails).CurrentValues.SetValues(details);
 
         await ctx.SaveChangesAsync();
@@ -82,7 +84,7 @@ public class TaharahService(EmergencyBurialContext ctx)
             .FirstOrDefaultAsync(d => d.Id == id);
     }
 
-    public async Task ReleaseFromTaharah(DeceasedTaharahDetails taharahDetails)
+    public async Task ReleaseFromTaharah(DeceasedTaharahDetails taharahDetails, Guid? updateBy)
     {
         var deceased = await ctx.Deceaseds
             .Include(d => d.DeceasedTaharahDetails)
@@ -90,6 +92,8 @@ public class TaharahService(EmergencyBurialContext ctx)
             .FirstOrDefaultAsync(d => d.Id == taharahDetails.DeceasedId);
 
         deceased.ProcessStatus = ProcessStatus.ReleasedFromBurialPreparation;
+        deceased.UpdateBy = updateBy;
+        deceased.UpdateOn = DateTime.Now;
         ctx.Entry(deceased.DeceasedTaharahDetails).CurrentValues.SetValues(taharahDetails);
 
         await ctx.SaveChangesAsync();

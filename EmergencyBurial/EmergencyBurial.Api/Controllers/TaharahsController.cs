@@ -53,13 +53,15 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
 
         mapper.Map(dto, entity);
 
+        var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
+        
         entity.TaharahLocation = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
-        entity.ReceivedBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
+        entity.ReceivedBy = userId;
 
         entity.TaharahStatus = TaharahStatus.InProgress;
         entity.TaharahReceptionDate = DateTime.Now;
 
-        await taharahService.ReceiveDeceasedToTaharah(entity);
+        await taharahService.ReceiveDeceasedToTaharah(entity, userId);
 
         return Ok();
     }
@@ -107,12 +109,14 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
         var entity = await taharahService.GetTaharahDetailsById(dto.DeceasedId);
 
         mapper.Map(dto, entity);
+        
+        var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
 
         entity.TaharahStatus = TaharahStatus.Completed;
         entity.TaharahReleaseDate = DateTime.Now;
         entity.IsPendingExit = false;
 
-        await taharahService.ReleaseFromTaharah(entity);
+        await taharahService.ReleaseFromTaharah(entity, userId);
 
         return Ok();
     }
