@@ -7,11 +7,12 @@ import {AlertService} from "../../../../shared/services/alert.service";
 import {TaharahProcess} from "../../model/TaharahProcess";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
+import {EmptyDataComponent} from "../../../../shared/components/empty-data/empty-data.component";
 
 @Component({
   selector: 'app-taharah-update-dialog',
   standalone: true,
-  imports: [UiComponentsModule],
+  imports: [UiComponentsModule, EmptyDataComponent],
   templateUrl: './taharah-update-dialog.component.html'
 })
 export class TaharahUpdateDialogComponent implements OnChanges {

@@ -140,25 +140,29 @@
         </p-floatlabel>
       </div>
     </form>
+
+    <ng-template pTemplate="footer">
+      <div class="d-flex justify-content-between w-100 mt-4">
+
+        @if (!isReleasedMode && showReleaseButton) {
+          <p-button label="שחרור"
+                    (click)="onRelease()"
+                    icon="pi pi-sign-out"
+                    severity="warn">
+          </p-button>
+        } @else if (isReleasedMode) {
+          <div></div>
+        } @else {
+          <div class="d-flex gap-2">
+            <p-button label="שמור שינויים" (click)="submitUpdate()" icon="pi pi-save" severity="primary"></p-button>
+            <p-button label="ביטול" (click)="closeDialog()" [text]="true" severity="secondary"></p-button>
+          </div>
+        }
+      </div>
+    </ng-template>
   }
 
-  <ng-template pTemplate="footer">
-    <div class="d-flex justify-content-between w-100 mt-4">
-
-      @if (!isReleasedMode && showReleaseButton) {
-        <p-button label="שחרור"
-                  (click)="onRelease()"
-                  icon="pi pi-sign-out"
-                  severity="warn">
-        </p-button>
-      } @else if (isReleasedMode) {
-        <div></div>
-      } @else {
-        <div class="d-flex gap-2">
-          <p-button label="שמור שינויים" (click)="submitUpdate()" icon="pi pi-save" severity="primary"></p-button>
-          <p-button label="ביטול" (click)="closeDialog()" [text]="true" severity="secondary"></p-button>
-        </div>
-      }
-    </div>
-  </ng-template>
+  @else {
+    <app-empty-data/>
+  }
 </p-dialog>
