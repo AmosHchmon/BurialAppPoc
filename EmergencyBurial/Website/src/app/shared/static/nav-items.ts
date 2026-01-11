@@ -14,7 +14,7 @@ export const NavMenuItems: Array<INavItem> = [
     module: "deceased",
     url: "/dashboard/deceaseds",
     icon: "pi pi-user",
-    roles: [enmOrganizationType.Tarah, enmOrganizationType.DatServices]
+    roles: [enmOrganizationType.Tarah, enmOrganizationType.DatServices, enmOrganizationType.Hamal]
   },
   {
     name: "שינוע",
