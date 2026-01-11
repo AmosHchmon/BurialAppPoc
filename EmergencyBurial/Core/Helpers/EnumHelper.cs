@@ -11,6 +11,9 @@ namespace Core.Helpers
         public static string GetEnumDescription(this Enum e)
         {
 
+            if (e == null)
+                return string.Empty;
+            
             FieldInfo fieldInfo = e.GetType().GetField(e.ToString());
             DescriptionAttribute[] enumAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
@@ -156,11 +159,11 @@ namespace Core.Helpers
     
     public enum TaharahStatus
     {
-        [Description("ממתין")]
+        [Description("ממתין לקבלה")]
         Pending = 0,
-        [Description("בתהליך")]
+        [Description("בתהליך טהרה")]
         InProgress = 1,
-        [Description("הושלם")]
+        [Description("שוחרר מטהרה")]
         Completed = 2
     }
 
@@ -204,6 +207,34 @@ namespace Core.Helpers
         Edit = 2,
         [Description("צופה")]
         View = 3
+    }
+
+    public enum ProcessStatus 
+    {
+        [Description("קליטה בתר\"ח")]
+        ReceptionAtTarah = 1,
+        [Description("שחרור תר\"ח")]
+        ReleaseFromTarah = 2,
+        [Description("שינוע למכון רפואה משפטית")]
+        TransportToForensicInstitute = 3,
+        [Description("חזרה משינוע מכון רפואה משפטית")]
+        ReturnFromForensicInstitute = 4,
+        [Description("שינוע להכנה לקבורה")]
+        TransportToBurialPreparation = 5,
+        [Description("סיום שינוע הכנה לקבורה")]
+        EndTransportBurialPreparation = 6,
+        [Description("נקלט להכנה לקבורה")]
+        ReceivedForBurialPreparation = 7,
+        [Description("שוחרר מהכנה לקבורה")]
+        ReleasedFromBurialPreparation = 8,
+        [Description("שינוע לגוף קבורה")]
+        TransportToBurialEntity = 9,
+        [Description("סיום שינוע גוף קבורה")]
+        EndTransportBurialEntity = 10,
+        [Description("קבורה")]
+        Burial = 11,
+        [Description("ארכיב")]
+        Archive = 12
     }
 
     public enum GatewaySource

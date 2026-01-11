@@ -12,5 +12,11 @@
 
   IsBadMessageReceived?: boolean;
 
+  IsReleasedFromTarah?: boolean;
+
+  IsBuried?: boolean;
+
+  BurialDate?: Date;
+
   BadMessageStartDate?: Date;
 }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Core.Helpers;
+using DataModel.Abstract;
 
 namespace DataModel.Entities;
 
-public class Deceased
+public class Deceased: BaseUpdatedEntity
 {
     [Key]
     public Guid Id { get; set; }
@@ -29,13 +31,17 @@ public class Deceased
     
     public string? Notes { get; set; }
     
-    public DateTime? CreatedOn { get; set; }
+    public ProcessStatus ProcessStatus { get; set; }
+    
+    public virtual ICollection<DeceasedStatusHistory> StatusHistory { get; set; }
 
     public virtual ICollection<DeceasedBag> DeceasedBags { get; set; }
     
     public virtual DeceasedBurialProcessStatus DeceasedBurialProcessStatus { get; set; }
     
     public virtual DeceasedBurialDetails DeceasedBurialDetails { get; set; }
+    
+    public virtual DeceasedTaharahDetails DeceasedTaharahDetails { get; set; }
     
     public virtual DeceasedBurialCoordination DeceasedBurialCoordination { get; set; }
 }

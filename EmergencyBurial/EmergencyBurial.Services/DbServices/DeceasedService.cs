@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Helpers;
+using Core.Resources;
 using DataModel;
 using DataModel.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -50,11 +52,6 @@ public class DeceasedService(EmergencyBurialContext ctx)
         await ctx.Deceaseds.Where(x => x.Id == id).ExecuteDeleteAsync();
     }
 
-    public async Task<bool> DeceasedExistsAsync(Guid? id)
-    {
-        return await ctx.Deceaseds.AnyAsync(d => d.Id == id);
-    }
-
     public async Task<DeceasedBurialCoordination> UpdateBurialCoordination(
         DeceasedBurialCoordination deceasedBurialCoordination)
     {
@@ -63,6 +60,13 @@ public class DeceasedService(EmergencyBurialContext ctx)
         await ctx.SaveChangesAsync();
 
         return deceasedBurialCoordination;
+    }
+
+    public async Task UpdateDetails(DeceasedBurialDetails deceasedBurialDetails)
+    {
+        ctx.DeceasedBurialDetails.Update(deceasedBurialDetails);
+
+        await ctx.SaveChangesAsync();
     }
 
     public async Task<DeceasedBurialCoordination> GetBurialCoordination(Guid? deceasedId)
@@ -84,11 +88,12 @@ public class DeceasedService(EmergencyBurialContext ctx)
     public async Task<DeceasedBurialDetails> GetBurialDetails(Guid? deceasedId)
     {
         var burialDetails = await ctx.DeceasedBurialDetails
+            .Include(d => d.Deceased)
+            .ThenInclude(d => d.DeceasedTaharahDetails)
             .FirstOrDefaultAsync(d => d.DeceasedId == deceasedId);
 
         return burialDetails;
     }
-
 
     public async Task<DeceasedBurialProcessStatus> UpdateBurialProcessStatus(
         DeceasedBurialProcessStatus deceasedBurialProcessStatus)

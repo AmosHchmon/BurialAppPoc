@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -74,7 +73,7 @@ namespace EmergencyBurial.Api
                 options.UseSqlServer(Configuration.GetConnectionString("EmergencyBurialDbConfig"))
                     .UseTriggers(triggerOption =>
                     {
-                        triggerOption.AddTrigger<SaveMembersTrigger>();
+                        triggerOption.AddTrigger<DeceasedStatusTrigger>();
                     });
             });
 
@@ -83,18 +82,21 @@ namespace EmergencyBurial.Api
 
             services.AddScoped<EmailHandler>();
             services.AddScoped<SmsHandler>();
+            
             services.AddScoped<ListService>();
             services.AddScoped<AccountService>();
             services.AddScoped<DeceasedService>();
             services.AddScoped<NotificationService>();
             services.AddScoped<MemberService>();
-
+            services.AddScoped<TaharahService>();
             services.AddScoped<TransportService>();
             services.AddScoped<FileService>();
             
-
-            services.AddTransient<TaskCreateCasualtyJob>();
-
+            if (envConfig.Scheduler.EnableCasualtyCreationJob)
+            {
+                services.AddTransient<TaskCreateCasualtyJob>();
+            }
+            
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -158,7 +160,11 @@ namespace EmergencyBurial.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmergencyBurial.Api v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmergencyBurial.Api v1");
+                    c.RoutePrefix = string.Empty;
+                });
             }
 
             app.UseHttpsRedirection();

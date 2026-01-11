@@ -139,149 +139,304 @@ public class DbHelper
     }
 
     private void InitDeceasedTestData()
-{
-
-    if (db.Deceaseds.Any())
     {
-        return;
+        if (db.Deceaseds.Any())
+        {
+            return;
+        }
+
+        var deceased1Id = Guid.NewGuid();
+
+        var deceased1 = new Deceased
+        {
+            Id = deceased1Id,
+            IdentityNumber = "123456789",
+            FirstName = "ישראל",
+            LastName = "ישראלי",
+            FatherName = "אברהם",
+            Gender = "זכר",
+            HomeCity = "ירושלים",
+            PeleNumber = "PL-789123",
+            ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
+
+            DeceasedBags = new List<DeceasedBag>
+            {
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased1Id,
+                    BagNumber = "C-1001",
+                    Affiliation = Affiliation.Civilian,
+                    ReceivingStation = TarahStations.Shura,
+                    BroughtBy = BurialBody.AbuKabir,
+                    CanBeIdentifiedByAcquaintance = true,
+                    RelatedBagNumbers = 5,
+                    ArrivalDateTime = DateTime.Now.AddDays(-2),
+                    PartDescription = "חלק גוף תחתון"
+                },
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased1Id,
+                    BagNumber = "C-1001-B",
+                    Affiliation = Affiliation.Civilian,
+                    BroughtBy = BurialBody.AbuKabir,
+                    PartDescription = "חלק גוף עליון",
+                    ReceivingStation = TarahStations.Shura,
+                    ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(2)
+                },
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased1Id,
+                    BagNumber = "C-1001-C",
+                    Affiliation = Affiliation.Civilian,
+                    BroughtBy = BurialBody.AbuKabir,
+                    PartDescription = "ראש",
+                    ReceivingStation = TarahStations.Shura,
+                    ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(2)
+                }
+            },
+
+            StatusHistory = new List<DeceasedStatusHistory>
+            {
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased1Id,
+                    OldStatus = ProcessStatus.ReceptionAtTarah,
+                    CurrentStatus = ProcessStatus.ReleaseFromTarah,
+                    CreatedOn = DateTime.Now.AddDays(-7),
+                    CreatedBy = deceased1Id
+                },
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased1Id,
+                    OldStatus = ProcessStatus.ReleaseFromTarah,
+                    CurrentStatus = ProcessStatus.TransportToBurialPreparation,
+                    CreatedOn = DateTime.Now.AddDays(-6),
+                    CreatedBy = deceased1Id
+                },
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased1Id,
+                    CurrentStatus = ProcessStatus.EndTransportBurialPreparation,
+                    OldStatus = ProcessStatus.ReceivedForBurialPreparation,
+                    CreatedOn = DateTime.Now.AddHours(-6),
+                    CreatedBy = deceased1Id
+                }
+            },
+            DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
+            {
+                DeceasedId = deceased1Id,
+                IdentificationStatus = IdentificationStatus.Identified,
+                IsReleasedFromTarah = true,
+                IsBuried = false
+            },
+            DeceasedBurialDetails = new DeceasedBurialDetails
+            {
+                DeceasedId = deceased1Id,
+                BurialType = BurialType.Final,
+                IsCivilBurial = false,
+            },
+            DeceasedTaharahDetails = new DeceasedTaharahDetails
+            {
+                DeceasedId = deceased1Id,
+                TaharahStatus = TaharahStatus.Pending,
+                IsTaharahPerformed = false
+            },
+            DeceasedBurialCoordination = new DeceasedBurialCoordination
+            {
+                DeceasedId = deceased1Id,
+                BurialCity = "ירושלים",
+                IsCoordinatedWithHevratKadisha = false,
+                FamilyContactName = "משה ישראלי",
+                FamilyContactPhone = "050-1234567"
+            }
+        };
+
+        var deceased2Id = Guid.NewGuid();
+
+        var deceased2 = new Deceased
+        {
+            Id = deceased2Id,
+            IdentityNumber = "987654321",
+            FirstName = "יעל",
+            LastName = "כהן",
+            FatherName = "משה",
+            Gender = "נקבה",
+            HomeCity = "תל אביב",
+            ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
+
+            DeceasedBags = new List<DeceasedBag>
+            {
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased2Id,
+                    BagNumber = "C-1002",
+                    Affiliation = Affiliation.SecurityForces,
+                    ReceivingStation = TarahStations.Tziporit,
+                    BroughtBy = BurialBody.AbuKabir,
+                    ArrivalDateTime = DateTime.Now.AddDays(-1),
+                    PartDescription = "ראש"
+                },
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased2Id,
+                    BagNumber = "C-1002-B",
+                    Affiliation = Affiliation.SecurityForces,
+                    ReceivingStation = TarahStations.Tziporit,
+                    BroughtBy = BurialBody.AbuKabir,
+                    PartDescription = "חלק גוף עליון",
+                    ArrivalDateTime = DateTime.Now.AddDays(-1)
+                }
+            },
+            StatusHistory = new List<DeceasedStatusHistory>
+            {
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased2Id,
+                    CurrentStatus = ProcessStatus.ReceptionAtTarah,
+                    CreatedOn = DateTime.Now.AddDays(-5),
+                    CreatedBy = deceased2Id
+                },
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased2Id,
+                    OldStatus = ProcessStatus.ReceptionAtTarah,
+                    CurrentStatus = ProcessStatus.ReleaseFromTarah,
+                    CreatedOn = DateTime.Now.AddDays(-4),
+                    CreatedBy = deceased2Id
+                },
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased2Id,
+                    CurrentStatus = ProcessStatus.TransportToBurialPreparation,
+                    OldStatus = ProcessStatus.ReceivedForBurialPreparation,
+                    CreatedOn = DateTime.Now.AddDays(-3),
+                    CreatedBy = deceased2Id
+                },
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased2Id,
+                    CurrentStatus = ProcessStatus.EndTransportBurialPreparation,
+                    OldStatus = ProcessStatus.TransportToBurialPreparation,
+                    CreatedOn = DateTime.Now.AddDays(-3),
+                    CreatedBy = deceased2Id
+                }
+            },
+            DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
+            {
+                DeceasedId = deceased2Id,
+                IdentificationStatus = IdentificationStatus.Identified,
+                IsReleasedFromTarah = true,
+                ReleasedFromTarahDate = DateTime.Now.AddDays(-4)
+            },
+            DeceasedBurialDetails = new DeceasedBurialDetails
+            {
+                DeceasedId = deceased2Id,
+                BurialType = BurialType.Final,
+            },
+            DeceasedTaharahDetails = new DeceasedTaharahDetails
+            {
+                DeceasedId = deceased2Id,
+                TaharahStatus = TaharahStatus.Pending,
+                IsTaharahPerformed = false
+            },
+            DeceasedBurialCoordination = new DeceasedBurialCoordination
+            {
+                DeceasedId = deceased2Id,
+                IsCoordinatedWithHevratKadisha = false
+            }
+        };
+
+        var deceased3Id = Guid.NewGuid();
+
+        var deceased3 = new Deceased
+        {
+            Id = deceased3Id,
+            IdentityNumber = "111222333",
+            FirstName = "דוד",
+            LastName = "המלך",
+            Gender = "זכר",
+            FatherName = "ישי",
+            ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
+
+            DeceasedBags = new List<DeceasedBag>
+            {
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased3Id,
+                    BagNumber = "C-1003",
+                    Affiliation = Affiliation.Civilian,
+                    BroughtBy = BurialBody.AbuKabir,
+                    ReceivingStation = TarahStations.Shura,
+                    ArrivalDateTime = DateTime.Now.AddDays(-5)
+                }
+            },
+            StatusHistory = new List<DeceasedStatusHistory>
+            {
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased3Id,
+                    CurrentStatus = ProcessStatus.ReceptionAtTarah,
+                    CreatedOn = DateTime.Now.AddDays(-5),
+                    CreatedBy = deceased3Id
+                },
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased3Id,
+                    OldStatus = ProcessStatus.ReceptionAtTarah,
+                    CurrentStatus = ProcessStatus.ReleaseFromTarah,
+                    CreatedOn = DateTime.Now.AddHours(-3),
+                    CreatedBy = deceased3Id
+                },
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased3Id,
+                    OldStatus = ProcessStatus.ReleaseFromTarah,
+                    CurrentStatus = ProcessStatus.TransportToBurialPreparation,
+                    CreatedOn = DateTime.Now.AddHours(-3),
+                    CreatedBy = deceased3Id
+                },
+                new DeceasedStatusHistory
+                {
+                    DeceasedId = deceased3Id,
+                    OldStatus = ProcessStatus.TransportToBurialPreparation,
+                    CurrentStatus = ProcessStatus.EndTransportBurialPreparation,
+                    CreatedOn = DateTime.Now.AddHours(-3),
+                    CreatedBy = deceased3Id
+                }
+            },
+            DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
+            {
+                DeceasedId = deceased3Id,
+                IsReleasedFromTarah = true,
+                IsBuried = false,
+            },
+            DeceasedBurialDetails = new DeceasedBurialDetails
+            {
+                DeceasedId = deceased3Id,
+                BurialType = BurialType.Final,
+            },
+            DeceasedTaharahDetails = new DeceasedTaharahDetails
+            {
+                DeceasedId = deceased3Id,
+                TaharahStatus = TaharahStatus.Pending,
+                IsTaharahPerformed = false,
+            },
+            DeceasedBurialCoordination = new DeceasedBurialCoordination
+            {
+                DeceasedId = deceased3Id,
+            }
+        };
+
+        db.Deceaseds.AddRange(deceased1, deceased2, deceased3);
+        db.SaveChanges();
     }
 
-    var deceased1Id = Guid.NewGuid();
-    var deceased1 = new Deceased
-    {
-        Id = deceased1Id,
-        IdentityNumber = "123456789",
-        FirstName = "ישראל",
-        LastName = "ישראלי",
-        FatherName = "אברהם",
-        Gender = "זכר",
-        HomeCity = "ירושלים",
-        PeleNumber = "PL-789123",
-        
-        DeceasedBags = new List<DeceasedBag>
-        {
-            new DeceasedBag
-            {
-                Id = Guid.NewGuid(),
-                DeceasedId = deceased1Id,
-                BagNumber = "C-1001",
-                PartDescription = "ראש",
-                Affiliation = Affiliation.Civilian,
-                ReceivingStation = TarahStations.Shura,
-                BroughtBy = BurialBody.AbuKabir, 
-                CanBeIdentifiedByAcquaintance = true,
-                RelatedBagNumbers = 2,
-                ArrivalDateTime = DateTime.Now.AddDays(-2)
-            },
-            new DeceasedBag
-            {
-                Id = Guid.NewGuid(),
-                DeceasedId = deceased1Id,
-                BagNumber = "C-1001-B",
-                PartDescription = "חלק גוף תחתון",
-                Affiliation = Affiliation.Civilian,
-                ReceivingStation = TarahStations.Shura,
-                BroughtBy = BurialBody.RishonLezion,
-                RelatedBagNumbers = 2,
-                ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(2)
-            },
-            new DeceasedBag
-            {
-                Id = Guid.NewGuid(),
-                DeceasedId = deceased1Id,
-                BagNumber = "C-1001-C",
-                PartDescription = "חלק גוף עליון",
-                Affiliation = Affiliation.SecurityForces,
-                ReceivingStation = TarahStations.Shura,
-                BroughtBy = BurialBody.AbuKabir,
-                RelatedBagNumbers = 2,
-                ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(3)
-            }
-        },
-        DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
-        {
-            DeceasedId = deceased1Id,
-            IdentificationStatus = IdentificationStatus.Identified,
-            BadMessageProcessStatus = BadMessageProcessStatus.NotDelivered,
-            CollectionStatus = CollectionStatus.Collected,
-            BurialStatus = BurialStatus.Buried,
-            IsBadMessageReceived = true,
-            BadMessageStartDate = DateTime.Now.AddDays(-1),
-        },
-        DeceasedBurialDetails = new DeceasedBurialDetails
-        {
-            DeceasedId = deceased1Id,
-            BurialType = BurialType.Final,
-            IsCivilBurial = false,
-            TaharahStatus = TaharahStatus.Completed,
-            TaharahLocation = "מכון טהרה גבעת שאול"
-        },
-        DeceasedBurialCoordination = new DeceasedBurialCoordination
-        {
-            DeceasedId = deceased1Id,
-            BurialCity = "ירושלים",
-            BurialTime = DateTime.Now.Date,
-            BurialBody = BurialBody.Eilat,
-            IsCoordinatedWithHevratKadisha = true,
-            FamilyContactName = "משה ישראלי",
-            FamilyContactPhone = "050-1234567"
-        }
-    };
-
-    var deceased2Id = Guid.NewGuid();
-    var deceased2 = new Deceased
-    {
-        Id = deceased2Id,
-        IdentityNumber = "987654321",
-        FirstName = "יעל",
-        LastName = "כהן",
-        FatherName = "משה",
-        Gender = "נקבה",
-        HomeCity = "תל אביב",
-        PeleNumber = "PL-456789",
-        
-        // חלל עם שק אחד בלבד
-        DeceasedBags = new List<DeceasedBag>
-        {
-            new DeceasedBag
-            {
-                Id = Guid.NewGuid(),
-                DeceasedId = deceased2Id,
-                BagNumber = "C-1002",
-                Affiliation = Affiliation.SecurityForces,
-                ReceivingStation = TarahStations.Tziporit,
-                BroughtBy = BurialBody.RishonLezion, 
-                CanBeIdentifiedByAcquaintance = false,
-                ArrivalDateTime = DateTime.Now.AddDays(-1)
-            }
-        },
-        DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
-        {
-            DeceasedId = deceased2Id,
-            IdentificationStatus = IdentificationStatus.NotIdentified,
-            BadMessageProcessStatus = BadMessageProcessStatus.NotDelivered,
-            CollectionStatus = CollectionStatus.Collected,
-            BurialStatus = BurialStatus.AtBurialCompany,
-            IsBadMessageReceived = false,
-            BadMessageStartDate = DateTime.Now.AddDays(-1),
-        },
-        DeceasedBurialDetails = new DeceasedBurialDetails
-        {
-            DeceasedId = deceased2Id,
-            BurialType = BurialType.Temporary,
-            IsCivilBurial = true,
-            TaharahStatus = TaharahStatus.Pending
-        },
-        DeceasedBurialCoordination = new DeceasedBurialCoordination
-        {
-            DeceasedId = deceased2Id,
-            IsCoordinatedWithHevratKadisha = false
-        }
-    };
-
-    db.Deceaseds.AddRange(deceased1, deceased2);
-    db.SaveChanges();
-}
 
     private void InitTransportTestData()
     {
@@ -289,7 +444,7 @@ public class DbHelper
         {
             return;
         }
-        
+
         var bagDetail = db.DeceasedBag.FirstOrDefault(b => b.BagNumber == "C-1001");
 
         if (bagDetail == null)
@@ -347,10 +502,10 @@ public class DbHelper
                 FullName = "עוז שורקי",
                 UserName = "308015205",
                 Mail = "OzS@dat.gov.il",
-                RoleAccessTypeId = RoleAccessType.Admin,
-                OrganizationTypeId = (int)OrganizationType.Tarah,
-                StationTypeId = (int)StationType.TarahStations,
-                StationId = (int)TarahStations.Shura,
+                RoleAccessTypeId = RoleAccessType.Edit,
+                OrganizationTypeId = (int)OrganizationType.BurialPreparation,
+                StationTypeId = (int)StationType.BurialPreparation,
+                StationId = (int)BurialPreparation.RishonLezion,
                 IsActive = true,
             },
             new()

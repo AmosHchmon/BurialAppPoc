@@ -16,7 +16,19 @@
 
   TaharahReceptionDate?: Date;
 
+  TaharahReleaseDate?: Date;
+
+  TaharahReceptionStaff?: string;
+
+  IsTaharahPerformed?: boolean;
+
+  ExitTransportBy?: string;
+
+  HasTachrichim?: string;
+
   InCoffin?: string;
+
+  CoffinReason?: string;
 
   BodyConditionNotes?: string
 
@@ -27,5 +39,4 @@
   Row?: string
 
   Grave?: string
-
 }

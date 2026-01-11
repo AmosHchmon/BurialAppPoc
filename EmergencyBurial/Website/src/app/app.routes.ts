@@ -7,6 +7,9 @@ import {RoleGuard} from './shared/guards/role.guard';
 import {enmOrganizationType} from './shared/enum/organization-type.enum';
 import {AdminLayoutComponent} from "./layout/components/admin-layout/admin-layout.component";
 import {NotAuthorizedComponent} from "./features/not-authorized/not-authorized.component";
+import {
+  BurialPreparationLayoutComponent
+} from "./layout/components/burial-preparation-layout/burial-preparation-layout.component";
 
 export const routes: Routes = [
   {
@@ -49,6 +52,18 @@ export const routes: Routes = [
       },
     ],
     canMatch: [AuthGuard],
+  },
+  {
+    path: 'taharah',
+    component: BurialPreparationLayoutComponent,
+    children:[
+      {
+        path: '',
+        loadChildren: () => import('./features/taharah/taharah.routing').then(m => m.TaharahRouting)
+      },
+
+    ],
+    canMatch: [RoleGuard], data: {roles: [enmOrganizationType.All]},
   },
   {
     path: 'admin',

@@ -29,6 +29,10 @@ export interface Deceased {
 
   RelatedBagNumbers?: number;
 
+  ProcessStatus?: number;
+
+  ProcessStatusDesc?: string;
+
   CreatedOn?: Date;
 
   DeceasedBags?: DeceasedBag[];

@@ -25,5 +25,11 @@ export let DialogMessage = {
   ConnectedListItems: 'ישנם רשימות הקשורות לסוג רשימה זו. נא למחוק אותם',
   AccessDenied : "אינך מורשה גישה.",
   EditModeInTab: "מעבר לטופס זה יגרור אי שמירה של ",
-  DeceasedUpdated: 'הנתונים של חלל זה עודכנו'
+  DeceasedUpdated: 'הנתונים של חלל זה עודכנו',
+  DeceasedReceived: 'חלל נקלט בהצלחה',
+  InCoffinReasonRequired: 'יש להזין סיבת הכנסה לארון',
+  ReleaseFromTaharah: 'אישור שחרור מטהרה',
+  ShouldReleaseFromTaharah: 'האם לשחרר את החלל מתהליך הטהרה?',
+  DeceasedReleasedFromTaharah: 'החלל שוחרר מטהרה בהצלחה',
+  TachrichimIsRequired: 'יש להכניס תכריכי פשתן לטובת שחרור מטהרה'
 };

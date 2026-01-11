@@ -27,6 +27,14 @@ public class DeceasedBurialProcessStatus
     
     public DateTime? BadMessageStartDate { get; set; }
     
+    public bool IsReleasedFromTarah { get; set; }
+    
+    public DateTime? ReleasedFromTarahDate { get; set; }
+    
+    public bool IsBuried { get; set; }
+    
+    public DateTime? BurialDate { get; set; }
+    
     [ForeignKey(nameof(DeceasedId))]
     public virtual Deceased Deceased { get; set; }
 
