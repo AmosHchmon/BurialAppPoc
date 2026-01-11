@@ -2,13 +2,10 @@ import {Injectable} from '@angular/core';
 import {Router, CanMatch, Route, UrlSegment} from '@angular/router';
 import {AuthContextService} from '../services/auth-context.service';
 import {enmOrganizationType} from '../enum/organization-type.enum';
-import {AlertType} from 'src/app/core/enums/alert.enum';
-import {AlertService} from '../services/alert.service';
-import {DialogMessage} from '../static/messages';
 
 @Injectable({providedIn: 'root'})
 export class RoleGuard implements CanMatch {
-  constructor(private authCtx: AuthContextService, private alertService: AlertService, private router: Router) {
+  constructor(private authCtx: AuthContextService, private router: Router) {
   }
 
   canMatch(route: Route, segments: UrlSegment[]): boolean {
@@ -28,8 +25,7 @@ export class RoleGuard implements CanMatch {
     const hasRole = expectedRoles.includes(userRoles);
 
     if (!hasRole) {
-      this.alertService.alert(AlertType.Error, {ClientMessage: DialogMessage.AccessDenied});
-
+      this.router.navigate(['/access-denied']);
       return false;
     }
 

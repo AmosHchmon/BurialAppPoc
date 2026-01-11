@@ -1,0 +1,41 @@
+<div class="d-flex flex-column align-items-center justify-content-center min-vh-100 bg-gray-50 overflow-hidden">
+
+  <div
+    class="surface-card d-flex flex-column align-items-center justify-content-center p-6 shadow-4 border-round-2xl text-center relative z-2"
+    style="max-width: 600px; width: 90%;">
+
+    <div class="mb-5">
+      <svg width="250" height="200" viewBox="0 0 400 300" style="fill: none;" xmlns="http://www.w3.org/2000/svg"
+           class="w-full h-auto">
+        <circle cx="200" cy="150" r="120" fill="#FEE2E2" fill-opacity="0.5"/>
+        <circle cx="200" cy="150" r="90" fill="#FECACA" fill-opacity="0.5"/>
+
+        <rect x="130" y="140" width="140" height="110" rx="10" fill="#EF4444"/>
+        <path d="M160 140V110C160 87.9086 177.909 70 200 70C222.091 70 240 87.9086 240 110V140" stroke="#B91C1C"
+              stroke-width="20" stroke-linecap="round"/>
+
+        <circle cx="200" cy="185" r="15" fill="white"/>
+        <rect x="192" y="185" width="16" height="35" rx="5" fill="white"/>
+
+        <circle cx="330" cy="80" r="10" fill="#EF4444" fill-opacity="0.2"/>
+        <circle cx="70" cy="220" r="15" fill="#EF4444" fill-opacity="0.1"/>
+      </svg>
+    </div>
+
+    <h1 class="text-900 font-bold text-4xl mb-2 mt-0">אופס, הכניסה חסומה</h1>
+
+    <p class="text-600 text-lg line-height-3 mb-5 mx-auto" style="max-width: 400px;">
+      נראה שאין לך את ההרשאות המתאימות לצפות בעמוד זה.<br>
+    </p>
+
+    <div class="flex justify-content-center gap-3">
+      <p-button label="חזור לעמוד הבית"
+                icon="pi pi-arrow-right"
+                iconPos="right"
+                styleClass="p-button-raised p-button-text p-button-plain"
+                (click)="goHome()">
+      </p-button>
+    </div>
+  </div>
+
+</div>

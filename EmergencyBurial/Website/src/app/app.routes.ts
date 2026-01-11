@@ -6,6 +6,7 @@ import {AuthGuard} from "./shared/guards/auth.guard";
 import {RoleGuard} from './shared/guards/role.guard';
 import {enmOrganizationType} from './shared/enum/organization-type.enum';
 import {AdminLayoutComponent} from "./layout/components/admin-layout/admin-layout.component";
+import {NotAuthorizedComponent} from "./features/not-authorized/not-authorized.component";
 import {
   BurialPreparationLayoutComponent
 } from "./layout/components/burial-preparation-layout/burial-preparation-layout.component";
@@ -41,7 +42,7 @@ export const routes: Routes = [
       },
       {
         path: 'deceaseds',
-        canMatch: [RoleGuard], data: {roles: [enmOrganizationType.All]},
+        canMatch: [RoleGuard], data: {roles: [enmOrganizationType.Tarah, enmOrganizationType.DatServices, enmOrganizationType.Hamal]},
         loadChildren: () => import('./features/deceased/deceased.routing').then(m => m.DeceasedRouting)
       },
       {
@@ -73,7 +74,11 @@ export const routes: Routes = [
         loadChildren: () => import('./features/admin/management.routing').then(m => m.ManagementRouting)
       }
     ],
-    canMatch: [RoleGuard], data: {roles: [enmOrganizationType.DatServices]},
+    canMatch: [RoleGuard], data: {roles: [enmOrganizationType.Hamal]},
+  },
+  {
+    path: 'access-denied',
+    component: NotAuthorizedComponent
   },
   {
     path: '**',
