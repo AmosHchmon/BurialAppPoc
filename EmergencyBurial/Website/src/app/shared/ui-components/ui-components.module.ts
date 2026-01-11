@@ -35,6 +35,7 @@ import {TagModule} from "primeng/tag";
 import {SelectButtonModule} from "primeng/selectbutton";
 import {DividerModule} from "primeng/divider";
 import {ChipModule} from "primeng/chip";
+import {EmptyDataComponent} from "../components/empty-data/empty-data.component";
 
 @NgModule({
   imports: [
@@ -73,7 +74,8 @@ import {ChipModule} from "primeng/chip";
     PopoverModule,
     TagModule,
     DividerModule,
-    ChipModule
+    ChipModule,
+    EmptyDataComponent
   ],
   exports: [
     NgOptimizedImage,
@@ -112,7 +114,8 @@ import {ChipModule} from "primeng/chip";
     PopoverModule,
     TagModule,
     DividerModule,
-    ChipModule
+    ChipModule,
+    EmptyDataComponent
   ],
   declarations: [],
   providers: [
