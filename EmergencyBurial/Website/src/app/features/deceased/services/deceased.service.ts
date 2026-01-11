@@ -55,5 +55,4 @@ export class DeceasedService extends BaseService {
     return super.get({path: `/burial-process/${id}`});
   }
 
-
 }

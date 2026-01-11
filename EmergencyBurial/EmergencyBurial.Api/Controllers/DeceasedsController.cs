@@ -47,6 +47,9 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
         }
 
         var deceased = mapper.Map<Deceased>(deceasedDto);
+        
+        deceased.UpdateBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
+        deceased.UpdateOn = DateTime.Now;
 
         await deceasedService.CreateDeceased(deceased);
 
@@ -62,6 +65,9 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
         }
 
         var deceased = mapper.Map<Deceased>(deceasedDto);
+        
+        deceased.UpdateBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
+        deceased.UpdateOn = DateTime.Now;
 
         await deceasedService.UpdateDeceased(deceased);
 

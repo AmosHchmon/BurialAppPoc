@@ -21,16 +21,6 @@ public class DeceasedBurialDetails
     [Description("האם רישיון הקבורה נסרק למערכת")]
     public bool BurialLicenseScanned { get; set; }
     
-    public TaharahStatus? TaharahStatus { get; set; }
-    
-    public string? TaharahLocation { get; set; }
-    
-    [Description("תאריך קליטת החלל במכון הטהרה")]
-    public DateTime? TaharahReceptionDate { get; set; }
-    
-    [Description("האם נקבר בארון")]
-    public bool InCoffin { get; set; }
-
     [Description("הערות על מצב הגופה")]
     public string? BodyConditionNotes { get; set; }
     

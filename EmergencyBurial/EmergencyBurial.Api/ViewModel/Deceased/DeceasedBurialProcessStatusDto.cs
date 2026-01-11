@@ -16,6 +16,13 @@ public class DeceasedBurialProcessStatusDto
     
     public bool IsBadMessageReceived { get; set; }
     
-    public DateTime? BadMessageStartDate { get; set; }
+    public bool IsReleasedFromTarah { get; set; }
     
+    public DateTime? ReleasedFromTarahDate { get; set; }
+    
+    public bool IsBuried { get; set; }
+    
+    public DateTime? BurialDate { get; set; }
+    
+    public DateTime? BadMessageStartDate { get; set; }
 }

@@ -29,6 +29,10 @@ public class DeceasedDto
     
     public int? RelatedBagNumbers { get; set; }
     
+    public int? ProcessStatus { get; set; }
+    
+    public string? ProcessStatusDesc { get; set; }
+    
     public DateTime? CreatedOn { get; set; }
 
     public List<DeceasedBagDto> DeceasedBags { get; set; }
