@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Core.Helpers;
-using DataModel.Entities;
 using EmergencyBurial.Api.ViewModel;
 using EmergencyBurial.Services.DbServices;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +13,7 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-[Authorize(Roles = nameof(OrganizationType.BurialPreparation), Policy = nameof(RoleAccessType.Edit))]
+[Authorize(Roles = nameof(OrganizationType.BurialPreparation) + "," + nameof(OrganizationType.Hamal), Policy = nameof(RoleAccessType.Edit))]
 public class TaharahsController(TaharahService taharahService, IMapper mapper) : ControllerBase
 {
     [HttpGet("pending")]

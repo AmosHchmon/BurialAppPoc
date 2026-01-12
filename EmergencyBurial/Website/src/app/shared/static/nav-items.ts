@@ -28,7 +28,6 @@ export const NavMenuItems: Array<INavItem> = [
     module: "taharah",
     url: "/taharah",
     icon: "pi pi-users",
-    // TODO: Change to BurialPreparation role
     roles: [enmOrganizationType.BurialPreparation, enmOrganizationType.Hamal]
   },
   {

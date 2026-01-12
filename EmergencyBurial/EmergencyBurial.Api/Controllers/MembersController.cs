@@ -14,7 +14,7 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-[Authorize(Roles = nameof(OrganizationType.DatServices), Policy = nameof(RoleAccessType.View))]
+[Authorize(Roles = nameof(OrganizationType.Hamal), Policy = nameof(RoleAccessType.Edit))]
 
 public class MembersController(MemberService memberService, IMapper mapper) : ControllerBase
 {
