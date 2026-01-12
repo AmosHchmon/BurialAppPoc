@@ -14,7 +14,7 @@ export const NavMenuItems: Array<INavItem> = [
     module: "deceased",
     url: "/dashboard/deceaseds",
     icon: "pi pi-user",
-    roles: [enmOrganizationType.Tarah, enmOrganizationType.DatServices, enmOrganizationType.Hamal]
+    roles: [enmOrganizationType.Tarah, enmOrganizationType.Hamal]
   },
   {
     name: "שינוע",
@@ -28,8 +28,7 @@ export const NavMenuItems: Array<INavItem> = [
     module: "taharah",
     url: "/taharah",
     icon: "pi pi-users",
-    // TODO: Change to BurialPreparation role
-    roles: [enmOrganizationType.All]
+    roles: [enmOrganizationType.BurialPreparation, enmOrganizationType.Hamal]
   },
   {
     name: "ניהול",

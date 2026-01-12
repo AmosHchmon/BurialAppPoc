@@ -42,7 +42,7 @@ export const routes: Routes = [
       },
       {
         path: 'deceaseds',
-        canMatch: [RoleGuard], data: {roles: [enmOrganizationType.Tarah, enmOrganizationType.DatServices, enmOrganizationType.Hamal]},
+        canMatch: [RoleGuard], data: {roles: [enmOrganizationType.Tarah, enmOrganizationType.Hamal]},
         loadChildren: () => import('./features/deceased/deceased.routing').then(m => m.DeceasedRouting)
       },
       {
@@ -63,7 +63,7 @@ export const routes: Routes = [
       },
 
     ],
-    canMatch: [RoleGuard], data: {roles: [enmOrganizationType.All]},
+    canMatch: [RoleGuard], data: {roles: [enmOrganizationType.BurialPreparation,enmOrganizationType.Hamal]},
   },
   {
     path: 'admin',
