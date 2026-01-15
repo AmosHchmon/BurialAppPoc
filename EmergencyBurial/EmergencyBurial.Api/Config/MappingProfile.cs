@@ -4,6 +4,7 @@ using AutoMapper;
 using Core.Helpers;
 using Core.Model;
 using DataModel.Entities;
+using DataModel.Entities.System;
 using EmergencyBurial.Api.ViewModel;
 
 namespace EmergencyBurial.Api.Config;
@@ -127,6 +128,9 @@ public class MappingProfile : Profile
             .ReverseMap();
 
         CreateMap<ListItem, ListItemDto>()
+            .ReverseMap();
+        
+        CreateMap<UserOtp, UserOtpDto>()
             .ReverseMap();
 
         #endregion

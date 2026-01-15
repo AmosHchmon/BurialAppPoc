@@ -7,6 +7,8 @@ import {AuthContextService} from "../../../shared/services/auth-context.service"
 import {INavItem} from "../../../shared/model/nav-item";
 import {NavMenuItems} from "../../../shared/static/nav-items";
 import {enmOrganizationType} from "../../../shared/enum/organization-type.enum";
+import {MenuItem, MenuItemCommandEvent} from "primeng/api";
+import {AuthService} from "../../../shared/services/auth.service";
 
 @Component({
   selector: 'app-header',
@@ -23,8 +25,11 @@ export class HeaderComponent implements OnInit {
 
   searchValue: string;
   tabs: INavItem[] = NavMenuItems;
+  userMenuItems: MenuItem[] | undefined;
 
-  constructor(private router: Router, private authCtx: AuthContextService) {
+  constructor(private router: Router,
+              private authService: AuthService,
+              private authCtx: AuthContextService) {
   }
 
   ngOnInit() {
@@ -40,11 +45,29 @@ export class HeaderComponent implements OnInit {
       return isPublic || hasSpecificRole;
     })
 
+    this.userMenuItems = [
+      {
+        label: 'פרופיל אישי',
+        icon: 'pi pi-user-edit',
+        command() {
+        }
+      },
+      {
+        label: 'התנתק',
+        icon: 'pi pi-sign-out',
+        command: () => {
+          this.signOut();
+        }
+      }
+    ];
   }
 
-  signOut() {
+  async signOut() {
+
+    await this.authService.logout();
 
     this.router.navigate(['/login']);
+
   }
 
   applyFilter(value: any) {

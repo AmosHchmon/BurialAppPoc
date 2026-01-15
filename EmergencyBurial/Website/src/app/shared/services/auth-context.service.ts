@@ -1,12 +1,10 @@
 import {Injectable} from "@angular/core";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {SessionStorageService} from 'ngx-webstorage';
-import {IMember} from "../model/member";
 import { IAuthUser } from "../model/user";
 import { enmOrganizationType } from "../enum/organization-type.enum";
 
-const jwtHelper = new JwtHelperService();
-
+new JwtHelperService();
 @Injectable({
   providedIn: "root",
 })
@@ -24,6 +22,10 @@ export class AuthContextService {
     this.session.store("member", val);
   }
 
+  logout() {
+    this.session.clear("member");
+  }
+
   isLoggedIn() {
     return !!this.UserRBAC;
   }
@@ -31,10 +33,4 @@ export class AuthContextService {
   get getUserRole(): enmOrganizationType {
     return this.UserRBAC.OUnit;
   }
-
-  // אתאים את זה למערכת כאשר יהיו לנו הרשאות
-  isAdmin(){
-    return true;
-  }
-
 }

@@ -17,6 +17,21 @@ export class AuthService extends BaseService {
     return super.put({path: '/login', body: userOtp});
   }
 
+  loginWithPassword(userOtp: IAuthUser): Promise<any>{
+    return super.put({path: '/login-with-password', body: userOtp});
+  }
+
+  createOtp( userOtp: IAuthUser ): Promise<any> {
+
+    return super.put( { path: '/otp', body: userOtp } );
+
+  }
+
+  logout(): Promise<void> {
+
+    return super.post({path: '/logout'});
+  }
+
   getMembers(): Promise<IMember[]> {
 
     return super.get<IMember[]>({path: '/members'});

@@ -12,7 +12,7 @@ import {DeceasedBurialDetails} from "../model/DeceasedBurialDetails";
 export class DeceasedService extends BaseService {
 
   constructor(protected injector: Injector) {
-    super("DeceasedsService", injector);
+    super("DeceasedService", injector);
   }
 
   async getDeceaseds(): Promise<Deceased[]> {

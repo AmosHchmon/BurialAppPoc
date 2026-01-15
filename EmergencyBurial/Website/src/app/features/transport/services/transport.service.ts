@@ -9,7 +9,7 @@ import {Transport} from "../model/transport";
 export class TransportService extends BaseService {
 
   constructor(protected injector: Injector) {
-    super("TransportsService", injector);
+    super("TransportService", injector);
   }
 
   async getTransportsByBagDetailsId(id: string): Promise<Transport[]> {

@@ -36,6 +36,8 @@ import {SelectButtonModule} from "primeng/selectbutton";
 import {DividerModule} from "primeng/divider";
 import {ChipModule} from "primeng/chip";
 import {EmptyDataComponent} from "../components/empty-data/empty-data.component";
+import {PasswordModule} from "primeng/password";
+import {InputOtpModule} from "primeng/inputotp";
 
 @NgModule({
   imports: [
@@ -75,6 +77,8 @@ import {EmptyDataComponent} from "../components/empty-data/empty-data.component"
     TagModule,
     DividerModule,
     ChipModule,
+    PasswordModule,
+    InputOtpModule,
     EmptyDataComponent
   ],
   exports: [
@@ -115,6 +119,8 @@ import {EmptyDataComponent} from "../components/empty-data/empty-data.component"
     TagModule,
     DividerModule,
     ChipModule,
+    PasswordModule,
+    InputOtpModule,
     EmptyDataComponent
   ],
   declarations: [],

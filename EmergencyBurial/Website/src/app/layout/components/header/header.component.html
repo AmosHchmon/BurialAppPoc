@@ -38,6 +38,9 @@
       <label for="on_label">חיפוש</label>
     </p-floatlabel>
     <span class="pi pi-bell cursor-pointer"></span>
-    <span class="pi pi-user cursor-pointer"></span>
+    <div class="relative">
+      <p-menu #menu [model]="userMenuItems" [popup]="true"></p-menu>
+      <span class="pi pi-user cursor-pointer" (click)="menu.toggle($event)"></span>
+    </div>
   </div>
 </header>

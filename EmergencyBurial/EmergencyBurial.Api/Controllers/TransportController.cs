@@ -14,7 +14,7 @@ namespace EmergencyBurial.Api.Controllers;
 [Route("[controller]")]
 [ApiController]
 [Authorize]
-public class TransportsController(TransportService transportService, DeceasedService deceasedService, IMapper mapper)
+public class TransportController(TransportService transportService, DeceasedService deceasedService, IMapper mapper)
     : ControllerBase
 {
     [HttpGet("bag-number/{id}")]

@@ -16,7 +16,7 @@ namespace EmergencyBurial.Api.Controllers;
 [ApiController]
 [Authorize(Roles = nameof(OrganizationType.Hamal), Policy = nameof(RoleAccessType.Edit))]
 
-public class MembersController(MemberService memberService, IMapper mapper) : ControllerBase
+public class MemberController(MemberService memberService, IMapper mapper) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<MemberDto>>> GetMembers()

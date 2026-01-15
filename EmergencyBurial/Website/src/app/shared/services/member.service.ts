@@ -8,7 +8,7 @@ import {IMember} from "../model/member";
 export class MemberService extends BaseService {
 
   constructor(protected injector: Injector) {
-    super("MembersService", injector);
+    super("MemberService", injector);
   }
 
   getMembers(): Promise<IMember[]> {

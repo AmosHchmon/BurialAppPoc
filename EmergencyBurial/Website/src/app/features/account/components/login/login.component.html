@@ -3,68 +3,141 @@
     <p-card class="p-3">
 
       <ng-template #header>
-        <h3 class="text-center mb-5">קבורה בחירום - התחברות</h3>
+        <h3 class="text-center mb-3">
+          @if (!isOtpState) {
+            קבורה בחירום - התחברות
+          } @else {
+            אימות קוד
+          }
+        </h3>
       </ng-template>
 
-      <form #form="ngForm" class="d-flex flex-column gap-4 w-100 sm:w-56">
-        <div>
-          <p-inputgroup>
-            <p-inputgroup-addon>
-              <i class="pi pi-user"></i>
-            </p-inputgroup-addon>
-            <p-floatlabel variant="on">
-              <input pInputText
-                     type="text"
-                     id="username"
-                     name="username"
-                     [(ngModel)]="user.UserName"
-                     #username="ngModel"
-                     [invalid]="username.invalid && (username.touched || form.submitted)" required/>
-              <label for="username">שם משתמש</label>
-            </p-floatlabel>
-          </p-inputgroup>
-          @if (username.invalid && (username.dirty || username.touched)) {
-            <p-message severity="error"
-                       size="small"
-                       variant="simple">שם משתמש חובה.
-            </p-message>
-          }
-        </div>
-        <div class="mt-2">
-          <p-inputgroup>
-            <p-inputgroup-addon>
-              <i class="pi pi-lock"></i>
-            </p-inputgroup-addon>
-            <p-floatlabel variant="on">
-              <input pInputText
-                     type="email"
-                     id="email"
-                     name="email"
-                     [(ngModel)]="user.Mail"
-                     #email="ngModel"
-                     required
-                     email
-                     [invalid]="email.invalid && (email.touched || form.submitted)"/>
-              <label for="email">אימייל</label>
-            </p-floatlabel>
-          </p-inputgroup>
-          @if (email.invalid && (email.touched || form.submitted)) {
-            <p-message severity="error" size="small" variant="simple">
-              @if (email.hasError('required')) {
-                אמייל חובה.
+      @if (!isOtpState) {
+        <form #form="ngForm" class="d-flex flex-column gap-4 w-100 sm:w-56">
+
+          <h6>התחברות באמצעות:</h6>
+
+          <div>
+            <p-selectButton
+              [options]="loginOptions"
+              [(ngModel)]="loginMethod"
+              [unselectable]="true"
+              name="loginMethod"
+              optionLabel="label"
+              optionValue="value"
+              fluid="true">
+              <ng-template let-item pTemplate>
+                <i [class]="item.icon" class="me-2"></i>
+                <span>{{ item.label }}</span>
+              </ng-template>
+            </p-selectButton>
+          </div>
+
+          <div>
+            <p-inputgroup>
+              <p-inputgroup-addon><i class="pi pi-user"></i></p-inputgroup-addon>
+              <p-floatlabel variant="on">
+                <input pInputText type="text" id="username" name="username"
+                       [(ngModel)]="user.UserName" #username="ngModel"
+                       required
+                       [invalid]="username.invalid && (username.touched || form.submitted)"/>
+                <label for="username">שם משתמש</label>
+              </p-floatlabel>
+            </p-inputgroup>
+            @if (username.invalid && (username.touched || form.submitted)) {
+              <p-message severity="error" size="small" variant="simple">שם משתמש חובה.</p-message>
+            }
+          </div>
+
+          <div>
+            <p-inputgroup>
+              <p-inputgroup-addon><i class="pi pi-envelope"></i></p-inputgroup-addon>
+              <p-floatlabel variant="on">
+                <input pInputText type="email" id="email" name="email"
+                       [(ngModel)]="user.Mail" #email="ngModel"
+                       (keyup.enter)="onSendCode()"
+                       required
+                       email
+                       [invalid]="email.invalid && (email.touched || form.submitted)"/>
+                <label for="email">אימייל</label>
+              </p-floatlabel>
+            </p-inputgroup>
+            @if (email.invalid && (email.touched || form.submitted)) {
+              <p-message severity="error" size="small" variant="simple">
+                @if (email.hasError('required')) { אימייל חובה. }
+                @if (email.hasError('email')) { אימייל לא תקין. }
+              </p-message>
+            }
+          </div>
+
+          @if (loginMethod === 'password') {
+            <div>
+              <p-floatlabel variant="on">
+                <p-password [(ngModel)]="user.Password"
+                            name="password"
+                            id="password"
+                            #password="ngModel"
+                            [toggleMask]="true"
+                            [feedback]="false"
+                            required
+                            class="w-100"
+                            [inputStyle]="{'width':'100%'}"
+                            [invalid]="password.invalid && (password.touched || form.submitted)">
+                </p-password>
+                <label for="password">סיסמה</label>
+              </p-floatlabel>
+              @if (password.invalid && (password.touched || form.submitted)) {
+                <p-message severity="error" size="small" variant="simple">סיסמה חובה.</p-message>
               }
-              @if (email.hasError('email')) {
-                הכנס אימייל תקין
-              }
-            </p-message>
+            </div>
           }
-        </div>
-        <button pButton
-                (click)="onLogin()"
-                class="w-100"
-        >התחברות
-        </button>
-      </form>
+
+          <button pButton
+                  (click)="onLogin()"
+                  class="w-100 mt-2"
+                  [disabled]="form.invalid">
+            @if (loginMethod === 'otp') {
+              שלח קוד אימות למייל
+            } @else {
+              התחברות
+            }
+          </button>
+        </form>
+      }
+
+      @if (isOtpState) {
+        <form #otpForm="ngForm" class="d-flex flex-column gap-4 w-100 sm:w-56">
+
+          <div class="text-center">
+            <small class="text-muted">הזן את הקוד שקיבלת למייל</small>
+          </div>
+
+          <div class="d-flex justify-content-center" dir="ltr">
+            <p-inputOtp [(ngModel)]="user.OtpNumber"
+                        [integerOnly]="true"
+                        (keyup.enter)="verifyOtp()"
+                        autofocus
+                        name="otpCode"
+                        [length]="6"></p-inputOtp>
+          </div>
+
+          <button pButton
+                  (click)="verifyOtp()"
+                  class="w-100"
+                  label="אמת והתחבר"
+                  [disabled]="!user.OtpNumber || user.OtpNumber.length < 6">
+          </button>
+
+          <button pButton
+                  type="button"
+                  (click)="onSendCode()"
+                  class="w-100 p-button-outlined p-button-secondary"
+                  label="שלח שוב"
+                  pButtonIcon="pi pi-arrow-right">
+          </button>
+        </form>
+      }
+
     </p-card>
   </div>
 </div>

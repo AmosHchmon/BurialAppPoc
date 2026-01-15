@@ -27,6 +27,9 @@ namespace DataModel.Entities;
         [MaxLength(10)]
         public string? PhoneNumber { get; set; }
         
+        [MaxLength(100)]
+        public string? Password { get; set; }
+        
         [Required]
         public int? OrganizationTypeId { get; set; }
 
