@@ -495,7 +495,7 @@ public class DbHelper
                 PhoneNumber = "0545416161",
                 Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
-                OrganizationTypeId = (int)OrganizationType.BurialPreparation,
+                OrganizationTypeId = (int)OrganizationType.Hamal,
                 StationId = (int)BurialPreparation.RishonLezion,
                 IsActive = true,
             },
@@ -517,7 +517,7 @@ public class DbHelper
                 Mail = "is@dat.gov.il",
                 Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
-                OrganizationTypeId = (int)OrganizationType.Tarah,
+                OrganizationTypeId = (int)OrganizationType.BurialPreparation,
                 StationId = (int)BurialPreparation.TelRegev,
                 IsActive = true,
             }

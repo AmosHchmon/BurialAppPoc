@@ -83,7 +83,7 @@
                    #username="ngModel"
                    required
                    identityvalidator
-                   autocomplete="off" />
+                   autocomplete="off"/>
             <label for="username">תעודת זהות</label>
           </p-floatlabel>
 
@@ -93,7 +93,7 @@
                    name="fullName"
                    [(ngModel)]="newMember.FullName"
                    #fullName="ngModel"
-                   required />
+                   required/>
             <label for="fullName">שם מלא</label>
           </p-floatlabel>
 
@@ -104,7 +104,7 @@
                    [(ngModel)]="newMember.Mail"
                    #mail="ngModel"
                    required
-                   email />
+                   email/>
             <label for="mail">אימייל</label>
           </p-floatlabel>
 
@@ -115,7 +115,7 @@
                    [(ngModel)]="newMember.PhoneNumber"
                    #phoneNumber="ngModel"
                    required
-                   pattern="^\d{10}$" />
+                   pattern="^\d{10}$"/>
             <label for="phoneNumber">מספר פלאפון</label>
           </p-floatlabel>
         </div>
@@ -132,9 +132,9 @@
                       optionValue="Key"
                       placeholder="בחר ארגון"
                       (onChange)="onOrganizationTypeChange()"
-                      styleClass="w-100"
+                      class="w-100"
                       appendTo="body"
-                      required />
+                      required/>
           </div>
 
           <div>
@@ -146,9 +146,9 @@
                       optionValue="Key"
                       placeholder="בחר תחנה"
                       [disabled]="!newMember.OrganizationTypeId"
-                      styleClass="w-100"
+                      class="w-100"
                       appendTo="body"
-                      [required]="newMember.OrganizationTypeId != null" />
+                      [required]="newMember.OrganizationTypeId != null"/>
           </div>
 
           <div>
@@ -159,9 +159,9 @@
                       optionLabel="Text"
                       optionValue="Value"
                       placeholder="בחר תפקיד"
-                      styleClass="w-100"
+                      class="w-100"
                       appendTo="body"
-                      required />
+                      required/>
           </div>
         </div>
 
@@ -174,13 +174,13 @@
                   [icon]="newMember?.Id ? 'pi pi-check' : 'pi pi-plus'"
                   [disabled]="memberForm.invalid"
                   (click)="onSaveMember()"
-                  severity="primary" />
+                  severity="primary"/>
 
         <p-button label="ביטול"
                   icon="pi pi-times"
                   severity="secondary"
                   [outlined]="true"
-                  (click)="showMemberDialog = false" />
+                  (click)="showMemberDialog = false"/>
       </div>
     </ng-template>
   </p-dialog>

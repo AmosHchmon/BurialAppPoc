@@ -20,8 +20,6 @@ public class MemberDto
     public int? OrganizationTypeId { get; set; }
 
     public RoleAccessType RoleAccessTypeId { get; set; }
-
-    public int? StationTypeId { get; set; }
     
     public int? StationId { get; set; }
 

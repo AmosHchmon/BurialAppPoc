@@ -45,14 +45,14 @@ export class UsersManagementComponent implements OnInit {
     },
     {
       field: 'OrganizationDesc',
-      header: 'סוג ארגון'
+      header: 'ארגון'
     },
     {
       field: 'RoleDesc',
-      header: 'סוג תפקיד'
+      header: 'תפקיד'
     }, {
       field: 'StationDesc',
-      header: 'סוג תחנה'
+      header: 'תחנה'
     }
   ]
   members: IMember[] = [];
@@ -129,6 +129,9 @@ export class UsersManagementComponent implements OnInit {
   onEditMember() {
 
     this.newMember = {...this.dt.selection};
+
+    this.onOrganizationTypeChange();
+
     this.showMemberDialog = true;
 
   }

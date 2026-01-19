@@ -62,7 +62,7 @@ public class MemberController(MemberService memberService, IMapper mapper) : Con
     }
 
     [HttpPost]
-    public async Task<ActionResult<MemberDto>> CreateMember([FromBody] MemberDto memberDto)
+    public async Task<ActionResult<MemberDto>> CreateMember(MemberDto memberDto)
     {
         if (memberDto == null)
         {
