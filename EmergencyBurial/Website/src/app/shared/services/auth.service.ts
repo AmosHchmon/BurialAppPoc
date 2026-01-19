@@ -31,28 +31,4 @@ export class AuthService extends BaseService {
 
     return super.post({path: '/logout'});
   }
-
-  getMembers(): Promise<IMember[]> {
-
-    return super.get<IMember[]>({path: '/members'});
-  }
-
-  saveMember(member: IMember): Promise<IMember> {
-
-    return super.post({body: member});
-
-  }
-
-  updateMember(member: IMember): Promise<IMember> {
-
-    return super.put({body: member});
-
-  }
-
-  deleteMember(id: number): Promise<IMember> {
-
-    return super.delete({path: `/${id}`});
-
-  }
-
 }

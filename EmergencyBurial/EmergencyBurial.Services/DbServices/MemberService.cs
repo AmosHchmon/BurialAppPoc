@@ -11,9 +11,21 @@ namespace EmergencyBurial.Services.DbServices;
 
 public class MemberService(EmergencyBurialContext ctx)
 {
+    public async Task<Member> GetMember(Guid? id)
+    {
+        return await ctx.Members.FirstOrDefaultAsync(m => m.Id == id);
+    }
+
+    public async Task<Member> GetMemberByUserName(string userName)
+    {
+        return await ctx.Members.FirstOrDefaultAsync(m => m.UserName == userName);
+    }
+    
     public async Task<List<Member>> GetMembers()
     {
-        var members = await ctx.Members.ToListAsync();
+        var members = await ctx.Members
+            .Include(m => m.Station)
+            .ToListAsync();
 
         return members;
     }

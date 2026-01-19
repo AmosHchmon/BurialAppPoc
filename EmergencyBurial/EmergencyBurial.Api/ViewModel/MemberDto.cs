@@ -31,7 +31,5 @@ public class MemberDto
 
     public string? StationDesc { get; set; }
 
-    public string? SubStationDesc { get; set; }
-
     public string? OtpNumber { get; set; }
 }

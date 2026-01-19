@@ -3,9 +3,11 @@
     <div class="d-flex gap-4">
       <p-button label="הוסף"
                 icon="pi pi-plus"
+                severity="success"
                 (click)="onAddMember()"/>
       <p-button label="עדכן"
                 icon="pi pi-pencil"
+                severity="info"
                 [disabled]="!dt.selection"
                 (click)="onEditMember()"/>
       <p-button severity="danger"
@@ -47,151 +49,139 @@
         <td style="width: 3rem">
           <p-tableRadioButton [value]="member"/>
         </td>
-        <td>
-          {{ member?.UserName }}
-        </td>
-        <td>
-          {{ member?.FullName }}
-        </td>
-        <td>
-          {{ member?.Mail }}
-        </td>
-        <td>
-          {{ member?.PhoneNumber }}
-        </td>
-        <td>
-          {{ member?.OrganizationDesc }}
-        </td>
-        <td>
-          {{ member?.RoleDesc }}
-        </td>
-        <td>
-          {{ member?.StationDesc }}
-        </td>
-        <td>
-          {{ member?.StationId }}
-        </td>
+        @for (col of membersColumns; track col.field) {
+          <td>
+            {{ member[col.field] }}
+          </td>
+        }
       </tr>
     </ng-template>
 
   </p-table>
 
   <p-dialog [(visible)]="showMemberDialog"
-            closeOnEscape="true"
+            [header]="newMember?.Id ? 'עריכת משתמש' : 'הוספת משתמש'"
+            [modal]="true"
+            [style]="{ width: '45rem' }"
+            [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
+            [draggable]="false"
+            [resizable]="false"
             dismissableMask="true"
-            [style]="{ width: '50rem', 'max-height': '90vh'}"
-            header="הוספת משתמש"
-            modal="true">
-    <form #memberForm="ngForm" class="d-flex flex-column">
-      <div class="d-flex w-100">
-        <div class="w-50 d-flex flex-column gap-5">
-          <p-floatlabel class="mt-4" variant="on">
+            closeOnEscape="true">
+
+    <form #memberForm="ngForm" class="p-fluid">
+      <div class="row g-4 mt-1">
+
+        <div class="col-md-6 d-flex flex-column gap-4">
+          <h6 class="fw-bold border-bottom pb-2">פרטי זיהוי</h6>
+
+          <p-floatlabel variant="on">
             <input pInputText
-                   #username="ngModel"
-                   class="w-75"
-                   required
-                   [(ngModel)]="newMember.UserName"
-                   [invalid]="username.invalid && username.touched"
-                   identityvalidator
+                   id="username"
                    name="username"
-                   autocomplete="off"/>
-            <label>תעודת זהות</label>
+                   [(ngModel)]="newMember.UserName"
+                   #username="ngModel"
+                   required
+                   identityvalidator
+                   autocomplete="off" />
+            <label for="username">תעודת זהות</label>
           </p-floatlabel>
 
           <p-floatlabel variant="on">
             <input pInputText
-                   #fullName="ngModel"
-                   class="w-75"
-                   required
-                   [(ngModel)]="newMember.FullName"
-                   [invalid]="fullName.invalid && fullName.touched"
+                   id="fullName"
                    name="fullName"
-                   autocomplete="off"/>
-            <label>שם מלא</label>
+                   [(ngModel)]="newMember.FullName"
+                   #fullName="ngModel"
+                   required />
+            <label for="fullName">שם מלא</label>
           </p-floatlabel>
 
           <p-floatlabel variant="on">
             <input pInputText
-                   #mail="ngModel"
-                   class="w-75"
-                   required
-                   [(ngModel)]="newMember.Mail"
-                   [invalid]="mail.invalid && mail.touched"
+                   id="mail"
                    name="mail"
-                   autocomplete="off"/>
-            <label>אימייל</label>
+                   [(ngModel)]="newMember.Mail"
+                   #mail="ngModel"
+                   required
+                   email />
+            <label for="mail">אימייל</label>
           </p-floatlabel>
 
           <p-floatlabel variant="on">
             <input pInputText
-                   pattern="^\d{10}$"
-                   #phoneNumber="ngModel"
-                   class="w-75"
-                   required
-                   [(ngModel)]="newMember.PhoneNumber"
-                   [invalid]="phoneNumber.invalid && phoneNumber.touched"
+                   id="phoneNumber"
                    name="phoneNumber"
-                   autocomplete="off"/>
-            <label>מספר פלאפון</label>
+                   [(ngModel)]="newMember.PhoneNumber"
+                   #phoneNumber="ngModel"
+                   required
+                   pattern="^\d{10}$" />
+            <label for="phoneNumber">מספר פלאפון</label>
           </p-floatlabel>
         </div>
 
-        <div class="w-50 d-flex flex-column gap-5">
+        <div class="col-md-6 d-flex flex-column gap-4 border-end-md">
+          <h6 class="fw-bold border-bottom pb-2">שיוך ארגוני</h6>
 
-          <p-select [options]="organizationsList"
-                    [(ngModel)]="newMember.OrganizationTypeId"
-                    name="OrganizationTypeId"
-                    optionLabel="Text"
-                    optionValue="Key"
-                    placeholder="ארגון"
-                    required
-                    class="mt-4"
-                    appendTo="body"/>
+          <div>
+            <label class="mb-2 d-block small text-muted">ארגון</label>
+            <p-select [options]="organizationsList"
+                      [(ngModel)]="newMember.OrganizationTypeId"
+                      name="OrganizationTypeId"
+                      optionLabel="Text"
+                      optionValue="Key"
+                      placeholder="בחר ארגון"
+                      (onChange)="onOrganizationTypeChange()"
+                      styleClass="w-100"
+                      appendTo="body"
+                      required />
+          </div>
 
-          <p-select [options]="rolesList"
-                    [(ngModel)]="newMember.RoleAccessTypeId"
-                    name="roleAccessTypeId"
-                    optionLabel="Text"
-                    optionValue="Value"
-                    placeholder="תפקיד"
-                    required
-                    appendTo="body"/>
+          <div>
+            <label class="mb-2 d-block small text-muted">תחנה</label>
+            <p-select [options]="subStationsList"
+                      [(ngModel)]="newMember.StationId"
+                      name="StationId"
+                      optionLabel="Text"
+                      optionValue="Key"
+                      placeholder="בחר תחנה"
+                      [disabled]="!newMember.OrganizationTypeId"
+                      styleClass="w-100"
+                      appendTo="body"
+                      [required]="newMember.OrganizationTypeId != null" />
+          </div>
 
-          <p-select [options]="stationsList"
-                    [(ngModel)]="newMember.StationTypeId"
-                    name="StationTypeId"
-                    optionLabel="Text"
-                    optionValue="Key"
-                    placeholder="סוג תחנה"
-                    (onChange)="onStationTypeChange()"
-                    appendTo="body"/>
-
-          <p-select [options]="subStationsList"
-                    [(ngModel)]="newMember.StationId"
-                    name="StationId"
-                    optionLabel="Text"
-                    optionValue="Key"
-                    placeholder="תחנה"
-                    [required]="newMember.StationTypeId != null"
-                    appendTo="body"/>
-
+          <div>
+            <label class="mb-2 d-block small text-muted">תפקיד</label>
+            <p-select [options]="rolesList"
+                      [(ngModel)]="newMember.RoleAccessTypeId"
+                      name="roleAccessTypeId"
+                      optionLabel="Text"
+                      optionValue="Value"
+                      placeholder="בחר תפקיד"
+                      styleClass="w-100"
+                      appendTo="body"
+                      required />
+          </div>
         </div>
-      </div>
 
-      <div class="mt-5">
-        @if (!newMember?.Id) {
-          <p-button label="שמור"
-                    class="mt-3"
-                    [disabled]="memberForm.invalid"
-                    (click)="onSaveMember()"/>
-        } @else {
-          <p-button label="עדכן"
-                    class="mt-3"
-                    [disabled]="memberForm.invalid"
-                    (click)="onSaveMember()"/>
-        }
       </div>
-
     </form>
+
+    <ng-template pTemplate="footer">
+      <div class="d-flex justify-content-start gap-2 w-100">
+        <p-button [label]="newMember?.Id ? 'עדכן שינויים' : 'שמור משתמש'"
+                  [icon]="newMember?.Id ? 'pi pi-check' : 'pi pi-plus'"
+                  [disabled]="memberForm.invalid"
+                  (click)="onSaveMember()"
+                  severity="primary" />
+
+        <p-button label="ביטול"
+                  icon="pi pi-times"
+                  severity="secondary"
+                  [outlined]="true"
+                  (click)="showMemberDialog = false" />
+      </div>
+    </ng-template>
   </p-dialog>
 </div>

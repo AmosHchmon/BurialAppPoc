@@ -53,14 +53,12 @@ namespace Core.Helpers
     {
         [Description("סוג ארגון")]
         OrganizationType = 1000,
-        [Description("סוג תחנה")]
-        StationType = 2000,
         [Description("תר'ח")]
-        TarahStations = 3000,
+        TarahStations = 2000,
         [Description("הכנה לקבורה")]
-        BurialPreparation = 4000,
+        BurialPreparation = 3000,
         [Description("גוף קבורה")]
-        BurialBody = 5000
+        BurialBody = 4000
     }
 
     #endregion
@@ -81,50 +79,40 @@ namespace Core.Helpers
         BetAlmin = 1005,
     }
     
-    public enum StationType
-    {
-        [Description("תר'ח")]
-        TarahStations = 2001,
-        [Description("הכנה לקבורה")]
-        BurialPreparation = 2002,
-        [Description("גוף קבורה")]
-        BetAlmin = 2003,
-    }
-    
     public enum TarahStations
     {
         [Description("שורה")]
-        Shura = 3001,
+        Shura = 2001,
         [Description("ציפורית")]
-        Tziporit = 3002,
+        Tziporit = 2002,
         [Description("שדה תימן")]
-        SdeTeiman = 3003
+        SdeTeiman = 2003
     }
 
     public enum BurialPreparation
     {
         [Description("תל רגב")]
-        TelRegev = 4001,
+        TelRegev = 3001,
         [Description("ראשון לציון")]
-        RishonLezion = 4002
+        RishonLezion = 3002
     }
 
     public enum BurialBody
     {
         [Description("ראשון לציון")]
-        RishonLezion = 5001,
+        RishonLezion = 4001,
         [Description("עמק חפר")]
-        EmekHefer = 5002,
+        EmekHefer = 4002,
         [Description("אילת")]
-        Eilat = 5003,
+        Eilat = 4003,
         [Description("אבו כביר")]
-        AbuKabir = 5004,
+        AbuKabir = 4004,
         [Description("חולון")]
-        Holon = 5005,
+        Holon = 4005,
         [Description("תל אביב")]
-        TelAviv = 5006,
+        TelAviv = 4006,
         [Description("פתח תקווה")]
-        PetahTikva = 5007,
+        PetahTikva = 4007,
     }
 
     #endregion

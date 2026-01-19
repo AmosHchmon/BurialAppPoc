@@ -5,6 +5,7 @@ using DataModel;
 using DataModel.Entities;
 using Microsoft.AspNetCore.Hosting;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace EmergencyBurial.Api.Helper;
 
@@ -12,7 +13,7 @@ public class DbHelper
 {
     private readonly EmergencyBurialContext db;
     private readonly IWebHostEnvironment env;
-
+    
     public DbHelper(EmergencyBurialContext db)
     {
         this.db = db;
@@ -81,19 +82,6 @@ public class DbHelper
         }
 
         count = 1;
-        foreach (StationType type in (StationType[])Enum.GetValues(typeof(StationType)))
-        {
-            var obj = new ListItem()
-            {
-                Key = (int)EntityType.StationType + count++,
-                ListTypeId = (int)EntityType.StationType,
-                Text = type.GetEnumDescription()
-            };
-
-            db.ListItems.Add(obj);
-        }
-
-        count = 1;
         foreach (TarahStations type in (TarahStations[])Enum.GetValues(typeof(TarahStations)))
         {
             var obj = new ListItem()
@@ -101,7 +89,7 @@ public class DbHelper
                 Key = (int)EntityType.TarahStations + count++,
                 ListTypeId = (int)EntityType.TarahStations,
                 Text = type.GetEnumDescription(),
-                ListItemDepId = (int)StationType.TarahStations
+                ListItemDepId = (int)OrganizationType.Tarah
             };
 
             db.ListItems.Add(obj);
@@ -115,7 +103,7 @@ public class DbHelper
                 Key = (int)EntityType.BurialPreparation + count++,
                 ListTypeId = (int)EntityType.BurialPreparation,
                 Text = type.GetEnumDescription(),
-                ListItemDepId = (int)StationType.BurialPreparation
+                ListItemDepId = (int)OrganizationType.BurialPreparation
             };
 
             db.ListItems.Add(obj);
@@ -129,7 +117,7 @@ public class DbHelper
                 Key = (int)EntityType.BurialBody + count++,
                 ListTypeId = (int)EntityType.BurialBody,
                 Text = type.GetEnumDescription(),
-                ListItemDepId = (int)StationType.BetAlmin
+                ListItemDepId = (int)OrganizationType.BetAlmin
             };
 
             db.ListItems.Add(obj);
@@ -495,6 +483,8 @@ public class DbHelper
 
     private void InitMembers()
     {
+        var hasher = new PasswordHasher<Member>();
+        
         var list = new List<Member>
         {
             new()
@@ -502,10 +492,10 @@ public class DbHelper
                 FullName = "עוז שורקי",
                 UserName = "308015205",
                 Mail = "OzS@dat.gov.il",
-                Password = PasswordHelper.HashPassword("123456"),
+                PhoneNumber = "0545416161",
+                Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
                 OrganizationTypeId = (int)OrganizationType.BurialPreparation,
-                StationTypeId = (int)StationType.BurialPreparation,
                 StationId = (int)BurialPreparation.RishonLezion,
                 IsActive = true,
             },
@@ -514,10 +504,9 @@ public class DbHelper
                 FullName = "עמוס חכמון",
                 UserName = "038869715",
                 Mail = "amosh@dat.gov.il",
-                Password = PasswordHelper.HashPassword("123456"),
+                Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
                 OrganizationTypeId = (int)OrganizationType.Hamal,
-                StationTypeId = (int)StationType.TarahStations,
                 StationId = (int)TarahStations.Shura,
                 IsActive = true,
             },
@@ -525,14 +514,19 @@ public class DbHelper
             {
                 FullName = "ישראל ישראלי",
                 UserName = "000000018",
-                Mail = "amosh@dat.gov.il",
+                Mail = "is@dat.gov.il",
+                Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
                 OrganizationTypeId = (int)OrganizationType.Tarah,
-                StationTypeId = (int)StationType.BurialPreparation,
                 StationId = (int)BurialPreparation.TelRegev,
                 IsActive = true,
             }
         };
+        
+        list.ForEach(m =>
+        {
+            m.Password = hasher.HashPassword(m, m.Password);
+        });
 
         db.Members.AddRange(list);
 

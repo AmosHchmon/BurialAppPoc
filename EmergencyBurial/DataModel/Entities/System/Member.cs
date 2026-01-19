@@ -35,8 +35,6 @@ namespace DataModel.Entities;
 
         [Required]
         public RoleAccessType RoleAccessTypeId { get; set; }
-
-        public int? StationTypeId { get; set; }
         
         public int? StationId { get; set; }
 
@@ -49,9 +47,6 @@ namespace DataModel.Entities;
 
         [ForeignKey(nameof(OrganizationTypeId))]
         public virtual ListItem OrganizationType { get; set; }
-        
-        [ForeignKey(nameof(StationTypeId))]
-        public virtual ListItem StationType { get; set; }
         
         [ForeignKey(nameof(StationId))]
         public virtual ListItem Station { get; set; }

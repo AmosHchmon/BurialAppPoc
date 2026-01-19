@@ -11,7 +11,7 @@
     <div class="pb-3">
       <p-tabs>
         <p-tablist>
-          @for(tab of tabs; track tab.url){
+          @for (tab of tabs; track tab.url) {
             <p-tab [value]="tab.url"
                    [routerLink]="tab.url"
                    routerLinkActive="p-tab-active"
@@ -24,23 +24,45 @@
       </p-tabs>
     </div>
   </div>
-  <div class="d-flex gap-3 w-auto justify-content-evenly align-items-center">
+  <div class="d-flex gap-4 w-auto justify-content-between align-items-center">
+
     <p-floatlabel variant="on">
-      <p-iconfield>
-        <p-inputicon class="pi pi-search"/>
-        <input pInputText
-               id="on_label"
-               (keyup)="applyFilter($event.target.value)"
-               [(ngModel)]="searchValue"
-               autocomplete="off"/>
-        <p-inputicon class="pi pi-times cursor-pointer" (click)="clearSearchField()"/>
-      </p-iconfield>
-      <label for="on_label">חיפוש</label>
     </p-floatlabel>
-    <span class="pi pi-bell cursor-pointer"></span>
+
+    <span class="pi pi-bell cursor-pointer p-2"
+          pTooltip="התראות" tooltipPosition="bottom">
+    </span>
+
     <div class="relative">
       <p-menu #menu [model]="userMenuItems" [popup]="true"></p-menu>
-      <span class="pi pi-user cursor-pointer" (click)="menu.toggle($event)"></span>
+
+      <div
+        class="d-flex align-items-center gap-3 cursor-pointer p-2 border-round"
+        (click)="menu.toggle($event)">
+
+        <div class="d-flex flex-column align-items-end">
+            <span>
+               {{ authCtx.UserRBAC.FullName }}
+            </span>
+          <span>
+                {{ authCtx.UserRBAC.StationDesc }}
+          </span>
+        </div>
+
+        <p-avatar icon="pi pi-user"
+                  shape="circle">
+        </p-avatar>
+
+      </div>
     </div>
+
   </div>
 </header>
+<app-user-profile
+  [(visible)]="showProfileDialog"
+  [profileData]="profileData"
+  [isEditMode]="isEditMode"
+  (onEditModeChange)="isEditMode = $event"
+  (onSave)="saveProfile()"
+  (onCancel)="cancelEdit()">
+</app-user-profile>

@@ -15,6 +15,10 @@ export interface IAuthUser {
 
   OtpNumber?: string;
 
+  OrganizationDesc?: string;
+
+  StationDesc?: string;
+
   IsSmsMethod?: boolean;
 
   OUnit?:enmOrganizationType;

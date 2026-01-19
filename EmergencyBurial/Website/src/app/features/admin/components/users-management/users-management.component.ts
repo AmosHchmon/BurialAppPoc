@@ -162,14 +162,20 @@ export class UsersManagementComponent implements OnInit {
 
   onAddMember() {
 
+    setTimeout(() => {
+      if (this.memberForm) {
+        this.memberForm.resetForm();
+      }
+    }, 0);
+
     this.newMember = {RoleAccessTypeId: null};
 
     this.showMemberDialog = true;
   }
 
-  onStationTypeChange() {
+  onOrganizationTypeChange() {
 
-    this.subStationsList = this.allListItems.filter(x => x.ListItemDepId == this.newMember.StationTypeId);
+    this.subStationsList = this.allListItems.filter(x => x.ListItemDepId == this.newMember.OrganizationTypeId);
 
   }
 

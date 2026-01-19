@@ -18,6 +18,41 @@ namespace EmergencyBurial.Api.Controllers;
 
 public class MemberController(MemberService memberService, IMapper mapper) : ControllerBase
 {
+    #region [NotAnonymous]
+    
+    [HttpGet("member")]
+    [AllowAnonymous]
+    public async Task<ActionResult<MemberDto>> GetMember()
+    {
+        var memberId = new Guid(User.ClaimValue(ClaimHelper.UserId));
+
+        var member = await memberService.GetMember(memberId);
+
+        return mapper.Map<MemberDto>(member);
+    }
+    
+    [HttpPut]
+    [AllowAnonymous]
+    public async Task<ActionResult<MemberDto>> UpdateMember(MemberDto memberDto)
+    {
+        if (memberDto == null)
+        {
+            return BadRequest();
+        }
+        
+        var entity = await memberService.GetMemberByUserName(memberDto.UserName);
+
+        mapper.Map(memberDto, entity);
+
+        var res = await memberService.UpdateMember(entity);
+
+        return Ok(mapper.Map<MemberDto>(res));
+    }
+    
+    #endregion
+
+    #region [Anonymous]
+    
     [HttpGet]
     public async Task<ActionResult<List<MemberDto>>> GetMembers()
     {
@@ -40,22 +75,7 @@ public class MemberController(MemberService memberService, IMapper mapper) : Con
 
         return Ok();
     }
-
-    [HttpPut]
-    public async Task<ActionResult<MemberDto>> UpdateMember([FromBody] MemberDto memberDto)
-    {
-        if (memberDto == null)
-        {
-            return BadRequest();
-        }
-
-        var member = mapper.Map<Member>(memberDto);
-
-        await memberService.UpdateMember(member);
-
-        return Ok();
-    }
-
+    
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteMember(string id)
     {
@@ -68,4 +88,7 @@ public class MemberController(MemberService memberService, IMapper mapper) : Con
 
         return Ok();
     }
+    
+    #endregion
+    
 }

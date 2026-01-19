@@ -17,9 +17,7 @@ export class LoginComponent {
   public user: IAuthUser = {UserName: '', Mail: '', PhoneNumber: '', Password: '', OtpNumber: ''};
 
   public isOtpState = false;
-  public otpCode: string = '';
-
-  loginMethod: string = 'otp';
+  public loginMethod: string = 'otp';
 
   loginOptions: any[] = [
     {label: 'אימייל', value: 'otp', icon: 'pi pi-envelope'},

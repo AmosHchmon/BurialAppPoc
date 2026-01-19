@@ -38,6 +38,7 @@ import {ChipModule} from "primeng/chip";
 import {EmptyDataComponent} from "../components/empty-data/empty-data.component";
 import {PasswordModule} from "primeng/password";
 import {InputOtpModule} from "primeng/inputotp";
+import {AvatarModule} from "primeng/avatar";
 
 @NgModule({
   imports: [
@@ -79,6 +80,7 @@ import {InputOtpModule} from "primeng/inputotp";
     ChipModule,
     PasswordModule,
     InputOtpModule,
+    AvatarModule,
     EmptyDataComponent
   ],
   exports: [
@@ -121,6 +123,7 @@ import {InputOtpModule} from "primeng/inputotp";
     ChipModule,
     PasswordModule,
     InputOtpModule,
+    AvatarModule,
     EmptyDataComponent
   ],
   declarations: [],

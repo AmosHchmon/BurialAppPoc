@@ -1,0 +1,93 @@
+<p-dialog header="פרופיל אישי"
+          [visible]="visible"
+          (visibleChange)="visibleChange.emit($event)"
+          [modal]="true"
+          [style]="{ width: '500px' }"
+          [draggable]="true"
+          [resizable]="false"
+          dir="rtl"
+          styleClass="profile-dialog">
+
+  <div class="d-flex flex-column gap-4 py-3">
+
+    <div class="bg-light p-3 border-round shadow-sm">
+      <div class="d-flex justify-content-between">
+        <div>
+          <small class="d-block">ארגון</small>
+          <span class="fw-bold text-primary">{{ authCtx.UserRBAC.OrganizationDesc }}</span>
+        </div>
+        <div>
+          <small class="d-block">תחנה</small>
+          <span class="fw-bold text-primary">{{ authCtx.UserRBAC.StationDesc }}</span>
+        </div>
+        @if (profileData?.RoleAccessTypeId) {
+          <div>
+            <small class="text-muted d-block">סוג הרשאה</small>
+            <p-chip
+              [icon]="currentRole.icon"
+              [label]="currentRole.label"
+              styleClass="bg-primary-reverse text-primary">
+            </p-chip>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="d-flex flex-column gap-4 mt-2">
+      <p-floatlabel variant="on">
+        <input pInputText
+               [readonly]="!isEditMode"
+               class="w-100"
+               [(ngModel)]="profileData.UserName"
+               autocomplete="off"/>
+        <label>שם משתמש</label>
+      </p-floatlabel>
+
+      <p-floatlabel variant="on">
+        <p-iconfield>
+          <input pInputText
+                 [readonly]="!isEditMode"
+                 class="w-100"
+                 [(ngModel)]="profileData.Mail"
+                 required
+                 email
+                 autocomplete="off"/>
+          @if (isEditMode) {
+            <p-inputicon class="pi pi-times cursor-pointer" (click)="profileData.Mail = ''"/>
+          }
+        </p-iconfield>
+        <label>אימייל</label>
+      </p-floatlabel>
+
+      <p-floatlabel variant="on">
+        <p-iconfield>
+          <input pInputText
+                 [readonly]="!isEditMode"
+                 class="w-100"
+                 [(ngModel)]="profileData.PhoneNumber"
+                 required
+                 pattern="^\d{10}$"
+                 autocomplete="off"/>
+          @if (isEditMode) {
+            <p-inputicon class="pi pi-times cursor-pointer" (click)="profileData.PhoneNumber = ''"/>
+          }
+        </p-iconfield>
+        <label>מספר פלאפון</label>
+      </p-floatlabel>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="d-flex justify-content-between w-100 pt-3">
+      @if (!isEditMode) {
+        <button pButton label="סגור" icon="pi pi-times" class="p-button-text" (click)="closeDialog()"></button>
+        <button pButton label="עריכה" icon="pi pi-pencil" class="p-button-outlined"
+                (click)="setEditMode(true)"></button>
+      } @else {
+        <button pButton label="ביטול" icon="pi pi-undo" class="p-button-text p-button-danger"
+                (click)="cancel()"></button>
+        <button pButton label="שמור שינויים" icon="pi pi-check" class="p-button-raised" (click)="save()"></button>
+      }
+    </div>
+  </ng-template>
+</p-dialog>

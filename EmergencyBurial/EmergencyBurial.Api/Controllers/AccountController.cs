@@ -18,6 +18,25 @@ namespace EmergencyBurial.Api.Controllers;
 [Authorize]
 public class AccountController(AccountService accountService, IMapper mapper) : ControllerBase
 {
+    #region [NotAnonymous]
+    
+    [HttpPost("logout")]
+    public ActionResult<bool> Logout()
+    {
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.None
+        };
+        
+        Response.Cookies.Delete("user_token", cookieOptions);
+
+        return Ok(true);
+    }
+    
+    #endregion
+    
     #region [Anonymous]
 
     [HttpPut("login")]
@@ -47,12 +66,14 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
         };
 
         Response.Cookies.Append("user_token", token, cookieOptions);
-
+        
         var user = new AuthUserDto()
         {
             FullName = result.FullName,
             OUnit = (OrganizationType)result.OrganizationTypeId,
-            Policy = (RoleAccessType)result.RoleAccessTypeId
+            Policy = (RoleAccessType)result.RoleAccessTypeId,
+            OrganizationDesc = ((OrganizationType)result.OrganizationTypeId).GetEnumDescription(),
+            StationDesc = result.Station.Text
         };
 
         return Ok(user);
@@ -90,7 +111,9 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
         {
             FullName = result.FullName,
             OUnit = (OrganizationType)result.OrganizationTypeId,
-            Policy = (RoleAccessType)result.RoleAccessTypeId
+            Policy = (RoleAccessType)result.RoleAccessTypeId,
+            OrganizationDesc = ((OrganizationType)result.OrganizationTypeId).GetEnumDescription(),
+            StationDesc = result.Station.Text
         };
 
         return Ok(user);
@@ -113,22 +136,6 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
             return Unauthorized();
 
         return Ok();
-    }
-
-    [HttpPost("logout")]
-    [AllowAnonymous]
-    public ActionResult<bool> Logout()
-    {
-        var cookieOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Secure = true,
-            SameSite = SameSiteMode.None
-        };
-        
-        Response.Cookies.Delete("user_token", cookieOptions);
-
-        return Ok(true);
     }
 
     #endregion

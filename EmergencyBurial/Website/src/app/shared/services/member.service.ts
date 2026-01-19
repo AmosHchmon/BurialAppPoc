@@ -1,6 +1,7 @@
 ﻿import {Injectable, Injector} from '@angular/core';
 import {BaseService} from "../../core/abstract/base-service";
 import {IMember} from "../model/member";
+import {IAuthUser} from "../model/user";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,11 @@ export class MemberService extends BaseService {
     super("MemberService", injector);
   }
 
+  getMember(): Promise<IMember>{
+
+    return super.get<IMember>({path: '/member'});
+  }
+
   getMembers(): Promise<IMember[]> {
 
     return super.get<IMember[]>({path: '/'});
@@ -19,19 +25,15 @@ export class MemberService extends BaseService {
   saveMember(member: IMember): Promise<IMember> {
 
     return super.post({body: member});
-
   }
 
-  updateMember(member: IMember): Promise<IMember> {
+  updateMember(user: IMember): Promise<IMember> {
 
-    return super.put({body: member});
-
+    return super.put({body: user});
   }
 
   deleteMember(id: number): Promise<IMember> {
 
     return super.delete({path: `/${id}`});
-
   }
-
 }

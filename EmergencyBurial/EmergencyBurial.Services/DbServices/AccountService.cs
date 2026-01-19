@@ -12,6 +12,7 @@ using Core.Resources;
 using DataModel;
 using DataModel.Entities;
 using DataModel.Entities.System;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -23,11 +24,14 @@ public class AccountService(
     EmailConfiguration emailConfig,
     SmsConfiguration smsConfig,
     EmailHandler emailHandler,
-    SmsHandler smsHandler)
+    SmsHandler smsHandler,
+    PasswordHasher<Member> hasher)
 {
     public Member VerifyMember(Member member)
     {
-        return ctx.Members.SingleOrDefault(x =>
+        return ctx.Members
+            .Include(m => m.Station)
+            .SingleOrDefault(x =>
                 x.OtpNumber == member.OtpNumber &&
                 x.OtpExpired > DateTime.Now.AddMinutes(-20) &&
                 x.IsActive &&
@@ -137,7 +141,9 @@ public class AccountService(
 
     public Member VerifyMemberWithPassword(Member memberInput)
     {
-        var member = ctx.Members.SingleOrDefault(x => 
+        var member = ctx.Members
+            .Include(m => m.Station)
+            .SingleOrDefault(x => 
             x.UserName == memberInput.UserName && 
             x.Mail == memberInput.Mail && 
             x.IsActive);
@@ -148,8 +154,11 @@ public class AccountService(
         if (string.IsNullOrEmpty(member.Password))
             return null;
 
-        var isValid = PasswordHelper.VerifyPassword(memberInput.Password, member.Password);
+        var result = hasher.VerifyHashedPassword(member, member.Password, memberInput.Password);
         
-        return !isValid ? null : member;
+        if (result == PasswordVerificationResult.Failed)
+            throw new ApplicationException(UserMessage.CerdError);
+       
+        return member;
     }
 }

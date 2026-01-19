@@ -16,6 +16,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Core\Core.csproj"/>
         <ProjectReference Include="..\DataModel\DataModel.csproj"/>
+        <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.9" />
         <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />
         <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0"/>
         <PackageReference Include="System.ServiceModel.Federation" Version="8.0.0"/>

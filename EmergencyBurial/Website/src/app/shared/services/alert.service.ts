@@ -20,9 +20,11 @@ export class AlertService {
 
   alert(alertType: AlertType = AlertType.Error, appRes?: AppResponse, errRes?: HttpErrorResponse) {
 
+    let error = errRes ? <IAppResponse>errRes.error : null;
+
     let alertModel: IAlertModel = {
-      Title: appRes == appRes?.Title ? DialogMessage.SystemMessage : appRes?.Title,
-      ClientMessage: appRes?.ClientMessage == undefined ? DialogMessage.GeneralMessage : appRes?.ClientMessage
+      Title: error?.Title || appRes?.Title || '',
+      ClientMessage: error?.ErrorMessage ?? appRes.ClientMessage
     }
 
     switch (alertType) {
@@ -43,7 +45,7 @@ export class AlertService {
 
         this.showMessage('error', alertModel.Title, alertModel.ClientMessage)
 
-        if(errRes){
+        if (errRes) {
           let errorAppRes: IAppResponse;
           errorAppRes = <IAppResponse>(<HttpErrorResponse>errRes).error;
           console.log(errorAppRes);
