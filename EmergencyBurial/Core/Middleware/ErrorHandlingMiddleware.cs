@@ -44,7 +44,7 @@ public class ErrorHandlingMiddleware
         if (exception is ApplicationException)
         {
             code = HttpStatusCode.BadRequest;
-            msg = !string.IsNullOrEmpty(exception.Message) ? exception.Message : exception.InnerException?.Message;
+            msg = exception.Message;
         }
 
         if (exception is InvalidProgramException)

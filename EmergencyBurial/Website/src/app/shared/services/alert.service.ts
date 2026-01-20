@@ -4,7 +4,6 @@ import {IAppResponse} from '../../core/model/app.error-response';
 import {IAlertModel} from '../../core/model/alert.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AppResponse} from '../../core/model/app.response';
-import {DialogMessage} from '../static/messages';
 import {MessageService} from "primeng/api";
 
 @Injectable({

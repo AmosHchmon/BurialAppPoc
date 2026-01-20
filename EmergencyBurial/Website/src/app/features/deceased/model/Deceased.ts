@@ -9,6 +9,10 @@ export interface Deceased {
 
   IdentityNumber?: string;
 
+  FirstName?: string;
+
+  LastName?: string;
+
   FullName?: string;
 
   FatherName?: string;

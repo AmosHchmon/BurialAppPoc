@@ -11,22 +11,25 @@
   <div class="d-flex flex-column gap-4 py-3">
 
     <div class="bg-light p-3 border-round shadow-sm">
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-evenly">
         <div>
           <small class="d-block">ארגון</small>
           <span class="fw-bold text-primary">{{ authCtx.UserRBAC.OrganizationDesc }}</span>
         </div>
-        <div>
-          <small class="d-block">תחנה</small>
-          <span class="fw-bold text-primary">{{ authCtx.UserRBAC.StationDesc }}</span>
-        </div>
+        @if (authCtx.UserRBAC.StationDesc){
+          <div>
+            <small class="d-block">תחנה</small>
+            <span class="fw-bold text-primary">{{ authCtx.UserRBAC.StationDesc }}</span>
+          </div>
+        }
+
         @if (profileData?.RoleAccessTypeId) {
           <div>
             <small class="text-muted d-block">סוג הרשאה</small>
             <p-chip
               [icon]="currentRole.icon"
               [label]="currentRole.label"
-              styleClass="bg-primary-reverse text-primary">
+              class="bg-primary-reverse text-primary">
             </p-chip>
           </div>
         }

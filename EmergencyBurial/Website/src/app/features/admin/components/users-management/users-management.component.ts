@@ -14,6 +14,7 @@ import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {AlertService} from "../../../../shared/services/alert.service";
 import {MemberService} from "../../../../shared/services/member.service";
+import {enmOrganizationType} from "../../../../shared/enum/organization-type.enum";
 
 @Component({
   selector: 'app-users-management',
@@ -63,6 +64,8 @@ export class UsersManagementComponent implements OnInit {
   rolesList: IListItem[] = [];
   stationsList: IListItem[] = [];
   subStationsList: IListItem[] = [];
+
+  searchText: string;
 
   constructor(private memberService: MemberService,
               private listService: ListService,
@@ -183,4 +186,14 @@ export class UsersManagementComponent implements OnInit {
   }
 
   //endregion
+  clearSearch() {
+
+    this.searchText = '';
+
+    if (this.dt) {
+      this.dt.filterGlobal(null, 'contains');
+    }
+  }
+
+  protected readonly enmOrganizationType = enmOrganizationType;
 }

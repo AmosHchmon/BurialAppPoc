@@ -113,7 +113,7 @@ public class AccountController(AccountService accountService, IMapper mapper) : 
             OUnit = (OrganizationType)result.OrganizationTypeId,
             Policy = (RoleAccessType)result.RoleAccessTypeId,
             OrganizationDesc = ((OrganizationType)result.OrganizationTypeId).GetEnumDescription(),
-            StationDesc = result.Station.Text
+            StationDesc = result.Station?.Text ?? string.Empty
         };
 
         return Ok(user);

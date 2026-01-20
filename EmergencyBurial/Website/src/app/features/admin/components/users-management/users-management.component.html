@@ -1,22 +1,23 @@
 <div class="p-3 mt-5">
-  <p-toolbar class="border rounded-4">
-    <div class="d-flex gap-4">
+  <p-toolbar class="mb-4 shadow-sm border-0 bg-light">
+    <div class="p-toolbar-group-start d-flex gap-3">
+
       <p-button label="הוסף"
                 icon="pi pi-plus"
                 severity="success"
                 (click)="onAddMember()"/>
-      <p-button label="עדכן"
+
+      <p-button label="עריכה"
                 icon="pi pi-pencil"
                 severity="info"
                 [disabled]="!dt.selection"
                 (click)="onEditMember()"/>
-      <p-button severity="danger"
-                label="מחק"
+      <p-button label="מחיקה"
                 icon="pi pi-trash"
+                severity="danger"
                 outlined
-                (click)="onDeleteMember()"
                 [disabled]="!dt.selection"
-      />
+                (click)="onDeleteMember()"/>
     </div>
   </p-toolbar>
 
@@ -25,14 +26,29 @@
            [rows]="10"
            [size]="'small'"
            [columns]="membersColumns"
+           showGridlines="true"
            [paginator]="true"
            [tableStyle]="{ 'min-width': '75rem' }"
            [rowHover]="true"
            dataKey="Id"
            selectionMode="single"
            currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
-           [showCurrentPageReport]="true"
-  >
+           [showCurrentPageReport]="true">
+
+    <ng-template #caption>
+      <div class="d-flex flex-column align-items-start justify-content-between p-2 mb-2">
+        <h5 class="mb-4">ניהול משתמשים</h5>
+        <p-iconfield class="mb-3">
+          <p-inputicon class="pi pi-search"/>
+          <input pInputText
+                 type="text"
+                 (input)="dt.filterGlobal($event.target.value, 'contains')"
+                 [(ngModel)]="searchText"
+                 placeholder="חפש משתמש..."/>
+          <p-inputicon class="pi pi-times cursor-pointer" (click)="clearSearch()"/>
+        </p-iconfield>
+      </div>
+    </ng-template>
 
     <ng-template #header>
       <tr>
@@ -148,7 +164,7 @@
                       [disabled]="!newMember.OrganizationTypeId"
                       class="w-100"
                       appendTo="body"
-                      [required]="newMember.OrganizationTypeId != null"/>
+                      [required]="newMember.OrganizationTypeId != enmOrganizationType.Hamal"/>
           </div>
 
           <div>
@@ -169,8 +185,8 @@
     </form>
 
     <ng-template pTemplate="footer">
-      <div class="d-flex justify-content-start gap-2 w-100">
-        <p-button [label]="newMember?.Id ? 'עדכן שינויים' : 'שמור משתמש'"
+      <div class="d-flex justify-content-start gap-3 w-100">
+        <p-button [label]="newMember?.Id ? 'עדכן משתמש' : 'שמור משתמש'"
                   [icon]="newMember?.Id ? 'pi pi-check' : 'pi pi-plus'"
                   [disabled]="memberForm.invalid"
                   (click)="onSaveMember()"

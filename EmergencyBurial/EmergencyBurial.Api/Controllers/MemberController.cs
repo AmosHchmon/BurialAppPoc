@@ -26,7 +26,7 @@ public class MemberController(MemberService memberService, IMapper mapper) : Con
     {
         var memberId = new Guid(User.ClaimValue(ClaimHelper.UserId));
 
-        var member = await memberService.GetMember(memberId);
+        var member = await memberService.GetMemberById(memberId);
 
         return mapper.Map<MemberDto>(member);
     }
@@ -40,7 +40,7 @@ public class MemberController(MemberService memberService, IMapper mapper) : Con
             return BadRequest();
         }
         
-        var entity = await memberService.GetMemberByUserName(memberDto.UserName);
+        var entity = await memberService.GetMemberById(memberDto.Id);
 
         mapper.Map(memberDto, entity);
 

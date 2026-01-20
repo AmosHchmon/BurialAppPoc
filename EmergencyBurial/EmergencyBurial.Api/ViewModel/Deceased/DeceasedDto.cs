@@ -9,6 +9,10 @@ public class DeceasedDto
 
     public string? IdentityNumber { get; set; }
     
+    public string? FirstName { get; set; }
+    
+    public string? LastName { get; set; }
+    
     public string? FullName { get; set;}
     
     public string? FatherName { get; set; }

@@ -14,6 +14,11 @@ public class CrudExceptionFilter : IExceptionFilter
 
     public void OnException(ExceptionContext context)
     {
+        if (context.Exception is ApplicationException)
+        {
+            return;
+        }
+
         throw new ApplicationException(_errorMessage, context.Exception);
     }
 }

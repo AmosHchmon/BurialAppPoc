@@ -20,6 +20,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.RoleDesc,
                 opt => opt.MapFrom(src => ((RoleAccessType)src.RoleAccessTypeId).GetEnumDescription()))
             .ReverseMap()
+            .ForMember(dest => dest.Station, opt => opt.Ignore())
             .ForMember(dest => dest.Password, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Password)));
 
         #region Deceased

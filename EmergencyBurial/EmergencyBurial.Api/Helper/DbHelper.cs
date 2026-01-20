@@ -138,12 +138,13 @@ public class DbHelper
         var deceased1 = new Deceased
         {
             Id = deceased1Id,
-            IdentityNumber = "123456789",
+            IdentityNumber = "2222222",
             FirstName = "טאיפ",
             LastName = "ארדואן",
             FatherName = "אברהם",
+            Nationality = "כלב",
             Gender = "זכר",
-            HomeCity = "ירושלים",
+            HomeCity = "גיהנום",
             PeleNumber = "PL-789123",
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
 
@@ -247,12 +248,13 @@ public class DbHelper
         var deceased2 = new Deceased
         {
             Id = deceased2Id,
-            IdentityNumber = "987654321",
+            IdentityNumber = "1111111",
             FirstName = "דואה",
             LastName = "ליפה",
+            Nationality = "כלבה",
             FatherName = "משה",
             Gender = "נקבה",
-            HomeCity = "תל אביב",
+            HomeCity = "בית לחם",
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
 
             DeceasedBags = new List<DeceasedBag>
@@ -344,10 +346,12 @@ public class DbHelper
         var deceased3 = new Deceased
         {
             Id = deceased3Id,
-            IdentityNumber = "111222333",
+            IdentityNumber = "000000",
             FirstName = "מל",
             LastName = "גיבסון",
+            Nationality = "כלב",
             Gender = "זכר",
+            HomeCity = "שכם",
             FatherName = "ישי",
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
 
@@ -496,7 +500,6 @@ public class DbHelper
                 Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
                 OrganizationTypeId = (int)OrganizationType.Hamal,
-                StationId = (int)BurialPreparation.RishonLezion,
                 IsActive = true,
             },
             new()
