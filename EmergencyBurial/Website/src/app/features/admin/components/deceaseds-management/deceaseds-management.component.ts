@@ -160,11 +160,6 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
     return this.cols.map(col => col.field);
   }
 
-  showDeceased(deceased: Deceased): void {
-
-    this.router.navigate(['/dashboard/deceaseds', deceased.Id]);
-  }
-
   clearSearch() {
 
     this.searchText = '';

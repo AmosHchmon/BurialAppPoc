@@ -63,7 +63,6 @@
             </div>
           </th>
         }
-        <th class="px-4"></th>
       </tr>
     </ng-template>
 
@@ -77,13 +76,6 @@
             {{ deceased[col.field] }}
           </td>
         }
-        <td>
-          <div class="d-flex justify-content-start align-items-center cursor-pointer gap-2"
-               (click)="showDeceased(deceased)">
-            <span>מידע נוסף</span>
-            <span class="pi pi-info-circle"></span>
-          </div>
-        </td>
       </tr>
     </ng-template>
 
@@ -119,7 +111,7 @@
                    #identityNumber="ngModel"
                    required
                    identityvalidator
-                   autocomplete="off" />
+                   autocomplete="off"/>
             <label for="identityNumber">תעודת זהות</label>
           </p-floatlabel>
 
@@ -129,7 +121,7 @@
                    name="firstName"
                    [(ngModel)]="newDeceased.FirstName"
                    #firstName="ngModel"
-                   required />
+                   required/>
             <label for="firstName">שם פרטי</label>
           </p-floatlabel>
 
@@ -139,7 +131,7 @@
                    name="lastName"
                    [(ngModel)]="newDeceased.LastName"
                    #lastName="ngModel"
-                   required />
+                   required/>
             <label for="lastName">שם משפחה</label>
           </p-floatlabel>
 
@@ -149,7 +141,7 @@
                    name="fatherName"
                    [(ngModel)]="newDeceased.FatherName"
                    #fatherName="ngModel"
-                   required />
+                   required/>
             <label for="fatherName">שם האב</label>
           </p-floatlabel>
         </div>
@@ -163,7 +155,7 @@
                    name="nationality"
                    [(ngModel)]="newDeceased.Nationality"
                    #nationality="ngModel"
-                   required />
+                   required/>
             <label for="nationality">לאום</label>
           </p-floatlabel>
 
@@ -173,7 +165,7 @@
                    name="homeCity"
                    [(ngModel)]="newDeceased.HomeCity"
                    #homeCity="ngModel"
-                   required />
+                   required/>
             <label for="homeCity">עיר מגורים</label>
           </p-floatlabel>
 
@@ -185,14 +177,14 @@
                                 value="זכר"
                                 [(ngModel)]="newDeceased.Gender"
                                 inputId="gender1"
-                                required />
+                                required/>
                 <label for="gender1" class="m-0">זכר</label>
               </div>
               <div class="d-flex align-items-center gap-2">
                 <p-radio-button name="gender"
                                 value="נקבה"
                                 [(ngModel)]="newDeceased.Gender"
-                                inputId="gender2" />
+                                inputId="gender2"/>
                 <label for="gender2" class="m-0">נקבה</label>
               </div>
             </div>
@@ -208,13 +200,13 @@
                   [icon]="newDeceased?.Id ? 'pi pi-check' : 'pi pi-plus'"
                   [disabled]="deceasedForm.invalid"
                   (click)="onSaveDeceased()"
-                  severity="success" />
+                  severity="success"/>
 
         <p-button label="ביטול"
                   icon="pi pi-times"
                   severity="secondary"
                   [outlined]="true"
-                  (click)="showDeceasedDialog = false" />
+                  (click)="showDeceasedDialog = false"/>
       </div>
     </ng-template>
   </p-dialog>
