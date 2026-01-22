@@ -13,7 +13,7 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [Authorize]
-[ApiController]
+[Authorize(Roles = nameof(OrganizationType.Hamal), Policy = nameof(RoleAccessType.Edit))]
 public class ListController(ListService listService, IMapper mapper) : ControllerBase
 {
     [HttpGet("list-type")]

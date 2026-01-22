@@ -241,6 +241,7 @@ public class DbHelper
             DeceasedTaharahDetails = new DeceasedTaharahDetails
             {
                 DeceasedId = deceased1Id,
+                TaharahStation = (int)BurialPreparation.RishonLezion,
                 TaharahStatus = TaharahStatus.Pending,
                 IsTaharahPerformed = false
             },
@@ -341,6 +342,7 @@ public class DbHelper
             DeceasedTaharahDetails = new DeceasedTaharahDetails
             {
                 DeceasedId = deceased2Id,
+                TaharahStation = (int)BurialPreparation.RishonLezion,
                 TaharahStatus = TaharahStatus.Pending,
                 IsTaharahPerformed = false
             },
@@ -424,6 +426,7 @@ public class DbHelper
             DeceasedTaharahDetails = new DeceasedTaharahDetails
             {
                 DeceasedId = deceased3Id,
+                TaharahStation = (int)BurialPreparation.TelRegev,
                 TaharahStatus = TaharahStatus.Pending,
                 IsTaharahPerformed = false,
             },
