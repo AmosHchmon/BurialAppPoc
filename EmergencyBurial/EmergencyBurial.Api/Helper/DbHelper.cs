@@ -436,7 +436,99 @@ public class DbHelper
             }
         };
 
-        db.Deceaseds.AddRange(deceased1, deceased2, deceased3);
+        var deceased4Id = Guid.NewGuid();
+        var deceased4 = new Deceased
+        {
+            Id = deceased4Id,
+            IdentityNumber = "222333444",
+            FirstName = "מוחמד",
+            LastName = "מחמוד",
+            Gender = "זכר",
+            ProcessStatus = ProcessStatus.ReceptionAtTarah,
+            DeceasedBags = new List<DeceasedBag>
+            {
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased4Id,
+                    BagNumber = "T-4001",
+                    Affiliation = Affiliation.Civilian,
+                    ReceivingStation = TarahStations.Shura,
+                    ArrivalDateTime = DateTime.Now.AddHours(-2)
+                }
+            },
+            DeceasedTarahDetails = new DeceasedTarahDetails
+            {
+                DeceasedId = deceased4Id,
+                TarahStation = (int)TarahStations.Shura,
+                TarahStatus = TarahStatus.Pending
+            }
+        };
+
+        var deceased5Id = Guid.NewGuid();
+        var deceased5 = new Deceased
+        {
+            Id = deceased5Id,
+            IdentityNumber = "555666777",
+            FirstName = "סמיר",
+            LastName = "פאטם",
+            Gender = "זכר",
+            ProcessStatus = ProcessStatus.ReceptionAtTarah,
+            DeceasedBags = new List<DeceasedBag>
+            {
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased5Id,
+                    BagNumber = "T-5001",
+                    Affiliation = Affiliation.SecurityForces,
+                    ReceivingStation = TarahStations.Tziporit,
+                    ArrivalDateTime = DateTime.Now.AddHours(-5)
+                }
+            },
+            DeceasedTarahDetails = new DeceasedTarahDetails
+            {
+                DeceasedId = deceased5Id,
+                TarahStation = (int)TarahStations.Tziporit,
+                TarahStatus = TarahStatus.InProgress,
+                TarahReceptionDate = DateTime.Now.AddHours(-4),
+                TarahTeamManager = "צוות א' - תר\"ח"
+            }
+        };
+
+        var deceased6Id = Guid.NewGuid();
+        var deceased6 = new Deceased
+        {
+            Id = deceased6Id,
+            IdentityNumber = "888999000",
+            FirstName = "פאטמה",
+            LastName = "לילה",
+            Gender = "זכר",
+            ProcessStatus = ProcessStatus.ReleaseFromTarah,
+            DeceasedBags = new List<DeceasedBag>
+            {
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased6Id,
+                    BagNumber = "T-6001",
+                    Affiliation = Affiliation.Civilian,
+                    ReceivingStation = TarahStations.SdeTeiman,
+                    ArrivalDateTime = DateTime.Now.AddDays(-1)
+                }
+            },
+            DeceasedTarahDetails = new DeceasedTarahDetails
+            {
+                DeceasedId = deceased6Id,
+                TarahStation = (int)TarahStations.SdeTeiman,
+                TarahStatus = TarahStatus.Completed,
+                TarahReceptionDate = DateTime.Now.AddDays(-1),
+                TarahReleaseDate = DateTime.Now.AddHours(-2),
+                IsTarahPerformed = true
+            }
+        };
+
+        db.Deceaseds.AddRange(deceased1, deceased2, deceased3, deceased4, deceased5, deceased6);
         db.SaveChanges();
     }
 
@@ -506,9 +598,9 @@ public class DbHelper
                 UserName = "308015205",
                 Mail = "OzS@dat.gov.il",
                 RoleAccessTypeId = RoleAccessType.Edit,
-                OrganizationTypeId = (int)OrganizationType.BurialPreparation,
-                StationTypeId = (int)StationType.BurialPreparation,
-                StationId = (int)BurialPreparation.RishonLezion,
+                OrganizationTypeId = (int)OrganizationType.Tarah,
+                StationTypeId = (int)StationType.TarahStations,
+                StationId = (int)TarahStations.Shura,
                 IsActive = true,
             },
             new()

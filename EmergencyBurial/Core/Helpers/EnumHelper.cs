@@ -167,6 +167,16 @@ namespace Core.Helpers
         Completed = 2
     }
 
+    public enum TarahStatus
+    {
+        [Description("ממתין לקבלה")]
+        Pending = 0,
+        [Description("בתהליך תר'ח")]
+        InProgress = 1,
+        [Description("שוחרר מתר'ח")]
+        Completed = 2
+    }
+
     public enum BadMessageProcessStatus
     {
         [Description("הודעה לא נמסרה")]

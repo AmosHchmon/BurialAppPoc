@@ -115,6 +115,41 @@ public class MappingProfile : Profile
 
         #endregion
 
+        #region Tarah
+
+        CreateMap<Deceased, TarahListDto>()
+            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
+            .ForMember(dest => dest.ProcessStatusDesc,
+                opt => opt.MapFrom(src => src.ProcessStatus.GetEnumDescription()))
+            .ForMember(dest => dest.RelatedBagNumbers, opt => opt.MapFrom(src => src.DeceasedBags.Count))
+            .ForMember(dest => dest.BagNumbersDisplay, opt =>
+                opt.MapFrom(src => string.Join(" | ", src.DeceasedBags.Select(b => b.BagNumber))))
+            .ForMember(dest => dest.TarahStatus, opt => opt.MapFrom(src => src.DeceasedTarahDetails.TarahStatus))
+            .ForMember(dest => dest.TarahStatusDesc, opt =>
+                opt.MapFrom(src => src.DeceasedTarahDetails != null
+                    ? src.DeceasedTarahDetails.TarahStatus.GetEnumDescription()
+                    : "טרם הוגדר"));
+
+        CreateMap<DeceasedTarahDetails, TarahIntakeDto>()
+            .ReverseMap();
+
+        CreateMap<Deceased, TarahProcessDto>()
+            .ForMember(dest => dest.DeceasedId, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
+            .ForMember(dest => dest.BagNumbers,
+                opt => opt.MapFrom(src => src.DeceasedBags.Select(b => b.BagNumber).ToList()))
+            .ForMember(dest => dest.TarahTeamManager, opt => opt.MapFrom(src => src.DeceasedTarahDetails.TarahTeamManager))
+            .ForMember(dest => dest.IntermediateStorage, opt => opt.MapFrom(src => src.DeceasedTarahDetails.IntermediateStorage))
+            .ForMember(dest => dest.IsPendingExit, opt => opt.MapFrom(src => src.DeceasedTarahDetails.IsPendingExit))
+            .ForMember(dest => dest.PendingExitReason, opt => opt.MapFrom(src => src.DeceasedTarahDetails.PendingExitReason))
+            .ForMember(dest => dest.IsTarahPerformed,
+                opt => opt.MapFrom(src => src.DeceasedTarahDetails.IsTarahPerformed));
+
+        CreateMap<DeceasedTarahDetails, TarahProcessDto>()
+            .ReverseMap();
+
+        #endregion
+
         CreateMap<Transport, TransportDto>()
             .ForMember(dest => dest.BagNumber, opt => opt.MapFrom(src => src.DeceasedBag.BagNumber))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.DeceasedBag.Deceased.FirstName))

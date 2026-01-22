@@ -43,5 +43,7 @@ public class Deceased: BaseUpdatedEntity
     
     public virtual DeceasedTaharahDetails DeceasedTaharahDetails { get; set; }
     
+    public virtual DeceasedTarahDetails DeceasedTarahDetails { get; set; }
+    
     public virtual DeceasedBurialCoordination DeceasedBurialCoordination { get; set; }
 }

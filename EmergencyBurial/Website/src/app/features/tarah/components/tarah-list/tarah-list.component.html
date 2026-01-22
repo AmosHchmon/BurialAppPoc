@@ -1,0 +1,116 @@
+<div class="card p-3">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="font-bold">ניהול שקי חלל בתר"ח</h4>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3 bg-gray-50 p-3 border-round">
+
+        <p-selectButton [options]="viewOptions" [(ngModel)]="viewMode" optionLabel="label" optionValue="value"
+            [unselectable]="true" (onChange)="onViewChange()">
+        </p-selectButton>
+
+        <div class="d-flex gap-2">
+
+            @if (viewMode === TarahStatusEnum.Pending) {
+            <p-button label="קליטה" icon="pi pi-download" severity="success" [disabled]="!selectedDeceased"
+                (click)="openIntakeDialog()">
+            </p-button>
+            }
+
+            @if (viewMode === TarahStatusEnum.InProgress) {
+            <div class="d-flex gap-2">
+                <p-button label="עדכון פרטים" icon="pi pi-file-edit" severity="info" [disabled]="!selectedDeceased"
+                    (click)="openUpdateDetailsDialog()">
+                </p-button>
+
+                <p-button label="שחרור מתר'ח" icon="pi pi-sign-out" severity="warn" [disabled]="!selectedDeceased"
+                    (click)="openReleaseDialog()">
+                </p-button>
+            </div>
+            }
+
+            @if (viewMode === TarahStatusEnum.Complete) {
+            <p-button label="צפייה בנתוני תר'ח" icon="pi pi-eye" severity="secondary" [disabled]="!selectedDeceased"
+                (click)="openUpdateDetailsDialog()">
+            </p-button>
+            }
+        </div>
+    </div>
+    <div class="d-flex gap-3 align-items-center m-3">
+        <p-iconfield>
+            <p-inputicon class="pi pi-search" />
+            <input pInputText type="text" [(ngModel)]="searchText"
+                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="חיפוש חלל..." />
+            @if (searchText) {
+            <p-inputicon class="pi pi-times cursor-pointer" (click)="clearSearch()" />
+            }
+        </p-iconfield>
+
+    </div>
+    <p-table #dt [columns]="cols" showGridlines="true" [value]="deceasedList" [tableStyle]="{ 'min-width': '50rem' }"
+        [size]="'small'" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" selectionMode="single"
+        [(selection)]="selectedDeceased" currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
+        [globalFilterFields]="getGlobalFilterFields()" [rowHover]="true" dataKey="Id">
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                @for (col of columns; track col.field) {
+                <th [pSortableColumn]="col.field">
+                    <div class="d-flex align-items-center gap-1 px-2">
+                        {{ col.header }}
+                        <p-sortIcon [field]="col.field" />
+                    </div>
+                </th>
+                }
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-deceased>
+            <tr [pSelectableRow]="deceased">
+                <td style="width: 3rem">
+                    <p-tableRadioButton [value]="deceased" />
+                </td>
+                <td>{{ deceased.IdentityNumber }}</td>
+                <td>{{ deceased.FullName }}</td>
+                <td>{{ deceased.FatherName }}</td>
+                <td>
+                    <p-tag [value]="deceased.ProcessStatusDesc"
+                        [severity]="viewMode === TarahStatusEnum.Pending ? 'info' : 'warning'"></p-tag>
+                </td>
+                <td>
+                    <p-tag [value]="deceased.TarahStatusDesc"
+                        [severity]="getTarahStatusSeverity(deceased.TarahStatus)"></p-tag>
+                </td>
+                <td>
+                    <span class="text-ellipsis" [pTooltip]="deceased.BagNumbersDisplay" tooltipPosition="top">
+                        {{ deceased.BagNumbersDisplay }}
+                    </span>
+                </td>
+                <td>{{ deceased.RelatedBagNumbers }}</td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td [attr.colspan]="cols.length + 1" class="text-center p-4">
+
+                    @if (viewMode === TarahStatusEnum.Pending) {
+                    <span>אין חללים הממתינים לקליטה כרגע.</span>
+                    } @else {
+                    <span>לא נמצאו נתונים לחודש זה.</span>
+                    }
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+</div>
+
+<app-tarah-intake-dialog [(visible)]="isPendingDialogOpen" [deceasedId]="selectedDeceased?.Id"
+    (onSaved)="onDialogSaved()">
+</app-tarah-intake-dialog>
+
+<app-tarah-update-dialog [(visible)]="isUpdateDialogOpen" [isReleasedMode]="viewMode === TarahStatusEnum.Complete"
+    [showReleaseButton]="isReleaseAction" [deceasedId]="selectedDeceased?.Id" (onSaved)="onDialogSaved()">
+</app-tarah-update-dialog>
