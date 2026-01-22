@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Core.Helpers;
 using DataModel.Entities;
 using EmergencyBurial.Api.ViewModel;
 using EmergencyBurial.Services.DbServices;
@@ -13,8 +14,8 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-[Authorize]
-public class TransportController(TransportService transportService, DeceasedService deceasedService, IMapper mapper)
+[Authorize(Roles = nameof(OrganizationType.Hamal) + "," + nameof(OrganizationType.DatServices), Policy = nameof(RoleAccessType.Edit))]
+public class TransportsController(TransportService transportService, DeceasedService deceasedService, IMapper mapper)
     : ControllerBase
 {
     [HttpGet("bag-number/{id}")]
