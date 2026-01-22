@@ -1,109 +1,109 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { ConfirmationService } from "primeng/api";
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {ConfirmationService} from "primeng/api";
 
-import { UiComponentsModule } from "../../../../shared/ui-components/ui-components.module";
-import { TarahService } from "../../services/tarah.service";
-import { AlertService } from "../../../../shared/services/alert.service";
-import { TarahProcess } from "../../model/TarahProcess";
-import { AlertType } from "../../../../core/enums/alert.enum";
-import { DialogMessage } from "../../../../shared/static/messages";
+import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
+import {TarahService} from "../../services/tarah.service";
+import {AlertService} from "../../../../shared/services/alert.service";
+import {TarahProcess} from "../../model/TarahProcess";
+import {AlertType} from "../../../../core/enums/alert.enum";
+import {DialogMessage} from "../../../../shared/static/messages";
 
 @Component({
-    selector: 'app-tarah-update-dialog',
-    standalone: true,
-    imports: [UiComponentsModule],
-    templateUrl: './tarah-update-dialog.component.html'
+  selector: 'app-tarah-update-dialog',
+  standalone: true,
+  imports: [UiComponentsModule],
+  templateUrl: './tarah-update-dialog.component.html'
 })
 export class TarahUpdateDialogComponent implements OnChanges {
 
-    @Input() visible: boolean = false;
-    @Input() deceasedId: string | undefined;
-    @Input() isReleasedMode: boolean = false;
-    @Input() showReleaseButton: boolean = false;
+  @Input() visible: boolean = false;
+  @Input() deceasedId: string | undefined;
+  @Input() isReleasedMode: boolean = false;
+  @Input() showReleaseButton: boolean = false;
 
-    @Output() visibleChange = new EventEmitter<boolean>();
-    @Output() onSaved = new EventEmitter<void>();
+  @Output() visibleChange = new EventEmitter<boolean>();
+  @Output() onSaved = new EventEmitter<void>();
 
-    processData: TarahProcess | null = null;
+  processData: TarahProcess | null = null;
 
-    constructor(
-        private tarahService: TarahService,
-        private alertService: AlertService,
-        private confirmService: ConfirmationService
-    ) {
+  constructor(
+    private tarahService: TarahService,
+    private alertService: AlertService,
+    private confirmService: ConfirmationService
+  ) {
+  }
+
+  async ngOnChanges(changes: SimpleChanges) {
+
+    if (changes['visible'] && this.visible && this.deceasedId) {
+      await this.loadData();
+    }
+  }
+
+  async loadData() {
+
+    if (!this.deceasedId) {
+      return;
     }
 
-    async ngOnChanges(changes: SimpleChanges) {
+    this.processData = await this.tarahService.getDetailsForEdit(this.deceasedId);
+  }
 
-        if (changes['visible'] && this.visible && this.deceasedId) {
-            await this.loadData();
-        }
+  closeDialog() {
+
+    this.visible = false;
+    this.visibleChange.emit(false);
+    this.processData = null;
+  }
+
+  onPendingExitChange() {
+
+    if (this.processData && !this.processData.IsPendingExit) {
+      this.processData.PendingExitReason = '';
+    }
+  }
+
+  async submitUpdate() {
+
+    if (!this.processData) {
+      return;
     }
 
-    async loadData() {
+    await this.tarahService.updateDeceasedDetails(this.processData);
 
-        if (!this.deceasedId) {
-            return;
-        }
+    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.DeceasedUpdated});
 
-        this.processData = await this.tarahService.getDetailsForEdit(this.deceasedId);
+    this.onSaved.emit();
+
+    this.closeDialog();
+  }
+
+  async onRelease() {
+
+    if (!this.processData?.DeceasedId) {
+      return;
     }
 
-    closeDialog() {
+    this.confirmService.confirm({
+      header: DialogMessage.ReleaseFromTarah,
+      message: DialogMessage.ShouldReleaseFromTarah,
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'כן',
+      rejectLabel: 'לא',
+      accept: async () => {
 
-        this.visible = false;
-        this.visibleChange.emit(false);
-        this.processData = null;
-    }
+        await this.tarahService.releaseFromTarah(this.processData!);
 
-    onPendingExitChange() {
-
-        if (this.processData && !this.processData.IsPendingExit) {
-            this.processData.PendingExitReason = '';
-        }
-    }
-
-    async submitUpdate() {
-
-        if (!this.processData) {
-            return;
-        }
-
-        await this.tarahService.updateDeceasedDetails(this.processData);
-
-        this.alertService.alert(AlertType.Success, { ClientMessage: DialogMessage.DeceasedUpdated });
+        this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.DeceasedReleasedFromTarah});
 
         this.onSaved.emit();
-
         this.closeDialog();
-    }
+      },
+      reject: () => {
+        return;
+      }
 
-    async onRelease() {
+    })
 
-        if (!this.processData?.DeceasedId) {
-            return;
-        }
-
-        this.confirmService.confirm({
-            header: DialogMessage.ReleaseFromTarah,
-            message: DialogMessage.ShouldReleaseFromTarah,
-            icon: 'pi pi-exclamation-triangle',
-            acceptLabel: 'כן',
-            rejectLabel: 'לא',
-            accept: async () => {
-
-                await this.tarahService.releaseFromTarah(this.processData!);
-
-                this.alertService.alert(AlertType.Success, { ClientMessage: DialogMessage.DeceasedReleasedFromTarah });
-
-                this.onSaved.emit();
-                this.closeDialog();
-            },
-            reject: () => {
-                return;
-            }
-
-        })
-
-    }
+  }
 }

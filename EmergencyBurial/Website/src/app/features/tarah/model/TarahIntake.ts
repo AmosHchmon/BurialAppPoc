@@ -1,4 +1,4 @@
 export interface TarahIntake {
-    DeceasedId?: string;
-    TarahReceptionStaff?: string;
+  DeceasedId?: string;
+  TarahReceptionStaff?: string;
 }

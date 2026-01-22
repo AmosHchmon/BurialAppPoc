@@ -1,17 +1,17 @@
 <p-dialog [(visible)]="visible" (onShow)="onShow()" (onHide)="closeDialog()" closeOnEscape="true" dismissableMask="true"
-    header="קליטת חלל לתר'ח" [modal]="true" [style]="{width: '450px'}" [draggable]="true">
+          header="קליטת חלל לתר'ח" [modal]="true" [style]="{width: '450px'}" [draggable]="true">
 
-    <div class="d-flex flex-column justify-content-between py-3 gap-5">
+  <div class="d-flex flex-column justify-content-between py-3 gap-5">
 
-        <p-floatlabel variant="on">
-            <input pInputText readonly class="w-100" [(ngModel)]="intakeData.TarahReceptionStaff" autocomplete="off" />
-            <label>שם ממלא (קולט לתר\"ח)</label>
-        </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input pInputText readonly class="w-100" [(ngModel)]="intakeData.TarahReceptionStaff" autocomplete="off"/>
+      <label>שם ממלא (קולט לתר"ח)</label>
+    </p-floatlabel>
 
-    </div>
+  </div>
 
-    <ng-template pTemplate="footer">
-        <p-button label="ביטול" (click)="closeDialog()" [text]="true" severity="secondary"></p-button>
-        <p-button label="שמור וקלוט" (click)="submitIntake()" icon="pi pi-check" severity="success"></p-button>
-    </ng-template>
+  <ng-template pTemplate="footer">
+    <p-button label="ביטול" (click)="closeDialog()" [text]="true" severity="secondary"></p-button>
+    <p-button label="שמור וקלוט" (click)="submitIntake()" icon="pi pi-check" severity="success"></p-button>
+  </ng-template>
 </p-dialog>
