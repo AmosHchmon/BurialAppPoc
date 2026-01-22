@@ -17,36 +17,39 @@ public class TaharahService(EmergencyBurialContext ctx)
             .FirstOrDefaultAsync(d => d.DeceasedId == id);
     }
 
-    public async Task<List<Deceased>> GetPendingList()
+    public async Task<List<Deceased>> GetPendingList(int? stationId = null)
     {
         return await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
             .Where(d => d.ProcessStatus == ProcessStatus.EndTransportBurialPreparation &&
-                        d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.Pending)
+                        d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.Pending &&
+                        (stationId == null || d.DeceasedTaharahDetails.TaharahStation == stationId))
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
     }
 
-    public async Task<List<Deceased>> GetActiveList()
+    public async Task<List<Deceased>> GetActiveList(int? stationId = null)
     {
         var list = await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
             .Where(d => d.ProcessStatus == ProcessStatus.ReceivedForBurialPreparation &&
-                        d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.InProgress)
+                        d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.InProgress &&
+                        (stationId == null || d.DeceasedTaharahDetails.TaharahStation == stationId))
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
 
         return list;
     }
 
-    public async Task<List<Deceased>> GetReleasedList()
+    public async Task<List<Deceased>> GetReleasedList(int? stationId = null)
     {
         var list = await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
-            .Where(d => d.ProcessStatus == ProcessStatus.ReleasedFromBurialPreparation)
+            .Where(d => d.ProcessStatus == ProcessStatus.ReleasedFromBurialPreparation &&
+                        (stationId == null || d.DeceasedTaharahDetails.TaharahStation == stationId))
             .OrderByDescending(d => d.DeceasedTaharahDetails.TaharahReleaseDate)
             .ToListAsync();
 

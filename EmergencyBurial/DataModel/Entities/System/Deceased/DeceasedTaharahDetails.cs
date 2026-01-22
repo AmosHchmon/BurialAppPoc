@@ -14,7 +14,7 @@ namespace DataModel.Entities
 
         public TaharahStatus? TaharahStatus { get; set; }
 
-        public int? TaharahLocation { get; set; }
+        public int? TaharahStation { get; set; }
 
         [Description("תאריך קליטת החלל במכון הטהרה")]
         public DateTime? TaharahReceptionDate { get; set; }

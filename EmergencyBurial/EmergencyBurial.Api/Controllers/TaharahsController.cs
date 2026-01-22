@@ -13,13 +13,19 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-[Authorize(Roles = nameof(OrganizationType.BurialPreparation) + "," + nameof(OrganizationType.Hamal), Policy = nameof(RoleAccessType.Edit))]
+[Authorize(Roles = nameof(OrganizationType.BurialPreparation) + "," + nameof(OrganizationType.DatServices), Policy = nameof(RoleAccessType.Edit))]
 public class TaharahsController(TaharahService taharahService, IMapper mapper) : ControllerBase
 {
     [HttpGet("pending")]
     public async Task<ActionResult<List<TaharahListDto>>> GetPending()
     {
-        var entities = await taharahService.GetPendingList();
+        int? stationId = null;
+
+        if (User.IsInRole(nameof(OrganizationType.BurialPreparation)))
+        {
+            stationId = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
+        }
+        var entities = await taharahService.GetPendingList(stationId);
 
         return Ok(mapper.Map<List<TaharahListDto>>(entities));
     }
@@ -27,7 +33,14 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
     [HttpGet("active")]
     public async Task<ActionResult<List<TaharahListDto>>> GetActive()
     {
-        var entities = await taharahService.GetActiveList();
+        int? stationId = null;
+
+        if (User.IsInRole(nameof(OrganizationType.BurialPreparation)))
+        {
+            stationId = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
+        }
+
+        var entities = await taharahService.GetActiveList(stationId);
 
         return Ok(mapper.Map<List<TaharahListDto>>(entities));
     }
@@ -35,7 +48,14 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
     [HttpGet("released")]
     public async Task<ActionResult<List<TaharahListDto>>> GetReleased()
     {
-        var result = await taharahService.GetReleasedList();
+        int? stationId = null;
+
+        if (User.IsInRole(nameof(OrganizationType.BurialPreparation)))
+        {
+            stationId = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
+        }
+
+        var result = await taharahService.GetReleasedList(stationId);
 
         return Ok(mapper.Map<List<TaharahListDto>>(result));
     }
@@ -54,7 +74,6 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
 
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
         
-        entity.TaharahLocation = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
         entity.ReceivedBy = userId;
 
         entity.TaharahStatus = TaharahStatus.InProgress;
@@ -108,7 +127,7 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
         var entity = await taharahService.GetTaharahDetailsById(dto.DeceasedId);
 
         mapper.Map(dto, entity);
-        
+
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
 
         entity.TaharahStatus = TaharahStatus.Completed;
