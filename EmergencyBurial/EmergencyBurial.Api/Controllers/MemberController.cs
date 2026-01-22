@@ -28,7 +28,7 @@ public class MemberController(MemberService memberService, IMapper mapper) : Con
 
         var member = await memberService.GetMemberById(memberId);
 
-        return mapper.Map<MemberDto>(member);
+        return Ok(mapper.Map<MemberDto>(member));
     }
     
     [HttpPut]

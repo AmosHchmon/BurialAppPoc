@@ -1,14 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CommonModule} from '@angular/common'; // הוספת CommonModule עבור ה-Pipes
-import {ButtonDirective} from "primeng/button";
-import {Chip} from "primeng/chip";
-import {Dialog} from "primeng/dialog";
-import {FloatLabel} from "primeng/floatlabel";
-import {FormsModule} from "@angular/forms";
-import {IconField} from "primeng/iconfield";
-import {InputIcon} from "primeng/inputicon";
-import {InputText} from "primeng/inputtext";
-import {PrimeTemplate} from "primeng/api";
 import {IMember} from "../../../shared/model/member";
 import {UiComponentsModule} from "../../../shared/ui-components/ui-components.module";
 import {AuthContextService} from "../../../shared/services/auth-context.service";
@@ -61,6 +51,4 @@ export class UserProfileComponent {
   cancel() {
     this.onCancel.emit();
   }
-
-  protected readonly enmRoleAccessType = enmRoleAccessType;
 }
