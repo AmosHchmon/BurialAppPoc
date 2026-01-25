@@ -11,9 +11,16 @@ namespace EmergencyBurial.Services.DbServices;
 
 public class MemberService(EmergencyBurialContext ctx)
 {
+    public async Task<Member> GetMemberById(Guid? id)
+    {
+        return await ctx.Members.FirstOrDefaultAsync(m => m.Id == id);
+    }
+    
     public async Task<List<Member>> GetMembers()
     {
-        var members = await ctx.Members.ToListAsync();
+        var members = await ctx.Members
+            .Include(m => m.Station)
+            .ToListAsync();
 
         return members;
     }
@@ -29,11 +36,19 @@ public class MemberService(EmergencyBurialContext ctx)
 
     public async Task<Member> UpdateMember(Member member)
     {
-        ctx.Members.Update(member);
+        try
+        {
+            ctx.Members.Update(member);
 
-        await ctx.SaveChangesAsync();
+            await ctx.SaveChangesAsync();
 
-        return member;
+            return member;
+        }
+        catch (Exception ex)
+        {
+            throw new ApplicationException(UserMessage.ErrorSave, ex);
+        }
+        
     }
 
     public async Task DeleteMember(Guid id)

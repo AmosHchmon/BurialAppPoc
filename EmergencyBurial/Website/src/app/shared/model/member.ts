@@ -1,8 +1,8 @@
-import {enmStationType} from "../enum/station-type.enum";
 import {enmOrganizationType} from "../enum/organization-type.enum";
 import {enmRoleAccessType} from "../enum/role-type.enum";
 
 export interface IMember {
+
   Id?: string;
 
   UserName?: string;
@@ -13,11 +13,11 @@ export interface IMember {
 
   PhoneNumber?: string;
 
+  Password?: string;
+
   OrganizationTypeId?: enmOrganizationType;
 
   RoleAccessTypeId?: enmRoleAccessType;
-
-  StationTypeId?: enmStationType;
 
   OrganizationDesc?: string;
 

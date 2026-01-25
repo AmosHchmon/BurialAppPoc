@@ -4,8 +4,8 @@ import {IAppResponse} from '../../core/model/app.error-response';
 import {IAlertModel} from '../../core/model/alert.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AppResponse} from '../../core/model/app.response';
-import {DialogMessage} from '../static/messages';
 import {MessageService} from "primeng/api";
+import {DialogMessage} from "../static/messages";
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +20,11 @@ export class AlertService {
 
   alert(alertType: AlertType = AlertType.Error, appRes?: AppResponse, errRes?: HttpErrorResponse) {
 
+    let error = errRes ? <IAppResponse>errRes.error : null;
+
     let alertModel: IAlertModel = {
-      Title: appRes == appRes?.Title ? DialogMessage.SystemMessage : appRes?.Title,
-      ClientMessage: appRes?.ClientMessage == undefined ? DialogMessage.GeneralMessage : appRes?.ClientMessage
+      Title: error?.Title || appRes?.Title || DialogMessage.SystemMessage,
+      ClientMessage: appRes?.ClientMessage || error?.ErrorMessage || DialogMessage.GeneralMessage
     }
 
     switch (alertType) {
@@ -43,7 +45,7 @@ export class AlertService {
 
         this.showMessage('error', alertModel.Title, alertModel.ClientMessage)
 
-        if(errRes){
+        if (errRes) {
           let errorAppRes: IAppResponse;
           errorAppRes = <IAppResponse>(<HttpErrorResponse>errRes).error;
           console.log(errorAppRes);

@@ -1,5 +1,5 @@
 export enum enmRoleAccessType {
-  Admin = 0,
-  Editor = 1,
-  Viewer = 2
+  Admin = 1,
+  Editor = 2,
+  Viewer = 3
 }

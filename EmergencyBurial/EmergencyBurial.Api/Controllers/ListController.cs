@@ -95,7 +95,7 @@ public class ListController(ListService listService, IMapper mapper) : Controlle
     {
         if (listItemDto == null)
         {
-            BadRequest();
+            return BadRequest();
         }
 
         var listItem = mapper.Map<ListItem>(listItemDto);

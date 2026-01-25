@@ -7,6 +7,7 @@ using Core.Config;
 using Core.Helpers;
 using Core.Middleware;
 using DataModel;
+using DataModel.Entities;
 using DataModel.Triggers;
 using EmergencyBurial.Api.Conventions;
 using EmergencyBurial.Api.Jobs;
@@ -17,6 +18,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -91,6 +93,7 @@ namespace EmergencyBurial.Api
             services.AddScoped<TaharahService>();
             services.AddScoped<TransportService>();
             services.AddScoped<FileService>();
+            services.AddScoped<PasswordHasher<Member>>();
             
             if (envConfig.Scheduler.EnableCasualtyCreationJob)
             {

@@ -26,8 +26,12 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   @ViewChild('dt') dt: Table<Deceased>;
   @ViewChild('deceasedForm') deceasedForm: NgForm;
 
-  cols: IColumn[] = [];
-  fields: IColumn[] = [];
+  cols: IColumn[] = [
+    {field: 'HalalNumber', header: 'מספר חלל'},
+    {field: 'IdentityNumber', header: 'מספר זהות'},
+    {field: 'FullName', header: 'שם מלא'},
+    {field: 'FatherName', header: 'שם האב'},
+  ];
   deceasedList: Deceased[] = [];
   newDeceased: Deceased = {};
   searchText: string;
@@ -48,38 +52,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
     await this.loadDeceased();
 
-    this.initCols();
-
     this.subscribeToHubEvents();
-  }
-
-  initCols() {
-
-    this.fields = [
-      {field: 'HalalNumber', header: 'מספר חלל'},
-      {field: 'IdentityNumber', header: 'מספר זהות'},
-      {field: 'FirstName', header: 'שם פרטי'},
-      {field: 'LastName', header: 'שם משפחה'},
-      {field: 'FatherName', header: 'שם האב'},
-      {field: 'Gender', header: 'מין'},
-      {field: 'Nationality', header: 'לאום'},
-      {field: 'HomeCity', header: 'עיר מגורים'},
-      {field: 'HomeAddress', header: 'כתובת'},
-      {field: 'CurrentStatusId', header: 'סטטוס'},
-      {field: 'CurrentLocationId', header: 'מיקום'},
-      {field: 'IsLinkedToOtherCasesValue', header: 'מקושר למקרים'},
-      {field: 'BurialCity', header: 'עיר קבורה'},
-      {field: 'IsCivilBurialValue', header: 'קבורה אזרחית'},
-      {field: 'Notes', header: 'הערות'}
-    ];
-
-    this.cols = [
-      {field: 'HalalNumber', header: 'מספר חלל'},
-      {field: 'IdentityNumber', header: 'מספר זהות'},
-      {field: 'FirstName', header: 'שם פרטי'},
-      {field: 'LastName', header: 'שם משפחה'},
-      {field: 'FatherName', header: 'שם האב'},
-    ];
   }
 
   private async loadDeceased() {
@@ -185,11 +158,6 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   getGlobalFilterFields(): string[] {
 
     return this.cols.map(col => col.field);
-  }
-
-  showDeceased(deceased: Deceased): void {
-
-    this.router.navigate(['/dashboard/deceaseds', deceased.Id]);
   }
 
   clearSearch() {

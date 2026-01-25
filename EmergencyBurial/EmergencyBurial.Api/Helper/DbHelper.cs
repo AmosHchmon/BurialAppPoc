@@ -5,6 +5,7 @@ using DataModel;
 using DataModel.Entities;
 using Microsoft.AspNetCore.Hosting;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace EmergencyBurial.Api.Helper;
 
@@ -12,7 +13,7 @@ public class DbHelper
 {
     private readonly EmergencyBurialContext db;
     private readonly IWebHostEnvironment env;
-
+    
     public DbHelper(EmergencyBurialContext db)
     {
         this.db = db;
@@ -81,19 +82,6 @@ public class DbHelper
         }
 
         count = 1;
-        foreach (StationType type in (StationType[])Enum.GetValues(typeof(StationType)))
-        {
-            var obj = new ListItem()
-            {
-                Key = (int)EntityType.StationType + count++,
-                ListTypeId = (int)EntityType.StationType,
-                Text = type.GetEnumDescription()
-            };
-
-            db.ListItems.Add(obj);
-        }
-
-        count = 1;
         foreach (TarahStations type in (TarahStations[])Enum.GetValues(typeof(TarahStations)))
         {
             var obj = new ListItem()
@@ -101,7 +89,7 @@ public class DbHelper
                 Key = (int)EntityType.TarahStations + count++,
                 ListTypeId = (int)EntityType.TarahStations,
                 Text = type.GetEnumDescription(),
-                ListItemDepId = (int)StationType.TarahStations
+                ListItemDepId = (int)OrganizationType.Tarah
             };
 
             db.ListItems.Add(obj);
@@ -115,7 +103,7 @@ public class DbHelper
                 Key = (int)EntityType.BurialPreparation + count++,
                 ListTypeId = (int)EntityType.BurialPreparation,
                 Text = type.GetEnumDescription(),
-                ListItemDepId = (int)StationType.BurialPreparation
+                ListItemDepId = (int)OrganizationType.BurialPreparation
             };
 
             db.ListItems.Add(obj);
@@ -129,7 +117,7 @@ public class DbHelper
                 Key = (int)EntityType.BurialBody + count++,
                 ListTypeId = (int)EntityType.BurialBody,
                 Text = type.GetEnumDescription(),
-                ListItemDepId = (int)StationType.BetAlmin
+                ListItemDepId = (int)OrganizationType.BetAlmin
             };
 
             db.ListItems.Add(obj);
@@ -150,12 +138,13 @@ public class DbHelper
         var deceased1 = new Deceased
         {
             Id = deceased1Id,
-            IdentityNumber = "123456789",
-            FirstName = "ישראל",
-            LastName = "ישראלי",
+            IdentityNumber = "2222222",
+            FirstName = "טאיפ",
+            LastName = "ארדואן",
             FatherName = "אברהם",
+            Nationality = "כלב",
             Gender = "זכר",
-            HomeCity = "ירושלים",
+            HomeCity = "גיהנום",
             PeleNumber = "PL-789123",
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
 
@@ -260,12 +249,13 @@ public class DbHelper
         var deceased2 = new Deceased
         {
             Id = deceased2Id,
-            IdentityNumber = "987654321",
-            FirstName = "יעל",
-            LastName = "כהן",
+            IdentityNumber = "1111111",
+            FirstName = "דואה",
+            LastName = "ליפה",
+            Nationality = "כלבה",
             FatherName = "משה",
             Gender = "נקבה",
-            HomeCity = "תל אביב",
+            HomeCity = "בית לחם",
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
 
             DeceasedBags = new List<DeceasedBag>
@@ -358,10 +348,12 @@ public class DbHelper
         var deceased3 = new Deceased
         {
             Id = deceased3Id,
-            IdentityNumber = "111222333",
-            FirstName = "דוד",
-            LastName = "המלך",
+            IdentityNumber = "000000",
+            FirstName = "מל",
+            LastName = "גיבסון",
+            Nationality = "כלב",
             Gender = "זכר",
+            HomeCity = "שכם",
             FatherName = "ישי",
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
 
@@ -498,6 +490,8 @@ public class DbHelper
 
     private void InitMembers()
     {
+        var hasher = new PasswordHasher<Member>();
+        
         var list = new List<Member>
         {
             new()
@@ -505,10 +499,10 @@ public class DbHelper
                 FullName = "עוז שורקי",
                 UserName = "308015205",
                 Mail = "OzS@dat.gov.il",
+                PhoneNumber = "0545416161",
+                Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
-                OrganizationTypeId = (int)OrganizationType.BurialPreparation,
-                StationTypeId = (int)StationType.BurialPreparation,
-                StationId = (int)BurialPreparation.RishonLezion,
+                OrganizationTypeId = (int)OrganizationType.Hamal,
                 IsActive = true,
             },
             new()
@@ -516,9 +510,9 @@ public class DbHelper
                 FullName = "עמוס חכמון",
                 UserName = "038869715",
                 Mail = "amosh@dat.gov.il",
+                Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
                 OrganizationTypeId = (int)OrganizationType.Hamal,
-                StationTypeId = (int)StationType.TarahStations,
                 StationId = (int)TarahStations.Shura,
                 IsActive = true,
             },
@@ -526,14 +520,19 @@ public class DbHelper
             {
                 FullName = "ישראל ישראלי",
                 UserName = "000000018",
-                Mail = "amosh@dat.gov.il",
+                Mail = "is@dat.gov.il",
+                Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
-                OrganizationTypeId = (int)OrganizationType.Tarah,
-                StationTypeId = (int)StationType.BurialPreparation,
+                OrganizationTypeId = (int)OrganizationType.BurialPreparation,
                 StationId = (int)BurialPreparation.TelRegev,
                 IsActive = true,
             }
         };
+        
+        list.ForEach(m =>
+        {
+            m.Password = hasher.HashPassword(m, m.Password);
+        });
 
         db.Members.AddRange(list);
 
