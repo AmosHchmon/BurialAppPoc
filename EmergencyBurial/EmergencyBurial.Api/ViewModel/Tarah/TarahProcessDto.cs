@@ -13,6 +13,7 @@ public class TarahProcessDto
     public string FatherName { get; set; }
 
     public string Gender { get; set; }
+    public int? Affiliation { get; set; }
     public List<TarahBagDto> Bags { get; set; }
     public bool BurialLicenseScanned { get; set; }
     
@@ -21,4 +22,6 @@ public class TarahProcessDto
     public bool IsPendingExit { get; set; }
     public string PendingExitReason { get; set; }
     public bool IsTarahPerformed { get; set; }
+    
+    public bool IsPopulationRegistryUpdated { get; set; }
 }

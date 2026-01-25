@@ -34,7 +34,6 @@ public class MappingProfile : Profile
             .ReverseMap();
 
         CreateMap<DeceasedBag, DeceasedBagDto>()
-            .ForMember(dest => dest.Affiliation, opt => opt.MapFrom(src => src.Affiliation.GetEnumDescription()))
             .ForMember(dest => dest.ReceivingStation,
                 opt => opt.MapFrom(src => src.ReceivingStation.GetEnumDescription()))
             .ForMember(dest => dest.BroughtBy, opt => opt.MapFrom(src => src.BroughtBy.GetEnumDescription()))
@@ -139,6 +138,7 @@ public class MappingProfile : Profile
         CreateMap<Deceased, TarahProcessDto>()
             .ForMember(dest => dest.DeceasedId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
+            .ForMember(dest => dest.Affiliation, opt => opt.MapFrom(src => (int?)src.Affiliation))
             .ForMember(dest => dest.Bags, opt => opt.MapFrom(src => src.DeceasedBags))
             .ForMember(dest => dest.BurialLicenseScanned,
                 opt => opt.MapFrom(src => src.DeceasedBurialDetails.BurialLicenseScanned))
@@ -151,6 +151,7 @@ public class MappingProfile : Profile
                 opt => opt.MapFrom(src => src.DeceasedTarahDetails.PendingExitReason))
             .ForMember(dest => dest.IsTarahPerformed,
                 opt => opt.MapFrom(src => src.DeceasedTarahDetails.IsTarahPerformed))
+            .ForMember(dest => dest.IsPopulationRegistryUpdated, opt => opt.MapFrom(src => src.IsPopulationRegistryUpdated))
             .ReverseMap()
             .ForMember(dest => dest.DeceasedTarahDetails, opt => opt.Ignore())
             .ForMember(dest => dest.DeceasedBurialDetails, opt => opt.Ignore())
@@ -158,9 +159,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.IdentityNumber, opt => opt.Ignore());
 
-        CreateMap<DeceasedBag, TarahBagDto>();
-
-        CreateMap<DeceasedTarahDetails,TarahProcessDto>()
+        CreateMap<DeceasedTarahDetails, TarahProcessDto>()
             .ReverseMap()
             .ForMember(dest => dest.DeceasedId, opt => opt.Ignore());
 
@@ -169,12 +168,24 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.DeceasedId, opt => opt.Ignore());
 
         CreateMap<DeceasedBag, TarahBagDto>()
+            .ForMember(dest => dest.BagProcessStatus, opt => opt.MapFrom(src => (int)src.BagProcessStatus))
+            .ForMember(dest => dest.BurialLicenseFileId, opt => opt.MapFrom(src => src.BurialLicenseFileId))
             .ReverseMap()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.Affiliation, opt => opt.MapFrom(src => (Affiliation?)src.Affiliation))
+            .ForMember(dest => dest.BagProcessStatus, opt => opt.MapFrom(src => (BagProcessStatus)src.BagProcessStatus))
             .ForMember(dest => dest.PartDescription, opt => opt.MapFrom(src => src.PartDescription))
             .ForMember(dest => dest.BagNumber, opt => opt.Ignore())
             .ForMember(dest => dest.DeceasedId, opt => opt.Ignore());
+
+        CreateMap<DeceasedBag, TarahBagListDto>()
+            .ForMember(dest => dest.DeceasedId, opt => opt.MapFrom(src => src.DeceasedId))
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Deceased.Gender))
+            .ForMember(dest => dest.Affiliation, opt => opt.MapFrom(src => (int?)src.Deceased.Affiliation))
+            .ForMember(dest => dest.ProcessStatusDesc, opt => opt.MapFrom(src => src.Deceased.ProcessStatus.GetEnumDescription()))
+            .ForMember(dest => dest.TarahStatus, opt => opt.MapFrom(src => (int?)src.Deceased.DeceasedTarahDetails.TarahStatus))
+            .ForMember(dest => dest.TarahStatusDesc, opt => opt.MapFrom(src => src.Deceased.DeceasedTarahDetails.TarahStatus.GetEnumDescription()))
+            .ForMember(dest => dest.BagProcessStatus, opt => opt.MapFrom(src => (int)src.BagProcessStatus))
+            .ForMember(dest => dest.BagProcessStatusDesc, opt => opt.MapFrom(src => src.BagProcessStatus.GetEnumDescription()));
 
         #endregion
 

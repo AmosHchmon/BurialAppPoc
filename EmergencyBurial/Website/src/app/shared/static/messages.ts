@@ -34,5 +34,6 @@ export let DialogMessage = {
   TachrichimIsRequired: 'יש להכניס תכריכי פשתן לטובת שחרור מטהרה',
   ReleaseFromTarah: 'אישור שחרור מתר"ח',
   ShouldReleaseFromTarah: 'האם לשחרר את החלל מתהליך התר"ח?',
-  DeceasedReleasedFromTarah: 'החלל שוחרר מתר"ח בהצלחה'
+  DeceasedReleasedFromTarah: 'החלל שוחרר מתר"ח בהצלחה',
+  BagReceived: 'השק נקלט בהצלחה'
 };

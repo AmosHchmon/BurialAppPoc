@@ -1,11 +1,13 @@
 export interface TarahList {
-  Id?: string;
-  IdentityNumber?: string;
-  FullName?: string;
-  FatherName?: string;
+  Id: string;
+  DeceasedId: string;
+  Gender?: string;
+  Affiliation?: number;
+  BagNumber?: string;
+  BagProcessStatus?: number;
+  BagProcessStatusDesc?: string;
+  PartDescription?: string;
   ProcessStatusDesc?: string;
-  BagNumbersDisplay?: string;
-  RelatedBagNumbers?: number;
   TarahStatus?: number;
   TarahStatusDesc: string;
 }

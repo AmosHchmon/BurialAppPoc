@@ -20,8 +20,11 @@ public class DeceasedBag
     [Description("מספר שק")]
     public string BagNumber { get; set; }
 
-    [Description("שיוך ארגוני")]
-    public Affiliation? Affiliation { get; set; }
+    [Description("סטטוס תהליך שק")]
+    public BagProcessStatus BagProcessStatus { get; set; }
+
+    [Description("קובץ רישיון קבורה")]
+    public Guid? BurialLicenseFileId { get; set; }
 
     public TarahStations ReceivingStation { get; set; }
 

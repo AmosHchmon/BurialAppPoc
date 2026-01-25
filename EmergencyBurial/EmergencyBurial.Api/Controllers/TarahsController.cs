@@ -20,7 +20,7 @@ namespace EmergencyBurial.Api.Controllers;
 public class TarahsController(TarahService tarahService, IMapper mapper) : ControllerBase
 {
     [HttpGet("pending")]
-    public async Task<ActionResult<List<TarahListDto>>> GetPending()
+    public async Task<ActionResult<List<TarahBagListDto>>> GetPending()
     {
         int? stationId = null;
 
@@ -30,12 +30,13 @@ public class TarahsController(TarahService tarahService, IMapper mapper) : Contr
         }
 
         var entities = await tarahService.GetPendingList(stationId);
+        var bags = entities.SelectMany(d => d.DeceasedBags).ToList();
 
-        return Ok(mapper.Map<List<TarahListDto>>(entities));
+        return Ok(mapper.Map<List<TarahBagListDto>>(bags));
     }
 
     [HttpGet("active")]
-    public async Task<ActionResult<List<TarahListDto>>> GetActive()
+    public async Task<ActionResult<List<TarahBagListDto>>> GetActive()
     {
         int? stationId = null;
 
@@ -45,12 +46,13 @@ public class TarahsController(TarahService tarahService, IMapper mapper) : Contr
         }
 
         var entities = await tarahService.GetActiveList(stationId);
+        var bags = entities.SelectMany(d => d.DeceasedBags).ToList();
 
-        return Ok(mapper.Map<List<TarahListDto>>(entities));
+        return Ok(mapper.Map<List<TarahBagListDto>>(bags));
     }
 
     [HttpGet("released")]
-    public async Task<ActionResult<List<TarahListDto>>> GetReleased()
+    public async Task<ActionResult<List<TarahBagListDto>>> GetReleased()
     {
         int? stationId = null;
 
@@ -60,8 +62,9 @@ public class TarahsController(TarahService tarahService, IMapper mapper) : Contr
         }
 
         var result = await tarahService.GetReleasedList(stationId);
+        var bags = result.SelectMany(d => d.DeceasedBags).ToList();
 
-        return Ok(mapper.Map<List<TarahListDto>>(result));
+        return Ok(mapper.Map<List<TarahBagListDto>>(bags));
     }
 
     [HttpPut("receive")]
@@ -112,11 +115,11 @@ public class TarahsController(TarahService tarahService, IMapper mapper) : Contr
     [HttpPut("update-details")]
     public async Task<ActionResult> UpdateDetails(TarahProcessDto dto)
     {
-        if (dto == null) 
+        if (dto == null)
             return BadRequest();
-        
+
         var deceased = await tarahService.GetDeceasedForEdit(dto.DeceasedId);
-        
+
         mapper.Map(dto, deceased);
 
         if (dto.Bags != null)
@@ -127,7 +130,7 @@ public class TarahsController(TarahService tarahService, IMapper mapper) : Contr
                 mapper.Map(bagDto, existingBag);
             }
         }
-        
+
         await tarahService.UpdateFullDeceased();
 
         return Ok();

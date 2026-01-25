@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Core.Helpers;
 using DataModel.Abstract;
@@ -30,10 +31,16 @@ public class Deceased: BaseUpdatedEntity
     public string? HomeAddress { get; set; }
     
     public string? Notes { get; set; }
+
+    [Description("שיוך ארגוני")]
+    public Affiliation? Affiliation { get; set; }
     
     public ProcessStatus ProcessStatus { get; set; }
     
     public virtual ICollection<DeceasedStatusHistory> StatusHistory { get; set; }
+    
+    [Description("האם רשות האוכלוסין עודכנה")]
+    public bool IsPopulationRegistryUpdated { get; set; }
 
     public virtual ICollection<DeceasedBag> DeceasedBags { get; set; }
     

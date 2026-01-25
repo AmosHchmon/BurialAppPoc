@@ -30,7 +30,7 @@ export class TarahService extends BaseService {
     return super.get({path: `/details/${id}`});
   }
 
-  async receiveDeceased(dto: TarahIntake): Promise<any> {
+  async receiveBag(dto: TarahIntake): Promise<any> {
     return super.put({path: `/receive`, body: dto});
   }
 

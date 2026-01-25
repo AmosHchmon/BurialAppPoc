@@ -1,8 +1,9 @@
 export interface TarahBag {
   Id: string;
   BagNumber: string;
-  Affiliation: number;
   PartDescription: string;
+  BagProcessStatus: number;
+  BurialLicenseFileId?: string;
 }
 
 export interface TarahProcess {
@@ -11,6 +12,7 @@ export interface TarahProcess {
   IdentityNumber?: string;
   FatherName?: string;
   Gender?: string;
+  Affiliation?: number;
   TarahTeamManager?: string;
   IntermediateStorage?: string;
   IsPendingExit?: boolean;
@@ -18,4 +20,5 @@ export interface TarahProcess {
   IsTarahPerformed?: boolean;
   Bags?: TarahBag[];
   BurialLicenseScanned?: boolean;
+  IsPopulationRegistryUpdated?: boolean;
 }
