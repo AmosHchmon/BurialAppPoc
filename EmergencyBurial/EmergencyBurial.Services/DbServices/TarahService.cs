@@ -79,18 +79,17 @@ public class TarahService(EmergencyBurialContext ctx)
         await ctx.SaveChangesAsync();
     }
 
-    public async Task UpdateTarahDetails(DeceasedTarahDetails TarahDetails)
+    public async Task UpdateFullDeceased()
     {
-        ctx.DeceasedTarahDetails
-            .Update(TarahDetails);
-
         await ctx.SaveChangesAsync();
     }
 
-    public async Task<Deceased> GetDeceasedForEdit(Guid id)
+    public async Task<Deceased> GetDeceasedForEdit(Guid? id)
     {
         return await ctx.Deceaseds
+            .AsTracking()
             .Include(d => d.DeceasedTarahDetails)
+            .Include(d => d.DeceasedBurialDetails)
             .Include(d => d.DeceasedBags)
             .FirstOrDefaultAsync(d => d.Id == id);
     }

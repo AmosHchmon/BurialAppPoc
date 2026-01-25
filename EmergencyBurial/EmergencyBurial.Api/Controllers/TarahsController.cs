@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Core.Helpers;
@@ -27,6 +28,7 @@ public class TarahsController(TarahService tarahService, IMapper mapper) : Contr
         {
             stationId = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
         }
+
         var entities = await tarahService.GetPendingList(stationId);
 
         return Ok(mapper.Map<List<TarahListDto>>(entities));
@@ -80,7 +82,7 @@ public class TarahsController(TarahService tarahService, IMapper mapper) : Contr
         mapper.Map(dto, entity);
 
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
-        
+
         entity.ReceivedBy = userId;
         entity.TarahStation = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
 
@@ -110,40 +112,65 @@ public class TarahsController(TarahService tarahService, IMapper mapper) : Contr
     [HttpPut("update-details")]
     public async Task<ActionResult> UpdateDetails(TarahProcessDto dto)
     {
-        if (dto == null)
-        {
+        if (dto == null) 
             return BadRequest();
+        
+        var deceased = await tarahService.GetDeceasedForEdit(dto.DeceasedId);
+        
+        mapper.Map(dto, deceased);
+
+        if (dto.Bags != null)
+        {
+            foreach (var bagDto in dto.Bags)
+            {
+                var existingBag = deceased.DeceasedBags.FirstOrDefault(b => b.Id == bagDto.Id);
+                mapper.Map(bagDto, existingBag);
+            }
         }
-
-        var entity = await tarahService.GetTarahDetailsById(dto.DeceasedId);
-
-        mapper.Map(dto, entity);
-
-        await tarahService.UpdateTarahDetails(entity);
+        
+        await tarahService.UpdateFullDeceased();
 
         return Ok();
     }
 
-    [HttpPut("release")]
+    /*[HttpPut("release")]
     public async Task<ActionResult> ReleaseFromTarah(TarahProcessDto dto)
     {
-        if (dto == null)
+        if (dto == null || !dto.DeceasedId.HasValue)
         {
             return BadRequest();
         }
 
-        var entity = await tarahService.GetTarahDetailsById(dto.DeceasedId);
+        var deceased = await tarahService.GetDeceasedForEdit(dto.DeceasedId.Value);
+        if (deceased == null) return NotFound();
 
-        mapper.Map(dto, entity);
+        // Sync data before release using the same pattern
+        var burialDetails = new DeceasedBurialDetails
+        {
+            DeceasedId = deceased.Id,
+            BurialLicenseScanned = dto.BurialLicenseScanned
+        };
+        await tarahService.UpdateBurialDetails(burialDetails);
 
+        if (dto.Bags != null)
+        {
+            foreach (var bagDto in dto.Bags)
+            {
+                var bagUpdate = mapper.Map<DeceasedBag>(bagDto);
+                bagUpdate.DeceasedId = deceased.Id;
+                await tarahService.UpdateBagDetails(bagUpdate);
+            }
+        }
+
+        var tarahDetails = mapper.Map<DeceasedTarahDetails>(dto);
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
 
-        entity.TarahStatus = TarahStatus.Completed;
-        entity.TarahReleaseDate = DateTime.Now;
-        entity.IsPendingExit = false;
+        tarahDetails.TarahStatus = TarahStatus.Completed;
+        tarahDetails.TarahReleaseDate = DateTime.Now;
+        tarahDetails.IsPendingExit = false;
 
-        await tarahService.ReleaseFromTarah(entity, userId);
+        await tarahService.ReleaseFromTarah(tarahDetails, userId);
 
         return Ok();
-    }
+    }*/
 }

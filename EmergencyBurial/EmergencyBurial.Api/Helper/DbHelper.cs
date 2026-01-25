@@ -455,6 +455,15 @@ public class DbHelper
                     Affiliation = Affiliation.Civilian,
                     ReceivingStation = TarahStations.Shura,
                     ArrivalDateTime = DateTime.Now.AddHours(-2)
+                },
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased4Id,
+                    BagNumber = "T-4002",
+                    Affiliation = Affiliation.Civilian,
+                    ReceivingStation = TarahStations.Shura,
+                    ArrivalDateTime = DateTime.Now.AddHours(-2)
                 }
             },
             DeceasedTarahDetails = new DeceasedTarahDetails

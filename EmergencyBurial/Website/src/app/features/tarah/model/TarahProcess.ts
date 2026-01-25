@@ -1,3 +1,10 @@
+export interface TarahBag {
+  Id: string;
+  BagNumber: string;
+  Affiliation: number;
+  PartDescription: string;
+}
+
 export interface TarahProcess {
   DeceasedId?: string;
   FullName?: string;
@@ -9,5 +16,6 @@ export interface TarahProcess {
   IsPendingExit?: boolean;
   PendingExitReason?: string;
   IsTarahPerformed?: boolean;
-  BagNumbers?: string[];
+  Bags?: TarahBag[];
+  BurialLicenseScanned?: boolean;
 }
