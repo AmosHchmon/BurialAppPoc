@@ -10,6 +10,9 @@ import {BagReceptionDialogComponent} from "../bag-reception-dialog/bag-reception
 import {TarahStatusEnum} from "../../../../shared/enum/tarah-status.enum";
 import {TarahProcess} from '../../model/TarahProcess';
 import {TarahBagProcessEnum} from "../../../../shared/enum/tarah-bag-process.enum";
+import {AlertService} from "../../../../shared/services/alert.service";
+import {AlertType} from "../../../../core/enums/alert.enum";
+import {DialogMessage} from "../../../../shared/static/messages";
 
 @Component({
   selector: 'app-tarah-list',
@@ -46,9 +49,11 @@ export class TarahListComponent implements OnInit {
   isReleaseAction: boolean = false;
 
   searchText: string = '';
-  selectedBagForReception: TarahProcess;
 
-  constructor(private tarahService: TarahService) {
+  selectedBagForReception: TarahProcess;
+  selectedBagForUpdate: TarahProcess;
+
+  constructor(private tarahService: TarahService, private alertService: AlertService) {
   }
 
   ngOnInit(): void {
@@ -86,7 +91,7 @@ export class TarahListComponent implements OnInit {
     }
   }
 
-  openUpdateDetailsDialog() {
+  async openUpdateDetailsDialog() {
 
     if (this.selectedBag) {
       this.isReleaseAction = false;
@@ -96,10 +101,15 @@ export class TarahListComponent implements OnInit {
 
   openReleaseDialog() {
 
-    if (this.selectedBag) {
-      this.isReleaseAction = true;
-      this.isUpdateDialogOpen = true;
+    if (!this.selectedBag) return;
+
+    if (!this.selectedBag.IsIdentified) {
+      this.alertService.alert(AlertType.Warning, {ClientMessage: DialogMessage.BagNotIdentified});
+      return;
     }
+
+    this.isReleaseAction = true;
+    this.isUpdateDialogOpen = true;
   }
 
   async onDialogSaved() {

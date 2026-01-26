@@ -35,5 +35,6 @@ export let DialogMessage = {
   ReleaseFromTarah: 'אישור שחרור מתר"ח',
   ShouldReleaseFromTarah: 'האם לשחרר את החלל מתהליך התר"ח?',
   DeceasedReleasedFromTarah: 'החלל שוחרר מתר"ח בהצלחה',
-  BagReceived: 'השק נקלט בהצלחה'
+  BagReceived: 'השק נקלט בהצלחה',
+  BagNotIdentified: 'לא ניתן לשחרר שק שלא זוהה'
 };

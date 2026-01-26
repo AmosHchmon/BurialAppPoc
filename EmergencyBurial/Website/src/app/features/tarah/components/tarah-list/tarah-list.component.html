@@ -13,16 +13,21 @@
     <div class="d-flex gap-2">
 
       @if (viewMode === TarahStatusEnum.Pending) {
-        <p-button label="קליטת שק" icon="pi pi-check-square" (click)="openBagReceptionDialog()"
+        <p-button label="קליטת שק" icon="pi pi-check-square"
+                  (click)="openBagReceptionDialog()"
                   [disabled]="!selectedBag"
-                  severity="successs"></p-button>
+                  severity="success"></p-button>
       }
 
       @if (viewMode === TarahStatusEnum.InProgress) {
-        <p-button label="עדכון פרטים" icon="pi pi-pencil" (click)="openUpdateDetailsDialog()" [disabled]="!selectedBag"
+        <p-button label="עדכון פרטים" icon="pi pi-pencil"
+                  (click)="openUpdateDetailsDialog()"
+                  [disabled]="!selectedBag"
                   severity="info"></p-button>
 
-        <p-button label="שחרור" icon="pi pi-sign-out" (click)="openReleaseDialog()" [disabled]="!selectedBag"
+        <p-button label="שחרור" icon="pi pi-sign-out"
+                  (click)="openReleaseDialog()"
+                  [disabled]="!selectedBag"
                   severity="warn"></p-button>
       }
     </div>
@@ -105,8 +110,9 @@
                             (onSaved)="onDialogSaved()"></app-bag-reception-dialog>
 }
 
-@if (selectedBag) {
-  <app-tarah-update-dialog [(visible)]="isUpdateDialogOpen" [bagId]="selectedBag?.Id"
+@if (selectedBagForUpdate) {
+  <app-tarah-update-dialog [(visible)]="isUpdateDialogOpen"
+                           [bagNumber]="selectedBag?.BagNumber"
                            [showReleaseButton]="isReleaseAction"
                            [isReleasedMode]="viewMode === TarahStatusEnum.Complete"
                            (onSaved)="onDialogSaved()"></app-tarah-update-dialog>
