@@ -259,7 +259,7 @@ namespace Core.Helpers
         Health = 4
     }
 
-    public enum BagProcessStatus
+    public enum BagTarahProcessStatus
     {
         [Description("קליטה משטרה")]
         PoliceIntake = 0,

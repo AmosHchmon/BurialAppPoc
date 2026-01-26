@@ -1,31 +1,31 @@
 <p-dialog [(visible)]="visible" (onHide)="closeDialog()" closeOnEscape="true" dismissableMask="true" header="קליטת שק"
     [modal]="true" [style]="{width: '40vw'}">
 
-    @if (bag) {
+    @if (data) {
     <div class="d-flex flex-column gap-4 py-3">
 
         @if (isIdentified) {
         <div class="d-flex gap-4">
             <div class="d-flex flex-column gap-4 w-100">
                 <p-floatlabel variant="on" class="w-100">
-                    <input pInputText class="w-100" [ngModel]="deceased?.FullName" [readonly]="true" />
+                    <input pInputText class="w-100" [ngModel]="data?.FullName" [readonly]="true" />
                     <label>שם מלא</label>
                 </p-floatlabel>
 
                 <p-floatlabel variant="on" class="w-100">
-                    <input pInputText class="w-100" [ngModel]="deceased?.IdentityNumber" [readonly]="true" />
+                    <input pInputText class="w-100" [ngModel]="data?.IdentityNumber" [readonly]="true" />
                     <label>מספר זהות</label>
                 </p-floatlabel>
             </div>
 
             <div class="d-flex flex-column gap-4 w-100">
                 <p-floatlabel variant="on" class="w-100">
-                    <input pInputText class="w-100" [ngModel]="deceased?.FatherName" [readonly]="true" />
+                    <input pInputText class="w-100" [ngModel]="data?.FatherName" [readonly]="true" />
                     <label>שם האב</label>
                 </p-floatlabel>
 
                 <p-floatlabel variant="on" class="w-100">
-                    <input pInputText class="w-100" [ngModel]="deceased?.Gender" [readonly]="true" />
+                    <input pInputText class="w-100" [ngModel]="data?.Gender" [readonly]="true" />
                     <label>מין</label>
                 </p-floatlabel>
             </div>
@@ -42,13 +42,13 @@
         <div class="row pt-2">
             <div class="col-6">
                 <p-floatlabel variant="on" class="w-100">
-                    <input pInputText [value]="bag.BagNumber" [readonly]="true" class="w-100" />
+                    <input pInputText [value]="data.BagNumber" [readonly]="true" class="w-100" />
                     <label>מספר שק</label>
                 </p-floatlabel>
             </div>
             <div class="col-6">
                 <p-floatlabel variant="on" class="w-100">
-                    <input pInputText [(ngModel)]="bag.PartDescription" placeholder="תיאור חלק" class="w-100" />
+                    <input pInputText [(ngModel)]="data.PartDescription" placeholder="תיאור חלק" class="w-100" />
                     <label>תיאור חלק</label>
                 </p-floatlabel>
             </div>

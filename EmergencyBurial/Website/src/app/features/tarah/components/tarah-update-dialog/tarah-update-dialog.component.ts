@@ -18,7 +18,7 @@ import { AffiliationOptions } from "../../../../core/enums/affiliation.enum";
 export class TarahUpdateDialogComponent implements OnChanges {
 
   @Input() visible: boolean = false;
-  @Input() deceasedId: string | undefined;
+  @Input() bagId: string | undefined;
   @Input() isReleasedMode: boolean = false;
   @Input() showReleaseButton: boolean = false;
 
@@ -38,21 +38,21 @@ export class TarahUpdateDialogComponent implements OnChanges {
 
   async ngOnChanges(changes: SimpleChanges) {
 
-    if (changes['visible'] && this.visible && this.deceasedId) {
+    if (changes['visible'] && this.visible && this.bagId) {
       await this.loadData();
     }
   }
 
   async loadData() {
 
-    if (!this.deceasedId) {
+    if (!this.bagId) {
       return;
     }
 
-    this.processData = await this.tarahService.getDetailsForEdit(this.deceasedId);
-    if (this.processData?.Bags?.length) {
+    this.processData = await this.tarahService.getDetailsForEdit(this.bagId);
+    /*if (this.processData?.Bags?.length) {
       this.selectedBag = this.processData.Bags[0];
-    }
+    }*/
   }
 
   closeDialog() {

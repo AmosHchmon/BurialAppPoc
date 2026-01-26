@@ -11,70 +11,80 @@ namespace EmergencyBurial.Services.DbServices;
 
 public class TarahService(EmergencyBurialContext ctx)
 {
+    public async Task<DeceasedBag> GetBagByNumber(string bagNumber)
+    {
+        return await ctx.DeceasedBag
+            .Include(d => d.Deceased)
+            .ThenInclude(d => d.DeceasedTarahDetails)
+            .FirstAsync(d => d.BagNumber == bagNumber);
+    }
+
     public async Task<DeceasedTarahDetails> GetTarahDetailsById(Guid? id)
     {
         return await ctx.DeceasedTarahDetails
             .FirstOrDefaultAsync(d => d.DeceasedId == id);
     }
 
-    public async Task<List<Deceased>> GetPendingList(int? stationId = null)
+    public async Task<List<DeceasedBag>> GetPendingList(int? stationId = null)
     {
-        return await ctx.Deceaseds
-            .Include(d => d.DeceasedBags)
-            .Include(d => d.DeceasedTarahDetails)
-            .Where(d => d.ProcessStatus <= ProcessStatus.ReceptionAtTarah &&
-                        (d.DeceasedTarahDetails == null || d.DeceasedTarahDetails.TarahStatus == TarahStatus.Pending) &&
-                        (stationId == null || d.DeceasedTarahDetails.TarahStation == stationId))
-            .OrderByDescending(d => d.CreatedOn)
+        return await ctx.DeceasedBag
+            .Include(d => d.Deceased)
+            .Where(d =>
+                (d.BagTarahProcessStatus == BagTarahProcessStatus.PoliceIntake ||
+                 d.BagTarahProcessStatus == BagTarahProcessStatus.Transport) &&
+                (stationId == null || d.ReceivingStation == (TarahStations)stationId))
+            .OrderByDescending(d => d.ArrivalDateTime)
             .ToListAsync();
     }
 
-    public async Task<List<Deceased>> GetActiveList(int? stationId = null)
+    public async Task<List<DeceasedBag>> GetActiveList(int? stationId = null)
     {
-        var list = await ctx.Deceaseds
-            .Include(d => d.DeceasedBags)
-            .Include(d => d.DeceasedTarahDetails)
-            .Where(d => d.ProcessStatus == ProcessStatus.ReceptionAtTarah &&
-                        d.DeceasedTarahDetails.TarahStatus == TarahStatus.InProgress &&
-                        (stationId == null || d.DeceasedTarahDetails.TarahStation == stationId))
-            .OrderByDescending(d => d.CreatedOn)
+        return await ctx.DeceasedBag
+            .Include(d => d.Deceased)
+            .Where(d =>
+                d.BagTarahProcessStatus == BagTarahProcessStatus.InStorage &&
+                (stationId == null || d.ReceivingStation == (TarahStations)stationId))
+            .OrderByDescending(d => d.ArrivalDateTime)
             .ToListAsync();
-
-        return list;
     }
 
-    public async Task<List<Deceased>> GetReleasedList(int? stationId = null)
+    public async Task<List<DeceasedBag>> GetReleasedList(int? stationId = null)
     {
-        var list = await ctx.Deceaseds
-            .Include(d => d.DeceasedBags)
-            .Include(d => d.DeceasedTarahDetails)
-            .Where(d => d.ProcessStatus >= ProcessStatus.ReleaseFromTarah &&
-                        (stationId == null || d.DeceasedTarahDetails.TarahStation == stationId))
-            .OrderByDescending(d => d.DeceasedTarahDetails.TarahReleaseDate)
+        return await ctx.DeceasedBag
+            .Include(d => d.Deceased)
+            .Where(d =>
+                d.BagTarahProcessStatus == BagTarahProcessStatus.Released &&
+                (stationId == null || d.Deceased.DeceasedTarahDetails.TarahStation == stationId))
             .ToListAsync();
-
-        return list;
     }
 
-    public async Task ReceiveDeceasedToTarah(DeceasedTarahDetails details, Guid? updateBy)
+    public async Task ReceiveBagToTarah(string bagNumber, int stationId, Guid? updateBy)
     {
-        var deceased = await ctx.Deceaseds
-            .Include(d => d.DeceasedTarahDetails)
+        var bag = await ctx.DeceasedBag
             .AsTracking()
-            .FirstOrDefaultAsync(d => d.Id == details.DeceasedId);
+            .Include(d => d.Deceased)
+            .ThenInclude(d => d.DeceasedTarahDetails)
+            .FirstOrDefaultAsync(d => d.BagNumber == bagNumber);
 
-        deceased.ProcessStatus = ProcessStatus.ReceptionAtTarah;
-        deceased.UpdateBy = updateBy;
-        deceased.UpdateOn = DateTime.Now;
-        
-        if (deceased.DeceasedTarahDetails == null)
+        bag.BagTarahProcessStatus = BagTarahProcessStatus.InStorage;
+        bag.ReceivingStation = (TarahStations)stationId;
+        bag.ArrivalDateTime = DateTime.Now;
+        bag.ReceivedInTarahBy = updateBy;
+
+        var tarahDetails = bag.Deceased.DeceasedTarahDetails;
+
+        // עדכון תיק התר"ח (אם זו כניסה ראשונה)
+        if (tarahDetails.TarahStatus == TarahStatus.Pending || tarahDetails.TarahStatus == null)
         {
-            deceased.DeceasedTarahDetails = details;
+            tarahDetails.TarahStatus = TarahStatus.InProgress;
+            tarahDetails.TarahReceptionDate = DateTime.Now;
+            tarahDetails.TarahStation = stationId;
+
+            bag.Deceased.ProcessStatus = ProcessStatus.ReceptionAtTarah;
         }
-        else
-        {
-            ctx.Entry(deceased.DeceasedTarahDetails).CurrentValues.SetValues(details);
-        }
+
+        bag.Deceased.UpdateBy = updateBy;
+        bag.Deceased.UpdateOn = DateTime.Now;
 
         await ctx.SaveChangesAsync();
     }
@@ -84,14 +94,17 @@ public class TarahService(EmergencyBurialContext ctx)
         await ctx.SaveChangesAsync();
     }
 
-    public async Task<Deceased> GetDeceasedForEdit(Guid? id)
+    public async Task<DeceasedBag> GetBagForEdit(string id)
     {
-        return await ctx.Deceaseds
+        return await ctx.DeceasedBag
             .AsTracking()
-            .Include(d => d.DeceasedTarahDetails)
-            .Include(d => d.DeceasedBurialDetails)
-            .Include(d => d.DeceasedBags)
-            .FirstOrDefaultAsync(d => d.Id == id);
+            .Include(d => d.Deceased)
+            .ThenInclude(d => d.DeceasedTarahDetails)
+            .Include(d => d.Deceased)
+            .ThenInclude(d => d.DeceasedBurialDetails)
+            .Include(d => d.Deceased)
+            .ThenInclude(d => d.DeceasedBags)
+            .FirstOrDefaultAsync(d => d.BagNumber == id);
     }
 
     public async Task ReleaseFromTarah(DeceasedTarahDetails TarahDetails, Guid? updateBy)

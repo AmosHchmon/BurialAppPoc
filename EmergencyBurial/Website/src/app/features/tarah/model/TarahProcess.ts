@@ -1,24 +1,34 @@
-export interface TarahBag {
-  Id: string;
-  BagNumber: string;
-  PartDescription: string;
-  BagProcessStatus: number;
-  BurialLicenseFileId?: string;
-}
-
 export interface TarahProcess {
+
+  Id?: string;
+
   DeceasedId?: string;
+
+  BagNumber?: string;
+
   FullName?: string;
+
   IdentityNumber?: string;
+
   FatherName?: string;
+
   Gender?: string;
+
+  PartDescription?: string;
+
   Affiliation?: number;
+
   TarahTeamManager?: string;
+
   IntermediateStorage?: string;
+
   IsPendingExit?: boolean;
+
   PendingExitReason?: string;
+
   IsTarahPerformed?: boolean;
-  Bags?: TarahBag[];
+
   BurialLicenseScanned?: boolean;
+
   IsPopulationRegistryUpdated?: boolean;
 }

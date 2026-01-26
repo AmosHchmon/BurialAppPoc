@@ -14,14 +14,15 @@
 
       @if (viewMode === TarahStatusEnum.Pending) {
         <p-button label="קליטת שק" icon="pi pi-check-square" (click)="openBagReceptionDialog()"
-                  [disabled]="!selectedDeceased" severity="successs"></p-button>
+                  [disabled]="!selectedBag"
+                  severity="successs"></p-button>
       }
 
       @if (viewMode === TarahStatusEnum.InProgress) {
-        <p-button label="עדכון פרטים" icon="pi pi-pencil" (click)="openUpdateDetailsDialog()"
-                  [disabled]="!selectedDeceased" severity="info"></p-button>
+        <p-button label="עדכון פרטים" icon="pi pi-pencil" (click)="openUpdateDetailsDialog()" [disabled]="!selectedBag"
+                  severity="info"></p-button>
 
-        <p-button label="שחרור" icon="pi pi-sign-out" (click)="openReleaseDialog()" [disabled]="!selectedDeceased"
+        <p-button label="שחרור" icon="pi pi-sign-out" (click)="openReleaseDialog()" [disabled]="!selectedBag"
                   severity="warn"></p-button>
       }
     </div>
@@ -43,14 +44,14 @@
   <p-table #dt
            [columns]="cols"
            showGridlines="true"
-           [value]="deceasedList"
+           [value]="bagList"
            [tableStyle]="{ 'min-width': '50rem' }"
            [size]="'small'"
            [paginator]="true"
            [rows]="10"
            [showCurrentPageReport]="true"
            selectionMode="single"
-           [(selection)]="selectedDeceased"
+           [(selection)]="selectedBag"
            currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
            [globalFilterFields]="getGlobalFilterFields()"
            [rowHover]="true"
@@ -75,9 +76,13 @@
           <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
         </td>
         <td>{{ rowData.BagNumber }}</td>
-        <td>{{ rowData.BagProcessStatusDesc }}</td>
         <td>
-          <p-tag [value]="rowData.TarahStatusDesc" [severity]="getTarahStatusSeverity(rowData.TarahStatus)"></p-tag>
+          <p-tag [value]="rowData.BagProcessStatusDesc"
+                 [severity]="getTarahStatusSeverity(rowData.BagTarahProcessStatus)"></p-tag>
+        </td>
+        <td>
+          <p-tag [value]="getIdentificationStatus(rowData.IsIdentified)"
+                 [severity]="rowData.IsIdentified ? 'success' : 'warn'"></p-tag>
         </td>
       </tr>
     </ng-template>
@@ -94,15 +99,15 @@
 
 </div>
 
-@if (selectedDeceased) {
-  <app-tarah-update-dialog [(visible)]="isUpdateDialogOpen" [deceasedId]="selectedDeceased?.DeceasedId"
+@if (selectedBagForReception) {
+  <app-bag-reception-dialog [(visible)]="isReceptionDialogOpen"
+                            [data]="selectedBagForReception"
+                            (onSaved)="onDialogSaved()"></app-bag-reception-dialog>
+}
+
+@if (selectedBag) {
+  <app-tarah-update-dialog [(visible)]="isUpdateDialogOpen" [bagId]="selectedBag?.Id"
                            [showReleaseButton]="isReleaseAction"
                            [isReleasedMode]="viewMode === TarahStatusEnum.Complete"
                            (onSaved)="onDialogSaved()"></app-tarah-update-dialog>
-}
-
-@if (selectedBagForReception) {
-  <app-bag-reception-dialog [(visible)]="isReceptionDialogOpen" [bag]="selectedBagForReception"
-                            [deceased]="selectedDeceasedForReception" [deceasedId]="selectedDeceasedIdForReception"
-                            (onSaved)="onDialogSaved()"></app-bag-reception-dialog>
 }

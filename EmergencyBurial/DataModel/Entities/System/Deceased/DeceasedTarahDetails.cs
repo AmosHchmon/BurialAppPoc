@@ -37,9 +37,6 @@ namespace DataModel.Entities
         [Description("סיבת המתנה ליציאה")]
         public string? PendingExitReason { get; set; }
 
-        [Description("האם בוצע תר\"ח")]
-        public bool? IsTarahPerformed { get; set; }
-
         [ForeignKey(nameof(ReceivedBy))]
         public virtual Member ReceivedByMember { get; set; }
         

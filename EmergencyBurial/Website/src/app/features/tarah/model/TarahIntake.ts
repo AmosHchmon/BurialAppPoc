@@ -1,3 +1,3 @@
 export interface TarahIntake {
-  DeceasedId?: string;
+  BagNumber?: string;
 }
