@@ -94,6 +94,7 @@ export class TarahListComponent implements OnInit {
   async openUpdateDetailsDialog() {
 
     if (this.selectedBag) {
+      this.selectedBagForUpdate = await this.tarahService.getDetailsForEdit(this.selectedBag.BagNumber);
       this.isReleaseAction = false;
       this.isUpdateDialogOpen = true;
     }
