@@ -125,6 +125,9 @@ public class MappingProfile : Profile
             .ReverseMap()
             .ForMember(dest => dest.DeceasedBag, opt => opt.Ignore());
 
+        CreateMap<Event, EventDto>()
+            .ReverseMap();
+        
         #region common
 
         CreateMap<ListType, ListTypeDto>()

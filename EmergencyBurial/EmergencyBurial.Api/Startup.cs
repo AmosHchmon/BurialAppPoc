@@ -93,6 +93,7 @@ namespace EmergencyBurial.Api
             services.AddScoped<TaharahService>();
             services.AddScoped<TransportService>();
             services.AddScoped<FileService>();
+            services.AddScoped<EventService>();
             services.AddScoped<PasswordHasher<Member>>();
             
             if (envConfig.Scheduler.EnableCasualtyCreationJob)

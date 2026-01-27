@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Core.Helpers;
 using DataModel.Abstract;
 
@@ -32,6 +33,11 @@ public class Deceased: BaseUpdatedEntity
     public string? Notes { get; set; }
     
     public ProcessStatus ProcessStatus { get; set; }
+    
+    public Guid EventId { get; set; }
+    
+    [ForeignKey(nameof(EventId))]
+    public virtual Event Event { get; set; }
     
     public virtual ICollection<DeceasedStatusHistory> StatusHistory { get; set; }
 

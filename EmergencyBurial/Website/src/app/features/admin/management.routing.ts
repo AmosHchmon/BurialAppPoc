@@ -3,6 +3,7 @@
 import {ListsManagementComponent} from "./components/lists-management/lists-management.component";
 import {UsersManagementComponent} from "./components/users-management/users-management.component";
 import {DeceasedsManagementComponent} from "./components/deceaseds-management/deceaseds-management.component";
+import {EventsManagementComponent} from "./components/events-management/events-management.component";
 
 export const ManagementRouting: Routes = [
   {
@@ -16,6 +17,10 @@ export const ManagementRouting: Routes = [
   {
     path: 'deceaseds',
     component: DeceasedsManagementComponent
+  },
+  {
+    path: 'events',
+    component: EventsManagementComponent
   }
 ]
 

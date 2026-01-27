@@ -36,6 +36,11 @@ export class SideMenuManageComponent implements OnInit {
         url: '/admin/deceaseds',
         icon: 'pi pi-id-card',
         name: 'ניהול חללים'
+      },
+      {
+        url: '/admin/events',
+        icon: 'pi pi-calendar',
+        name: 'ניהול אירועי חירום'
       }
     ]
   }
