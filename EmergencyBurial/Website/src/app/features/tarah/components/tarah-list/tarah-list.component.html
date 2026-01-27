@@ -1,58 +1,66 @@
 <div class="card p-3">
 
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="font-bold">ניהול שקי חלל בתר"ח</h4>
+    <h4 class="font-bold">ניהול תר"ח</h4>
   </div>
 
   <div class="d-flex justify-content-between align-items-center mb-3 bg-gray-50 p-3 border-round">
 
-    <p-selectButton [options]="viewOptions" [(ngModel)]="viewMode" optionLabel="label" optionValue="value"
-                    [unselectable]="true" (onChange)="onViewChange()">
+    <p-selectButton [options]="filterOptions" [(ngModel)]="viewMode" (onChange)="onViewChange()" optionLabel="label"
+                    optionValue="value">
     </p-selectButton>
 
     <div class="d-flex gap-2">
 
       @if (viewMode === TarahStatusEnum.Pending) {
-        <p-button label="קליטה" icon="pi pi-download" severity="success" [disabled]="!selectedDeceased"
-                  (click)="openIntakeDialog()">
-        </p-button>
+        <p-button label="קליטת שק" icon="pi pi-check-square"
+                  (click)="openBagReceptionDialog()"
+                  [disabled]="!selectedBag"
+                  severity="success"></p-button>
       }
 
       @if (viewMode === TarahStatusEnum.InProgress) {
-        <div class="d-flex gap-2">
-          <p-button label="עדכון פרטים" icon="pi pi-file-edit" severity="info" [disabled]="!selectedDeceased"
-                    (click)="openUpdateDetailsDialog()">
-          </p-button>
+        <p-button label="עדכון פרטים" icon="pi pi-pencil"
+                  (click)="openUpdateDetailsDialog()"
+                  [disabled]="!selectedBag"
+                  severity="info"></p-button>
 
-          <p-button label="שחרור מתר'ח" icon="pi pi-sign-out" severity="warn" [disabled]="!selectedDeceased"
-                    (click)="openReleaseDialog()">
-          </p-button>
-        </div>
-      }
-
-      @if (viewMode === TarahStatusEnum.Complete) {
-        <p-button label="צפייה בנתוני תר'ח" icon="pi pi-eye" severity="secondary" [disabled]="!selectedDeceased"
-                  (click)="openUpdateDetailsDialog()">
-        </p-button>
+        <p-button label="שחרור" icon="pi pi-sign-out"
+                  (click)="openReleaseDialog()"
+                  [disabled]="!selectedBag"
+                  severity="warn"></p-button>
       }
     </div>
   </div>
+
   <div class="d-flex gap-3 align-items-center m-3">
+
     <p-iconfield>
       <p-inputicon class="pi pi-search"/>
-      <input pInputText type="text" [(ngModel)]="searchText"
-             (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="חיפוש חלל..."/>
+      <input pInputText type="text" [(ngModel)]="searchText" (input)="dt.filterGlobal($event.target.value, 'contains')"
+             placeholder="חיפוש..."/>
       @if (searchText) {
         <p-inputicon class="pi pi-times cursor-pointer" (click)="clearSearch()"/>
       }
     </p-iconfield>
 
   </div>
-  <p-table #dt [columns]="cols" showGridlines="true" [value]="deceasedList" [tableStyle]="{ 'min-width': '50rem' }"
-           [size]="'small'" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" selectionMode="single"
-           [(selection)]="selectedDeceased"
+
+  <p-table #dt
+           [columns]="cols"
+           showGridlines="true"
+           [value]="bagList"
+           [tableStyle]="{ 'min-width': '50rem' }"
+           [size]="'small'"
+           [paginator]="true"
+           [rows]="10"
+           [showCurrentPageReport]="true"
+           selectionMode="single"
+           [(selection)]="selectedBag"
            currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
-           [globalFilterFields]="getGlobalFilterFields()" [rowHover]="true" dataKey="Id">
+           [globalFilterFields]="getGlobalFilterFields()"
+           [rowHover]="true"
+           dataKey="Id">
 
     <ng-template pTemplate="header" let-columns>
       <tr>
@@ -67,52 +75,45 @@
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-deceased>
-      <tr [pSelectableRow]="deceased">
-        <td style="width: 3rem">
-          <p-tableRadioButton [value]="deceased"/>
-        </td>
-        <td>{{ deceased.IdentityNumber }}</td>
-        <td>{{ deceased.FullName }}</td>
-        <td>{{ deceased.FatherName }}</td>
+    <ng-template pTemplate="body" let-rowData>
+      <tr [pSelectableRow]="rowData">
         <td>
-          <p-tag [value]="deceased.ProcessStatusDesc"
-                 [severity]="viewMode === TarahStatusEnum.Pending ? 'info' : 'warning'"></p-tag>
+          <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
+        </td>
+        <td>{{ rowData.BagNumber }}</td>
+        <td>
+          <p-tag [value]="rowData.BagProcessStatusDesc"
+                 [severity]="getTarahStatusSeverity(rowData.BagTarahProcessStatus)"></p-tag>
         </td>
         <td>
-          <p-tag [value]="deceased.TarahStatusDesc"
-                 [severity]="getTarahStatusSeverity(deceased.TarahStatus)"></p-tag>
+          <p-tag [value]="getIdentificationStatus(rowData.IsIdentified)"
+                 [severity]="rowData.IsIdentified ? 'success' : 'warn'"></p-tag>
         </td>
-        <td>
-                    <span class="text-ellipsis" [pTooltip]="deceased.BagNumbersDisplay" tooltipPosition="top">
-                        {{ deceased.BagNumbersDisplay }}
-                    </span>
-        </td>
-        <td>{{ deceased.RelatedBagNumbers }}</td>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td [attr.colspan]="cols.length + 1" class="text-center p-4">
-
-          @if (viewMode === TarahStatusEnum.Pending) {
-            <span>אין חללים הממתינים לקליטה כרגע.</span>
-          } @else {
-            <span>לא נמצאו נתונים לחודש זה.</span>
-          }
+        <td [attr.colspan]="cols.length" class="text-center p-4">
+          לא נמצאו נתונים
         </td>
       </tr>
     </ng-template>
 
   </p-table>
+
 </div>
 
-<app-tarah-intake-dialog [(visible)]="isPendingDialogOpen" [deceasedId]="selectedDeceased?.Id"
-                         (onSaved)="onDialogSaved()">
-</app-tarah-intake-dialog>
+@if (selectedBagForReception) {
+  <app-bag-reception-dialog [(visible)]="isReceptionDialogOpen"
+                            [data]="selectedBagForReception"
+                            (onSaved)="onDialogSaved()"></app-bag-reception-dialog>
+}
 
-<app-tarah-update-dialog [(visible)]="isUpdateDialogOpen" [isReleasedMode]="viewMode === TarahStatusEnum.Complete"
-                         [showReleaseButton]="isReleaseAction" [deceasedId]="selectedDeceased?.Id"
-                         (onSaved)="onDialogSaved()">
-</app-tarah-update-dialog>
+@if (selectedBagForUpdate) {
+  <app-tarah-update-dialog [(visible)]="isUpdateDialogOpen"
+                           [bagNumber]="selectedBag?.BagNumber"
+                           [showReleaseButton]="isReleaseAction"
+                           [isReleasedMode]="viewMode === TarahStatusEnum.Complete"
+                           (onSaved)="onDialogSaved()"></app-tarah-update-dialog>
+}

@@ -259,6 +259,18 @@ namespace Core.Helpers
         Health = 4
     }
 
+    public enum BagTarahProcessStatus
+    {
+        [Description("קליטה משטרה")]
+        PoliceIntake = 0,
+        [Description("שינוע - חזרה משינוע מכון רפואה משפטית")]
+        Transport = 1,
+        [Description("מאוחסן בתר\"ח")]
+        InStorage = 2,
+        [Description("שוחרר מתר\"ח")]
+        Released = 3
+    }
+
     #endregion
 
     #region [communication]

@@ -20,8 +20,11 @@ public class DeceasedBag
     [Description("מספר שק")]
     public string BagNumber { get; set; }
 
-    [Description("שיוך ארגוני")]
-    public Affiliation? Affiliation { get; set; }
+    [Description("סטטוס תהליך שק")]
+    public BagTarahProcessStatus BagTarahProcessStatus { get; set; }
+
+    [Description("קובץ רישיון קבורה")]
+    public Guid? BurialLicenseFileId { get; set; }
 
     public TarahStations ReceivingStation { get; set; }
 
@@ -39,6 +42,9 @@ public class DeceasedBag
     
     public string? FillerName { get; set; }
     
+    [Description("נקלט בתר'ח על ידי")]
+    public Guid? ReceivedInTarahBy { get; set; }
+    
     public DateTime? ArrivalDateTime { get; set; }
     
     [Description("הגורם שהביא את השק")]
@@ -49,6 +55,9 @@ public class DeceasedBag
     
     [Description("חפצים שנמצאו על החלל")]
     public string? ObjectsOnDeceased { get; set; }
+    
+    [ForeignKey(nameof(ReceivedInTarahBy))]
+    public virtual Member ReceivedBy { get; set; }
     
     [ForeignKey(nameof(DeceasedId))]
     public virtual Deceased Deceased { get; set; }

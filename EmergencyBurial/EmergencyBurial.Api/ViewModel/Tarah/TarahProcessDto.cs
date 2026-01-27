@@ -5,9 +5,12 @@ namespace EmergencyBurial.Api.ViewModel;
 
 public class TarahProcessDto
 {
+    public Guid Id { get; set; }
+    
     public Guid? DeceasedId { get; set; }
-
-    // שדות ReadOnly לתצוגה בדיאלוג
+    
+    public string BagNumber { get; set; }
+    
     public string FullName { get; set; }
 
     public string IdentityNumber { get; set; }
@@ -15,10 +18,12 @@ public class TarahProcessDto
     public string FatherName { get; set; }
 
     public string Gender { get; set; }
-    
-    public List<string> BagNumbers { get; set; }
 
-    // שדות לעריכה
+    public string PartDescription { get; set; }
+
+    public int? Affiliation { get; set; }
+    
+    public bool BurialLicenseScanned { get; set; }
     
     public string TarahTeamManager { get; set; }
     
@@ -28,5 +33,5 @@ public class TarahProcessDto
     
     public string PendingExitReason { get; set; }
     
-    public bool IsTarahPerformed { get; set; }
+    public bool IsPopulationRegistryUpdated { get; set; }
 }

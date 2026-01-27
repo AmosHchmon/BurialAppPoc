@@ -157,6 +157,7 @@ public class DbHelper
             Gender = "זכר",
             HomeCity = "ירושלים",
             PeleNumber = "PL-789123",
+            Affiliation = Affiliation.Civilian,
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
 
             DeceasedBags = new List<DeceasedBag>
@@ -166,35 +167,35 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased1Id,
                     BagNumber = "C-1001",
-                    Affiliation = Affiliation.Civilian,
                     ReceivingStation = TarahStations.Shura,
                     BroughtBy = BurialBody.AbuKabir,
                     CanBeIdentifiedByAcquaintance = true,
                     RelatedBagNumbers = 5,
                     ArrivalDateTime = DateTime.Now.AddDays(-2),
-                    PartDescription = "חלק גוף תחתון"
+                    PartDescription = "חלק גוף תחתון",
+                    BagTarahProcessStatus = BagTarahProcessStatus.Released
                 },
                 new DeceasedBag
                 {
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased1Id,
                     BagNumber = "C-1001-B",
-                    Affiliation = Affiliation.Civilian,
                     BroughtBy = BurialBody.AbuKabir,
                     PartDescription = "חלק גוף עליון",
                     ReceivingStation = TarahStations.Shura,
-                    ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(2)
+                    ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(2),
+                    BagTarahProcessStatus = BagTarahProcessStatus.Released
                 },
                 new DeceasedBag
                 {
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased1Id,
                     BagNumber = "C-1001-C",
-                    Affiliation = Affiliation.Civilian,
                     BroughtBy = BurialBody.AbuKabir,
                     PartDescription = "ראש",
                     ReceivingStation = TarahStations.Shura,
-                    ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(2)
+                    ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(2),
+                    BagTarahProcessStatus = BagTarahProcessStatus.Released
                 }
             },
 
@@ -266,6 +267,7 @@ public class DbHelper
             FatherName = "משה",
             Gender = "נקבה",
             HomeCity = "תל אביב",
+            Affiliation = Affiliation.SecurityForces,
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
 
             DeceasedBags = new List<DeceasedBag>
@@ -275,22 +277,22 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased2Id,
                     BagNumber = "C-1002",
-                    Affiliation = Affiliation.SecurityForces,
                     ReceivingStation = TarahStations.Tziporit,
                     BroughtBy = BurialBody.AbuKabir,
                     ArrivalDateTime = DateTime.Now.AddDays(-1),
-                    PartDescription = "ראש"
+                    PartDescription = "ראש",
+                    BagTarahProcessStatus = BagTarahProcessStatus.Released
                 },
                 new DeceasedBag
                 {
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased2Id,
                     BagNumber = "C-1002-B",
-                    Affiliation = Affiliation.SecurityForces,
                     ReceivingStation = TarahStations.Tziporit,
                     BroughtBy = BurialBody.AbuKabir,
                     PartDescription = "חלק גוף עליון",
-                    ArrivalDateTime = DateTime.Now.AddDays(-1)
+                    ArrivalDateTime = DateTime.Now.AddDays(-1),
+                    BagTarahProcessStatus = BagTarahProcessStatus.Released
                 }
             },
             StatusHistory = new List<DeceasedStatusHistory>
@@ -363,6 +365,7 @@ public class DbHelper
             LastName = "המלך",
             Gender = "זכר",
             FatherName = "ישי",
+            Affiliation = Affiliation.Civilian,
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
 
             DeceasedBags = new List<DeceasedBag>
@@ -372,10 +375,10 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased3Id,
                     BagNumber = "C-1003",
-                    Affiliation = Affiliation.Civilian,
                     BroughtBy = BurialBody.AbuKabir,
                     ReceivingStation = TarahStations.Shura,
-                    ArrivalDateTime = DateTime.Now.AddDays(-5)
+                    ArrivalDateTime = DateTime.Now.AddDays(-5),
+                    BagTarahProcessStatus = BagTarahProcessStatus.Released
                 }
             },
             StatusHistory = new List<DeceasedStatusHistory>
@@ -444,6 +447,7 @@ public class DbHelper
             FirstName = "מוחמד",
             LastName = "מחמוד",
             Gender = "זכר",
+            Affiliation = Affiliation.Civilian,
             ProcessStatus = ProcessStatus.ReceptionAtTarah,
             DeceasedBags = new List<DeceasedBag>
             {
@@ -452,7 +456,16 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased4Id,
                     BagNumber = "T-4001",
-                    Affiliation = Affiliation.Civilian,
+                    BagTarahProcessStatus = BagTarahProcessStatus.PoliceIntake,
+                    ReceivingStation = TarahStations.Shura,
+                    ArrivalDateTime = DateTime.Now.AddHours(-2)
+                },
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased4Id,
+                    BagNumber = "T-4002",
+                    BagTarahProcessStatus = BagTarahProcessStatus.Transport,
                     ReceivingStation = TarahStations.Shura,
                     ArrivalDateTime = DateTime.Now.AddHours(-2)
                 }
@@ -473,6 +486,7 @@ public class DbHelper
             FirstName = "סמיר",
             LastName = "פאטם",
             Gender = "זכר",
+            Affiliation = Affiliation.SecurityForces,
             ProcessStatus = ProcessStatus.ReceptionAtTarah,
             DeceasedBags = new List<DeceasedBag>
             {
@@ -481,9 +495,9 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased5Id,
                     BagNumber = "T-5001",
-                    Affiliation = Affiliation.SecurityForces,
                     ReceivingStation = TarahStations.Tziporit,
-                    ArrivalDateTime = DateTime.Now.AddHours(-5)
+                    ArrivalDateTime = DateTime.Now.AddHours(-5),
+                    BagTarahProcessStatus = BagTarahProcessStatus.Released
                 }
             },
             DeceasedTarahDetails = new DeceasedTarahDetails
@@ -504,6 +518,7 @@ public class DbHelper
             FirstName = "פאטמה",
             LastName = "לילה",
             Gender = "זכר",
+            Affiliation = Affiliation.Civilian,
             ProcessStatus = ProcessStatus.ReleaseFromTarah,
             DeceasedBags = new List<DeceasedBag>
             {
@@ -512,9 +527,9 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased6Id,
                     BagNumber = "T-6001",
-                    Affiliation = Affiliation.Civilian,
                     ReceivingStation = TarahStations.SdeTeiman,
-                    ArrivalDateTime = DateTime.Now.AddDays(-1)
+                    ArrivalDateTime = DateTime.Now.AddDays(-1),
+                    BagTarahProcessStatus = BagTarahProcessStatus.Released
                 }
             },
             DeceasedTarahDetails = new DeceasedTarahDetails
@@ -524,11 +539,36 @@ public class DbHelper
                 TarahStatus = TarahStatus.Completed,
                 TarahReceptionDate = DateTime.Now.AddDays(-1),
                 TarahReleaseDate = DateTime.Now.AddHours(-2),
-                IsTarahPerformed = true
             }
         };
 
-        db.Deceaseds.AddRange(deceased1, deceased2, deceased3, deceased4, deceased5, deceased6);
+        var deceased7Id = Guid.NewGuid();
+        var deceased7 = new Deceased
+        {
+            Id = deceased7Id,
+            Affiliation = Affiliation.Civilian,
+            ProcessStatus = ProcessStatus.ReceptionAtTarah,
+            DeceasedBags = new List<DeceasedBag>
+            {
+                new DeceasedBag
+                {
+                    Id = Guid.NewGuid(),
+                    DeceasedId = deceased7Id,
+                    BagTarahProcessStatus = BagTarahProcessStatus.PoliceIntake,
+                    BagNumber = "T-7001",
+                    ReceivingStation = TarahStations.Shura,
+                    ArrivalDateTime = DateTime.Now.AddHours(-1)
+                }
+            },
+            DeceasedTarahDetails = new DeceasedTarahDetails
+            {
+                DeceasedId = deceased7Id,
+                TarahStation = (int)TarahStations.Shura,
+                TarahStatus = TarahStatus.Pending
+            }
+        };
+
+        db.Deceaseds.AddRange(deceased1, deceased2, deceased3, deceased4, deceased5, deceased6, deceased7);
         db.SaveChanges();
     }
 

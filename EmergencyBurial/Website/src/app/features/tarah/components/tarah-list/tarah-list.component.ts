@@ -1,94 +1,99 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Table} from 'primeng/table';
 
-import {TarahService} from "../../services/tarah.service";
-import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
+import {UiComponentsModule} from '../../../../shared/ui-components/ui-components.module';
+import {TarahService} from '../../services/tarah.service';
 import {IColumn} from "../../../../shared/ui-components/model/column";
-import {TarahList} from "../../model/TarahList";
-import {TarahIntakeDialogComponent} from "../tarah-intake-dialog/tarah-intake-dialog.component";
+import {TarahList} from '../../model/TarahList';
 import {TarahUpdateDialogComponent} from "../tarah-update-dialog/tarah-update-dialog.component";
+import {BagReceptionDialogComponent} from "../bag-reception-dialog/bag-reception-dialog.component";
 import {TarahStatusEnum} from "../../../../shared/enum/tarah-status.enum";
+import {TarahProcess} from '../../model/TarahProcess';
+import {TarahBagProcessEnum} from "../../../../shared/enum/tarah-bag-process.enum";
+import {AlertService} from "../../../../shared/services/alert.service";
+import {AlertType} from "../../../../core/enums/alert.enum";
+import {DialogMessage} from "../../../../shared/static/messages";
 
 @Component({
   selector: 'app-tarah-list',
+  standalone: true,
+  imports: [UiComponentsModule,
+    TarahUpdateDialogComponent,
+    BagReceptionDialogComponent
+  ],
   templateUrl: './tarah-list.component.html',
-  imports: [UiComponentsModule, TarahIntakeDialogComponent, TarahUpdateDialogComponent],
   styleUrls: ['./tarah-list.component.scss']
 })
 export class TarahListComponent implements OnInit {
 
   @ViewChild('dt') dt: Table | undefined;
 
-  deceasedList: TarahList[] = [];
+  bagList: TarahList[] = [];
   cols: IColumn[] = [
     {field: 'select', header: 'בחירה'},
-    {field: 'IdentityNumber', header: 'מספר זהות'},
-    {field: 'FullName', header: 'שם מלא'},
-    {field: 'FatherName', header: 'שם האב'},
-    {field: 'ProcessStatusDesc', header: 'סטטוס תהליך'},
-    {field: 'TarahStatusDesc', header: 'סטטוס תר"ח'},
-    {field: 'BagNumbersDisplay', header: 'מספרי שק'},
-    {field: 'RelatedBagNumbers', header: 'שקים מקושרים'},
-  ];
-  viewOptions = [
-    {label: 'ממתינים לקליטה', value: TarahStatusEnum.Pending},
-    {label: 'פעילים בתר"ח', value: TarahStatusEnum.InProgress},
-    {label: 'שוחררו מתר"ח', value: TarahStatusEnum.Complete}
+    {field: 'BagNumber', header: 'מספר שק'},
+    {field: 'BagProcessStatusDesc', header: 'סטטוס שק'},
+    {field: 'IsIdentified', header: 'סטטוס זיהוי'},
   ];
 
-  selectedDeceased: TarahList | null = null;
+  filterOptions = [
+    {label: 'קליטה (משטרה/שינוע)', value: TarahStatusEnum.Pending},
+    {label: 'בתהליך (מאוחסן)', value: TarahStatusEnum.InProgress},
+    {label: 'שוחררו', value: TarahStatusEnum.Complete}
+  ];
+  selectedBag: TarahList | null = null;
+  viewMode: TarahStatusEnum = TarahStatusEnum.InProgress;
 
-  viewMode: TarahStatusEnum = TarahStatusEnum.Pending;
-  isPendingDialogOpen: boolean = false;
   isUpdateDialogOpen: boolean = false;
+  isReceptionDialogOpen: boolean = false;
   isReleaseAction: boolean = false;
-  searchText: string;
 
-  constructor(private tarahService: TarahService) {
+  searchText: string = '';
+
+  selectedBagForReception: TarahProcess;
+  selectedBagForUpdate: TarahProcess;
+
+  constructor(private tarahService: TarahService, private alertService: AlertService) {
   }
 
   ngOnInit(): void {
-
     this.loadData();
   }
 
   async loadData() {
 
-    this.deceasedList = [];
+    this.bagList = [];
 
     switch (this.viewMode) {
-
       case TarahStatusEnum.Pending:
-        this.deceasedList = await this.tarahService.getPendingList();
+        this.bagList = await this.tarahService.getPendingList();
         break;
-
       case TarahStatusEnum.InProgress:
-        this.deceasedList = await this.tarahService.getActiveList();
+        this.bagList = await this.tarahService.getActiveList();
         break;
-
       case TarahStatusEnum.Complete:
-        this.deceasedList = await this.tarahService.getReleasedList();
+        this.bagList = await this.tarahService.getReleasedList();
         break;
     }
+
   }
 
   onViewChange() {
-
     this.clearSearch();
     this.loadData();
   }
 
-  openIntakeDialog() {
+  async openBagReceptionDialog() {
 
-    if (this.selectedDeceased) {
-      this.isPendingDialogOpen = true;
+    if (this.selectedBag) {
+      this.selectedBagForReception = await this.tarahService.getDetailsForEdit(this.selectedBag.BagNumber);
+      this.isReceptionDialogOpen = true;
     }
   }
 
-  openUpdateDetailsDialog() {
+  async openUpdateDetailsDialog() {
 
-    if (this.selectedDeceased) {
-
+    if (this.selectedBag) {
       this.isReleaseAction = false;
       this.isUpdateDialogOpen = true;
     }
@@ -96,16 +101,21 @@ export class TarahListComponent implements OnInit {
 
   openReleaseDialog() {
 
-    if (this.selectedDeceased) {
+    if (!this.selectedBag) return;
 
-      this.isReleaseAction = true;
-      this.isUpdateDialogOpen = true;
+    if (!this.selectedBag.IsIdentified) {
+      this.alertService.alert(AlertType.Warning, {ClientMessage: DialogMessage.BagNotIdentified});
+      return;
     }
+
+    this.isReleaseAction = true;
+    this.isUpdateDialogOpen = true;
   }
 
   async onDialogSaved() {
 
-    this.selectedDeceased = null;
+    this.selectedBag = null;
+    this.isReceptionDialogOpen = false;
     await this.loadData();
   }
 
@@ -116,26 +126,27 @@ export class TarahListComponent implements OnInit {
   }
 
   getGlobalFilterFields() {
-
     return this.cols.map(col => col.field);
   }
 
-  getTarahStatusSeverity(TarahStatus: TarahStatusEnum) {
+  getTarahStatusSeverity(BagProcessStatus: TarahBagProcessEnum) {
 
-    switch (TarahStatus) {
-      case TarahStatusEnum.Pending:
+    switch (BagProcessStatus) {
+      case TarahBagProcessEnum.PoliceIntake:
         return 'warn';
-
-      case TarahStatusEnum.InProgress:
+      case TarahBagProcessEnum.Transport:
         return 'info';
-
-      case TarahStatusEnum.Complete:
+      case TarahBagProcessEnum.InStorage:
         return 'success';
-
+      case TarahBagProcessEnum.Released:
+        return 'success';
       default:
         return 'secondary';
     }
+  }
 
+  getIdentificationStatus(isIdentified: boolean | undefined): string {
+    return isIdentified ? 'מזוהה' : 'לא מזוהה';
   }
 
   protected readonly TarahStatusEnum = TarahStatusEnum;
