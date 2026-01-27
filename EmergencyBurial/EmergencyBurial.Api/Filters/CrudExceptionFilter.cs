@@ -1,20 +1,24 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace EmergencyBurial.Api.Filters
+namespace EmergencyBurial.Api.Filters;
+
+public class CrudExceptionFilter : IExceptionFilter
 {
-    public class CrudExceptionFilter : IExceptionFilter
+    private readonly string _errorMessage;
+
+    public CrudExceptionFilter(string errorMessage)
     {
-        private readonly string _errorMessage;
+        _errorMessage = errorMessage;
+    }
 
-        public CrudExceptionFilter(string errorMessage)
+    public void OnException(ExceptionContext context)
+    {
+        if (context.Exception is ApplicationException)
         {
-            _errorMessage = errorMessage;
+            return;
         }
 
-        public void OnException(ExceptionContext context)
-        {
-            throw new ApplicationException(_errorMessage, context.Exception);
-        }
+        throw new ApplicationException(_errorMessage, context.Exception);
     }
 }

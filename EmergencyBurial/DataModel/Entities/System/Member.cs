@@ -27,13 +27,14 @@ namespace DataModel.Entities;
         [MaxLength(10)]
         public string? PhoneNumber { get; set; }
         
+        [MaxLength(100)]
+        public string? Password { get; set; }
+        
         [Required]
         public int? OrganizationTypeId { get; set; }
 
         [Required]
         public RoleAccessType RoleAccessTypeId { get; set; }
-
-        public int? StationTypeId { get; set; }
         
         public int? StationId { get; set; }
 
@@ -46,9 +47,6 @@ namespace DataModel.Entities;
 
         [ForeignKey(nameof(OrganizationTypeId))]
         public virtual ListItem OrganizationType { get; set; }
-        
-        [ForeignKey(nameof(StationTypeId))]
-        public virtual ListItem StationType { get; set; }
         
         [ForeignKey(nameof(StationId))]
         public virtual ListItem Station { get; set; }

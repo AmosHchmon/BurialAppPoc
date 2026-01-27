@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AutoMapper;
 using Core.Helpers;
 using Core.Model;
 using DataModel.Entities;
+using DataModel.Entities.System;
 using EmergencyBurial.Api.ViewModel;
 
 namespace EmergencyBurial.Api.Config;
@@ -13,11 +13,15 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<Member, MemberDto>()
+            .ForMember(dest => dest.Password, src => src.Ignore())
             .ForMember(dest => dest.OrganizationDesc,
                 opt => opt.MapFrom(src => ((OrganizationType)src.OrganizationTypeId).GetEnumDescription()))
+            .ForMember(dest => dest.StationDesc, opt => opt.MapFrom(src => src.Station.Text))
             .ForMember(dest => dest.RoleDesc,
                 opt => opt.MapFrom(src => ((RoleAccessType)src.RoleAccessTypeId).GetEnumDescription()))
-            .ReverseMap();
+            .ReverseMap()
+            .ForMember(dest => dest.Station, opt => opt.Ignore())
+            .ForMember(dest => dest.Password, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Password)));
 
         #region Deceased
 
@@ -176,6 +180,9 @@ public class MappingProfile : Profile
             .ReverseMap();
 
         CreateMap<ListItem, ListItemDto>()
+            .ReverseMap();
+        
+        CreateMap<UserOtp, UserOtpDto>()
             .ReverseMap();
 
         #endregion

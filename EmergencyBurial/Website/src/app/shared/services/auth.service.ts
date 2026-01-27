@@ -17,27 +17,18 @@ export class AuthService extends BaseService {
     return super.put({path: '/login', body: userOtp});
   }
 
-  getMembers(): Promise<IMember[]> {
-
-    return super.get<IMember[]>({path: '/members'});
+  loginWithPassword(userOtp: IAuthUser): Promise<any>{
+    return super.put({path: '/login-with-password', body: userOtp});
   }
 
-  saveMember(member: IMember): Promise<IMember> {
+  createOtp( userOtp: IAuthUser ): Promise<any> {
 
-    return super.post({body: member});
-
-  }
-
-  updateMember(member: IMember): Promise<IMember> {
-
-    return super.put({body: member});
+    return super.put( { path: '/otp', body: userOtp } );
 
   }
 
-  deleteMember(id: number): Promise<IMember> {
+  logout(): Promise<void> {
 
-    return super.delete({path: `/${id}`});
-
+    return super.post({path: '/logout'});
   }
-
 }

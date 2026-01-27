@@ -6,31 +6,35 @@
       <p-accordion-header class="fw-bold">סוגי הרשימות</p-accordion-header>
 
       <p-accordion-content>
-        <div class="mb-4">
-          <p-toolbar class="border rounded-4">
-            <div class="d-flex gap-4">
-              <p-button label="הוסף"
-                        icon="pi pi-plus"
-                        (click)="onNewListType()"/>
-              <p-button label="עדכן"
-                        icon="pi pi-pencil"
-                        [disabled]="!typeTable.selection"
-                        (click)="onEditListType()"/>
-              <p-button severity="danger"
-                        label="מחק"
-                        icon="pi pi-trash"
-                        outlined
-                        (click)="onDeleteListType()"
-                        [disabled]="!typeTable.selection"
-              />
-            </div>
-          </p-toolbar>
-        </div>
+
+        <p-toolbar class="mb-4 shadow-sm border-0 bg-light">
+          <div class="p-toolbar-group-start d-flex gap-3">
+
+            <p-button label="הוסף"
+                      icon="pi pi-plus"
+                      severity="success"
+                      (click)="onNewListType()"/>
+
+            <p-button label="עדכן"
+                      severity="info"
+                      icon="pi pi-pencil"
+                      [disabled]="!typeTable.selection"
+                      (click)="onEditListType()"/>
+
+            <p-button severity="danger"
+                      label="מחק"
+                      icon="pi pi-trash"
+                      outlined
+                      (click)="onDeleteListType()"
+                      [disabled]="!typeTable.selection"/>
+          </div>
+        </p-toolbar>
 
         <p-table #typeTable
                  [value]="listTypes"
                  [rows]="10"
                  [size]="'small'"
+                 showGridlines="true"
                  [columns]="listTypesColumns"
                  [paginator]="true"
                  [tableStyle]="{ 'min-width': '75rem' }"
@@ -124,29 +128,28 @@
       <p-accordion-header class="fw-bold">תוכן הרשימות</p-accordion-header>
 
       <p-accordion-content>
-        <div class="mb-4">
-          <p-toolbar class="border rounded-4">
-            <div class="d-flex gap-4">
+        <p-toolbar class="mb-4 shadow-sm border-0 bg-light">
+          <div class="p-toolbar-group-start d-flex gap-3">
 
-              <p-button label="הוסף"
-                        icon="pi pi-plus"
-                        (click)="onNewListItem()"/>
+            <p-button label="הוסף"
+                      icon="pi pi-plus"
+                      severity="success"
+                      (click)="onNewListItem()"/>
 
-              <p-button label="עדכן"
-                        icon="pi pi-pencil"
-                        [disabled]="!listTable.selection"
-                        (click)="onEditListItem()"/>
+            <p-button label="עדכן"
+                      icon="pi pi-pencil"
+                      severity="info"
+                      [disabled]="!listTable.selection"
+                      (click)="onEditListItem()"/>
 
-              <p-button severity="danger"
-                        label="מחק"
-                        icon="pi pi-trash"
-                        outlined
-                        (click)="onDeleteListItem()"
-                        [disabled]="!listTable.selection"
-              />
-            </div>
-          </p-toolbar>
-        </div>
+            <p-button severity="danger"
+                      label="מחק"
+                      icon="pi pi-trash"
+                      outlined
+                      (click)="onDeleteListItem()"
+                      [disabled]="!listTable.selection"/>
+          </div>
+        </p-toolbar>
 
         <p-select [options]="listTypes"
                   [(ngModel)]="selectedType"
@@ -161,6 +164,7 @@
                  [rows]="10"
                  [size]="'small'"
                  [columns]="listItemsColumns"
+                 showGridlines="true"
                  [paginator]="true"
                  [tableStyle]="{ 'min-width': '75rem' }"
                  [rowHover]="true"
@@ -249,6 +253,7 @@
                           (click)="saveListItem()"/>
               } @else {
                 <p-button label="עדכן"
+                          severity="info"
                           class="mt-3"
                           [disabled]="listForm.invalid"
                           (click)="updateListItem()"/>

@@ -14,6 +14,7 @@ import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {AlertService} from "../../../../shared/services/alert.service";
 import {MemberService} from "../../../../shared/services/member.service";
+import {enmOrganizationType} from "../../../../shared/enum/organization-type.enum";
 
 @Component({
   selector: 'app-users-management',
@@ -45,14 +46,14 @@ export class UsersManagementComponent implements OnInit {
     },
     {
       field: 'OrganizationDesc',
-      header: 'סוג ארגון'
+      header: 'ארגון'
     },
     {
       field: 'RoleDesc',
-      header: 'סוג תפקיד'
+      header: 'תפקיד'
     }, {
       field: 'StationDesc',
-      header: 'סוג תחנה'
+      header: 'תחנה'
     }
   ]
   members: IMember[] = [];
@@ -63,6 +64,8 @@ export class UsersManagementComponent implements OnInit {
   rolesList: IListItem[] = [];
   stationsList: IListItem[] = [];
   subStationsList: IListItem[] = [];
+
+  searchText: string;
 
   constructor(private memberService: MemberService,
               private listService: ListService,
@@ -129,6 +132,9 @@ export class UsersManagementComponent implements OnInit {
   onEditMember() {
 
     this.newMember = {...this.dt.selection};
+
+    this.onOrganizationTypeChange();
+
     this.showMemberDialog = true;
 
   }
@@ -162,16 +168,32 @@ export class UsersManagementComponent implements OnInit {
 
   onAddMember() {
 
+    setTimeout(() => {
+      if (this.memberForm) {
+        this.memberForm.resetForm();
+      }
+    }, 0);
+
     this.newMember = {RoleAccessTypeId: null};
 
     this.showMemberDialog = true;
   }
 
-  onStationTypeChange() {
+  onOrganizationTypeChange() {
 
-    this.subStationsList = this.allListItems.filter(x => x.ListItemDepId == this.newMember.StationTypeId);
+    this.subStationsList = this.allListItems.filter(x => x.ListItemDepId == this.newMember.OrganizationTypeId);
 
   }
 
   //endregion
+  clearSearch() {
+
+    this.searchText = '';
+
+    if (this.dt) {
+      this.dt.filterGlobal(null, 'contains');
+    }
+  }
+
+  protected readonly enmOrganizationType = enmOrganizationType;
 }

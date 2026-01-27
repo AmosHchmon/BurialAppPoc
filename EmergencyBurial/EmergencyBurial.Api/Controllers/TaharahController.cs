@@ -73,7 +73,7 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
         mapper.Map(dto, entity);
 
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
-        
+
         entity.ReceivedBy = userId;
 
         entity.TaharahStatus = TaharahStatus.InProgress;

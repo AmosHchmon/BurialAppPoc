@@ -1,5 +1,12 @@
-<app-header></app-header>
-<div class="d-flex flex-column justify-content-center align-items-center h-100">
-  <app-side-menu-management></app-side-menu-management>
-  <router-outlet></router-outlet>
+<div class="d-flex h-100">
+  <div class="shadow-sm bg-light" style="width: 250px; height: 100vh;">
+    <app-side-menu-management></app-side-menu-management>
+  </div>
+
+  <div class="flex-grow-1 overflow-auto">
+    <app-header></app-header>
+    <div class="p-4">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
