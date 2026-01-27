@@ -38,8 +38,8 @@ export class TarahService extends BaseService {
     return super.put({path: `/update-details`, body: dto});
   }
 
-  async releaseFromTarah(dto: TarahProcess): Promise<any> {
-    return super.put({path: `/release`, body: dto});
+  async releaseFromTarah(bagNumber: string): Promise<any> {
+    return super.put({path: `/release/${bagNumber}`});
   }
 
 }

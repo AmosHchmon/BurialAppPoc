@@ -26,8 +26,6 @@ export interface TarahProcess {
 
   PendingExitReason?: string;
 
-  IsTarahPerformed?: boolean;
-
   BurialLicenseScanned?: boolean;
 
   IsPopulationRegistryUpdated?: boolean;

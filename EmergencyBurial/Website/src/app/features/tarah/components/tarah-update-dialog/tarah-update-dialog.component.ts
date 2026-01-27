@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { ConfirmationService } from "primeng/api";
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {ConfirmationService} from "primeng/api";
 
-import { UiComponentsModule } from "../../../../shared/ui-components/ui-components.module";
-import { TarahService } from "../../services/tarah.service";
-import { AlertService } from "../../../../shared/services/alert.service";
-import { TarahProcess } from "../../model/TarahProcess";
-import { AlertType } from "../../../../core/enums/alert.enum";
-import { DialogMessage } from "../../../../shared/static/messages";
-import { AffiliationOptions } from "../../../../core/enums/affiliation.enum";
+import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
+import {TarahService} from "../../services/tarah.service";
+import {AlertService} from "../../../../shared/services/alert.service";
+import {TarahProcess} from "../../model/TarahProcess";
+import {AlertType} from "../../../../core/enums/alert.enum";
+import {DialogMessage} from "../../../../shared/static/messages";
+import {AffiliationOptions} from "../../../../core/enums/affiliation.enum";
 
 @Component({
   selector: 'app-tarah-update-dialog',
@@ -18,7 +18,7 @@ import { AffiliationOptions } from "../../../../core/enums/affiliation.enum";
 export class TarahUpdateDialogComponent implements OnChanges {
 
   @Input() visible: boolean = false;
-  @Input() bagNumber: string | null = null;
+  @Input() data: TarahProcess | null = null;
   @Input() isReleasedMode: boolean = false;
   @Input() showReleaseButton: boolean = false;
 
@@ -38,18 +38,20 @@ export class TarahUpdateDialogComponent implements OnChanges {
 
   async ngOnChanges(changes: SimpleChanges) {
 
-    if (changes['visible'] && this.visible && this.bagNumber) {
+    if (changes['visible'] && this.visible && this.data) {
+
+      this.processData = {...this.data};
+
       await this.loadData();
     }
   }
 
   async loadData() {
 
-    if (!this.bagNumber) {
+    if (!this.data.BagNumber) {
       return;
     }
 
-    this.processData = await this.tarahService.getDetailsForEdit(this.bagNumber);
     /*if (this.processData?.Bags?.length) {
       this.selectedBag = this.processData.Bags[0];
     }*/
@@ -78,7 +80,7 @@ export class TarahUpdateDialogComponent implements OnChanges {
 
     await this.tarahService.updateDeceasedDetails(this.processData);
 
-    this.alertService.alert(AlertType.Success, { ClientMessage: DialogMessage.DeceasedUpdated });
+    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.DeceasedUpdated});
 
     this.onSaved.emit();
 
@@ -99,9 +101,9 @@ export class TarahUpdateDialogComponent implements OnChanges {
       rejectLabel: 'לא',
       accept: async () => {
 
-        await this.tarahService.releaseFromTarah(this.processData!);
+        await this.tarahService.releaseFromTarah(this.processData.BagNumber);
 
-        this.alertService.alert(AlertType.Success, { ClientMessage: DialogMessage.DeceasedReleasedFromTarah });
+        this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.DeceasedReleasedFromTarah});
 
         this.onSaved.emit();
         this.closeDialog();

@@ -65,12 +65,15 @@ export class TarahListComponent implements OnInit {
     this.bagList = [];
 
     switch (this.viewMode) {
+
       case TarahStatusEnum.Pending:
         this.bagList = await this.tarahService.getPendingList();
         break;
+
       case TarahStatusEnum.InProgress:
         this.bagList = await this.tarahService.getActiveList();
         break;
+
       case TarahStatusEnum.Complete:
         this.bagList = await this.tarahService.getReleasedList();
         break;
@@ -86,6 +89,7 @@ export class TarahListComponent implements OnInit {
   async openBagReceptionDialog() {
 
     if (this.selectedBag) {
+
       this.selectedBagForReception = await this.tarahService.getDetailsForEdit(this.selectedBag.BagNumber);
       this.isReceptionDialogOpen = true;
     }
@@ -94,20 +98,25 @@ export class TarahListComponent implements OnInit {
   async openUpdateDetailsDialog() {
 
     if (this.selectedBag) {
+
       this.selectedBagForUpdate = await this.tarahService.getDetailsForEdit(this.selectedBag.BagNumber);
       this.isReleaseAction = false;
       this.isUpdateDialogOpen = true;
     }
   }
 
-  openReleaseDialog() {
+  async openReleaseDialog() {
 
-    if (!this.selectedBag) return;
+    if (!this.selectedBag)
+      return;
 
     if (!this.selectedBag.IsIdentified) {
+
       this.alertService.alert(AlertType.Warning, {ClientMessage: DialogMessage.BagNotIdentified});
       return;
     }
+
+    this.selectedBagForUpdate = await this.tarahService.getDetailsForEdit(this.selectedBag.BagNumber);
 
     this.isReleaseAction = true;
     this.isUpdateDialogOpen = true;
@@ -133,14 +142,19 @@ export class TarahListComponent implements OnInit {
   getTarahStatusSeverity(BagProcessStatus: TarahBagProcessEnum) {
 
     switch (BagProcessStatus) {
+
       case TarahBagProcessEnum.PoliceIntake:
         return 'warn';
+
       case TarahBagProcessEnum.Transport:
         return 'info';
+
       case TarahBagProcessEnum.InStorage:
         return 'success';
+
       case TarahBagProcessEnum.Released:
         return 'success';
+
       default:
         return 'secondary';
     }

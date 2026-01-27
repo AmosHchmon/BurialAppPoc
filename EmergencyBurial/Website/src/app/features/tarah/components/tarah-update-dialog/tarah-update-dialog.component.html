@@ -1,149 +1,152 @@
 <p-dialog [(visible)]="visible" (onHide)="closeDialog()" closeOnEscape="true" dismissableMask="true"
-  header="עדכון פרטי תר'ח" [modal]="true" [style]="{width: '60vw'}" [draggable]="false">
+          header="עדכון פרטי תר'ח" [modal]="true" [style]="{width: '60vw'}" [draggable]="false">
 
   @if (processData) {
-  <div class="d-flex my-4 w-50 gap-4">
-    <div class="d-flex flex-column gap-4 w-100">
-      <div>
+    <div class="d-flex my-4 w-50 gap-4">
+      <div class="d-flex flex-column gap-4 w-100">
+        <div>
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText class="w-100" [ngModel]="processData.FullName" [readonly]="true"/>
+            <label>שם מלא</label>
+          </p-floatlabel>
+        </div>
+        <div>
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText class="w-100" [ngModel]="processData.IdentityNumber" [readonly]="true"/>
+            <label>מספר זהות</label>
+          </p-floatlabel>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column gap-4 w-100">
+        <div>
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText class="w-100" [ngModel]="processData.FatherName" [readonly]="true"/>
+            <label>שם האב</label>
+          </p-floatlabel>
+        </div>
+        <div>
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText class="w-100" [ngModel]="processData.Gender" [readonly]="true"/>
+            <label>מין</label>
+          </p-floatlabel>
+        </div>
+      </div>
+    </div>
+
+    <!--<div class="row mt-3">
+      <div class="col-6">
+        <label class="font-bold block mb-2">בחירת שק לעדכון:</label>
+        <p-select [options]="processData.Bags" [(ngModel)]="selectedBag" name="selectedBag" optionLabel="BagNumber"
+          [disabled]="isReleasedMode" placeholder="בחר שק" class="w-100"></p-select>
+
+        <div class="mt-3" *ngIf="selectedBag.Id">
+          <label class="font-bold block mb-2">סריקת רישיון קבורה:</label>
+          <app-file-upload fileType="BurialLicense" [entityId]="selectedBag.Id"
+            [(fileId)]="selectedBag.BurialLicenseFileId" [disabled]="isReleasedMode">
+          </app-file-upload>
+        </div>
+      </div>
+      <div class="col-6">
+        <label class="font-bold block mb-2">שיוך ארגוני:</label>
+        <p-select [options]="affiliationOptions" [(ngModel)]="processData.Affiliation" name="Affiliation"
+          optionLabel="label" optionValue="value" [disabled]="isReleasedMode" placeholder="בחר שיוך"
+          class="w-100"></p-select>
+      </div>
+    </div>
+
+    @if (selectedBag) {
+    <div class="row mt-3">
+      <div class="col-12">
         <p-floatlabel variant="on" class="w-100">
-          <input pInputText class="w-100" [ngModel]="processData.FullName" [readonly]="true" />
-          <label>שם מלא</label>
+          <input pInputText name="PartDescription" [disabled]="isReleasedMode" autocomplete="off"
+            [(ngModel)]="selectedBag.PartDescription" class="w-100" />
+          <label>תיאור חלק (עבור שק {{selectedBag.BagNumber}})</label>
         </p-floatlabel>
       </div>
-      <div>
+    </div>
+    }-->
+
+    <p-divider></p-divider>
+
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="d-flex align-items-center gap-2">
+          <p-checkbox [(ngModel)]="processData.BurialLicenseScanned" name="BurialLicenseScanned"
+                      [disabled]="isReleasedMode" [binary]="true" inputId="burialLicense"></p-checkbox>
+          <label for="burialLicense" class="font-bold cursor-pointer">רישיון קבורה נסרק</label>
+        </div>
+      </div>
+    </div>
+
+    <form class="d-flex w-100 pt-2 gap-5">
+      <div class="d-flex flex-column w-50 gap-4">
+
         <p-floatlabel variant="on" class="w-100">
-          <input pInputText class="w-100" [ngModel]="processData.IdentityNumber" [readonly]="true" />
-          <label>מספר זהות</label>
+          <input pInputText name="TarahTeamManager" [disabled]="isReleasedMode" autocomplete="off"
+                 [(ngModel)]="processData.TarahTeamManager" class="w-100"/>
+          <label>שם מנהל צוות בתר'ח</label>
+        </p-floatlabel>
+
+        <p-floatlabel variant="on" class="w-100">
+          <input pInputText name="IntermediateStorage" [disabled]="isReleasedMode" autocomplete="off"
+                 [(ngModel)]="processData.IntermediateStorage" class="w-100"/>
+          <label>פרטי אחסון ביניים</label>
+        </p-floatlabel>
+
+      </div>
+
+      <div class="d-flex flex-column w-50 gap-3">
+
+        <div class="d-flex align-items-center gap-2">
+          <p-checkbox [(ngModel)]="processData.IsPopulationRegistryUpdated" [disabled]="isReleasedMode"
+                      name="IsPopulationRegistryUpdated" [binary]="true" inputId="isPopReg"></p-checkbox>
+          <label class="font-bold cursor-pointer" for="isPopReg">רשות האוכלוסין עודכנה</label>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <p-checkbox [(ngModel)]="processData.IsPendingExit" [disabled]="isReleasedMode" name="IsPendingExit"
+                      [binary]="true" inputId="pendingExit" (onChange)="onPendingExitChange()"></p-checkbox>
+          <label class="font-bold cursor-pointer" for="pendingExit">ממתין ליציאה</label>
+        </div>
+
+        <p-floatlabel variant="on" class="w-100 mt-2">
+          <input pInputText name="PendingExitReason" [disabled]="!processData.IsPendingExit || isReleasedMode"
+                 [(ngModel)]="processData.PendingExitReason" class="w-100"/>
+          <label>סיבת המתנה</label>
         </p-floatlabel>
       </div>
-    </div>
-
-    <div class="d-flex flex-column gap-4 w-100">
-      <div>
-        <p-floatlabel variant="on" class="w-100">
-          <input pInputText class="w-100" [ngModel]="processData.FatherName" [readonly]="true" />
-          <label>שם האב</label>
-        </p-floatlabel>
-      </div>
-      <div>
-        <p-floatlabel variant="on" class="w-100">
-          <input pInputText class="w-100" [ngModel]="processData.Gender" [readonly]="true" />
-          <label>מין</label>
-        </p-floatlabel>
-      </div>
-    </div>
-  </div>
-
-  <!--<div class="row mt-3">
-    <div class="col-6">
-      <label class="font-bold block mb-2">בחירת שק לעדכון:</label>
-      <p-select [options]="processData.Bags" [(ngModel)]="selectedBag" name="selectedBag" optionLabel="BagNumber"
-        [disabled]="isReleasedMode" placeholder="בחר שק" class="w-100"></p-select>
-
-      <div class="mt-3" *ngIf="selectedBag.Id">
-        <label class="font-bold block mb-2">סריקת רישיון קבורה:</label>
-        <app-file-upload fileType="BurialLicense" [entityId]="selectedBag.Id"
-          [(fileId)]="selectedBag.BurialLicenseFileId" [disabled]="isReleasedMode">
-        </app-file-upload>
-      </div>
-    </div>
-    <div class="col-6">
-      <label class="font-bold block mb-2">שיוך ארגוני:</label>
-      <p-select [options]="affiliationOptions" [(ngModel)]="processData.Affiliation" name="Affiliation"
-        optionLabel="label" optionValue="value" [disabled]="isReleasedMode" placeholder="בחר שיוך"
-        class="w-100"></p-select>
-    </div>
-  </div>
-
-  @if (selectedBag) {
-  <div class="row mt-3">
-    <div class="col-12">
-      <p-floatlabel variant="on" class="w-100">
-        <input pInputText name="PartDescription" [disabled]="isReleasedMode" autocomplete="off"
-          [(ngModel)]="selectedBag.PartDescription" class="w-100" />
-        <label>תיאור חלק (עבור שק {{selectedBag.BagNumber}})</label>
-      </p-floatlabel>
-    </div>
-  </div>
-  }-->
-
-  <p-divider></p-divider>
-
-  <div class="row mb-3">
-    <div class="col-12">
-      <div class="d-flex align-items-center gap-2">
-        <p-checkbox [(ngModel)]="processData.BurialLicenseScanned" name="BurialLicenseScanned"
-          [disabled]="isReleasedMode" [binary]="true" inputId="burialLicense"></p-checkbox>
-        <label for="burialLicense" class="font-bold cursor-pointer">רישיון קבורה נסרק</label>
-      </div>
-    </div>
-  </div>
-
-  <form class="d-flex w-100 pt-2 gap-5">
-    <div class="d-flex flex-column w-50 gap-4">
-
-      <p-floatlabel variant="on" class="w-100">
-        <input pInputText name="TarahTeamManager" [disabled]="isReleasedMode" autocomplete="off"
-          [(ngModel)]="processData.TarahTeamManager" class="w-100" />
-        <label>שם מנהל צוות בתר'ח</label>
-      </p-floatlabel>
-
-      <p-floatlabel variant="on" class="w-100">
-        <input pInputText name="IntermediateStorage" [disabled]="isReleasedMode" autocomplete="off"
-          [(ngModel)]="processData.IntermediateStorage" class="w-100" />
-        <label>פרטי אחסון ביניים</label>
-      </p-floatlabel>
-
-      <div class="d-flex align-items-center gap-2">
-        <p-checkbox [(ngModel)]="processData.IsTarahPerformed" [disabled]="isReleasedMode" name="IsTarahPerformed"
-          [binary]="true" inputId="isTarah"></p-checkbox>
-        <label class="font-bold cursor-pointer ml-1" for="isTarah">בוצע תר'ח</label>
-      </div>
-
-    </div>
-
-    <div class="d-flex flex-column w-50 gap-3">
-
-      <div class="d-flex align-items-center gap-2">
-        <p-checkbox [(ngModel)]="processData.IsPopulationRegistryUpdated" [disabled]="isReleasedMode"
-          name="IsPopulationRegistryUpdated" [binary]="true" inputId="isPopReg"></p-checkbox>
-        <label class="font-bold cursor-pointer" for="isPopReg">רשות האוכלוסין עודכנה</label>
-      </div>
-
-      <div class="d-flex align-items-center gap-2">
-        <p-checkbox [(ngModel)]="processData.IsPendingExit" [disabled]="isReleasedMode" name="IsPendingExit"
-          [binary]="true" inputId="pendingExit" (onChange)="onPendingExitChange()"></p-checkbox>
-        <label class="font-bold cursor-pointer" for="pendingExit">ממתין ליציאה</label>
-      </div>
-
-      <p-floatlabel variant="on" class="w-100 mt-2">
-        <input pInputText name="PendingExitReason" [disabled]="!processData.IsPendingExit || isReleasedMode"
-          [(ngModel)]="processData.PendingExitReason" class="w-100" />
-        <label>סיבת המתנה</label>
-      </p-floatlabel>
-    </div>
-  </form>
+    </form>
 
   } @else {
-  <app-empty-data />
+    <app-empty-data/>
   }
 
   <ng-template pTemplate="footer">
     @if (processData) {
-    <div class="d-flex justify-content-between w-100 mt-4">
+      <div class="d-flex justify-content-between w-100 mt-4">
 
-      @if (!isReleasedMode && showReleaseButton) {
-      <p-button label="שחרור" (click)="onRelease()" icon="pi pi-sign-out" severity="warn">
-      </p-button>
-      } @else if (isReleasedMode) {
-      <div></div>
-      } @else {
-      <div class="d-flex gap-2">
-        <p-button label="שמור שינויים" (click)="submitUpdate()" icon="pi pi-save" severity="primary"></p-button>
-        <p-button label="ביטול" (click)="closeDialog()" [text]="true" severity="secondary"></p-button>
+        @if (!isReleasedMode && showReleaseButton) {
+          <p-button label="שחרור"
+                    (click)="onRelease()"
+                    icon="pi pi-sign-out"
+                    severity="warn">
+          </p-button>
+        } @else if (isReleasedMode) {
+          <div></div>
+        } @else {
+          <div class="d-flex gap-2">
+            <p-button label="שמור שינויים"
+                      (click)="submitUpdate()"
+                      icon="pi pi-save"
+                      severity="primary"></p-button>
+            <p-button label="ביטול"
+                      (click)="closeDialog()"
+                      [text]="true"
+                      severity="secondary"></p-button>
+          </div>
+        }
       </div>
-      }
-    </div>
     }
   </ng-template>
 </p-dialog>
