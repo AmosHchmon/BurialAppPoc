@@ -50,8 +50,8 @@ public class EventController(EventService eventService, IMapper mapper) : Contro
 
         mapper.Map(eventDto, entity);
 
-        var res = await eventService.UpdateEvent(entity);
+        await eventService.UpdateEvent(entity);
 
-        return Ok(mapper.Map<EventDto>(res));
+        return Ok();
     }
 }

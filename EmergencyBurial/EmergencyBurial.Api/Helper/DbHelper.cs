@@ -37,8 +37,6 @@ public class DbHelper
 
                 InitTransportTestData();
 
-                //InitFormsMenu();
-
                 transaction.Commit();
             }
             catch (Exception ex)

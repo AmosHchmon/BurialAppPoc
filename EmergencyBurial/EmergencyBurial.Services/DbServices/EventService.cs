@@ -37,14 +37,12 @@ public class EventService(EmergencyBurialContext db)
         return entity;
     }
 
-    public async Task<Event> UpdateEvent(Event entity)
+    public async Task UpdateEvent(Event entity)
     {
         entity.UpdateOn = DateTime.Now;
 
         db.Events.Update(entity);
 
-        await db.SaveChangesAsync();
-
-        return entity;
+        await db.SaveChangesAsync(); ;
     }
 }

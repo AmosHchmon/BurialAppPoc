@@ -20,7 +20,7 @@ export class EventService extends BaseService {
     return super.post({body: event});
   }
 
-  async updateEvent(event: IEvent): Promise<IEvent> {
+  async updateEvent(event: IEvent): Promise<any> {
     return super.put({body: event});
   }
 }

@@ -14,5 +14,11 @@ public class Event : BaseUpdatedEntity
     public string Name { get; set; }
     public bool IsExercise { get; set; }
     
+    [ForeignKey(nameof(CreatedBy))]
+    public virtual Member CreateMember { get; set; }
+
+    [ForeignKey(nameof(UpdateBy))]
+    public virtual Member UpdateMember { get; set; }
+    
     public virtual ICollection<Deceased> Deceaseds { get; set; }
 }

@@ -51,19 +51,16 @@ export class EventsManagementComponent implements OnInit {
 
   onAddEvent() {
 
+    const defaultEvent = {
+      Name: '',
+      IsExercise: true
+    };
+
     if (this.eventForm) {
-      this.eventForm.resetForm();
+      this.eventForm.resetForm(defaultEvent);
     }
 
-    setTimeout(() => {
-
-      this.newEvent = {
-        Name: '',
-        IsExercise: true
-      };
-
-    }, 0);
-
+    this.newEvent = defaultEvent;
     this.showEventDialog = true;
   }
 
@@ -76,16 +73,32 @@ export class EventsManagementComponent implements OnInit {
   async onSaveEvent() {
 
     if (this.newEvent.Id) {
+
       await this.eventService.updateEvent(this.newEvent);
+
+      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemUpdateSuccessfully});
+
+      const index = this.events.findIndex(e => e.Id === this.newEvent.Id);
+
+      if (index !== -1) {
+
+        this.events[index] = {...this.newEvent};
+        this.events = [...this.events];
+      }
+
     } else {
-      await this.eventService.saveEvent(this.newEvent);
+
+      const createdEvent = await this.eventService.saveEvent(this.newEvent);
+
+      if (createdEvent) {
+        this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
+
+        this.events = [createdEvent, ...this.events];
+      }
     }
 
-    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
     this.showEventDialog = false;
-    this.dt.selection = null;
-
-    await this.loadEvents();
+    this.newEvent = {};
   }
 
   clearSearch() {

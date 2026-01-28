@@ -32,19 +32,6 @@ public partial class EmergencyBurialContext : DbContext
         modelBuilder.Entity<DeceasedBag>().HasIndex(d => d.BagNumber).IsUnique(true);
         modelBuilder.Entity<Transport>().HasIndex(d => d.Id).IsUnique(true);
         
-        modelBuilder.Entity<Event>(entity =>
-        {
-            entity.HasOne(e => e.CreateMember)
-                .WithMany()
-                .HasForeignKey(e => e.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            entity.HasOne(e => e.UpdateMember)
-                .WithMany()
-                .HasForeignKey(e => e.UpdateBy)
-                .OnDelete(DeleteBehavior.Restrict);
-        });
-
         foreach (var relationship in modelBuilder.Model.GetEntityTypes()
                      .SelectMany(e => e.GetForeignKeys())
                      .Where(fk => fk.DeleteBehavior == DeleteBehavior.Cascade))
