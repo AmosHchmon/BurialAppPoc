@@ -13,7 +13,7 @@ public class DbHelper
 {
     private readonly EmergencyBurialContext db;
     private readonly IWebHostEnvironment env;
-    
+
     public DbHelper(EmergencyBurialContext db)
     {
         this.db = db;
@@ -29,13 +29,13 @@ public class DbHelper
 
                 InitListItems();
 
+                var exerciseEventId = InitEvents();
+
                 InitMembers();
 
-                InitDeceasedTestData();
+                InitDeceasedTestData(exerciseEventId);
 
                 InitTransportTestData();
-
-                //InitFormsMenu();
 
                 transaction.Commit();
             }
@@ -126,7 +126,7 @@ public class DbHelper
         db.SaveChanges();
     }
 
-    private void InitDeceasedTestData()
+    private void InitDeceasedTestData(Guid eventId)
     {
         if (db.Deceaseds.Any())
         {
@@ -147,6 +147,7 @@ public class DbHelper
             HomeCity = "גיהנום",
             PeleNumber = "PL-789123",
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
+            EventId = eventId,
 
             DeceasedBags = new List<DeceasedBag>
             {
@@ -257,6 +258,7 @@ public class DbHelper
             Gender = "נקבה",
             HomeCity = "בית לחם",
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
+            EventId = eventId,
 
             DeceasedBags = new List<DeceasedBag>
             {
@@ -356,6 +358,7 @@ public class DbHelper
             HomeCity = "שכם",
             FatherName = "ישי",
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
+            EventId = eventId,
 
             DeceasedBags = new List<DeceasedBag>
             {
@@ -432,6 +435,22 @@ public class DbHelper
         db.SaveChanges();
     }
 
+    private Guid InitEvents()
+    {
+        if (db.Events.Any()) return db.Events.First().Id;
+
+        var exerciseEvent = new Event
+        {
+            Id = Guid.NewGuid(),
+            Name = "תרגיל אר'ן ארצי",
+            IsExercise = true,
+            CreatedOn = DateTime.Now,
+        };
+
+        db.Events.Add(exerciseEvent);
+        db.SaveChanges();
+        return exerciseEvent.Id;
+    }
 
     private void InitTransportTestData()
     {
@@ -491,7 +510,7 @@ public class DbHelper
     private void InitMembers()
     {
         var hasher = new PasswordHasher<Member>();
-        
+
         var list = new List<Member>
         {
             new()
@@ -528,11 +547,8 @@ public class DbHelper
                 IsActive = true,
             }
         };
-        
-        list.ForEach(m =>
-        {
-            m.Password = hasher.HashPassword(m, m.Password);
-        });
+
+        list.ForEach(m => { m.Password = hasher.HashPassword(m, m.Password); });
 
         db.Members.AddRange(list);
 
