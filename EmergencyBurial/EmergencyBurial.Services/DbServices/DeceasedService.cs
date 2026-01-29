@@ -40,7 +40,7 @@ public class DeceasedService(EmergencyBurialContext ctx)
         {
             foreach (var bag in deceased.DeceasedBags)
             {
-                bag.BagNumber = new Random().Next(100000, 999999).ToString();
+                bag.BagNumber = $"C-{DateTime.Now.Ticks}";
             }
         }
         

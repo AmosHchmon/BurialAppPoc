@@ -27,6 +27,7 @@ public class MappingProfile : Profile
 
         CreateMap<Deceased, DeceasedDto>()
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
+            .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.IdentityNumber ?? "חלל אינו מזוהה"))
             .ForMember(dest => dest.RelatedBagNumbers, opt => opt.MapFrom(src => src.DeceasedBags.Count))
             .ForMember(dest => dest.BagNumbersDisplay, opt =>
                 opt.MapFrom(src => string.Join(" | ", src.DeceasedBags.Select(b => b.BagNumber))))
@@ -38,10 +39,10 @@ public class MappingProfile : Profile
             .ReverseMap();
 
         CreateMap<DeceasedBag, DeceasedBagDto>()
-            .ForMember(dest => dest.Affiliation, opt => opt.MapFrom(src => src.Affiliation.GetEnumDescription()))
+            .ForMember(dest => dest.Affiliation, opt => opt.MapFrom(src => src.Affiliation.HasValue ? src.Affiliation.GetEnumDescription() : null))
             .ForMember(dest => dest.ReceivingStation,
-                opt => opt.MapFrom(src => src.ReceivingStation.GetEnumDescription()))
-            .ForMember(dest => dest.BroughtBy, opt => opt.MapFrom(src => src.BroughtBy.GetEnumDescription()))
+                opt => opt.MapFrom(src => src.ReceivingStation.HasValue ? src.ReceivingStation.GetEnumDescription() : null))
+            .ForMember(dest => dest.BroughtBy, opt => opt.MapFrom(src => src.ReceivingStation.HasValue ? src.BroughtBy.GetEnumDescription() : null))
             .ForMember(dest => dest.CanBeIdentifiedByAcquaintance,
                 opt => opt.MapFrom(src => src.CanBeIdentifiedByAcquaintance ? "כן" : "לא"))
             .ReverseMap();

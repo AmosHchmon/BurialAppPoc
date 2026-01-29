@@ -23,7 +23,7 @@ public class DeceasedBag
     [Description("שיוך ארגוני")]
     public Affiliation? Affiliation { get; set; }
 
-    public TarahStations ReceivingStation { get; set; }
+    public TarahStations? ReceivingStation { get; set; }
 
     public string? LastKnownLocation { get; set; }
     

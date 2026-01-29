@@ -55,8 +55,8 @@ public class DeceasedController(DeceasedService deceasedService, IMapper mapper)
         var eventId = new Guid(User.ClaimValue(ClaimHelper.EventId));
 
         var res = await deceasedService.CreateDeceased(deceased, userId, eventId);
-
-        return Ok(mapper.Map<DeceasedDto>(res));
+     
+        return Ok(res);
     }
 
     [HttpPut]
