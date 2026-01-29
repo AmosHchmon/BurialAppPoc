@@ -56,7 +56,7 @@ public class DeceasedController(DeceasedService deceasedService, IMapper mapper)
 
         var res = await deceasedService.CreateDeceased(deceased, userId, eventId);
      
-        return Ok(res);
+        return Ok(mapper.Map<DeceasedDto>(res));
     }
 
     [HttpPut]
