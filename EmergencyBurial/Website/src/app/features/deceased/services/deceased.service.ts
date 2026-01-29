@@ -5,6 +5,7 @@ import {BaseService} from "../../../core/abstract/base-service";
 import {DeceasedBurialCoordination} from "../model/DeceasedBurialCoordination";
 import {DeceasedBurialProcessStatus} from "../model/DeceasedBurialProcessStatus";
 import {DeceasedBurialDetails} from "../model/DeceasedBurialDetails";
+import {DeceasedBag} from "../model/DeceasedBag";
 
 @Injectable({
   providedIn: 'root'
@@ -55,4 +56,7 @@ export class DeceasedService extends BaseService {
     return super.get({path: `/burial-process/${id}`});
   }
 
+  addBagToDeceased(newBag: DeceasedBag): Promise<any> {
+    return super.post({path: '/add-bag', body: newBag});
+  }
 }

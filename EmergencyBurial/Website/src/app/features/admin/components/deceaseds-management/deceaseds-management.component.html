@@ -2,23 +2,23 @@
   <p-toolbar class="mb-4 shadow-sm border-0 bg-light">
     <div class="p-toolbar-group-start d-flex gap-3">
 
-      <p-button label="הוסף"
+      <p-button label="הוספת חלל"
                 icon="pi pi-plus"
                 severity="success"
                 (click)="onAddDeceased()"/>
 
-      <p-button label="עדכן"
+      <p-button label="עריכה"
                 icon="pi pi-pencil"
                 severity="info"
                 [disabled]="!dt.selection"
                 (click)="onEditDeceased()"/>
 
-      <p-button severity="danger"
+      <!--<p-button severity="danger"
                 label="מחק"
                 icon="pi pi-trash"
                 outlined
                 (click)="onDeleteDeceased()"
-                [disabled]="!dt.selection"/>
+                [disabled]="!dt.selection"/>-->
     </div>
   </p-toolbar>
 
@@ -112,50 +112,59 @@
           <div class="col-md-12 d-flex flex-column gap-3">
             <h6 class="fw-bold border-bottom pb-2 mb-3">פרטי זיהוי</h6>
 
-            <div class="mb-4">
-              <label class="small text-muted d-block mb-1">חיפוש חלל קיים מתוך הרשימה (אופציונלי)</label>
-              <p-select [options]="recognizedDeceased"
-                        [(ngModel)]="selectedExistingDeceased"
-                        class="w-50"
-                        name="existingDeceased"
-                        optionLabel="FullName"
-                        [filter]="true"
-                        (onChange)="onExistingDeceasedSelect($event)">
-              </p-select>
-            </div>
+            @if (!isEdit) {
+              <div class="mb-4">
+                <label class="small text-muted d-block mb-1">חיפוש חלל קיים מתוך הרשימה (אופציונלי)</label>
+                <p-select [options]="recognizedDeceased"
+                          [(ngModel)]="selectedExistingDeceased"
+                          class="w-50"
+                          name="existingDeceased"
+                          optionLabel="FullName"
+                          [filter]="true"
+                          (onChange)="onExistingDeceasedSelect($event)">
+                </p-select>
+              </div>
+            }
 
             <div class="row g-4">
               <div class="col-md-6">
                 <p-floatlabel variant="on">
-                  <input pInputText id="identityNumber" name="identityNumber"
+                  <input pInputText id="identityNumber"
+                         name="identityNumber"
                          identityvalidator
                          [(ngModel)]="newDeceased.IdentityNumber"
                          [required]="!selectedExistingDeceased" autocomplete="off"/>
-                  <label for="identityNumber">תעודת זהות *</label>
+                  <label for="identityNumber">תעודת זהות</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-6">
                 <p-floatlabel variant="on">
-                  <input pInputText id="firstName" name="firstName"
+                  <input pInputText
+                         id="firstName"
+                         name="firstName"
                          [(ngModel)]="newDeceased.FirstName"
                          [required]="!selectedExistingDeceased"/>
-                  <label for="firstName">שם פרטי *</label>
+                  <label for="firstName">שם פרטי</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-6">
                 <p-floatlabel variant="on">
-                  <input pInputText id="lastName" name="lastName"
+                  <input pInputText
+                         id="lastName"
+                         name="lastName"
                          [(ngModel)]="newDeceased.LastName"
                          [required]="!selectedExistingDeceased"/>
-                  <label for="lastName">שם משפחה *</label>
+                  <label for="lastName">שם משפחה</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-6">
                 <p-floatlabel variant="on">
-                  <input pInputText id="fatherName" name="fatherName"
+                  <input pInputText
+                         id="fatherName"
+                         name="fatherName"
                          [(ngModel)]="newDeceased.FatherName"
                          [required]="!selectedExistingDeceased"/>
-                  <label for="fatherName">שם האב *</label>
+                  <label for="fatherName">שם האב</label>
                 </p-floatlabel>
               </div>
             </div>
@@ -168,7 +177,7 @@
                         [(ngModel)]="isFullBody"
                         [binary]="true"
                         name="isFullBody"></p-checkbox>
-            <label class="fw-bold" for="isFullBody">האם הגופה מלאה?</label>
+            <label class="fw-bold" for="isFullBody">האם הגופה שלמה?</label>
           </div>
         </div>
 
@@ -183,7 +192,7 @@
                   <input pInputText id="partDescription" name="partDescription"
                          [(ngModel)]="newBag.PartDescription"
                          required/>
-                  <label for="partDescription">תיאור חלק (חובה) *</label>
+                  <label for="partDescription">תיאור חלק (חובה)</label>
                 </p-floatlabel>
               </div>
             }
@@ -195,18 +204,24 @@
 
     <ng-template pTemplate="footer">
       <div class="d-flex justify-content-start gap-3 w-100 mt-3">
-        <p-button [label]="newDeceased?.Id ? 'עדכן רשומה' : 'קלוט שק וחלל'"
-                  [icon]="newDeceased?.Id ? 'pi pi-check' : 'pi pi-plus'"
-                  [disabled]="deceasedForm.invalid"
-                  (click)="onSaveDeceased()"
-                  severity="success"/>
 
-        <p-button label="ביטול"
-                  icon="pi pi-times"
-                  severity="secondary"
-                  [outlined]="true"
-                  (click)="showDeceasedDialog = false"/>
+        @if (newDeceased?.Id && isEdit) {
+          <p-button label="עדכן חלל" icon="pi pi-check" severity="info"
+                    [disabled]="deceasedForm.invalid" (click)="onSaveDeceased()"/>
+        }
+        @else if (selectedExistingDeceased) {
+          <p-button label="הוסף שק לחלל הנבחר" icon="pi pi-plus-circle" severity="warn"
+                    [disabled]="!isFullBody && !newBag.PartDescription" (click)="onAddBagToDeceased()"/>
+        }
+        @else {
+          <p-button label="הוסף חלל ושק" icon="pi pi-plus" severity="success"
+                    [disabled]="deceasedForm.invalid" (click)="onSaveDeceased()"/>
+        }
+
+        <p-button label="ביטול" icon="pi pi-times" severity="secondary"
+                  [outlined]="true" (click)="showDeceasedDialog = false"/>
       </div>
     </ng-template>
+
   </p-dialog>
 </div>

@@ -76,6 +76,21 @@ public class DeceasedController(DeceasedService deceasedService, IMapper mapper)
         return Ok();
     }
 
+    [HttpPost("add-bag")]
+    public async Task<ActionResult<DeceasedBagDto>> AddBagToDeceased(DeceasedBagDto bagDto)
+    {
+        if (bagDto == null)
+        {
+            return BadRequest();
+        }
+        
+        var bag = mapper.Map<DeceasedBag>(bagDto);
+        
+        await deceasedService.AddBagToDeceased(bag);
+        
+        return Ok();
+    }
+    
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteDeceased(string id)
     {

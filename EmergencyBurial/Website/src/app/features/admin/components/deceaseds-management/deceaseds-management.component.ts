@@ -3,6 +3,7 @@ import {Table} from "primeng/table";
 import {Subscription} from "rxjs";
 import {NgForm} from "@angular/forms";
 import {ConfirmationService} from "primeng/api";
+import {SelectChangeEvent} from "primeng/select";
 
 import {Deceased} from "../../../deceased/model/Deceased";
 import {IColumn} from "../../../../shared/ui-components/model/column";
@@ -13,9 +14,7 @@ import {SignalRService} from "../../../../shared/services/signalR.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {ValidationModule} from "../../../../shared/validation/validation.module";
-import {SelectChangeEvent} from "primeng/select";
 import {DeceasedBag} from "../../../deceased/model/DeceasedBag";
-import {string} from "zod";
 
 @Component({
   selector: 'app-deceaseds-management',
@@ -43,6 +42,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   isIdentified: boolean = true;
   isFullBody: boolean = true;
   showDeceasedDialog: boolean = false;
+  isEdit: boolean = false;
 
   private deceasedSubscription: Subscription | undefined;
 
@@ -115,8 +115,10 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
       this.deceasedForm.resetForm(defaultValues);
     }
 
+    this.isEdit = false;
     this.isIdentified = true;
     this.isFullBody = true;
+
     this.newDeceased = {};
     this.newBag.PartDescription = DialogMessage.FullBodyInsideBag;
     this.selectedExistingDeceased = null;
@@ -168,6 +170,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
     }
 
     this.newDeceased = {...this.dt.selection};
+    this.isEdit = true;
     this.showDeceasedDialog = true;
   }
 
@@ -216,6 +219,21 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   onExistingDeceasedSelect($event: SelectChangeEvent) {
 
     this.newDeceased = {...$event.value};
+    this.isFullBody = false;
+    this.newBag.PartDescription = '';
+  }
+
+  async onAddBagToDeceased() {
+
+    this.newBag = {
+      DeceasedId: this.selectedExistingDeceased.Id,
+    }
+
+    await this.deceasedService.addBagToDeceased(this.newBag);
+
+    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
+
+    this.showDeceasedDialog = false;
   }
 
   //endregion
