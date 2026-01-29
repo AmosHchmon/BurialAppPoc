@@ -88,106 +88,101 @@
   </p-table>
 
   <p-dialog [(visible)]="showDeceasedDialog"
-            [header]="newDeceased?.Id ? 'עריכת פרטי חלל' : 'הוספת חלל חדש'"
+            [header]="newDeceased?.Id ? 'עריכת פרטי שק/חלל' : 'יצירת חלל חדש'"
             [modal]="true"
-            [style]="{ width: '45rem' }"
-            [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
+            [style]="{ width: '50rem' }"
             [draggable]="false"
-            [resizable]="false"
-            dismissableMask="true"
-            closeOnEscape="true">
+            dismissableMask="true">
 
     <form #deceasedForm="ngForm" class="p-fluid">
-      <div class="row g-4 mt-1">
 
-        <div class="col-md-6 d-flex flex-column gap-4">
-          <h6 class="fw-bold border-bottom pb-2">פרטים אישיים</h6>
-
-          <p-floatlabel variant="on">
-            <input pInputText
-                   id="identityNumber"
-                   name="identityNumber"
-                   [(ngModel)]="newDeceased.IdentityNumber"
-                   #identityNumber="ngModel"
-                   required
-                   identityvalidator
-                   autocomplete="off"/>
-            <label for="identityNumber">תעודת זהות</label>
-          </p-floatlabel>
-
-          <p-floatlabel variant="on">
-            <input pInputText
-                   id="firstName"
-                   name="firstName"
-                   [(ngModel)]="newDeceased.FirstName"
-                   #firstName="ngModel"
-                   required/>
-            <label for="firstName">שם פרטי</label>
-          </p-floatlabel>
-
-          <p-floatlabel variant="on">
-            <input pInputText
-                   id="lastName"
-                   name="lastName"
-                   [(ngModel)]="newDeceased.LastName"
-                   #lastName="ngModel"
-                   required/>
-            <label for="lastName">שם משפחה</label>
-          </p-floatlabel>
-
-          <p-floatlabel variant="on">
-            <input pInputText
-                   id="fatherName"
-                   name="fatherName"
-                   [(ngModel)]="newDeceased.FatherName"
-                   #fatherName="ngModel"
-                   required/>
-            <label for="fatherName">שם האב</label>
-          </p-floatlabel>
+      <div class="row mb-4 bg-light p-3 border-round shadow-sm">
+        <div class="col-md-6 d-flex align-items-center gap-3">
+          <p-checkbox inputId="isIdentified"
+                      [(ngModel)]="isIdentified"
+                      [binary]="true"
+                      name="isIdentified"></p-checkbox>
+          <label class="fw-bold" for="isIdentified">האם החלל מזוהה?</label>
         </div>
+        <div class="col-md-6 d-flex align-items-center gap-3">
+          <p-checkbox inputId="isFullBody"
+                      [(ngModel)]="isFullBody"
+                      [binary]="true"
+                      name="isFullBody"></p-checkbox>
+          <label class="fw-bold" for="isFullBody">האם הגופה מלאה?</label>
+        </div>
+      </div>
 
-        <div class="col-md-6 d-flex flex-column gap-4 border-end-md">
-          <h6 class="fw-bold border-bottom pb-2">רקע ומגורים</h6>
+      <div class="row g-4">
 
-          <p-floatlabel variant="on">
-            <input pInputText
-                   id="nationality"
-                   name="nationality"
-                   [(ngModel)]="newDeceased.Nationality"
-                   #nationality="ngModel"
-                   required/>
-            <label for="nationality">לאום</label>
-          </p-floatlabel>
+        @if (isIdentified) {
+          <div class="col-md-12 d-flex flex-column gap-3">
+            <h6 class="fw-bold border-bottom pb-2 mb-3">פרטי זיהוי</h6>
 
-          <p-floatlabel variant="on">
-            <input pInputText
-                   id="homeCity"
-                   name="homeCity"
-                   [(ngModel)]="newDeceased.HomeCity"
-                   #homeCity="ngModel"
-                   required/>
-            <label for="homeCity">עיר מגורים</label>
-          </p-floatlabel>
+            <div class="mb-4">
+              <label class="small text-muted d-block mb-1">חיפוש חלל קיים מתוך הרשימה (אופציונלי)</label>
+              <p-select [options]="deceasedList"
+                        [(ngModel)]="selectedExistingDeceased"
+                        class="w-50"
+                        name="existingDeceased"
+                        optionLabel="FullName"
+                        [filter]="true"
+                        (onChange)="onExistingDeceasedSelect($event)">
+              </p-select>
+            </div>
 
-          <div class="field mt-2">
-            <label class="mb-3 d-block small fw-bold text-muted">מין</label>
-            <div class="d-flex gap-4">
-              <div class="d-flex align-items-center gap-2">
-                <p-radio-button name="gender"
-                                value="זכר"
-                                [(ngModel)]="newDeceased.Gender"
-                                inputId="gender1"
-                                required/>
-                <label for="gender1" class="m-0">זכר</label>
+            <div class="row g-4">
+              <div class="col-md-6">
+                <p-floatlabel variant="on">
+                  <input pInputText id="identityNumber" name="identityNumber"
+                         [(ngModel)]="newDeceased.IdentityNumber"
+                         [required]="!selectedExistingDeceased" autocomplete="off"/>
+                  <label for="identityNumber">תעודת זהות *</label>
+                </p-floatlabel>
               </div>
-              <div class="d-flex align-items-center gap-2">
-                <p-radio-button name="gender"
-                                value="נקבה"
-                                [(ngModel)]="newDeceased.Gender"
-                                inputId="gender2"/>
-                <label for="gender2" class="m-0">נקבה</label>
+              <div class="col-md-6">
+                <p-floatlabel variant="on">
+                  <input pInputText id="firstName" name="firstName"
+                         [(ngModel)]="newDeceased.FirstName"
+                         [required]="!selectedExistingDeceased"/>
+                  <label for="firstName">שם פרטי *</label>
+                </p-floatlabel>
+              </div>
+              <div class="col-md-6">
+                <p-floatlabel variant="on">
+                  <input pInputText id="lastName" name="lastName"
+                         [(ngModel)]="newDeceased.LastName"
+                         [required]="!selectedExistingDeceased"/>
+                  <label for="lastName">שם משפחה *</label>
+                </p-floatlabel>
+              </div>
+              <div class="col-md-6">
+                <p-floatlabel variant="on">
+                  <input pInputText id="fatherName" name="fatherName"
+                         [(ngModel)]="newDeceased.FatherName"
+                         [required]="!selectedExistingDeceased"/>
+                  <label for="fatherName">שם האב *</label>
+                </p-floatlabel>
               </div>
             </div>
+          </div>
+        }
+
+        <div class="col-md-12">
+
+          <div class="row g-3">
+
+            @if (!isFullBody) {
+              <h6 class="fw-bold border-bottom pb-2 mb-3">פרטי השק</h6>
+              <div class="col-md-6">
+                <p-floatlabel variant="on">
+                  <input pInputText id="partDescription" name="partDescription"
+                         [(ngModel)]="newBagDescription"
+                         required/>
+                  <label for="partDescription">תיאור חלק (חובה) *</label>
+                </p-floatlabel>
+              </div>
+            }
           </div>
         </div>
 
@@ -196,7 +191,7 @@
 
     <ng-template pTemplate="footer">
       <div class="d-flex justify-content-start gap-3 w-100 mt-3">
-        <p-button [label]="newDeceased?.Id ? 'עדכן חלל' : 'שמור חלל'"
+        <p-button [label]="newDeceased?.Id ? 'עדכן רשומה' : 'קלוט שק וחלל'"
                   [icon]="newDeceased?.Id ? 'pi pi-check' : 'pi pi-plus'"
                   [disabled]="deceasedForm.invalid"
                   (click)="onSaveDeceased()"

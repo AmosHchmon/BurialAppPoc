@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
-import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {NgForm} from "@angular/forms";
 import {ConfirmationService} from "primeng/api";
@@ -14,6 +13,7 @@ import {SignalRService} from "../../../../shared/services/signalR.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {ValidationModule} from "../../../../shared/validation/validation.module";
+import {SelectChangeEvent} from "primeng/select";
 
 @Component({
   selector: 'app-deceaseds-management',
@@ -27,21 +27,24 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   @ViewChild('deceasedForm') deceasedForm: NgForm;
 
   cols: IColumn[] = [
-    {field: 'HalalNumber', header: 'מספר חלל'},
     {field: 'IdentityNumber', header: 'מספר זהות'},
     {field: 'FullName', header: 'שם מלא'},
     {field: 'FatherName', header: 'שם האב'},
   ];
   deceasedList: Deceased[] = [];
   newDeceased: Deceased = {};
+  selectedExistingDeceased: Deceased;
   searchText: string;
+  newBagDescription: string;
+
+  isIdentified: boolean = true;
+  isFullBody: boolean = true;
   showDeceasedDialog: boolean = false;
 
   private deceasedSubscription: Subscription | undefined;
 
   constructor(private deceasedService: DeceasedService,
               private alertService: AlertService,
-              private router: Router,
               private signalRService: SignalRService,
               private confirmService: ConfirmationService) {
 
@@ -95,6 +98,13 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   //#region [Client events]
   onAddDeceased() {
 
+    if (this.deceasedForm) {
+      this.deceasedForm.resetForm();
+    }
+
+    this.isIdentified = true;
+    this.isFullBody = false;
+
     this.newDeceased = {};
 
     this.showDeceasedDialog = true;
@@ -122,6 +132,10 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   }
 
   onEditDeceased() {
+
+    if (this.dt.selection.IdentityNumber.length > 0) {
+      this.isIdentified = true;
+    }
 
     this.newDeceased = {...this.dt.selection};
     this.showDeceasedDialog = true;
@@ -167,6 +181,11 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
     if (this.dt) {
       this.dt.filterGlobal(null, 'contains');
     }
+  }
+
+  onExistingDeceasedSelect($event: SelectChangeEvent) {
+
+    this.newDeceased = {...$event.value};
   }
 
   //endregion
