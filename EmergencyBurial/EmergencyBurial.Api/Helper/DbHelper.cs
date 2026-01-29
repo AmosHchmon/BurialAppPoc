@@ -501,7 +501,6 @@ public class DbHelper
                 DeceasedId = deceased5Id,
                 TarahStation = (int)TarahStations.Tziporit,
                 TarahStatus = TarahStatus.InProgress,
-                TarahReceptionDate = DateTime.Now.AddHours(-4),
                 TarahTeamManager = "צוות א' - תר\"ח"
             }
         };
@@ -534,8 +533,6 @@ public class DbHelper
                 DeceasedId = deceased6Id,
                 TarahStation = (int)TarahStations.SdeTeiman,
                 TarahStatus = TarahStatus.Completed,
-                TarahReceptionDate = DateTime.Now.AddDays(-1),
-                TarahReleaseDate = DateTime.Now.AddHours(-2),
             }
         };
 

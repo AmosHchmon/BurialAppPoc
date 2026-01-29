@@ -61,7 +61,6 @@ public class TarahService(EmergencyBurialContext ctx)
         if (tarahDetails.TarahStatus == TarahStatus.Pending || tarahDetails.TarahStatus == null)
         {
             tarahDetails.TarahStatus = TarahStatus.InProgress;
-            tarahDetails.TarahReceptionDate = DateTime.Now;
             tarahDetails.TarahStation = stationId;
 
             bag.Deceased.ProcessStatus = ProcessStatus.ReceptionAtTarah;
@@ -108,7 +107,6 @@ public class TarahService(EmergencyBurialContext ctx)
         if (bag.Deceased.DeceasedTarahDetails != null)
         {
             bag.Deceased.DeceasedTarahDetails.IsPendingExit = false;
-            bag.Deceased.DeceasedTarahDetails.TarahReleaseDate = DateTime.Now;
             bag.Deceased.DeceasedTarahDetails.TarahStatus = TarahStatus.Completed;
         }
 
