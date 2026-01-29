@@ -29,13 +29,13 @@ public class DbHelper
 
                 InitListItems();
 
+                var exerciseEventId = InitEvents();
+
                 InitMembers();
 
-                InitDeceasedTestData();
+                InitDeceasedTestData(exerciseEventId);
 
                 InitTransportTestData();
-
-                //InitFormsMenu();
 
                 transaction.Commit();
             }
@@ -126,7 +126,7 @@ public class DbHelper
         db.SaveChanges();
     }
 
-    private void InitDeceasedTestData()
+    private void InitDeceasedTestData(Guid eventId)
     {
         if (db.Deceaseds.Any())
         {
@@ -148,6 +148,7 @@ public class DbHelper
             PeleNumber = "PL-789123",
             Affiliation = Affiliation.Civilian,
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
+            EventId = eventId,
 
             DeceasedBags = new List<DeceasedBag>
             {
@@ -258,6 +259,7 @@ public class DbHelper
             Gender = "נקבה",
             HomeCity = "בית לחם",
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
+            EventId = eventId,
 
             DeceasedBags = new List<DeceasedBag>
             {
@@ -358,6 +360,7 @@ public class DbHelper
             FatherName = "ישי",
             Affiliation = Affiliation.Civilian,
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
+            EventId = eventId,
 
             DeceasedBags = new List<DeceasedBag>
             {
@@ -563,6 +566,22 @@ public class DbHelper
         db.SaveChanges();
     }
 
+    private Guid InitEvents()
+    {
+        if (db.Events.Any()) return db.Events.First().Id;
+
+        var exerciseEvent = new Event
+        {
+            Id = Guid.NewGuid(),
+            Name = "תרגיל אר'ן ארצי",
+            IsExercise = true,
+            CreatedOn = DateTime.Now,
+        };
+
+        db.Events.Add(exerciseEvent);
+        db.SaveChanges();
+        return exerciseEvent.Id;
+    }
 
     private void InitTransportTestData()
     {
