@@ -34,6 +34,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
     {field: 'FatherName', header: 'שם האב'},
   ];
   deceasedList: Deceased[] = [];
+  recognizedDeceased: Deceased[] = [];
   newDeceased: Deceased = {};
   selectedExistingDeceased: Deceased;
   searchText: string;
@@ -63,6 +64,11 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   private async loadDeceased() {
 
     this.deceasedList = await this.deceasedService.getDeceaseds();
+
+    this.recognizedDeceased = this.deceasedList.filter(d =>
+      d.IdentityNumber &&
+      d.IdentityNumber !== 'חלל אינו מזוהה'
+    );
 
   }
 
