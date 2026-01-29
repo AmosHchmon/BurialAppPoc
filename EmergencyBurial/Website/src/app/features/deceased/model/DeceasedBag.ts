@@ -2,9 +2,9 @@
 
 export interface DeceasedBag {
 
-  Id: string;
+  Id?: string;
 
-  DeceasedId: string;
+  DeceasedId?: string;
 
   BagNumber?: string;
 

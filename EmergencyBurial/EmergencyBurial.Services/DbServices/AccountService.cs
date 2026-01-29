@@ -53,6 +53,7 @@ public class AccountService(
             new Claim(ClaimTypes.Name, member.UserName),
             new Claim(ClaimTypes.Email, member.Mail),
             new Claim(ClaimHelper.StationId, member.StationId.ToString()),
+            new Claim(ClaimHelper.EventId, Constants.eventId.ToString()),
             new Claim(ClaimTypes.Role, OU.ToString()),
             new Claim(ClaimHelper.Permission, permission.ToString()),
         };

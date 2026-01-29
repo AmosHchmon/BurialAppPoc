@@ -51,12 +51,12 @@ public class DeceasedController(DeceasedService deceasedService, IMapper mapper)
 
         var deceased = mapper.Map<Deceased>(deceasedDto);
         
-        deceased.UpdateBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
-        deceased.UpdateOn = DateTime.Now;
+        var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
+        var eventId = new Guid(User.ClaimValue(ClaimHelper.EventId));
 
-        await deceasedService.CreateDeceased(deceased);
+        var res = await deceasedService.CreateDeceased(deceased, userId, eventId);
 
-        return Ok();
+        return Ok(mapper.Map<DeceasedDto>(res));
     }
 
     [HttpPut]
@@ -69,10 +69,9 @@ public class DeceasedController(DeceasedService deceasedService, IMapper mapper)
 
         var deceased = mapper.Map<Deceased>(deceasedDto);
         
-        deceased.UpdateBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
-        deceased.UpdateOn = DateTime.Now;
-
-        await deceasedService.UpdateDeceased(deceased);
+        var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
+        
+        await deceasedService.UpdateDeceased(deceased, userId);
 
         return Ok();
     }

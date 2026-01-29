@@ -14,6 +14,8 @@ import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {ValidationModule} from "../../../../shared/validation/validation.module";
 import {SelectChangeEvent} from "primeng/select";
+import {DeceasedBag} from "../../../deceased/model/DeceasedBag";
+import {string} from "zod";
 
 @Component({
   selector: 'app-deceaseds-management',
@@ -35,7 +37,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   newDeceased: Deceased = {};
   selectedExistingDeceased: Deceased;
   searchText: string;
-  newBagDescription: string;
+  newBag: DeceasedBag = {};
 
   isIdentified: boolean = true;
   isFullBody: boolean = true;
@@ -98,14 +100,20 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   //#region [Client events]
   onAddDeceased() {
 
+    const defaultValues = {
+      isIdentified: true,
+      isFullBody: true
+    };
+
     if (this.deceasedForm) {
-      this.deceasedForm.resetForm();
+      this.deceasedForm.resetForm(defaultValues);
     }
 
     this.isIdentified = true;
-    this.isFullBody = false;
-
+    this.isFullBody = true;
     this.newDeceased = {};
+    this.newBag.PartDescription = DialogMessage.FullBodyInsideBag;
+    this.selectedExistingDeceased = null;
 
     this.showDeceasedDialog = true;
   }
@@ -113,22 +121,38 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   async onSaveDeceased() {
 
     if (this.newDeceased.Id) {
-      await this.deceasedService.updateDeceased(this.newDeceased);
+
+      const deceased = await this.deceasedService.updateDeceased(this.newDeceased);
+
+      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemUpdateSuccessfully});
+
+      const index = this.deceasedList.findIndex(d => d.Id === this.newDeceased.Id);
+
+      if (index !== -1) {
+
+        this.deceasedList[index] = {...deceased};
+        this.deceasedList = [...this.deceasedList];
+      }
+
     } else {
-      await this.deceasedService.saveDeceased(this.newDeceased);
-      this.showDeceasedDialog = false;
+
+      this.newDeceased.DeceasedBags = [];
+      this.newDeceased.DeceasedBags.push(this.newBag);
+
+      const createdDeceased = await this.deceasedService.saveDeceased(this.newDeceased);
+
+      if (createdDeceased) {
+        this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
+
+        this.deceasedList = [createdDeceased, ...this.deceasedList];
+      }
+
     }
 
-    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
-
-    this.showDeceasedDialog = false;
-
+    this.newDeceased = {};
     this.dt.selection = null;
 
-    this.deceasedForm.resetForm();
-
-    await this.loadDeceased();
-
+    this.showDeceasedDialog = false;
   }
 
   onEditDeceased() {

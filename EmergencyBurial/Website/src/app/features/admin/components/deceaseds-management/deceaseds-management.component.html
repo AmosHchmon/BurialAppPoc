@@ -96,24 +96,17 @@
 
     <form #deceasedForm="ngForm" class="p-fluid">
 
-      <div class="row mb-4 bg-light p-3 border-round shadow-sm">
-        <div class="col-md-6 d-flex align-items-center gap-3">
-          <p-checkbox inputId="isIdentified"
-                      [(ngModel)]="isIdentified"
-                      [binary]="true"
-                      name="isIdentified"></p-checkbox>
-          <label class="fw-bold" for="isIdentified">האם החלל מזוהה?</label>
-        </div>
-        <div class="col-md-6 d-flex align-items-center gap-3">
-          <p-checkbox inputId="isFullBody"
-                      [(ngModel)]="isFullBody"
-                      [binary]="true"
-                      name="isFullBody"></p-checkbox>
-          <label class="fw-bold" for="isFullBody">האם הגופה מלאה?</label>
-        </div>
-      </div>
+      <div class="d-flex flex-column">
 
-      <div class="row g-4">
+        <div class="mb-4 bg-light p-3 mt-3 border-round shadow-sm">
+          <div class="col-md-6 d-flex align-items-center gap-3">
+            <p-checkbox inputId="isIdentified"
+                        [(ngModel)]="isIdentified"
+                        [binary]="true"
+                        name="isIdentified"></p-checkbox>
+            <label class="fw-bold" for="isIdentified">האם החלל מזוהה?</label>
+          </div>
+        </div>
 
         @if (isIdentified) {
           <div class="col-md-12 d-flex flex-column gap-3">
@@ -168,6 +161,16 @@
           </div>
         }
 
+        <div class="mb-4 bg-light p-3 border-round shadow-sm mt-4">
+          <div class="col-md-6 d-flex align-items-center gap-3">
+            <p-checkbox inputId="isFullBody"
+                        [(ngModel)]="isFullBody"
+                        [binary]="true"
+                        name="isFullBody"></p-checkbox>
+            <label class="fw-bold" for="isFullBody">האם הגופה מלאה?</label>
+          </div>
+        </div>
+
         <div class="col-md-12">
 
           <div class="row g-3">
@@ -177,7 +180,7 @@
               <div class="col-md-6">
                 <p-floatlabel variant="on">
                   <input pInputText id="partDescription" name="partDescription"
-                         [(ngModel)]="newBagDescription"
+                         [(ngModel)]="newBag.PartDescription"
                          required/>
                   <label for="partDescription">תיאור חלק (חובה) *</label>
                 </p-floatlabel>

@@ -32,5 +32,6 @@ export let DialogMessage = {
   ShouldReleaseFromTaharah: 'האם לשחרר את החלל מתהליך הטהרה?',
   DeceasedReleasedFromTaharah: 'החלל שוחרר מטהרה בהצלחה',
   TachrichimIsRequired: 'יש להכניס תכריכי פשתן לטובת שחרור מטהרה',
-  MemberUpdated: 'משתמש עודכן בהצלחה'
+  MemberUpdated: 'משתמש עודכן בהצלחה',
+  FullBodyInsideBag: 'גופה מלאה'
 };

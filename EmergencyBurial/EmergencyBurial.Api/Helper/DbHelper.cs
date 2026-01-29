@@ -141,7 +141,7 @@ public class DbHelper
             IdentityNumber = "2222222",
             FirstName = "טאיפ",
             LastName = "ארדואן",
-            FatherName = "אברהם",
+            FatherName = "זבל גדול",
             Nationality = "כלב",
             Gender = "זכר",
             HomeCity = "גיהנום",
@@ -254,7 +254,7 @@ public class DbHelper
             FirstName = "דואה",
             LastName = "ליפה",
             Nationality = "כלבה",
-            FatherName = "משה",
+            FatherName = "טינופת",
             Gender = "נקבה",
             HomeCity = "בית לחם",
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
@@ -356,7 +356,7 @@ public class DbHelper
             Nationality = "כלב",
             Gender = "זכר",
             HomeCity = "שכם",
-            FatherName = "ישי",
+            FatherName = "זבל",
             ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
             EventId = eventId,
 
@@ -441,7 +441,7 @@ public class DbHelper
 
         var exerciseEvent = new Event
         {
-            Id = Guid.NewGuid(),
+            Id = Constants.eventId,
             Name = "תרגיל אר'ן ארצי",
             IsExercise = true,
             CreatedOn = DateTime.Now,

@@ -97,8 +97,10 @@ export class EventsManagementComponent implements OnInit {
       }
     }
 
-    this.showEventDialog = false;
+    this.dt.selection = null;
     this.newEvent = {};
+
+    this.showEventDialog = false;
   }
 
   clearSearch() {

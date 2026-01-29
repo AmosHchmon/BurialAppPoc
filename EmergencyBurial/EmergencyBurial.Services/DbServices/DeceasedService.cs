@@ -29,8 +29,21 @@ public class DeceasedService(EmergencyBurialContext ctx)
         return deceased;
     }
 
-    public async Task<Deceased> CreateDeceased(Deceased deceased)
+    public async Task<Deceased> CreateDeceased(Deceased deceased, Guid? userId = null, Guid? eventId = null)
     {
+        deceased.UpdateBy = userId;
+        deceased.EventId = eventId;
+        deceased.CreatedOn = DateTime.Now;
+        deceased.ProcessStatus = ProcessStatus.PoliceIntake;
+        
+        if (deceased.DeceasedBags != null)
+        {
+            foreach (var bag in deceased.DeceasedBags)
+            {
+                bag.BagNumber = new Random().Next(100000, 999999).ToString();
+            }
+        }
+        
         await ctx.Deceaseds.AddAsync(deceased);
 
         await ctx.SaveChangesAsync();
@@ -38,8 +51,11 @@ public class DeceasedService(EmergencyBurialContext ctx)
         return deceased;
     }
 
-    public async Task UpdateDeceased(Deceased deceased)
+    public async Task UpdateDeceased(Deceased deceased, Guid? userId = null)
     {
+        deceased.UpdateBy = userId;
+        deceased.UpdateOn = DateTime.Now;
+
         ctx.Deceaseds.Update(deceased);
 
         await ctx.SaveChangesAsync();
