@@ -42,9 +42,6 @@ public class DeceasedBag
     
     public string? FillerName { get; set; }
     
-    [Description("נקלט בתר'ח על ידי")]
-    public Guid? ReceivedInTarahBy { get; set; }
-    
     public DateTime? ArrivalDateTime { get; set; }
     
     [Description("הגורם שהביא את השק")]
@@ -55,9 +52,6 @@ public class DeceasedBag
     
     [Description("חפצים שנמצאו על החלל")]
     public string? ObjectsOnDeceased { get; set; }
-    
-    [ForeignKey(nameof(ReceivedInTarahBy))]
-    public virtual Member ReceivedBy { get; set; }
     
     [ForeignKey(nameof(DeceasedId))]
     public virtual Deceased Deceased { get; set; }

@@ -7,7 +7,7 @@ import {AlertService} from "../../../../shared/services/alert.service";
 import {TarahProcess} from "../../model/TarahProcess";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
-import {AffiliationOptions} from "../../../../core/enums/affiliation.enum";
+import {AffiliationOptions} from "../../../../shared/enum/affiliation.enum";
 
 @Component({
   selector: 'app-tarah-update-dialog',
