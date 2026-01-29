@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.Helpers;
@@ -31,6 +32,9 @@ public class Deceased: BaseUpdatedEntity
     public string? HomeAddress { get; set; }
     
     public string? Notes { get; set; }
+
+    [Description("שיוך ארגוני")]
+    public Affiliation? Affiliation { get; set; }
     
     public ProcessStatus ProcessStatus { get; set; }
     
@@ -40,6 +44,9 @@ public class Deceased: BaseUpdatedEntity
     public virtual Event Event { get; set; }
     
     public virtual ICollection<DeceasedStatusHistory> StatusHistory { get; set; }
+    
+    [Description("האם רשות האוכלוסין עודכנה")]
+    public bool IsPopulationRegistryUpdated { get; set; }
 
     public virtual ICollection<DeceasedBag> DeceasedBags { get; set; }
     
@@ -48,6 +55,8 @@ public class Deceased: BaseUpdatedEntity
     public virtual DeceasedBurialDetails DeceasedBurialDetails { get; set; }
     
     public virtual DeceasedTaharahDetails DeceasedTaharahDetails { get; set; }
+    
+    public virtual DeceasedTarahDetails DeceasedTarahDetails { get; set; }
     
     public virtual DeceasedBurialCoordination DeceasedBurialCoordination { get; set; }
 }

@@ -11,8 +11,6 @@ public class DeceasedBagDto
     
     public string BagNumber { get; set; }
 
-    public string? Affiliation { get; set; }
-
     public string? ReceivingStation { get; set; }
 
     public string? LastKnownLocation { get; set; }

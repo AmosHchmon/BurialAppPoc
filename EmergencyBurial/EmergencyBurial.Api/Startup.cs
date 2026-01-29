@@ -91,6 +91,7 @@ namespace EmergencyBurial.Api
             services.AddScoped<NotificationService>();
             services.AddScoped<MemberService>();
             services.AddScoped<TaharahService>();
+            services.AddScoped<TarahService>();
             services.AddScoped<TransportService>();
             services.AddScoped<FileService>();
             services.AddScoped<EventService>();

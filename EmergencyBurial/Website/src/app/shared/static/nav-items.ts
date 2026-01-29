@@ -1,5 +1,5 @@
-import {INavItem} from '../model/nav-item';
-import {enmOrganizationType} from "../enum/organization-type.enum";
+import { INavItem } from '../model/nav-item';
+import { enmOrganizationType } from "../enum/organization-type.enum";
 
 export const NavMenuItems: Array<INavItem> = [
   {
@@ -24,17 +24,24 @@ export const NavMenuItems: Array<INavItem> = [
     roles: [enmOrganizationType.All]
   },
   {
+    name: "תר\"ח",
+    module: "tarah",
+    url: "/dashboard/tarah",
+    icon: "pi pi-box",
+    roles: [enmOrganizationType.Tarah, enmOrganizationType.DatServices]
+  },
+  {
     name: "הכנה לקבורה",
     module: "taharah",
     url: "/dashboard/taharah",
     icon: "pi pi-users",
-    roles: [enmOrganizationType.BurialPreparation, enmOrganizationType.Hamal]
+    roles: [enmOrganizationType.BurialPreparation, enmOrganizationType.DatServices]
   },
   {
     name: "ניהול",
     module: "admin",
     url: "/admin/users",
     icon: "pi pi-cog",
-    roles: [enmOrganizationType.Hamal]
+    roles: [enmOrganizationType.Hamal, enmOrganizationType.DatServices]
   },
 ]
