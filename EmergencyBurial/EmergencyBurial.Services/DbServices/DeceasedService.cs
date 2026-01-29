@@ -14,12 +14,10 @@ public class DeceasedService(EmergencyBurialContext ctx)
 {
     public async Task<List<Deceased>> GetDeceaseds()
     {
-        var deceaseds = await ctx.Deceaseds
+        return await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
-
-        return deceaseds;
     }
 
     public async Task<Deceased> GetDeceased(Guid? id)

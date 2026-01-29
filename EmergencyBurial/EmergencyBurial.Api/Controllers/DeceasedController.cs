@@ -18,7 +18,7 @@ namespace EmergencyBurial.Api.Controllers;
                                                   + nameof(OrganizationType.Hamal) + ","
                                                   + nameof(OrganizationType.DatServices),
     Policy = nameof(RoleAccessType.View))]
-public class DeceasedsController(DeceasedService deceasedService, IMapper mapper) : ControllerBase
+public class DeceasedController(DeceasedService deceasedService, IMapper mapper) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<DeceasedDto>>> GetDeceaseds()
