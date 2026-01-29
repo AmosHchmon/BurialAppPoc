@@ -155,6 +155,16 @@ namespace Core.Helpers
         Completed = 2
     }
 
+    public enum TarahStatus
+    {
+        [Description("ממתין לקבלה")]
+        Pending = 0,
+        [Description("בתהליך תר'ח")]
+        InProgress = 1,
+        [Description("שוחרר מתר'ח")]
+        Completed = 2
+    }
+
     public enum BadMessageProcessStatus
     {
         [Description("הודעה לא נמסרה")]
@@ -235,6 +245,18 @@ namespace Core.Helpers
         Welfare = 3,
         [Description("בריאות")]
         Health = 4
+    }
+
+    public enum BagTarahProcessStatus
+    {
+        [Description("קליטה משטרה")]
+        PoliceIntake = 0,
+        [Description("שינוע - חזרה משינוע מכון רפואה משפטית")]
+        Transport = 1,
+        [Description("מאוחסן בתר\"ח")]
+        InStorage = 2,
+        [Description("שוחרר מתר\"ח")]
+        Released = 3
     }
 
     #endregion

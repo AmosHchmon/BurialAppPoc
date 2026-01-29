@@ -53,6 +53,11 @@ export const routes: Routes = [
         canMatch: [RoleGuard], data: { roles: [enmOrganizationType.BurialPreparation, enmOrganizationType.Hamal, enmOrganizationType.DatServices] },
         loadChildren: () => import('./features/taharah/taharah.routing').then(m => m.TaharahRouting)
       },
+      {
+        path: 'tarah',
+        canMatch: [RoleGuard], data: { roles: [enmOrganizationType.Tarah, enmOrganizationType.DatServices] },
+        loadChildren: () => import('./features/tarah/tarah.routing').then(m => m.TarahRouting)
+      },
     ],
     canMatch: [AuthGuard],
   },

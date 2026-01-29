@@ -14,14 +14,14 @@ namespace EmergencyBurial.Api.Controllers;
 [Route("[controller]")]
 [ApiController]
 [Authorize(Roles = nameof(OrganizationType.BurialPreparation) + "," + nameof(OrganizationType.DatServices), Policy = nameof(RoleAccessType.Edit))]
-public class TaharahsController(TaharahService taharahService, IMapper mapper) : ControllerBase
+public class TaharahController(TaharahService taharahService, IMapper mapper) : ControllerBase
 {
     [HttpGet("pending")]
     public async Task<ActionResult<List<TaharahListDto>>> GetPending()
     {
         int? stationId = null;
 
-        if (User.IsInRole(nameof(OrganizationType.BurialPreparation)))
+        if (!User.IsInRole(nameof(OrganizationType.DatServices)))
         {
             stationId = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
         }
@@ -35,7 +35,7 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
     {
         int? stationId = null;
 
-        if (User.IsInRole(nameof(OrganizationType.BurialPreparation)))
+        if (!User.IsInRole(nameof(OrganizationType.DatServices)))
         {
             stationId = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
         }
@@ -50,7 +50,7 @@ public class TaharahsController(TaharahService taharahService, IMapper mapper) :
     {
         int? stationId = null;
 
-        if (User.IsInRole(nameof(OrganizationType.BurialPreparation)))
+        if (!User.IsInRole(nameof(OrganizationType.DatServices)))
         {
             stationId = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
         }

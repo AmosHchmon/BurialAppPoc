@@ -44,6 +44,7 @@ namespace EmergencyBurial.Api.Jobs
                             Id = Guid.NewGuid(),
                             BagNumber = bagNumber,
                             ReceivingStation = TarahStations.Shura,
+                            BagTarahProcessStatus = BagTarahProcessStatus.PoliceIntake,
                             ArrivalDateTime = DateTime.Now
                         }
                     }

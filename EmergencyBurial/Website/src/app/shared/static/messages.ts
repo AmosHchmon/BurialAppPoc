@@ -23,7 +23,7 @@ export let DialogMessage = {
   DeleteListItem: 'פעולה זו תמחק פריט זה',
   Cancel: 'האם ברצונך לבטל?',
   ConnectedListItems: 'ישנם רשימות הקשורות לסוג רשימה זו. נא למחוק אותם',
-  AccessDenied : "אינך מורשה גישה.",
+  AccessDenied: "אינך מורשה גישה.",
   EditModeInTab: "מעבר לטופס זה יגרור אי שמירה של ",
   DeceasedUpdated: 'הנתונים של חלל זה עודכנו',
   DeceasedReceived: 'חלל נקלט בהצלחה',
@@ -32,5 +32,10 @@ export let DialogMessage = {
   ShouldReleaseFromTaharah: 'האם לשחרר את החלל מתהליך הטהרה?',
   DeceasedReleasedFromTaharah: 'החלל שוחרר מטהרה בהצלחה',
   TachrichimIsRequired: 'יש להכניס תכריכי פשתן לטובת שחרור מטהרה',
+  ReleaseFromTarah: 'אישור שחרור מתר"ח',
+  ShouldReleaseFromTarah: 'האם לשחרר את החלל מתהליך התר"ח?',
+  DeceasedReleasedFromTarah: 'החלל שוחרר מתר"ח בהצלחה',
+  BagReceived: 'השק נקלט בהצלחה',
+  BagNotIdentified: 'לא ניתן לשחרר שק שלא זוהה',
   MemberUpdated: 'משתמש עודכן בהצלחה'
 };
