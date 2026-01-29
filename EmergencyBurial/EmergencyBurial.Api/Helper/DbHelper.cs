@@ -443,6 +443,7 @@ public class DbHelper
             Gender = "זכר",
             Affiliation = Affiliation.Civilian,
             ProcessStatus = ProcessStatus.ReceptionAtTarah,
+            EventId = eventId,
             DeceasedBags = new List<DeceasedBag>
             {
                 new DeceasedBag
@@ -482,6 +483,7 @@ public class DbHelper
             Gender = "זכר",
             Affiliation = Affiliation.SecurityForces,
             ProcessStatus = ProcessStatus.ReceptionAtTarah,
+            EventId = eventId,
             DeceasedBags = new List<DeceasedBag>
             {
                 new DeceasedBag
@@ -514,6 +516,7 @@ public class DbHelper
             Gender = "זכר",
             Affiliation = Affiliation.Civilian,
             ProcessStatus = ProcessStatus.ReleaseFromTarah,
+            EventId = eventId,
             DeceasedBags = new List<DeceasedBag>
             {
                 new DeceasedBag
@@ -542,6 +545,7 @@ public class DbHelper
             Id = deceased7Id,
             Affiliation = Affiliation.Civilian,
             ProcessStatus = ProcessStatus.ReceptionAtTarah,
+            EventId = eventId,
             DeceasedBags = new List<DeceasedBag>
             {
                 new DeceasedBag

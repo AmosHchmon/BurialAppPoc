@@ -15,7 +15,7 @@ namespace EmergencyBurial.Api.Controllers;
 [ApiController]
 [Authorize(Roles = nameof(OrganizationType.Tarah) + "," + nameof(OrganizationType.DatServices),
     Policy = nameof(RoleAccessType.Edit))]
-public class TarahsController(TarahService tarahService, IMapper mapper) : ControllerBase
+public class TarahController(TarahService tarahService, IMapper mapper) : ControllerBase
 {
     [HttpGet("pending")]
     public async Task<ActionResult<List<TarahBagListDto>>> GetPending()

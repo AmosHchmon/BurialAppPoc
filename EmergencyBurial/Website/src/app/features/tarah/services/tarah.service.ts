@@ -11,7 +11,7 @@ import {TarahIntake} from "../model/TarahIntake";
 export class TarahService extends BaseService {
 
   constructor(protected injector: Injector) {
-    super("TarahsService", injector);
+    super("TarahService", injector);
   }
 
   async getPendingList(): Promise<TarahList[]> {
