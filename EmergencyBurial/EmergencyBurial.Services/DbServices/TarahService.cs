@@ -13,51 +13,34 @@ public class TarahService(EmergencyBurialContext ctx)
 {
     public async Task<List<DeceasedBag>> GetPendingList(int? stationId = null)
     {
-        var query = ctx.DeceasedBag
+        return await ctx.DeceasedBag
             .Include(d => d.Deceased)
             .Where(d =>
                 d.BagTarahProcessStatus == BagTarahProcessStatus.PoliceIntake ||
-                d.BagTarahProcessStatus == BagTarahProcessStatus.Transport);
-
-        if (stationId != null)
-        {
-            query = query.Where(d => d.ReceivingStation == (TarahStations)stationId);
-        }
-
-        return await query
+                d.BagTarahProcessStatus == BagTarahProcessStatus.Transport)
+            .Where(d => d.ReceivingStation == (TarahStations)stationId)
             .OrderByDescending(d => d.ArrivalDateTime)
             .ToListAsync();
     }
 
     public async Task<List<DeceasedBag>> GetActiveList(int? stationId = null)
     {
-        var query = ctx.DeceasedBag
+        return await ctx.DeceasedBag
             .Include(d => d.Deceased)
-            .Where(d => d.BagTarahProcessStatus == BagTarahProcessStatus.InStorage);
-
-        if (stationId != null)
-        {
-            query = query.Where(d => d.ReceivingStation == (TarahStations)stationId);
-        }
-
-        return await query
+            .Where(d => d.BagTarahProcessStatus == BagTarahProcessStatus.InStorage)
+            .Where(d => d.ReceivingStation == (TarahStations)stationId)
             .OrderByDescending(d => d.ArrivalDateTime)
             .ToListAsync();
     }
 
     public async Task<List<DeceasedBag>> GetReleasedList(int? stationId = null)
     {
-        var query = ctx.DeceasedBag
+        return await ctx.DeceasedBag
             .Include(d => d.Deceased)
             .Where(d =>
-                d.BagTarahProcessStatus == BagTarahProcessStatus.Released);
-
-        if (stationId != null)
-        {
-            query = query.Where(d => d.ReceivingStation == (TarahStations)stationId);
-        }
-
-        return await query.ToListAsync();
+                d.BagTarahProcessStatus == BagTarahProcessStatus.Released)
+            .Where(d => d.ReceivingStation == (TarahStations)stationId)
+            .ToListAsync();
     }
 
     public async Task ReceiveBagToTarah(string bagNumber, int stationId, Guid? updateBy)
