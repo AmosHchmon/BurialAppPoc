@@ -130,7 +130,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
     if (this.newDeceased.Id) {
 
-      const deceased = await this.deceasedService.updateDeceased(this.newDeceased);
+      await this.deceasedService.updateDeceased(this.newDeceased);
 
       this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemUpdateSuccessfully});
 
@@ -138,7 +138,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
       if (index !== -1) {
 
-        this.deceasedList[index] = {...deceased};
+        this.deceasedList[index] = {...this.newDeceased};
         this.deceasedList = [...this.deceasedList];
       }
 

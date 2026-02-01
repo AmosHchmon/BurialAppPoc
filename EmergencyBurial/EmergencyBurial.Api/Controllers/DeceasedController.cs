@@ -67,11 +67,13 @@ public class DeceasedController(DeceasedService deceasedService, IMapper mapper)
             return BadRequest();
         }
 
-        var deceased = mapper.Map<Deceased>(deceasedDto);
+        var existingDeceased = await deceasedService.GetDeceased(deceasedDto.Id);
+        
+        mapper.Map(deceasedDto, existingDeceased);
         
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
         
-        await deceasedService.UpdateDeceased(deceased, userId);
+        await deceasedService.UpdateDeceased(existingDeceased, userId);
 
         return Ok();
     }

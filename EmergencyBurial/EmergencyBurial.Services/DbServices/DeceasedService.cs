@@ -23,6 +23,7 @@ public class DeceasedService(EmergencyBurialContext ctx)
     public async Task<Deceased> GetDeceased(Guid? id)
     {
         var deceased = await ctx.Deceaseds
+            .AsTracking()
             .Include(d => d.DeceasedBags)
             .FirstOrDefaultAsync(d => d.Id == id);
 
@@ -55,12 +56,19 @@ public class DeceasedService(EmergencyBurialContext ctx)
     {
         deceased.UpdateBy = userId;
         deceased.UpdateOn = DateTime.Now;
-
-        ctx.Deceaseds.Update(deceased);
-
+        
         await ctx.SaveChangesAsync();
     }
 
+    public async Task AddBagToDeceased(DeceasedBag bag)
+    {
+        bag.BagNumber = $"C-{DateTime.Now.Ticks}";
+        
+        await ctx.DeceasedBag.AddAsync(bag);
+    
+        await ctx.SaveChangesAsync();
+    }
+    
     public async Task DeleteDeceased(Guid id)
     {
         await ctx.Deceaseds.Where(x => x.Id == id).ExecuteDeleteAsync();

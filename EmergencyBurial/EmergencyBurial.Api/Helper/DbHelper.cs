@@ -652,7 +652,7 @@ public class DbHelper
                 PhoneNumber = "0545416161",
                 Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
-                OrganizationTypeId = (int)OrganizationType.Tarah,
+                OrganizationTypeId = (int)OrganizationType.DatServices,
                 StationId = (int)TarahStations.Shura,
                 IsActive = true,
             },

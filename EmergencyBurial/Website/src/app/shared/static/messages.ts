@@ -39,5 +39,4 @@ export let DialogMessage = {
   DeceasedReleasedFromTarah: 'החלל שוחרר מתר"ח בהצלחה',
   BagReceived: 'השק נקלט בהצלחה',
   BagNotIdentified: 'לא ניתן לשחרר שק שלא זוהה',
-  MemberUpdated: 'משתמש עודכן בהצלחה'
 };

@@ -8,8 +8,6 @@ export interface DeceasedBag {
 
   BagNumber?: string;
 
-  Affiliation?: string;
-
   ReceivingStation?: string;
 
   LastKnownLocation?: string;

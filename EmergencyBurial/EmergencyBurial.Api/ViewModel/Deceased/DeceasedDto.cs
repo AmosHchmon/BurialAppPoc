@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Helpers;
 
 namespace EmergencyBurial.Api.ViewModel;
 
@@ -28,6 +29,8 @@ public class DeceasedDto
     public string? PeleNumber { get; set; }
     
     public string? Notes { get; set; }
+    
+    public string? Affiliation { get; set; }
     
     public string? BagNumbersDisplay { get; set; }
     
