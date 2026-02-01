@@ -17,7 +17,7 @@ namespace EmergencyBurial.Api.Controllers;
 [Authorize(Roles = nameof(OrganizationType.Tarah) + ","
                                                   + nameof(OrganizationType.Hamal) + ","
                                                   + nameof(OrganizationType.DatServices),
-    Policy = nameof(RoleAccessType.View))]
+    Policy = nameof(RoleAccessType.Edit))]
 public class DeceasedController(DeceasedService deceasedService, IMapper mapper) : ControllerBase
 {
     [HttpGet]
@@ -40,72 +40,7 @@ public class DeceasedController(DeceasedService deceasedService, IMapper mapper)
 
         return Ok(mapper.Map<DeceasedDto>(deceased));
     }
-
-    [HttpPost]
-    public async Task<ActionResult<DeceasedDto>> CreateDeceased(DeceasedDto deceasedDto)
-    {
-        if (deceasedDto == null)
-        {
-            return BadRequest();
-        }
-
-        var deceased = mapper.Map<Deceased>(deceasedDto);
-        
-        var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
-        var eventId = new Guid(User.ClaimValue(ClaimHelper.EventId));
-
-        var res = await deceasedService.CreateDeceased(deceased, userId, eventId);
-     
-        return Ok(mapper.Map<DeceasedDto>(res));
-    }
-
-    [HttpPut]
-    public async Task<ActionResult<DeceasedDto>> UpdateDeceased(DeceasedDto deceasedDto)
-    {
-        if (deceasedDto == null)
-        {
-            return BadRequest();
-        }
-
-        var existingDeceased = await deceasedService.GetDeceased(deceasedDto.Id);
-        
-        mapper.Map(deceasedDto, existingDeceased);
-        
-        var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
-        
-        await deceasedService.UpdateDeceased(existingDeceased, userId);
-
-        return Ok();
-    }
-
-    [HttpPost("add-bag")]
-    public async Task<ActionResult<DeceasedBagDto>> AddBagToDeceased(DeceasedBagDto bagDto)
-    {
-        if (bagDto == null)
-        {
-            return BadRequest();
-        }
-        
-        var bag = mapper.Map<DeceasedBag>(bagDto);
-        
-        await deceasedService.AddBagToDeceased(bag);
-        
-        return Ok();
-    }
     
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteDeceased(string id)
-    {
-        if (!Guid.TryParse(id, out Guid idValue))
-        {
-            return BadRequest();
-        }
-
-        await deceasedService.DeleteDeceased(idValue);
-
-        return Ok();
-    }
-
     [HttpGet("burial-coordination/{id}")]
     public async Task<ActionResult<DeceasedBurialCoordinationDto>> GetBurialCoordination(string id)
     {

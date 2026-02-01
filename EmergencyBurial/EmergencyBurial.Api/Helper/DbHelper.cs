@@ -653,7 +653,6 @@ public class DbHelper
                 Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
                 OrganizationTypeId = (int)OrganizationType.DatServices,
-                StationId = (int)TarahStations.Shura,
                 IsActive = true,
             },
             new()

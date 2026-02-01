@@ -15,6 +15,7 @@ import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {ValidationModule} from "../../../../shared/validation/validation.module";
 import {DeceasedBag} from "../../../deceased/model/DeceasedBag";
+import {ManageService} from "../../services/manage.service";
 
 @Component({
   selector: 'app-deceaseds-management',
@@ -46,7 +47,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
   private deceasedSubscription: Subscription | undefined;
 
-  constructor(private deceasedService: DeceasedService,
+  constructor(private manageService: ManageService,
               private alertService: AlertService,
               private signalRService: SignalRService,
               private confirmService: ConfirmationService) {
@@ -63,7 +64,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
   private async loadDeceased() {
 
-    this.deceasedList = await this.deceasedService.getDeceaseds();
+    this.deceasedList = await this.manageService.getDeceaseds();
 
     this.recognizedDeceased = this.deceasedList.filter(d =>
       d.IdentityNumber &&
@@ -130,7 +131,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
     if (this.newDeceased.Id) {
 
-      await this.deceasedService.updateDeceased(this.newDeceased);
+      await this.manageService.updateDeceased(this.newDeceased);
 
       this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemUpdateSuccessfully});
 
@@ -147,7 +148,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
       this.newDeceased.DeceasedBags = [];
       this.newDeceased.DeceasedBags.push(this.newBag);
 
-      const createdDeceased = await this.deceasedService.saveDeceased(this.newDeceased);
+      const createdDeceased = await this.manageService.saveDeceased(this.newDeceased);
 
       if (createdDeceased) {
         this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
@@ -186,7 +187,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
         const member = this.dt.selection;
 
-        await this.deceasedService.deleteDeceased(member.Id);
+        await this.manageService.deleteDeceased(member.Id);
 
         this.showDeceasedDialog = false;
 
@@ -229,7 +230,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
       DeceasedId: this.selectedExistingDeceased.Id,
     }
 
-    await this.deceasedService.addBagToDeceased(this.newBag);
+    await this.manageService.addBag(this.newBag);
 
     this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
 

@@ -35,9 +35,7 @@ public class MappingProfile : Profile
                 opt.MapFrom(src => string.Join(" | ", src.DeceasedBags.Select(b => b.BagNumber))))
             .ForMember(dest => dest.ProcessStatusDesc,
                 opt => opt.MapFrom(src => src.ProcessStatus.GetEnumDescription()))
-            .ReverseMap()
-            .ForMember(dest => dest.DeceasedBags, opt => opt.Ignore());
-            
+            .ReverseMap();
         CreateMap<Deceased, ExternalDeceasedDto>()
             .ReverseMap();
 
