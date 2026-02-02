@@ -2,7 +2,6 @@
 
 import {BaseService} from "../../../core/abstract/base-service";
 import {Deceased} from "../../deceased/model/Deceased";
-import {DeceasedBag} from "../../deceased/model/DeceasedBag";
 
 
 @Injectable({
@@ -19,22 +18,14 @@ export class ManageService extends BaseService {
   }
 
   async saveDeceased(deceased: Deceased): Promise<Deceased> {
-    return super.post({path: '/add-deceased', body: deceased});
+    return super.post({body: deceased});
   }
 
   async updateDeceased(deceased: Deceased): Promise<void> {
-    return super.put({path: 'update-deceased', body: deceased});
+    return super.put({body: deceased});
   }
 
   async deleteDeceased(id: number): Promise<void> {
-    return super.delete({path: `delete-deceased/${id}`});
-  }
-
-  async addBag(newBag: DeceasedBag): Promise<DeceasedBag> {
-    return super.post({path: '/add-bag', body: newBag});
-  }
-
-  async updateBag(bag: DeceasedBag): Promise<void> {
-    return super.put({body: bag});
+    return super.delete({path: `/${id}`});
   }
 }

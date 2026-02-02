@@ -47,10 +47,7 @@ public class DeceasedService(EmergencyBurialContext ctx)
         
         if (deceased.DeceasedBags != null)
         {
-            foreach (var bag in deceased.DeceasedBags)
-            {
-                bag.BagNumber = $"C-{DateTime.Now.Ticks}";
-            }
+            GenerateBagNumber(deceased);
         }
         
         await ctx.Deceaseds.AddAsync(deceased);
@@ -64,6 +61,11 @@ public class DeceasedService(EmergencyBurialContext ctx)
     {
         deceased.UpdateBy = userId;
         deceased.UpdateOn = DateTime.Now;
+        
+        if (deceased.DeceasedBags != null)
+        {
+            GenerateBagNumber(deceased);
+        }
         
         await ctx.SaveChangesAsync();
     }
@@ -84,39 +86,6 @@ public class DeceasedService(EmergencyBurialContext ctx)
             .FirstOrDefaultAsync(d => d.DeceasedBags.Any(b => b.BagNumber == bagNumber));
     }
     
-    #endregion
-    
-    #region DeceasedBag
-
-    public async Task<DeceasedBag> AddBag(DeceasedBag bag)
-    {
-        bag.BagNumber = $"C-{DateTime.Now.Ticks}";
-        
-        await ctx.DeceasedBag.AddAsync(bag);
-    
-        await ctx.SaveChangesAsync();
-
-        return bag;
-    }
-
-    public async Task<DeceasedBag> GetBag(string bagNumber)
-    {
-        return await ctx.DeceasedBag
-            .FirstOrDefaultAsync(d => d.BagNumber == bagNumber);
-    }
-    
-    public async Task<DeceasedBag> GetBagForUpdate(string bagNumber)
-    {
-        return await ctx.DeceasedBag
-            .AsTracking()
-            .FirstOrDefaultAsync(d => d.BagNumber == bagNumber);
-    }
-    
-    public async Task UpdateBag()
-    {
-        await ctx.SaveChangesAsync();
-    }
-
     #endregion
     
     public async Task<DeceasedBurialCoordination> UpdateBurialCoordination(
@@ -170,5 +139,13 @@ public class DeceasedService(EmergencyBurialContext ctx)
         await ctx.SaveChangesAsync();
 
         return deceasedBurialProcessStatus;
+    }
+
+    private void GenerateBagNumber(Deceased deceased)
+    {
+        foreach (var bag in deceased.DeceasedBags)
+        {
+            bag.BagNumber ??= $"C-{DateTime.Now.Ticks}";
+        }
     }
 }

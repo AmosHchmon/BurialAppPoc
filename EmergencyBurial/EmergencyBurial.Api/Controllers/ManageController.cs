@@ -26,7 +26,7 @@ public class ManageController(DeceasedService deceasedService, IMapper mapper) :
         return Ok(mapper.Map<List<DeceasedDto>>(res));
     }
 
-    [HttpPost("add-deceased")]
+    [HttpPost]
     public async Task<ActionResult<DeceasedDto>> CreateDeceased(DeceasedDto deceasedDto)
     {
         if (deceasedDto == null)
@@ -44,14 +44,14 @@ public class ManageController(DeceasedService deceasedService, IMapper mapper) :
         return Ok(mapper.Map<DeceasedDto>(res));
     }
 
-    [HttpPut("update-deceased")]
+    [HttpPut]
     public async Task<ActionResult> UpdateDeceased(DeceasedDto deceasedDto)
     {
         if (deceasedDto == null)
             return BadRequest();
 
         var existingDeceased = await deceasedService.GetDeceasedForUpdate(deceasedDto.Id);
-
+        
         mapper.Map(deceasedDto, existingDeceased);
 
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
@@ -61,7 +61,7 @@ public class ManageController(DeceasedService deceasedService, IMapper mapper) :
         return Ok();
     }
 
-    [HttpDelete("delete-deceased/{id}")]
+    [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteDeceased(string id)
     {
         if (!Guid.TryParse(id, out Guid idValue))
@@ -74,38 +74,6 @@ public class ManageController(DeceasedService deceasedService, IMapper mapper) :
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
 
         await deceasedService.ArchiveDeceased(existingDeceased, userId);
-
-        return Ok();
-    }
-
-    [HttpPost("add-bag")]
-    public async Task<ActionResult<DeceasedBagDto>> AddBag(DeceasedBagDto bagDto)
-    {
-        if (bagDto == null)
-        {
-            return BadRequest();
-        }
-
-        var bag = mapper.Map<DeceasedBag>(bagDto);
-
-        var res = await deceasedService.AddBag(bag);
-
-        return Ok(mapper.Map<DeceasedBagDto>(res));
-    }
-
-    [HttpPut("update-bag")]
-    public async Task<ActionResult> UpdateBag(DeceasedBagDto bagDto)
-    {
-        if (bagDto == null)
-        {
-            return BadRequest();
-        }
-
-        var bag = await deceasedService.GetBagForUpdate(bagDto.BagNumber);
-
-        mapper.Map(bagDto, bag);
-
-        await deceasedService.UpdateBag();
 
         return Ok();
     }

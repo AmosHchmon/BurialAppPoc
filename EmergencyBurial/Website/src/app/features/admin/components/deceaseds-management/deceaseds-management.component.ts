@@ -3,12 +3,10 @@ import {Table} from "primeng/table";
 import {Subscription} from "rxjs";
 import {NgForm} from "@angular/forms";
 import {ConfirmationService} from "primeng/api";
-import {SelectChangeEvent} from "primeng/select";
 
 import {Deceased} from "../../../deceased/model/Deceased";
 import {IColumn} from "../../../../shared/ui-components/model/column";
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
-import {DeceasedService} from "../../../deceased/services/deceased.service";
 import {AlertService} from "../../../../shared/services/alert.service";
 import {SignalRService} from "../../../../shared/services/signalR.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
@@ -34,14 +32,12 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
     {field: 'FatherName', header: 'שם האב'},
   ];
   deceasedList: Deceased[] = [];
-  recognizedDeceased: Deceased[] = [];
   newDeceased: Deceased = {};
   selectedExistingDeceased: Deceased;
   searchText: string;
-  newBag: DeceasedBag = {};
+  activeTab: number = 0;
 
   isIdentified: boolean = true;
-  isFullBody: boolean = true;
   showDeceasedDialog: boolean = false;
   isEdit: boolean = false;
 
@@ -65,12 +61,6 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   private async loadDeceased() {
 
     this.deceasedList = await this.manageService.getDeceaseds();
-
-    this.recognizedDeceased = this.deceasedList.filter(d =>
-      d.IdentityNumber &&
-      d.IdentityNumber !== 'חלל אינו מזוהה'
-    );
-
   }
 
   ngOnDestroy(): void {
@@ -118,10 +108,8 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
     this.isEdit = false;
     this.isIdentified = true;
-    this.isFullBody = true;
 
     this.newDeceased = {};
-    this.newBag.PartDescription = DialogMessage.FullBodyInsideBag;
     this.selectedExistingDeceased = null;
 
     this.showDeceasedDialog = true;
@@ -145,9 +133,6 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
     } else {
 
-      this.newDeceased.DeceasedBags = [];
-      this.newDeceased.DeceasedBags.push(this.newBag);
-
       const createdDeceased = await this.manageService.saveDeceased(this.newDeceased);
 
       if (createdDeceased) {
@@ -170,7 +155,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
       this.isIdentified = true;
     }
 
-    this.newDeceased = {...this.dt.selection};
+    this.newDeceased = structuredClone(this.dt.selection);
     this.isEdit = true;
     this.showDeceasedDialog = true;
   }
@@ -185,9 +170,9 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
       rejectLabel: 'לא',
       accept: async () => {
 
-        const member = this.dt.selection;
+        const deceased = this.dt.selection;
 
-        await this.manageService.deleteDeceased(member.Id);
+        await this.manageService.deleteDeceased(deceased.Id);
 
         this.showDeceasedDialog = false;
 
@@ -217,24 +202,29 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
     }
   }
 
-  onExistingDeceasedSelect($event: SelectChangeEvent) {
-
-    this.newDeceased = {...$event.value};
-    this.isFullBody = false;
-    this.newBag.PartDescription = '';
+  removeBag(index: number) {
+    this.newDeceased.DeceasedBags.splice(index, 1);
   }
 
-  async onAddBagToDeceased() {
+  addBag() {
 
-    this.newBag = {
-      DeceasedId: this.selectedExistingDeceased.Id,
+    const newBag: DeceasedBag = {
+      DeceasedId: this.newDeceased.Id,
+      PartDescription: ''
+    };
+
+    if (!this.newDeceased.DeceasedBags) {
+      this.newDeceased.DeceasedBags = [];
     }
 
-    await this.manageService.addBag(this.newBag);
+    this.newDeceased.DeceasedBags.push(newBag);
+  }
 
-    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
+  onCancelDialog() {
 
     this.showDeceasedDialog = false;
+    this.activeTab = 0;
+    this.newDeceased = {};
   }
 
   //endregion
