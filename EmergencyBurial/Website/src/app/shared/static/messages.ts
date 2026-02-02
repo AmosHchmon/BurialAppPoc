@@ -21,6 +21,7 @@ export let DialogMessage = {
   ItemUpdateSuccessfully: 'הפריט עודכן בהצלחה',
   DeleteListType: 'פעולה זו תמחק סוג רשימה זו',
   DeleteListItem: 'פעולה זו תמחק פריט זה',
+  ArchiveDeceased: 'פעולה זו תעביר את החלל לארכיון',
   Cancel: 'האם ברצונך לבטל?',
   ConnectedListItems: 'ישנם רשימות הקשורות לסוג רשימה זו. נא למחוק אותם',
   AccessDenied: "אינך מורשה גישה.",

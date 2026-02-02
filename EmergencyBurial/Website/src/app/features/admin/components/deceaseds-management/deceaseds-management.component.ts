@@ -163,7 +163,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   onDeleteDeceased() {
 
     this.confirmService.confirm({
-      header: DialogMessage.DeleteListItem,
+      header: DialogMessage.ArchiveDeceased,
       message: DialogMessage.ConfirmQuestion,
       icon: 'pi pi-exclamation-triangle',
       acceptLabel: 'כן',
