@@ -14,37 +14,72 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-[Authorize(Roles = nameof(OrganizationType.Hamal) + "," + nameof(OrganizationType.DatServices), Policy = nameof(RoleAccessType.Edit))]
-public class TransportsController(TransportService transportService, DeceasedService deceasedService, IMapper mapper)
-    : ControllerBase
+[Authorize]
+public class TransportController(TransportService transportService, IMapper mapper) : ControllerBase
 {
-    [HttpGet("bag-number/{id}")]
-    public async Task<ActionResult<List<Transport>>> GetTransportsByDeceased(string id)
+    [HttpPost]
+    public async Task<ActionResult> Create(CreateTransportDto dto)
     {
-        if (!Guid.TryParse(id, out Guid idValue))
-        {
+        if (dto == null)
             return BadRequest();
-        }
 
-        var transports = await transportService.GetTransportsByBagDetailsId(idValue);
+        var transport = mapper.Map<Transport>(dto);
 
-        var res = mapper.Map<List<TransportDto>>(transports);
+        transport.UpdateBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
 
-        return Ok(res);
+        await transportService.CreateTransport(transport, dto.BagNumbers);
+
+        return Ok();
     }
 
-    [HttpPost]
-    public async Task<ActionResult<TransportDto>> CreateTransport(TransportDto transportDto)
+    [HttpPut("update-details")]
+    public async Task<ActionResult> UpdateDetails(UpdateTransportDetailsDto dto)
     {
-        if (transportDto == null)
-        {
-            BadRequest();
-        }
+        if (dto == null)
+            return BadRequest();
+        
+        var transport = await transportService.GetTransportForEdit(dto.TransportId);
+        
+        mapper.Map(dto, transport);
+        
+        transport.UpdateBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
+        transport.UpdateOn = DateTime.Now;
+        
+        await transportService.UpdateTransport();
 
-        var transport = mapper.Map<Transport>(transportDto);
+        return Ok();
+    }
 
-        var res = await transportService.CreateTransport(transport);
+    [HttpPut("end/{id}")]
+    public async Task<ActionResult> EndTransport(int id)
+    {
+        var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
 
-        return Ok(mapper.Map<TransportDto>(res));
+        await transportService.EndTransport(id, userId);
+
+        return Ok();
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<List<TransportListDto>>> GetAll([FromQuery] int? purpose)
+    {
+        TransportPurpose? filter = purpose.HasValue ? (TransportPurpose)purpose.Value : null;
+
+        var entities = await transportService.GetTransportsList(filter);
+
+        var result = mapper.Map<List<TransportListDto>>(entities);
+
+        return Ok(result);
+    }
+
+    [HttpGet("available-bags")]
+    public async Task<ActionResult<List<string>>> SearchBags([FromQuery] string q)
+    {
+        if (string.IsNullOrWhiteSpace(q))
+            return Ok(new List<string>());
+
+        var results = await transportService.SearchAvailableBags(q);
+
+        return Ok(results);
     }
 }

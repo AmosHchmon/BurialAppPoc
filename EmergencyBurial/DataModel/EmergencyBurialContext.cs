@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using DataModel.Entities;
+using DataModel.Entities.System;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataModel;
@@ -8,7 +9,6 @@ public partial class EmergencyBurialContext : DbContext
 {
     public virtual DbSet<ListItem> ListItems { get; set; }
     public virtual DbSet<ListType> ListTypes { get; set; }
-    
     public virtual DbSet<Event> Events { get; set; }
     public virtual DbSet<AppFile> Files { get; set; }
     public virtual DbSet<Member> Members { get; set; }
@@ -19,8 +19,9 @@ public partial class EmergencyBurialContext : DbContext
     public virtual DbSet<DeceasedTaharahDetails> DeceasedTaharahDetails { get; set; }
     public virtual DbSet<DeceasedTarahDetails> DeceasedTarahDetails { get; set; }
     public virtual DbSet<DeceasedBurialCoordination> DeceasedBurialCoordination { get; set; }
-
     public virtual DbSet<Transport> Transports { get; set; }
+    public virtual DbSet<TransportHistory> TransportHistory { get; set; }
+    
 
     public EmergencyBurialContext(DbContextOptions<EmergencyBurialContext> options) : base(options)
     {

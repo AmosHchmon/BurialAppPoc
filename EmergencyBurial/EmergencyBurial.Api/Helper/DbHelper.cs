@@ -5,6 +5,7 @@ using DataModel;
 using DataModel.Entities;
 using Microsoft.AspNetCore.Hosting;
 using System.Linq;
+using DataModel.Entities.System;
 using Microsoft.AspNetCore.Identity;
 
 namespace EmergencyBurial.Api.Helper;
@@ -584,59 +585,95 @@ public class DbHelper
     }
 
     private void InitTransportTestData()
+{
+    if (db.Transports.Any()) return;
+
+    db.ChangeTracker.Clear(); // חשוב לניקוי זיכרון
+    var sysUser = db.Members.FirstOrDefault();
+    var userId = sysUser?.Id ?? Guid.Empty;
+
+    // ---------------------------------------------------------
+    // 1. שינוע פעיל (Active)
+    // ---------------------------------------------------------
+    var activeTransport = new Transport
     {
-        if (db.Transports.Any())
-        {
-            return;
-        }
+        StartLocationType = OrganizationType.Tarah,
+        StartLocationNameFreeText = "תחנת ריכוז שדרות",
+        Purpose = TransportPurpose.ToForensicInstitute,
+        Destination = "מחנה שורה",
+        Organization = "זק\"א",
+        VehicleType = "אמבולנס",
+        LicensePlate = "88-555-22",
+        DriverDetails = "ישראל ישראלי",
+        StartDateTime = DateTime.Now.AddHours(-1),
+        IsCompleted = false,
+        UpdateOn = DateTime.Now,
+        UpdateBy = userId,
+        // אתחול הרשימה החיה
+        DeceasedBags = new List<DeceasedBag>() 
+    };
 
-        var bagDetail = db.DeceasedBag.FirstOrDefault(b => b.BagNumber == "C-1001");
+    var activeBags = db.DeceasedBag.Where(b => b.BagNumber == "T-4001" || b.BagNumber == "T-4002").ToList();
 
-        if (bagDetail == null)
+    foreach (var bag in activeBags)
+    {
+        // א. עדכון המצב החי (Live State) - השק נמצא פיזית ברכב
+        bag.IsInTransport = true;
+        bag.CurrentTransport = activeTransport; // EF יעדכן את הרשימה הנגדית
+        
+        // ב. תיעוד בהיסטוריה
+        var history = new TransportHistory
         {
-            return;
-        }
-
-        var list = new List<Transport>
-        {
-            new Transport
-            {
-                DeceasedBagId = bagDetail.Id,
-                StartLocation = "בית חולים הדסה עין כרם",
-                Purpose = "העברה למכון טהרה",
-                Organization = "חברה קדישא קהילת ירושלים",
-                Destination = "מכון טהרה גבעת שאול",
-                StartDateTime = DateTime.Now.AddHours(-12),
-                VehicleType = "אמבולנס",
-                LicensePlate = "55-123-88"
-            },
-            new Transport
-            {
-                DeceasedBagId = bagDetail.Id,
-                StartLocation = "מכון טהרה גבעת שאול",
-                Purpose = "העברה לקירור זמני",
-                Organization = "חברה קדישא קהילת ירושלים",
-                Destination = "חדר קירור, הר המנוחות",
-                StartDateTime = DateTime.Now.AddHours(-8),
-                VehicleType = "רכב שינוע",
-                LicensePlate = "24-456-77"
-            },
-            new Transport
-            {
-                DeceasedBagId = bagDetail.Id,
-                StartLocation = "חדר קירור, הר המנוחות",
-                Purpose = "העברה לקבורה",
-                Organization = "מועצה דתית ירושלים",
-                Destination = "הר המנוחות, חלקה ג'",
-                StartDateTime = DateTime.Now.AddMinutes(-30),
-                VehicleType = "רכב ליווי",
-                LicensePlate = "99-888-11"
-            }
+            Transport = activeTransport, // שימוש באובייקט כדי ש-EF יזהה את ה-ID שייווצר
+            DeceasedBagId = bag.Id,
+            CreatedOn = DateTime.Now
         };
-
-        db.Transports.AddRange(list);
-        db.SaveChanges();
+        db.TransportHistory.Add(history);
     }
+
+    db.Transports.Add(activeTransport);
+
+    // ---------------------------------------------------------
+    // 2. שינוע שהסתיים (Completed)
+    // ---------------------------------------------------------
+    var completedTransport = new Transport
+    {
+        StartLocationType = OrganizationType.Hamal,
+        StartLocationNameFreeText = "שטח כינוס בארי",
+        Purpose = TransportPurpose.ToForensicInstitute,
+        Destination = "מחנה שורה",
+        Organization = "צה\"ל",
+        VehicleType = "משאית",
+        LicensePlate = "צ-123456",
+        DriverDetails = "משה כהן",
+        StartDateTime = DateTime.Now.AddDays(-2),
+        ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(3),
+        IsCompleted = true,
+        UpdateOn = DateTime.Now,
+        UpdateBy = userId,
+        DeceasedBags = new List<DeceasedBag>() // תישאר ריקה!
+    };
+
+    var historyBags = db.DeceasedBag.Where(b => b.BagNumber == "C-1001").ToList();
+
+    db.Transports.Add(completedTransport); // מוסיפים כדי לקבל ID או ש-EF ינהל את זה
+
+    foreach (var bag in historyBags)
+    {
+        // א. מצב חי: לא עושים כלום! השק לא ברכב הזה יותר.
+        
+        // ב. תיעוד בהיסטוריה: רק רושמים שהיה שם
+        var history = new TransportHistory
+        {
+            Transport = completedTransport,
+            DeceasedBagId = bag.Id,
+            CreatedOn = DateTime.Now.AddDays(-2)
+        };
+        db.TransportHistory.Add(history);
+    }
+
+    db.SaveChanges();
+}
 
     private void InitMembers()
     {
@@ -679,10 +716,7 @@ public class DbHelper
             }
         };
 
-        list.ForEach(m =>
-        {
-            m.Password = hasher.HashPassword(m, m.Password);
-        });
+        list.ForEach(m => { m.Password = hasher.HashPassword(m, m.Password); });
 
         db.Members.AddRange(list);
 

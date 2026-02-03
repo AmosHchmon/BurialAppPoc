@@ -32,6 +32,4 @@ public class DeceasedBagDto
     public string? BroughtFrom { get; set; }
     
     public string? ObjectsOnDeceased { get; set; }
-    
-    public List<TransportDto> Transports { get; set; }
 }

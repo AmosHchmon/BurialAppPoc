@@ -173,11 +173,31 @@ public class MappingProfile : Profile
 
         #endregion
 
-        CreateMap<Transport, TransportDto>()
-            .ForMember(dest => dest.BagNumber, opt => opt.MapFrom(src => src.DeceasedBag.BagNumber))
-            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.DeceasedBag.Deceased.FirstName))
-            .ReverseMap()
-            .ForMember(dest => dest.DeceasedBag, opt => opt.Ignore());
+        #region Transport
+
+        CreateMap<CreateTransportDto, Transport>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.DeceasedBags, opt => opt.Ignore())
+            .ForMember(dest => dest.IsCompleted, opt => opt.Ignore())
+            .ForMember(dest => dest.ArrivalDateTime, opt => opt.Ignore());
+
+        CreateMap<UpdateTransportDetailsDto, Transport>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.StartDateTime, opt => opt.Ignore())
+            .ForMember(dest => dest.IsCompleted, opt => opt.Ignore())
+            .ForMember(dest => dest.Purpose, opt => opt.Ignore());
+        
+        CreateMap<Transport, TransportListDto>()
+            .ForMember(dest => dest.TotalBags, opt => opt.MapFrom(src => src.DeceasedBags.Count()))
+            .ForMember(dest => dest.BagNumbers, opt => opt.MapFrom(src => 
+                src.DeceasedBags.Select(b => b.BagNumber).ToList()))
+            .ForMember(dest => dest.PurposeDesc, opt => opt.MapFrom(src => src.Purpose.GetEnumDescription()))
+            .ForMember(dest => dest.StartLocation, opt => opt.MapFrom(src => 
+                !string.IsNullOrEmpty(src.StartLocationNameFreeText) 
+                    ? src.StartLocationNameFreeText 
+                    : src.StartLocationType.GetEnumDescription()));
+        
+        #endregion
 
         CreateMap<Event, EventDto>()
             .ReverseMap();

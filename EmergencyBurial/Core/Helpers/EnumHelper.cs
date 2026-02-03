@@ -260,6 +260,21 @@ namespace Core.Helpers
         [Description("שוחרר מתר\"ח")]
         Released = 3
     }
+    
+    public enum TransportPurpose
+    {
+        [Description("שינוע למכון לרפואה משפטית")]
+        ToForensicInstitute = 1,
+        
+        [Description("שינוע לתר'ח")]
+        ToTarah = 2,
+        
+        [Description("שינוע להכנה לקבורה")]
+        ToBurialPreparation = 3,
+    
+        [Description("שינוע לגוף קבורה")]
+        ToBurialBody = 4
+    }
 
     #endregion
 

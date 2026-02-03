@@ -171,4 +171,13 @@
   <data name="DeceasedNotExists" xml:space="preserve">
     <value>חלל לא נמצא</value>
   </data>
+  <data name="LimitBagsInTransport" xml:space="preserve">
+    <value>לא ניתן לשנע יותר מ-3 שקים בבת אחת</value>
+  </data>
+  <data name="TransportIsComplete" xml:space="preserve">
+    <value>שינוע זה כבר הסתיים</value>
+  </data>
+  <data name="ActiveTransport" xml:space="preserve">
+    <value>השקים הבאים כבר נמצאים בשינוע פעיל: {0}</value>
+  </data>
 </root>

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.Helpers;
+using DataModel.Entities.System;
 
 namespace DataModel.Entities;
 
@@ -53,8 +54,15 @@ public class DeceasedBag
     [Description("חפצים שנמצאו על החלל")]
     public string? ObjectsOnDeceased { get; set; }
     
+    [Description("האם נמצא בשינוע")]
+    public bool IsInTransport { get; set; }
+    
+    [Description("מזהה שינוע נוכחי")]
+    public int? CurrentTransportId { get; set; }
+    
     [ForeignKey(nameof(DeceasedId))]
     public virtual Deceased Deceased { get; set; }
     
-    public virtual IEnumerable<Transport> Transports { get; set; }
+    [ForeignKey(nameof(CurrentTransportId))]
+    public virtual Transport CurrentTransport { get; set; }
 }
