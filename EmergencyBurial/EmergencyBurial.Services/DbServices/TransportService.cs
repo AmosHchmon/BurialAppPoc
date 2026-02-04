@@ -123,6 +123,7 @@ public class TransportService(EmergencyBurialContext ctx)
     public async Task<List<DeceasedBag>> AvailableBags()
     {
         return await ctx.DeceasedBag
+            .Include(b => b.Deceased)
             .Where(b => !b.IsInTransport)
             .ToListAsync();
     }

@@ -37,6 +37,7 @@ public class TransportController(TransportService transportService, IMapper mapp
 
         var transport = mapper.Map<Transport>(dto);
 
+        transport.StartDateTime = DateTime.Now;
         transport.UpdateBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
 
         await transportService.CreateTransport(transport, dto.BagNumbers);
@@ -76,9 +77,7 @@ public class TransportController(TransportService transportService, IMapper mapp
     public async Task<ActionResult<List<BagSelectItemDto>>> GetAvailableBags()
     {
         var results = await transportService.AvailableBags();
-
-        var res = mapper.Map<List<BagSelectItemDto>>(results);
         
-        return Ok(res);
+        return Ok(mapper.Map<List<BagSelectItemDto>>(results));
     }
 }

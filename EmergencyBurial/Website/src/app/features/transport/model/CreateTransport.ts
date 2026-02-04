@@ -2,24 +2,22 @@
 import {TransportPurpose} from "../../../shared/enum/transport-purpose.enum";
 
 export interface CreateTransport {
+  BagNumbers: string[];
+  StartDateTime: Date;
 
   StartLocationType: enmOrganizationType;
-
+  StartStationId?: number;
   StartLocationNameFreeText?: string;
 
   Purpose: TransportPurpose;
-
-  Destination: string;
-
+  Destination: TransportPurpose;
   Organization: string;
 
   VehicleType: string;
-
   LicensePlate: string;
 
-  DriverDetails: string;
-
-  BagNumbers: string[];
-
-  StartDateTime?: Date;
+  DriverFirstName: string;
+  DriverLastName: string;
+  DriverIdentityNumber: string;
+  DriverPhone: string;
 }

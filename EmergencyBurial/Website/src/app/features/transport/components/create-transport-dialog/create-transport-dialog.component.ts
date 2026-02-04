@@ -8,6 +8,9 @@ import {TransportPurpose} from 'src/app/shared/enum/transport-purpose.enum';
 import {CreateTransport} from '../../model/CreateTransport';
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {BagSelectItem} from "../../model/BagSelectItem";
+import {IListItem} from "../../../../shared/model/list-item";
+import {ListService} from "../../../../shared/services/list.service";
+import {enmListType} from "../../../../shared/enum/list-type.enum";
 
 @Component({
   selector: 'app-create-transport-dialog',
@@ -25,13 +28,18 @@ export class CreateTransportDialogComponent implements OnInit {
   @ViewChild('transportForm') transportForm!: NgForm;
 
   availableBags: BagSelectItem[] = [];
+  allListItems: IListItem[] = [];
+
+  organizationsList: IListItem[] = [];
+  stationsList: IListItem[] = [];
+  subStationsList: IListItem[] = [];
 
   transportData: CreateTransport = this.getEmptyTransport();
 
   organizationTypes = [
     {label: 'תר"ח', value: enmOrganizationType.Tarah},
     {label: 'הכנה לקבורה', value: enmOrganizationType.BurialPreparation},
-    {label: 'גוף קבורה', value: enmOrganizationType.BetAlmin},
+    {label: 'מכון לרפואה משפטית', value: enmOrganizationType.ForensicInstitute},
   ];
 
   purposes = [
@@ -43,30 +51,76 @@ export class CreateTransportDialogComponent implements OnInit {
 
   constructor(
     private transportService: TransportService,
+    private listService: ListService,
     private messageService: MessageService
   ) {
   }
 
   async ngOnInit() {
-    this.loadBags();
+
+    await this.loadLists();
+    await this.loadBags();
+
+    if (!this.transportData.StartDateTime) {
+      this.transportData.StartDateTime = new Date();
+    }
   }
 
-  private async loadBags(){
+  private async loadBags() {
+
     this.availableBags = await this.transportService.availableBags();
+
+    this.availableBags = this.availableBags.map(bag => ({
+      ...bag,
+      FullLabel: bag.IdentityNumber
+        ? ` שק: ${bag.BagNumber} ת'ז: (${bag.IdentityNumber})`
+        : bag.BagNumber
+    }));
+  }
+
+  private async loadLists() {
+
+    this.allListItems = await this.listService.getItemList();
+
+    this.splitLists();
+
+  }
+
+  private splitLists() {
+
+    this.organizationsList = this.allListItems.filter(x => x.ListTypeId == enmListType.OrganizationType);
+
+    this.stationsList = this.allListItems.filter(x => x.ListTypeId == enmListType.StationType);
+
   }
 
   private getEmptyTransport(): CreateTransport {
+
     return {
-      StartLocationType: null as any,
-      StartLocationNameFreeText: '',
-      Purpose: null as any,
-      Destination: '',
+      BagNumbers: [],
+      StartDateTime: new Date(),
+
+      StartLocationType: null,
+      StartStationId: null,
+      StartLocationNameFreeText: null,
+
+      Purpose: null,
+      Destination: null,
       Organization: '',
+
       VehicleType: '',
       LicensePlate: '',
-      DriverDetails: '',
-      BagNumbers: []
-    };
+      DriverFirstName: '',
+      DriverLastName: '',
+      DriverIdentityNumber: '',
+      DriverPhone: ''
+    }
+  }
+
+  onOrganizationTypeChange() {
+
+    this.subStationsList = this.allListItems.filter(x => x.ListItemDepId == this.transportData.StartLocationType);
+    debugger;
   }
 
   async save() {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using DataModel.Abstract;
 using Core.Helpers;
 
@@ -23,7 +22,7 @@ public class Transport : BaseUpdatedEntity
     public TransportPurpose Purpose { get; set; }
 
     [Required] 
-    public string Destination { get; set; }
+    public TransportPurpose Destination { get; set; }
 
     [Required] 
     public string Organization { get; set; }
@@ -33,8 +32,14 @@ public class Transport : BaseUpdatedEntity
 
     [Required] 
     public string LicensePlate { get; set; }
-
-    public string? DriverDetails { get; set; }
+    
+    public string? DriverFirstName { get; set; }
+    
+    public string? DriverLastName { get; set; }
+    
+    public string? DriverIdentityNumber { get; set; }
+    
+    public string? DriverPhone { get; set; }
     
     public bool IsCompleted { get; set; }
     

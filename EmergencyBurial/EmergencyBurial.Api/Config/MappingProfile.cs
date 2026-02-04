@@ -50,7 +50,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.BroughtBy, opt => opt.Ignore())
             .ForMember(dest => dest.CanBeIdentifiedByAcquaintance, opt => opt.Ignore());
 
-        CreateMap<DeceasedBag, BagSelectItemDto>();
+        CreateMap<DeceasedBag, BagSelectItemDto>()
+            .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.Deceased.IdentityNumber));
         
         CreateMap<DeceasedBurialProcessStatus, DeceasedBurialProcessStatusDto>()
             .ReverseMap();
