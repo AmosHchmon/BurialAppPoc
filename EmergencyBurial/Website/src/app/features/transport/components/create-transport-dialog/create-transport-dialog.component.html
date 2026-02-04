@@ -1,0 +1,162 @@
+<!--
+<p-dialog header="יצירת שינוע חדש"
+          [(visible)]="visible"
+          (onHide)="close()"
+          [modal]="true"
+          [style]="{width: '600px'}"
+          [draggable]="false"
+          [resizable]="false">
+
+  <form #transportForm="ngForm" class="p-fluid grid formgrid">
+
+    <div class="field col-12 md:col-6">
+      <label for="startType" class="required-field font-bold">סוג מיקום יציאה</label>
+      <p-select id="startType"
+                name="StartLocationType"
+                [options]="organizationTypes"
+                [(ngModel)]="transportData.StartLocationType"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="בחר סוג"
+                appendTo="body"
+                required
+                #startType="ngModel"></p-select>
+
+      @if (startType.invalid && (startType.dirty || startType.touched)) {
+        <small class="p-error block mt-1">שדה חובה</small>
+      }
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label for="startText" class="font-bold">שם מיקום (חופשי)</label>
+      <input pInputText id="startText"
+             name="StartLocationNameFreeText"
+             [(ngModel)]="transportData.StartLocationNameFreeText"
+             placeholder="למשל: תחנת ריכוז דרום" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label for="destination" class="required-field font-bold">יעד נסיעה</label>
+      <input pInputText id="destination"
+             name="Destination"
+             [(ngModel)]="transportData.Destination"
+             required
+             #dest="ngModel" />
+
+      @if (dest.invalid && (dest.dirty || dest.touched)) {
+        <small class="p-error block mt-1">שדה חובה</small>
+      }
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label for="purpose" class="required-field font-bold">תכלית השינוע</label>
+      <p-select id="purpose"
+                name="Purpose"
+                [options]="purposes"
+                [(ngModel)]="transportData.Purpose"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="בחר תכלית"
+                appendTo="body"
+                required
+                #purpose="ngModel"></p-select>
+
+      @if (purpose.invalid && (purpose.dirty || purpose.touched)) {
+        <small class="p-error block mt-1">שדה חובה</small>
+      }
+    </div>
+
+    <div class="col-12"><hr class="my-3 border-gray-200" /></div>
+
+    <div class="field col-12 md:col-6">
+      <label for="driver" class="required-field font-bold">פרטי נהג</label>
+      <input pInputText id="driver"
+             name="DriverDetails"
+             [(ngModel)]="transportData.DriverDetails"
+             placeholder="שם מלא + טלפון"
+             required
+             #driver="ngModel"/>
+
+      @if (driver.invalid && (driver.dirty || driver.touched)) {
+        <small class="p-error block mt-1">שדה חובה</small>
+      }
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label for="org" class="required-field font-bold">ארגון מבצע</label>
+      <input pInputText id="org"
+             name="Organization"
+             [(ngModel)]="transportData.Organization"
+             required
+             #org="ngModel"/>
+
+      @if (org.invalid && (org.dirty || org.touched)) {
+        <small class="p-error block mt-1">שדה חובה</small>
+      }
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label for="vehicle" class="required-field font-bold">סוג רכב</label>
+      <input pInputText id="vehicle"
+             name="VehicleType"
+             [(ngModel)]="transportData.VehicleType"
+             placeholder="אמבולנס / משאית"
+             required
+             #vehicle="ngModel"/>
+
+      @if (vehicle.invalid && (vehicle.dirty || vehicle.touched)) {
+        <small class="p-error block mt-1">שדה חובה</small>
+      }
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label for="plate" class="required-field font-bold">מספר רישוי</label>
+      <input pInputText id="plate"
+             name="LicensePlate"
+             [(ngModel)]="transportData.LicensePlate"
+             required
+             #plate="ngModel"/>
+
+      @if (plate.invalid && (plate.dirty || plate.touched)) {
+        <small class="p-error block mt-1">שדה חובה</small>
+      }
+    </div>
+
+    <div class="field col-12">
+      <label for="bags" class="required-field font-bold">בחירת שקים להעמסה (עד 3)</label>
+      <p-autoComplete id="bags"
+                      name="BagNumbers"
+                      [(ngModel)]="transportData.BagNumbers"
+                      [suggestions]="filteredBags"
+                      (completeMethod)="searchBags($event)"
+                      [multiple]="true"
+                      [forceSelection]="true"
+                      placeholder="הקלד מספר שק לחיפוש..."
+                      appendTo="body"
+                      required
+                      #bags="ngModel">
+      </p-autoComplete>
+      <small class="text-gray-500 block mt-1">יש להקליד לפחות תו אחד כדי לחפש שקים פנויים.</small>
+
+      @if (bags.invalid && (bags.dirty || bags.touched)) {
+        <small class="p-error block mt-1">חובה לבחור לפחות שק אחד</small>
+      }
+    </div>
+
+  </form>
+
+  <ng-template pTemplate="footer">
+    <p-button label="ביטול"
+              icon="pi pi-times"
+              styleClass="p-button-text"
+              (click)="close()"></p-button>
+
+    <p-button label="צור שינוע"
+              icon="pi pi-check"
+              (click)="save()"
+              [disabled]="transportForm.invalid"></p-button>
+  </ng-template>
+
+</p-dialog>
+-->
+<div></div>

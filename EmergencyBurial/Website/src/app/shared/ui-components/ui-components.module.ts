@@ -39,6 +39,7 @@ import {EmptyDataComponent} from "../components/empty-data/empty-data.component"
 import {PasswordModule} from "primeng/password";
 import {InputOtpModule} from "primeng/inputotp";
 import {AvatarModule} from "primeng/avatar";
+import {AutoCompleteModule} from "primeng/autocomplete";
 
 @NgModule({
   imports: [
@@ -81,6 +82,7 @@ import {AvatarModule} from "primeng/avatar";
     PasswordModule,
     InputOtpModule,
     AvatarModule,
+    AutoCompleteModule,
     EmptyDataComponent
   ],
   exports: [
@@ -124,6 +126,7 @@ import {AvatarModule} from "primeng/avatar";
     PasswordModule,
     InputOtpModule,
     AvatarModule,
+    AutoCompleteModule,
     EmptyDataComponent
   ],
   declarations: [],

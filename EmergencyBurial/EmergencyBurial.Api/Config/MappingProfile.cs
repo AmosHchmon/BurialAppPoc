@@ -188,9 +188,10 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Purpose, opt => opt.Ignore());
         
         CreateMap<Transport, TransportListDto>()
-            .ForMember(dest => dest.TotalBags, opt => opt.MapFrom(src => src.DeceasedBags.Count()))
+            .ForMember(dest => dest.TotalBags, opt => opt.MapFrom(src => src.DeceasedBags.Count))
             .ForMember(dest => dest.BagNumbers, opt => opt.MapFrom(src => 
-                src.DeceasedBags.Select(b => b.BagNumber).ToList()))
+                src.DeceasedBags.Select(h => h.BagNumber).ToList()))
+            .ForMember(dest => dest.ArrivalDateTime, opt => opt.MapFrom(src => src.ArrivalDateTime))
             .ForMember(dest => dest.PurposeDesc, opt => opt.MapFrom(src => src.Purpose.GetEnumDescription()))
             .ForMember(dest => dest.StartLocation, opt => opt.MapFrom(src => 
                 !string.IsNullOrEmpty(src.StartLocationNameFreeText) 
