@@ -1,9 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {MessageService} from 'primeng/api';
 
 import {TransportService} from '../../services/transport.service';
-import {enmOrganizationType} from 'src/app/shared/enum/organization-type.enum';
 import {TransportPurpose} from 'src/app/shared/enum/transport-purpose.enum';
 import {CreateTransport} from '../../model/CreateTransport';
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
