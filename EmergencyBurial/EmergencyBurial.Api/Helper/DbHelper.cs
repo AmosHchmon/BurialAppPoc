@@ -82,6 +82,33 @@ public class DbHelper
 
             db.ListItems.Add(obj);
         }
+        
+        count = 1;
+        foreach (StationType type in (StationType[])Enum.GetValues(typeof(StationType)))
+        {
+            var obj = new ListItem()
+            {
+                Key = (int)EntityType.StationType + count++,
+                ListTypeId = (int)EntityType.StationType,
+                Text = type.GetEnumDescription()
+            };
+
+            db.ListItems.Add(obj);
+        }
+        
+        count = 1;
+        foreach (ForensicInstituteStations type in (ForensicInstituteStations[])Enum.GetValues(typeof(ForensicInstituteStations)))
+        {
+            var obj = new ListItem()
+            {
+                Key = (int)EntityType.ForensicInstituteStations + count++,
+                ListTypeId = (int)EntityType.ForensicInstituteStations,
+                Text = type.GetEnumDescription(),
+                ListItemDepId = (int)OrganizationType.Medical
+            };
+
+            db.ListItems.Add(obj);
+        }
 
         count = 1;
         foreach (TarahStations type in (TarahStations[])Enum.GetValues(typeof(TarahStations)))
@@ -693,7 +720,9 @@ public class DbHelper
                 PhoneNumber = "0545416161",
                 Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
-                OrganizationTypeId = (int)OrganizationType.DatServices,
+                OrganizationTypeId = (int)OrganizationType.Hamal,
+                StationTypeId = (int)StationType.TarahStations,
+                StationId = (int)TarahStations.Shura,
                 IsActive = true,
             },
             new()
@@ -704,6 +733,7 @@ public class DbHelper
                 Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
                 OrganizationTypeId = (int)OrganizationType.Hamal,
+                StationTypeId = (int)StationType.TarahStations,
                 StationId = (int)TarahStations.Shura,
                 IsActive = true,
             },
@@ -715,6 +745,7 @@ public class DbHelper
                 Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
                 OrganizationTypeId = (int)OrganizationType.BurialPreparation,
+                StationTypeId = (int)StationType.BurialPreparation,
                 StationId = (int)BurialPreparation.TelRegev,
                 IsActive = true,
             }

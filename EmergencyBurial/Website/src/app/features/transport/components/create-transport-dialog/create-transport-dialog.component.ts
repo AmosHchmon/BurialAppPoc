@@ -36,12 +36,12 @@ export class CreateTransportDialogComponent implements OnInit {
 
   transportData: CreateTransport = this.getEmptyTransport();
 
-  organizationTypes = [
+  /*organizationTypes = [
     {label: 'תר"ח', value: enmOrganizationType.Tarah},
     {label: 'הכנה לקבורה', value: enmOrganizationType.BurialPreparation},
     {label: 'מכון לרפואה משפטית', value: enmOrganizationType.ForensicInstitute},
   ];
-
+*/
   purposes = [
     {label: 'למכון לרפואה משפטית', value: TransportPurpose.ToForensicInstitute},
     {label: 'לתר"ח', value: TransportPurpose.ToTarah},
@@ -83,7 +83,6 @@ export class CreateTransportDialogComponent implements OnInit {
     this.allListItems = await this.listService.getItemList();
 
     this.splitLists();
-
   }
 
   private splitLists() {
@@ -91,7 +90,6 @@ export class CreateTransportDialogComponent implements OnInit {
     this.organizationsList = this.allListItems.filter(x => x.ListTypeId == enmListType.OrganizationType);
 
     this.stationsList = this.allListItems.filter(x => x.ListTypeId == enmListType.StationType);
-
   }
 
   private getEmptyTransport(): CreateTransport {
@@ -120,7 +118,6 @@ export class CreateTransportDialogComponent implements OnInit {
   onOrganizationTypeChange() {
 
     this.subStationsList = this.allListItems.filter(x => x.ListItemDepId == this.transportData.StartLocationType);
-    debugger;
   }
 
   async save() {

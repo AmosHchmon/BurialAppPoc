@@ -53,12 +53,16 @@ namespace Core.Helpers
     {
         [Description("סוג ארגון")]
         OrganizationType = 1000,
+        [Description("סוג תחנה")]
+        StationType = 2000,
+        [Description("מכון לרפואה משפטית")]
+        ForensicInstituteStations = 3000,
         [Description("תר'ח")]
-        TarahStations = 2000,
+        TarahStations = 4000,
         [Description("הכנה לקבורה")]
-        BurialPreparation = 3000,
+        BurialPreparation = 5000,
         [Description("גוף קבורה")]
-        BurialBody = 4000
+        BurialBody = 6000
     }
 
     #endregion
@@ -77,42 +81,62 @@ namespace Core.Helpers
         BurialPreparation = 1004,
         [Description("גוף קבורה")]
         BetAlmin = 1005,
+        [Description("מכון רפואי")]
+        Medical = 1006
+    }
+    
+    public enum StationType
+    {
+        [Description("תר'ח")]
+        TarahStations = 2001,
+        [Description("מכון לרפואה משפטית")]
+        ForensicInstitute = 2002,
+        [Description("הכנה לקבורה")]
+        BurialPreparation = 2003,
+        [Description("גוף קבורה")]
+        BetAlmin = 2004,
+    }
+
+    public enum ForensicInstituteStations
+    {
+        [Description("מכון רפואי")]
+        Medical = 3001
     }
     
     public enum TarahStations
     {
         [Description("שורה")]
-        Shura = 2001,
+        Shura = 4001,
         [Description("ציפורית")]
-        Tziporit = 2002,
+        Tziporit = 4002,
         [Description("שדה תימן")]
-        SdeTeiman = 2003
+        SdeTeiman = 4003
     }
 
     public enum BurialPreparation
     {
         [Description("תל רגב")]
-        TelRegev = 3001,
+        TelRegev = 5001,
         [Description("ראשון לציון")]
-        RishonLezion = 3002
+        RishonLezion = 5002
     }
 
     public enum BurialBody
     {
         [Description("ראשון לציון")]
-        RishonLezion = 4001,
+        RishonLezion = 6001,
         [Description("עמק חפר")]
-        EmekHefer = 4002,
+        EmekHefer = 6002,
         [Description("אילת")]
-        Eilat = 4003,
+        Eilat = 6003,
         [Description("אבו כביר")]
-        AbuKabir = 4004,
+        AbuKabir = 6004,
         [Description("חולון")]
-        Holon = 4005,
+        Holon = 6005,
         [Description("תל אביב")]
-        TelAviv = 4006,
+        TelAviv = 6006,
         [Description("פתח תקווה")]
-        PetahTikva = 4007,
+        PetahTikva = 6007,
     }
 
     #endregion
