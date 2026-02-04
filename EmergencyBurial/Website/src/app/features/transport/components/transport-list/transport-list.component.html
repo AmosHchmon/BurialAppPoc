@@ -1,53 +1,23 @@
 <div class="card p-3">
-
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="font-bold">ניהול שינועים</h4>
   </div>
 
   <div class="d-flex justify-content-between align-items-center mb-3 bg-gray-50 p-3 border-round">
-
-    <div class="font-bold text-gray-600">פעולות:</div>
-
     <div class="d-flex gap-2">
-      <p-button label="שינוע חדש"
-                icon="pi pi-plus"
-                (click)="onCreateTransport()"
-                severity="primary"></p-button>
+      <p-button label="שינוע חדש" icon="pi pi-plus" (click)="onCreateTransport()" severity="primary"></p-button>
 
       @if (selectedTransport && !selectedTransport.IsCompleted) {
-        <p-button label="סיום שינוע"
-                  icon="pi pi-check-circle"
-                  (click)="onEndTransport()"
-                  severity="success"></p-button>
+        <p-button label="סיום שינוע" icon="pi pi-check-circle" (click)="onEndTransport()" severity="success"></p-button>
       }
-
-      <p-button label="עדכון פרטים"
-                icon="pi pi-pencil"
-                (click)="onEditDetails()"
-                [disabled]="!selectedTransport"
-                severity="info"></p-button>
     </div>
-  </div>
-
-  <div class="d-flex gap-3 align-items-center m-3">
-    <p-iconfield>
-      <p-inputicon class="pi pi-search"/>
-      <input pInputText type="text" [(ngModel)]="searchText"
-             (input)="dt.filterGlobal($event.target.value, 'contains')"
-             placeholder="חיפוש חופשי (יעד, נהג, שק, רכב)..."/>
-
-      @if (searchText) {
-        <p-inputicon class="pi pi-times cursor-pointer" (click)="clearSearch()"/>
-      }
-    </p-iconfield>
   </div>
 
   <p-table #dt
            [columns]="cols"
            showGridlines="true"
            [value]="transports"
-           [loading]="loading"
-           [tableStyle]="{ 'min-width': '60rem' }"
+           [tableStyle]="{ 'min-width': '50rem' }"
            [size]="'small'"
            [paginator]="true"
            [rows]="10"
@@ -57,12 +27,9 @@
            currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
            [globalFilterFields]="getGlobalFilterFields()"
            [rowHover]="true"
-           dataKey="id">
-
+           dataKey="Id">
     <ng-template pTemplate="header" let-columns>
       <tr>
-        <th style="width: 4rem"></th>
-
         @for (col of columns; track col.field) {
           <th [pSortableColumn]="col.field">
             <div class="d-flex align-items-center gap-1 px-2">
@@ -76,60 +43,53 @@
 
     <ng-template pTemplate="body" let-rowData>
       <tr [pSelectableRow]="rowData">
-
         <td>
           <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
         </td>
 
-        <td>{{ rowData.id }}</td>
-
         <td>
-          {{ rowData.startDateTime | date:'dd/MM/yyyy HH:mm' }}
-          @if (rowData.exitDateTime) {
-            <div class="text-xs text-gray-500">הגעה: {{ rowData.exitDateTime | date:'HH:mm' }}</div>
-          }
+          {{ rowData.StartDateTime | date:'dd/MM/yyyy HH:mm' }}
         </td>
 
         <td>
-          <span class="font-bold">{{ rowData.destination }}</span>
-          <div class="text-xs text-gray-500">מ: {{ rowData.startLocation }}</div>
-        </td>
-
-        <td>{{ rowData.purposeDesc }}</td>
-
-        <td>
-          <div>{{ rowData.driverDetails }}</div>
-          <div class="text-xs text-gray-500">{{ rowData.vehicleType }} ({{ rowData.licensePlate }})</div>
+          {{ rowData.StartLocation }}
         </td>
 
         <td>
-                    <span [pTooltip]="rowData.bagNumbers.join(', ')" tooltipPosition="top" class="cursor-pointer">
-                        <p-tag [value]="rowData.totalBags.toString()" severity="info"></p-tag>
-                    </span>
+          {{ rowData.PurposeDesc }}
         </td>
 
         <td>
-          <p-tag [value]="getStatusLabel(rowData.isCompleted)"
-                 [severity]="getStatusSeverity(rowData.isCompleted)"></p-tag>
+          <p-tag [value]="rowData.IsCompleted ? 'הסתיים' : 'פעיל'"
+                 [severity]="rowData.IsCompleted ? 'secondary' : 'success'"></p-tag>
+        </td>
+
+        <td>
+          <span [pTooltip]="rowData.BagNumbers?.join(', ')" tooltipPosition="top" class="cursor-pointer">
+
+            {{ rowData.BagNumbers?.[0] }}
+
+            @if (rowData.TotalBags > 1) {
+              <span class="font-bold text-primary">... (+{{ rowData.TotalBags - 1 }})</span>
+            }
+          </span>
         </td>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td [attr.colspan]="cols.length + 1" class="text-center p-4">
+        <td colspan="6" class="text-center p-4">
           לא נמצאו שינועים במערכת
         </td>
       </tr>
     </ng-template>
 
   </p-table>
-
 </div>
 
+<!--
 <app-create-transport-dialog
   [(visible)]="isCreateDialogOpen"
   (onSaved)="onTransportSaved()">
-</app-create-transport-dialog>
-
-<p-confirmDialog></p-confirmDialog>
+</app-create-transport-dialog>-->

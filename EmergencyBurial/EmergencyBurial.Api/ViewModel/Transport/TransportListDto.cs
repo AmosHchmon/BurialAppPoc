@@ -9,8 +9,6 @@ public class TransportListDto
     
     public DateTime StartDateTime { get; set; }
     
-    public DateTime? ArrivalDateTime { get; set; }
-    
     public string StartLocation { get; set; }
     
     public string PurposeDesc { get; set; }

@@ -17,6 +17,18 @@ namespace EmergencyBurial.Api.Controllers;
 [Authorize]
 public class TransportController(TransportService transportService, IMapper mapper) : ControllerBase
 {
+    [HttpGet]
+    public async Task<ActionResult<List<TransportListDto>>> GetAll([FromQuery] int? purpose)
+    {
+        TransportPurpose? filter = purpose.HasValue ? (TransportPurpose)purpose.Value : null;
+
+        var entities = await transportService.GetTransportsList(filter);
+
+        var result = mapper.Map<List<TransportListDto>>(entities);
+
+        return Ok(result);
+    }
+    
     [HttpPost]
     public async Task<ActionResult> Create(CreateTransportDto dto)
     {
@@ -58,18 +70,6 @@ public class TransportController(TransportService transportService, IMapper mapp
         await transportService.EndTransport(id, userId);
 
         return Ok();
-    }
-
-    [HttpGet]
-    public async Task<ActionResult<List<TransportListDto>>> GetAll([FromQuery] int? purpose)
-    {
-        TransportPurpose? filter = purpose.HasValue ? (TransportPurpose)purpose.Value : null;
-
-        var entities = await transportService.GetTransportsList(filter);
-
-        var result = mapper.Map<List<TransportListDto>>(entities);
-
-        return Ok(result);
     }
 
     [HttpGet("available-bags")]

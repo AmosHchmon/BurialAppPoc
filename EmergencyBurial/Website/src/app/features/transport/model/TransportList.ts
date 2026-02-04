@@ -1,26 +1,16 @@
 ﻿export interface TransportList {
 
-  Id: number;
+  Id?: number;
 
-  StartDateTime: Date;
+  StartDateTime?: Date;
 
-  ArrivalDateTime?: Date;
+  StartLocation?: string;
 
-  IsCompleted: boolean;
+  PurposeDesc?: string;
 
-  StartLocation: string;
+  IsCompleted?: boolean;
 
-  PurposeDesc: string;
+  BagNumbers?: string[];
 
-  Destination: string;
-
-  DriverDetails: string;
-
-  VehicleType: string;
-
-  LicensePlate: string;
-
-  TotalBags: number;
-
-  BagNumbers: string[];
+  TotalBags?: number;
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Linq;
 using DataModel.Entities.System;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmergencyBurial.Api.Helper;
 
@@ -586,15 +587,14 @@ public class DbHelper
 
     private void InitTransportTestData()
 {
-    if (db.Transports.Any()) return;
+    if (db.Transports.Any())
+        return;
 
-    db.ChangeTracker.Clear(); // חשוב לניקוי זיכרון
+    db.ChangeTracker.Clear();
+    
     var sysUser = db.Members.FirstOrDefault();
     var userId = sysUser?.Id ?? Guid.Empty;
 
-    // ---------------------------------------------------------
-    // 1. שינוע פעיל (Active)
-    // ---------------------------------------------------------
     var activeTransport = new Transport
     {
         StartLocationType = OrganizationType.Tarah,
@@ -609,22 +609,23 @@ public class DbHelper
         IsCompleted = false,
         UpdateOn = DateTime.Now,
         UpdateBy = userId,
-        // אתחול הרשימה החיה
         DeceasedBags = new List<DeceasedBag>() 
     };
 
-    var activeBags = db.DeceasedBag.Where(b => b.BagNumber == "T-4001" || b.BagNumber == "T-4002").ToList();
+    var activeBags = db.DeceasedBag.
+        AsTracking().
+        Where(b => b.BagNumber == "T-4001" || b.BagNumber == "T-4002")
+        .ToList();
 
     foreach (var bag in activeBags)
     {
-        // א. עדכון המצב החי (Live State) - השק נמצא פיזית ברכב
         bag.IsInTransport = true;
-        bag.CurrentTransport = activeTransport; // EF יעדכן את הרשימה הנגדית
+        bag.CurrentTransport = activeTransport;
+        bag.CurrentTransportId = activeTransport.Id;
         
-        // ב. תיעוד בהיסטוריה
         var history = new TransportHistory
         {
-            Transport = activeTransport, // שימוש באובייקט כדי ש-EF יזהה את ה-ID שייווצר
+            Transport = activeTransport,
             DeceasedBagId = bag.Id,
             CreatedOn = DateTime.Now
         };
@@ -633,9 +634,6 @@ public class DbHelper
 
     db.Transports.Add(activeTransport);
 
-    // ---------------------------------------------------------
-    // 2. שינוע שהסתיים (Completed)
-    // ---------------------------------------------------------
     var completedTransport = new Transport
     {
         StartLocationType = OrganizationType.Hamal,
@@ -651,18 +649,18 @@ public class DbHelper
         IsCompleted = true,
         UpdateOn = DateTime.Now,
         UpdateBy = userId,
-        DeceasedBags = new List<DeceasedBag>() // תישאר ריקה!
+        DeceasedBags = new List<DeceasedBag>()
     };
 
-    var historyBags = db.DeceasedBag.Where(b => b.BagNumber == "C-1001").ToList();
+    var historyBags = db.DeceasedBag
+        .Where(b => b.BagNumber == "C-1001")
+        .ToList();
 
-    db.Transports.Add(completedTransport); // מוסיפים כדי לקבל ID או ש-EF ינהל את זה
+    db.Transports.Add(completedTransport);
 
     foreach (var bag in historyBags)
     {
-        // א. מצב חי: לא עושים כלום! השק לא ברכב הזה יותר.
-        
-        // ב. תיעוד בהיסטוריה: רק רושמים שהיה שם
+ 
         var history = new TransportHistory
         {
             Transport = completedTransport,

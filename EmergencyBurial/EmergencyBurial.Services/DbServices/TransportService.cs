@@ -107,6 +107,7 @@ public class TransportService(EmergencyBurialContext ctx)
     public async Task<List<Transport>> GetTransportsList(TransportPurpose? filterPurpose)
     {
         var query = ctx.Transports
+            .Include(t => t.DeceasedBags)
             .AsQueryable();
         
         if (filterPurpose.HasValue)

@@ -1,40 +1,35 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ConfirmationService, MessageService} from 'primeng/api';
+import {Table} from "primeng/table";
+
 import {TransportList} from '../../model/TransportList';
 import {TransportService} from '../../services/transport.service';
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
-import {Table} from "primeng/table";
 import {CreateTransportDialogComponent} from "../create-transport-dialog/create-transport-dialog.component";
+import {IColumn} from "../../../../shared/ui-components/model/column";
 
 @Component({
   selector: 'app-transport-list',
   templateUrl: './transport-list.component.html',
   imports: [UiComponentsModule, CreateTransportDialogComponent],
-  styleUrls: ['./transport-list.component.scss'],
-  providers: [ConfirmationService] // חובה עבור דיאלוג האישור
+  styleUrls: ['./transport-list.component.scss']
 })
 export class TransportListComponent implements OnInit {
 
   @ViewChild('dt') dt!: Table;
 
-  // נתונים
   transports: TransportList[] = [];
   selectedTransport: TransportList | null = null;
-  loading: boolean = true;
   searchText: string = '';
-
-  // משתנה לשליטה על דיאלוג היצירה
   isCreateDialogOpen: boolean = false;
 
-  // הגדרת עמודות (לשימוש ב-HTML)
-  cols: any[] = [
-    {field: 'id', header: '#'},
-    {field: 'startDateTime', header: 'יציאה'},
-    {field: 'destination', header: 'יעד'},
-    {field: 'purposeDesc', header: 'תכלית'},
-    {field: 'driverDetails', header: 'נהג'},
-    {field: 'totalBags', header: 'שקים'},
-    {field: 'isCompleted', header: 'סטטוס'},
+  cols: IColumn[] = [
+    {field: 'select', header: 'בחירה'},
+    { field: 'StartDateTime', header: 'תאריך שינוע' },
+    { field: 'StartLocation', header: 'מקום יציאה' },
+    { field: 'PurposeDesc', header: 'תכלית' },
+    { field: 'IsCompleted', header: 'סטטוס' },
+    { field: 'BagNumbers', header: 'שקים בשינוע' }
   ];
 
   constructor(
@@ -48,42 +43,23 @@ export class TransportListComponent implements OnInit {
     this.loadData();
   }
 
-  /**
-   * טעינת הנתונים מהשרת
-   */
   async loadData() {
-    this.loading = true;
-    try {
       this.transports = await this.transportService.getTransports();
-    } catch (error) {
-      this.messageService.add({severity: 'error', summary: 'שגיאה', detail: 'לא ניתן לטעון נתונים'});
-    } finally {
-      this.loading = false;
     }
-  }
 
-  // --- Actions ---
-
-  /**
-   * פתיחת דיאלוג יצירת שינוע
-   */
   onCreateTransport() {
     this.isCreateDialogOpen = true;
   }
 
-  /**
-   * אירוע שחוזר מהדיאלוג לאחר שמירה מוצלחת
-   */
   onTransportSaved() {
-    this.isCreateDialogOpen = false; // סגירת הדיאלוג
-    this.loadData(); // רענון הגריד כדי לראות את הרשומה החדשה
+    this.isCreateDialogOpen = false;
+    this.loadData();
   }
 
-  /**
-   * סיום שינוע (End Transport)
-   */
   onEndTransport() {
-    if (!this.selectedTransport) return;
+
+    if (!this.selectedTransport)
+      return;
 
     this.confirmationService.confirm({
       message: 'האם אתה בטוח שברצונך לסיים את השינוע שנבחר? פעולה זו תשחרר את השקים מהרכב.',
@@ -93,57 +69,38 @@ export class TransportListComponent implements OnInit {
       rejectLabel: 'ביטול',
       acceptButtonStyleClass: 'p-button-success',
       rejectButtonStyleClass: 'p-button-text',
+
       accept: async () => {
-        try {
+
           await this.transportService.endTransport(this.selectedTransport!.Id);
           this.messageService.add({severity: 'success', summary: 'בוצע', detail: 'השינוע הסתיים בהצלחה'});
 
-          this.selectedTransport = null; // איפוס הבחירה
-          this.loadData(); // ריענון הנתונים
-        } catch (e) {
-          this.messageService.add({severity: 'error', summary: 'שגיאה', detail: 'אירעה שגיאה בסיום השינוע'});
-        }
+          this.selectedTransport = null;
+          this.loadData();
       }
     });
   }
 
-  /**
-   * עריכת פרטים (Placeholder)
-   */
   onEditDetails() {
-    if (!this.selectedTransport) return;
 
-    this.messageService.add({severity: 'info', summary: 'בפיתוח', detail: 'פונקציונליות עריכה תתווסף בקרוב'});
-    // בעתיד: this.isEditDialogVisible = true;
+    if (!this.selectedTransport)
+      return;
+
   }
 
-  // --- Helpers ---
-
-  /**
-   * ניקוי חיפוש ופילטרים
-   */
   clearSearch() {
     this.searchText = '';
-    this.dt.reset(); // ניקוי הפילטרים של הטבלה
+    this.dt.reset();
   }
 
-  /**
-   * שדות עליהם יתבצע הסינון הגלובלי
-   */
   getGlobalFilterFields(): string[] {
-    return ['id', 'destination', 'driverDetails', 'licensePlate', 'startLocation', 'bagNumbers'];
+    return this.cols.map(col => col.field);
   }
 
-  /**
-   * צבע התגית לפי סטטוס
-   */
   getStatusSeverity(isCompleted: boolean): string {
     return isCompleted ? 'secondary' : 'success';
   }
 
-  /**
-   * טקסט התגית לפי סטטוס
-   */
   getStatusLabel(isCompleted: boolean): string {
     return isCompleted ? 'הסתיים' : 'פעיל';
   }
