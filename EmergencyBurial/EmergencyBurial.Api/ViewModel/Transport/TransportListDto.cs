@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Helpers;
 
 namespace EmergencyBurial.Api.ViewModel;
 
@@ -10,6 +11,8 @@ public class TransportListDto
     public DateTime StartDateTime { get; set; }
     
     public string StartLocation { get; set; }
+    
+    public TransportPurpose Purpose { get; set; }
     
     public string PurposeDesc { get; set; }
     
