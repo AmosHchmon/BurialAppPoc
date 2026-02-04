@@ -6,6 +6,8 @@ import {TransportList} from "../model/TransportList";
 import {CreateTransport} from "../model/CreateTransport";
 import {UpdateTransportDetails} from "../model/UpdateTransportDetails";
 import {TransportPurpose} from "../../../shared/enum/transport-purpose.enum";
+import {DeceasedBag} from "../../deceased/model/DeceasedBag";
+import {BagSelectItem} from "../model/BagSelectItem";
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +29,9 @@ export class TransportService extends BaseService {
     return super.get({path: ``}, {params: params});
   }
 
-  async searchAvailableBags(query: string): Promise<string[]> {
+  async availableBags(): Promise<BagSelectItem[]> {
 
-    const params = new HttpParams().set('query', query);
-
-    return super.get({path: `/search-bags`}, {params: params});
+    return super.get({path: `/available-bags`});
   }
 
   async createTransport(dto: CreateTransport): Promise<any> {

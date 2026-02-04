@@ -73,13 +73,12 @@ public class TransportController(TransportService transportService, IMapper mapp
     }
 
     [HttpGet("available-bags")]
-    public async Task<ActionResult<List<string>>> SearchBags([FromQuery] string q)
+    public async Task<ActionResult<List<BagSelectItemDto>>> GetAvailableBags()
     {
-        if (string.IsNullOrWhiteSpace(q))
-            return Ok(new List<string>());
+        var results = await transportService.AvailableBags();
 
-        var results = await transportService.SearchAvailableBags(q);
-
-        return Ok(results);
+        var res = mapper.Map<List<BagSelectItemDto>>(results);
+        
+        return Ok(res);
     }
 }

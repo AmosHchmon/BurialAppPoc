@@ -40,6 +40,7 @@ import {PasswordModule} from "primeng/password";
 import {InputOtpModule} from "primeng/inputotp";
 import {AvatarModule} from "primeng/avatar";
 import {AutoCompleteModule} from "primeng/autocomplete";
+import {MultiSelectModule} from "primeng/multiselect";
 
 @NgModule({
   imports: [
@@ -83,6 +84,7 @@ import {AutoCompleteModule} from "primeng/autocomplete";
     InputOtpModule,
     AvatarModule,
     AutoCompleteModule,
+    MultiSelectModule,
     EmptyDataComponent
   ],
   exports: [
@@ -127,6 +129,7 @@ import {AutoCompleteModule} from "primeng/autocomplete";
     InputOtpModule,
     AvatarModule,
     AutoCompleteModule,
+    MultiSelectModule,
     EmptyDataComponent
   ],
   declarations: [],

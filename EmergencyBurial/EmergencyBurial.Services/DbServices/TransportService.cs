@@ -31,7 +31,7 @@ public class TransportService(EmergencyBurialContext ctx)
         if (bagsInActiveTransport.Count > 0)
         {
             var busyBagsString = string.Join(", ", bagsInActiveTransport);
-            
+
             throw new ApplicationException(string.Format(UserMessage.ActiveTransport, busyBagsString));
         }
 
@@ -46,20 +46,20 @@ public class TransportService(EmergencyBurialContext ctx)
         {
             bag.IsInTransport = true;
             bag.CurrentTransportId = transport.Id;
-            
+
             var historyItem = new TransportHistory
             {
                 TransportId = transport.Id,
                 DeceasedBagId = bag.Id,
                 CreatedOn = DateTime.Now
             };
-            
+
             ctx.TransportHistory.Add(historyItem);
         }
 
         await ctx.SaveChangesAsync();
     }
-    
+
     public async Task<Transport> GetTransportForEdit(int id)
     {
         var transport = await ctx.Transports
@@ -73,7 +73,7 @@ public class TransportService(EmergencyBurialContext ctx)
 
         return transport;
     }
-    
+
     public async Task UpdateTransport()
     {
         await ctx.SaveChangesAsync();
@@ -93,7 +93,7 @@ public class TransportService(EmergencyBurialContext ctx)
         transport.UpdateBy = userId;
         transport.UpdateOn = DateTime.Now;
         transport.ArrivalDateTime = DateTime.Now;
-        
+
 
         foreach (var bag in transport.DeceasedBags)
         {
@@ -109,7 +109,7 @@ public class TransportService(EmergencyBurialContext ctx)
         var query = ctx.Transports
             .Include(t => t.DeceasedBags)
             .AsQueryable();
-        
+
         if (filterPurpose.HasValue)
         {
             query = query.Where(t => t.Purpose == filterPurpose.Value);
@@ -119,12 +119,11 @@ public class TransportService(EmergencyBurialContext ctx)
             .OrderByDescending(t => t.StartDateTime)
             .ToListAsync();
     }
-
-    public async Task<List<string>> SearchAvailableBags(string query)
+    
+    public async Task<List<DeceasedBag>> AvailableBags()
     {
         return await ctx.DeceasedBag
-            .Where(b => !b.IsInTransport && b.BagNumber.Contains(query))
-            .Select(b => b.BagNumber)
+            .Where(b => !b.IsInTransport)
             .ToListAsync();
     }
 }

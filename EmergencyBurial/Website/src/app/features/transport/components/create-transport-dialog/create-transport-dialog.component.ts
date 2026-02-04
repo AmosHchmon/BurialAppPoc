@@ -1,11 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {MessageService} from 'primeng/api';
+
 import {TransportService} from '../../services/transport.service';
 import {enmOrganizationType} from 'src/app/shared/enum/organization-type.enum';
 import {TransportPurpose} from 'src/app/shared/enum/transport-purpose.enum';
 import {CreateTransport} from '../../model/CreateTransport';
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
+import {BagSelectItem} from "../../model/BagSelectItem";
 
 @Component({
   selector: 'app-create-transport-dialog',
@@ -22,11 +24,10 @@ export class CreateTransportDialogComponent implements OnInit {
 
   @ViewChild('transportForm') transportForm!: NgForm;
 
-  filteredBags: string[] = [];
+  availableBags: BagSelectItem[] = [];
 
   transportData: CreateTransport = this.getEmptyTransport();
 
-  // נתונים ל-Dropdowns
   organizationTypes = [
     {label: 'תר"ח', value: enmOrganizationType.Tarah},
     {label: 'הכנה לקבורה', value: enmOrganizationType.BurialPreparation},
@@ -46,13 +47,17 @@ export class CreateTransportDialogComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.loadBags();
   }
 
-  // פונקציית עזר לאתחול
+  private async loadBags(){
+    this.availableBags = await this.transportService.availableBags();
+  }
+
   private getEmptyTransport(): CreateTransport {
     return {
-      StartLocationType: null as any, // יחייב בחירה
+      StartLocationType: null as any,
       StartLocationNameFreeText: '',
       Purpose: null as any,
       Destination: '',
@@ -62,13 +67,6 @@ export class CreateTransportDialogComponent implements OnInit {
       DriverDetails: '',
       BagNumbers: []
     };
-  }
-
-  async searchBags(event: any) {
-
-    const query = event.query;
-
-    this.filteredBags = await this.transportService.searchAvailableBags(query);
   }
 
   async save() {
