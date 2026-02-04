@@ -104,7 +104,7 @@ public class DbHelper
                 Key = (int)EntityType.ForensicInstituteStations + count++,
                 ListTypeId = (int)EntityType.ForensicInstituteStations,
                 Text = type.GetEnumDescription(),
-                ListItemDepId = (int)OrganizationType.Medical
+                ListItemDepId = (int)StationType.ForensicInstitute
             };
 
             db.ListItems.Add(obj);
@@ -118,7 +118,7 @@ public class DbHelper
                 Key = (int)EntityType.TarahStations + count++,
                 ListTypeId = (int)EntityType.TarahStations,
                 Text = type.GetEnumDescription(),
-                ListItemDepId = (int)OrganizationType.Tarah
+                ListItemDepId = (int)StationType.TarahStations
             };
 
             db.ListItems.Add(obj);
@@ -132,7 +132,7 @@ public class DbHelper
                 Key = (int)EntityType.BurialPreparation + count++,
                 ListTypeId = (int)EntityType.BurialPreparation,
                 Text = type.GetEnumDescription(),
-                ListItemDepId = (int)OrganizationType.BurialPreparation
+                ListItemDepId = (int)StationType.BurialPreparation
             };
 
             db.ListItems.Add(obj);
@@ -146,7 +146,7 @@ public class DbHelper
                 Key = (int)EntityType.BurialBody + count++,
                 ListTypeId = (int)EntityType.BurialBody,
                 Text = type.GetEnumDescription(),
-                ListItemDepId = (int)OrganizationType.BetAlmin
+                ListItemDepId = (int)StationType.BetAlmin
             };
 
             db.ListItems.Add(obj);
@@ -624,7 +624,8 @@ public class DbHelper
 
     var activeTransport = new Transport
     {
-        StartLocationType = OrganizationType.Tarah,
+        StartLocationType = StationType.TarahStations,
+        StartStationId = (int)TarahStations.Shura,
         StartLocationNameFreeText = "תחנת ריכוז שדרות",
         Purpose = TransportPurpose.ToForensicInstitute,
         Destination = TransportPurpose.ToForensicInstitute,
@@ -666,7 +667,8 @@ public class DbHelper
 
     var completedTransport = new Transport
     {
-        StartLocationType = OrganizationType.Hamal,
+        StartLocationType = StationType.BurialPreparation,
+        StartStationId = (int)BurialPreparation.TelRegev,
         StartLocationNameFreeText = "שטח כינוס בארי",
         Purpose = TransportPurpose.ToForensicInstitute,
         Destination = TransportPurpose.ToForensicInstitute,

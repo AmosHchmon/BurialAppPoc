@@ -12,7 +12,7 @@ public class Transport : BaseUpdatedEntity
     public int Id { get; set; }
     
     [Required]
-    public OrganizationType StartLocationType { get; set; }
+    public StationType StartLocationType { get; set; }
 
     public int? StartStationId { get; set; }
     

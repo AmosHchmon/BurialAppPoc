@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {MessageService} from 'primeng/api';
 
@@ -11,14 +11,18 @@ import {BagSelectItem} from "../../model/BagSelectItem";
 import {IListItem} from "../../../../shared/model/list-item";
 import {ListService} from "../../../../shared/services/list.service";
 import {enmListType} from "../../../../shared/enum/list-type.enum";
+import {AlertService} from "../../../../shared/services/alert.service";
+import {AlertType} from "../../../../core/enums/alert.enum";
+import {DialogMessage} from "../../../../shared/static/messages";
+import {ValidationModule} from "../../../../shared/validation/validation.module";
 
 @Component({
   selector: 'app-create-transport-dialog',
   templateUrl: './create-transport-dialog.component.html',
-  imports: [UiComponentsModule],
+  imports: [UiComponentsModule, ValidationModule],
   styleUrls: ['./create-transport-dialog.component.scss']
 })
-export class CreateTransportDialogComponent implements OnInit {
+export class CreateTransportDialogComponent implements OnInit, OnChanges {
 
   @Input() visible: boolean = false;
 
@@ -28,20 +32,13 @@ export class CreateTransportDialogComponent implements OnInit {
   @ViewChild('transportForm') transportForm!: NgForm;
 
   availableBags: BagSelectItem[] = [];
-  allListItems: IListItem[] = [];
 
-  organizationsList: IListItem[] = [];
+  allListItems: IListItem[] = [];
   stationsList: IListItem[] = [];
   subStationsList: IListItem[] = [];
 
   transportData: CreateTransport = this.getEmptyTransport();
 
-  /*organizationTypes = [
-    {label: 'תר"ח', value: enmOrganizationType.Tarah},
-    {label: 'הכנה לקבורה', value: enmOrganizationType.BurialPreparation},
-    {label: 'מכון לרפואה משפטית', value: enmOrganizationType.ForensicInstitute},
-  ];
-*/
   purposes = [
     {label: 'למכון לרפואה משפטית', value: TransportPurpose.ToForensicInstitute},
     {label: 'לתר"ח', value: TransportPurpose.ToTarah},
@@ -52,17 +49,23 @@ export class CreateTransportDialogComponent implements OnInit {
   constructor(
     private transportService: TransportService,
     private listService: ListService,
-    private messageService: MessageService
+    private alertService: AlertService
   ) {
   }
 
   async ngOnInit() {
 
     await this.loadLists();
-    await this.loadBags();
+  }
 
-    if (!this.transportData.StartDateTime) {
-      this.transportData.StartDateTime = new Date();
+  async ngOnChanges(changes: SimpleChanges) {
+
+    if (changes['visible'] && changes['visible'].currentValue === true) {
+      await this.loadBags();
+
+      if (!this.transportData.StartDateTime) {
+        this.transportData.StartDateTime = new Date();
+      }
     }
   }
 
@@ -74,20 +77,13 @@ export class CreateTransportDialogComponent implements OnInit {
       ...bag,
       FullLabel: bag.IdentityNumber
         ? ` שק: ${bag.BagNumber} ת'ז: (${bag.IdentityNumber})`
-        : bag.BagNumber
+        : ` שק: ${bag.BagNumber} - לא מזוהה`,
     }));
   }
 
   private async loadLists() {
 
     this.allListItems = await this.listService.getItemList();
-
-    this.splitLists();
-  }
-
-  private splitLists() {
-
-    this.organizationsList = this.allListItems.filter(x => x.ListTypeId == enmListType.OrganizationType);
 
     this.stationsList = this.allListItems.filter(x => x.ListTypeId == enmListType.StationType);
   }
@@ -131,14 +127,10 @@ export class CreateTransportDialogComponent implements OnInit {
       return;
     }
 
-    if (this.transportData.BagNumbers.length > 3) {
-      this.messageService.add({severity: 'error', summary: 'שגיאה', detail: 'ניתן לבחור עד 3 שקים בלבד'});
-      return;
-    }
-
     await this.transportService.createTransport(this.transportData);
 
-    this.messageService.add({severity: 'success', summary: 'הצלחה', detail: 'השינוע נוצר בהצלחה'});
+    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.TransportCreated});
+
     this.onSaved.emit();
     this.close();
 

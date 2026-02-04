@@ -22,6 +22,7 @@ export class TransportListComponent implements OnInit {
   allTransports: TransportList[] = [];
   filteredTransports: TransportList[] = [];
 
+  selectedView: TransportPurpose | null = null;
   selectedTransport: TransportList | null = null;
   searchText: string = '';
   isCreateDialogOpen: boolean = false;
@@ -35,13 +36,11 @@ export class TransportListComponent implements OnInit {
     {field: 'BagNumbers', header: 'שקים בשינוע'}
   ];
 
-  selectedView: TransportPurpose | null = null;
-
   filterOptions = [
-    { label: 'כל השינועים', value: null },
-    { label: 'מכון לרפואה משפטית', value: TransportPurpose.ToForensicInstitute },
-    { label: 'הכנה לקבורה', value: TransportPurpose.ToBurialPreparation },
-    { label: 'גוף קבורה', value: TransportPurpose.ToBurialBody }
+    {label: 'כל השינועים', value: null},
+    {label: 'מכון לרפואה משפטית', value: TransportPurpose.ToForensicInstitute},
+    {label: 'הכנה לקבורה', value: TransportPurpose.ToBurialPreparation},
+    {label: 'גוף קבורה', value: TransportPurpose.ToBurialBody}
   ];
 
   constructor(
@@ -69,6 +68,7 @@ export class TransportListComponent implements OnInit {
   }
 
   filterByPurpose(purpose: TransportPurpose | null) {
+
     if (purpose === null) {
       this.filteredTransports = [...this.allTransports];
     } else {
@@ -81,6 +81,7 @@ export class TransportListComponent implements OnInit {
   }
 
   onTransportSaved() {
+
     this.isCreateDialogOpen = false;
     this.loadData();
   }
@@ -117,20 +118,7 @@ export class TransportListComponent implements OnInit {
 
   }
 
-  clearSearch() {
-    this.searchText = '';
-    this.dt.reset();
-  }
-
   getGlobalFilterFields(): string[] {
     return this.cols.map(col => col.field);
-  }
-
-  getStatusSeverity(isCompleted: boolean): string {
-    return isCompleted ? 'secondary' : 'success';
-  }
-
-  getStatusLabel(isCompleted: boolean): string {
-    return isCompleted ? 'הסתיים' : 'פעיל';
   }
 }

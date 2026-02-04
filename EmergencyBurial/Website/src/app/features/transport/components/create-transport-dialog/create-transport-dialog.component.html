@@ -19,6 +19,7 @@
                        [(ngModel)]="transportData.BagNumbers"
                        optionLabel="FullLabel"
                        optionValue="BagNumber"
+                       filterPlaceHolder="חפש לפי מספר שק או ת.ז..."
                        display="chip"
                        [selectionLimit]="3"
                        [maxSelectedLabels]="4"
@@ -41,7 +42,7 @@
           <p-floatlabel variant="on" class="w-100">
             <p-select id="startType"
                       name="StartLocationType"
-                      [options]="organizationsList"
+                      [options]="stationsList"
                       [(ngModel)]="transportData.StartLocationType"
                       (onChange)="onOrganizationTypeChange()"
                       optionLabel="Text"
@@ -143,7 +144,9 @@
 
           <div class="col-6">
             <p-floatlabel variant="on" class="w-100">
-              <input pInputText name="DriverIdentityNumber"
+              <input pInputText
+                     name="DriverIdentityNumber"
+                     identityvalidator
                      [(ngModel)]="transportData.DriverIdentityNumber"
                      class="w-100"
                      required/>

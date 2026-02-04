@@ -125,6 +125,8 @@ public class TransportService(EmergencyBurialContext ctx)
         return await ctx.DeceasedBag
             .Include(b => b.Deceased)
             .Where(b => !b.IsInTransport)
+            .OrderBy(b => b.Deceased.IdentityNumber)
+            .ThenBy(b => b.BagNumber)
             .ToListAsync();
     }
 }

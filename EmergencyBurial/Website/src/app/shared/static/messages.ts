@@ -40,4 +40,5 @@ export let DialogMessage = {
   DeceasedReleasedFromTarah: 'החלל שוחרר מתר"ח בהצלחה',
   BagReceived: 'השק נקלט בהצלחה',
   BagNotIdentified: 'לא ניתן לשחרר שק שלא זוהה',
+  TransportCreated: 'השינוע נוצר בהצלחה',
 };
