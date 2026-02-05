@@ -12,27 +12,44 @@ namespace EmergencyBurial.Services.DbServices;
 
 public class DeceasedService(EmergencyBurialContext ctx)
 {
+
+    #region Deceased
+
     public async Task<List<Deceased>> GetDeceaseds()
     {
-        var deceaseds = await ctx.Deceaseds
+        return await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
-
-        return deceaseds;
     }
-
+    
+    
     public async Task<Deceased> GetDeceased(Guid? id)
     {
-        var deceased = await ctx.Deceaseds
+        return await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .FirstOrDefaultAsync(d => d.Id == id);
-
-        return deceased;
     }
 
-    public async Task<Deceased> CreateDeceased(Deceased deceased)
+    public async Task<Deceased> GetDeceasedForUpdate(Guid? id)
     {
+        return await ctx.Deceaseds
+            .AsTracking()
+            .FirstOrDefaultAsync(d => d.Id == id);
+    }
+
+    public async Task<Deceased> CreateDeceased(Deceased deceased, Guid? userId = null, Guid? eventId = null)
+    {
+        deceased.UpdateBy = userId;
+        deceased.EventId = eventId;
+        deceased.CreatedOn = DateTime.Now;
+        deceased.ProcessStatus = ProcessStatus.PoliceIntake;
+        
+        if (deceased.DeceasedBags != null)
+        {
+            GenerateBagNumber(deceased);
+        }
+        
         await ctx.Deceaseds.AddAsync(deceased);
 
         await ctx.SaveChangesAsync();
@@ -40,18 +57,37 @@ public class DeceasedService(EmergencyBurialContext ctx)
         return deceased;
     }
 
-    public async Task UpdateDeceased(Deceased deceased)
+    public async Task UpdateDeceased(Deceased deceased, Guid? userId = null)
     {
-        ctx.Deceaseds.Update(deceased);
+        deceased.UpdateBy = userId;
+        deceased.UpdateOn = DateTime.Now;
+        
+        if (deceased.DeceasedBags != null)
+        {
+            GenerateBagNumber(deceased);
+        }
+        
+        await ctx.SaveChangesAsync();
+    }
+    
+    public async Task ArchiveDeceased(Deceased deceased, Guid? userId)
+    {
+        deceased.UpdateBy = userId;
+        deceased.UpdateOn = DateTime.Now;
+        deceased.ProcessStatus = ProcessStatus.Archive;
 
         await ctx.SaveChangesAsync();
     }
-
-    public async Task DeleteDeceased(Guid id)
+    
+    public async Task<Deceased> GetDeceasedByBagNumber(string bagNumber)
     {
-        await ctx.Deceaseds.Where(x => x.Id == id).ExecuteDeleteAsync();
+        return await ctx.Deceaseds
+            .Include(d => d.DeceasedBags)
+            .FirstOrDefaultAsync(d => d.DeceasedBags.Any(b => b.BagNumber == bagNumber));
     }
-
+    
+    #endregion
+    
     public async Task<DeceasedBurialCoordination> UpdateBurialCoordination(
         DeceasedBurialCoordination deceasedBurialCoordination)
     {
@@ -105,10 +141,11 @@ public class DeceasedService(EmergencyBurialContext ctx)
         return deceasedBurialProcessStatus;
     }
 
-    public async Task<Deceased> GetDeceasedByBagNumber(string bagNumber)
+    private void GenerateBagNumber(Deceased deceased)
     {
-        return await ctx.Deceaseds
-            .Include(d => d.DeceasedBags)
-            .FirstOrDefaultAsync(d => d.DeceasedBags.Any(b => b.BagNumber == bagNumber));
+        foreach (var bag in deceased.DeceasedBags)
+        {
+            bag.BagNumber ??= $"C-{DateTime.Now.Ticks}";
+        }
     }
 }

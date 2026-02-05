@@ -17,8 +17,8 @@ namespace EmergencyBurial.Api.Controllers;
 [Authorize(Roles = nameof(OrganizationType.Tarah) + ","
                                                   + nameof(OrganizationType.Hamal) + ","
                                                   + nameof(OrganizationType.DatServices),
-    Policy = nameof(RoleAccessType.View))]
-public class DeceasedsController(DeceasedService deceasedService, IMapper mapper) : ControllerBase
+    Policy = nameof(RoleAccessType.Edit))]
+public class DeceasedController(DeceasedService deceasedService, IMapper mapper) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<DeceasedDto>>> GetDeceaseds()
@@ -40,56 +40,7 @@ public class DeceasedsController(DeceasedService deceasedService, IMapper mapper
 
         return Ok(mapper.Map<DeceasedDto>(deceased));
     }
-
-    [HttpPost]
-    public async Task<ActionResult<DeceasedDto>> CreateDeceased(DeceasedDto deceasedDto)
-    {
-        if (deceasedDto == null)
-        {
-            return BadRequest();
-        }
-
-        var deceased = mapper.Map<Deceased>(deceasedDto);
-        
-        deceased.UpdateBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
-        deceased.UpdateOn = DateTime.Now;
-
-        await deceasedService.CreateDeceased(deceased);
-
-        return Ok();
-    }
-
-    [HttpPut]
-    public async Task<ActionResult<DeceasedDto>> UpdateDeceased(DeceasedDto deceasedDto)
-    {
-        if (deceasedDto == null)
-        {
-            return BadRequest();
-        }
-
-        var deceased = mapper.Map<Deceased>(deceasedDto);
-        
-        deceased.UpdateBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
-        deceased.UpdateOn = DateTime.Now;
-
-        await deceasedService.UpdateDeceased(deceased);
-
-        return Ok();
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteDeceased(string id)
-    {
-        if (!Guid.TryParse(id, out Guid idValue))
-        {
-            return BadRequest();
-        }
-
-        await deceasedService.DeleteDeceased(idValue);
-
-        return Ok();
-    }
-
+    
     [HttpGet("burial-coordination/{id}")]
     public async Task<ActionResult<DeceasedBurialCoordinationDto>> GetBurialCoordination(string id)
     {

@@ -21,6 +21,8 @@ export interface Deceased {
 
   Nationality?: string;
 
+  Affiliation?: string;
+
   HomeCity?: string;
 
   HomeAddress?: string;

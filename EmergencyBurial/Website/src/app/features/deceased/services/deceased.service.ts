@@ -27,18 +27,6 @@ export class DeceasedService extends BaseService {
     return super.get({path: `/burial-details/${id}`});
   }
 
-  async saveDeceased(deceased: Deceased): Promise<Deceased> {
-    return super.post({body: deceased});
-  }
-
-  async updateDeceased(deceased: Deceased): Promise<Deceased> {
-    return super.put({body: deceased});
-  }
-
-  deleteDeceased(id: number): Promise<Deceased> {
-    return super.delete({path: `/${id}`});
-  }
-
   updateBurialCoordination(coordinationData: DeceasedBurialCoordination): Promise<DeceasedBurialCoordination> {
     return super.put({path: '/burial-coordination', body: coordinationData});
   }
@@ -47,12 +35,11 @@ export class DeceasedService extends BaseService {
     return super.put({path: '/burial-process', body: burialProcess});
   }
 
-  getDeceasedBurialCoordination(id: string): Promise<DeceasedBurialCoordination>{
+  getDeceasedBurialCoordination(id: string): Promise<DeceasedBurialCoordination> {
     return super.get({path: `/burial-coordination/${id}`});
   }
 
-  getDeceasedBurialProcessStatus(id: string): Promise<DeceasedBurialProcessStatus>{
+  getDeceasedBurialProcessStatus(id: string): Promise<DeceasedBurialProcessStatus> {
     return super.get({path: `/burial-process/${id}`});
   }
-
 }

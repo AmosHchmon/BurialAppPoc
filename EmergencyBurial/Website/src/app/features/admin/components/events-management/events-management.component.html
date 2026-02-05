@@ -1,13 +1,13 @@
 <div class="p-3 mt-5">
   <p-toolbar class="mb-4 shadow-sm border-0 bg-light">
     <div class="p-toolbar-group-start d-flex gap-3">
-      <p-button label="הוסף אירוע" icon="pi pi-plus" severity="success" (click)="onAddEvent()"/>
+      <p-button label="הוספת אירוע" icon="pi pi-plus" severity="success" (click)="onAddEvent()"/>
       <p-button label="עריכה" icon="pi pi-pencil" severity="info" [disabled]="!dt.selection" (click)="onEditEvent()"/>
     </div>
   </p-toolbar>
 
   <p-table #dt
-           [value]="events"
+           [value]="items"
            [rows]="10"
            [size]="'small'"
            showGridlines="true"
@@ -66,8 +66,8 @@
     </ng-template>
   </p-table>
 
-  <p-dialog [(visible)]="showEventDialog"
-            [header]="newEvent?.Id ? 'עריכת אירוע' : 'הוספת אירוע חדש'"
+  <p-dialog [(visible)]="showDialog"
+            [header]="currentItem?.Id ? 'עריכת אירוע' : 'הוספת אירוע חדש'"
             [modal]="true"
             [style]="{ width: '30rem' }"
             [draggable]="false"
@@ -79,7 +79,7 @@
         <input pInputText
                id="eventName"
                name="eventName"
-               [(ngModel)]="newEvent.Name"
+               [(ngModel)]="currentItem.Name"
                #eventName="ngModel"
                required
                autocomplete="off"/>
@@ -88,7 +88,7 @@
 
       <div class="mt-4 d-flex align-items-center gap-2">
         <p-checkbox name="IsExercise"
-                    [(ngModel)]="newEvent.IsExercise"
+                    [(ngModel)]="currentItem.IsExercise"
                     [binary]="true"
                     inputId="isExercise">
         </p-checkbox>
@@ -106,7 +106,7 @@
                   icon="pi pi-times"
                   severity="secondary"
                   outlined
-                  (click)="showEventDialog = false"/>
+                  (click)="showDialog = false"/>
       </div>
     </ng-template>
   </p-dialog>

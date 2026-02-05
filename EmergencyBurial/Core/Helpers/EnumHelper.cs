@@ -209,30 +209,32 @@ namespace Core.Helpers
 
     public enum ProcessStatus 
     {
+        [Description("שדר מהמשטרה")]
+        PoliceIntake = 1,
         [Description("קליטה בתר\"ח")]
-        ReceptionAtTarah = 1,
+        ReceptionAtTarah = 2,
         [Description("שחרור תר\"ח")]
-        ReleaseFromTarah = 2,
+        ReleaseFromTarah = 3,
         [Description("שינוע למכון רפואה משפטית")]
-        TransportToForensicInstitute = 3,
+        TransportToForensicInstitute = 4,
         [Description("חזרה משינוע מכון רפואה משפטית")]
-        ReturnFromForensicInstitute = 4,
+        ReturnFromForensicInstitute = 5,
         [Description("שינוע להכנה לקבורה")]
-        TransportToBurialPreparation = 5,
+        TransportToBurialPreparation = 6,
         [Description("סיום שינוע הכנה לקבורה")]
-        EndTransportBurialPreparation = 6,
+        EndTransportBurialPreparation = 7,
         [Description("נקלט להכנה לקבורה")]
-        ReceivedForBurialPreparation = 7,
+        ReceivedForBurialPreparation = 8,
         [Description("שוחרר מהכנה לקבורה")]
-        ReleasedFromBurialPreparation = 8,
+        ReleasedFromBurialPreparation = 9,
         [Description("שינוע לגוף קבורה")]
-        TransportToBurialEntity = 9,
+        TransportToBurialEntity = 10,
         [Description("סיום שינוע גוף קבורה")]
-        EndTransportBurialEntity = 10,
+        EndTransportBurialEntity = 11,
         [Description("קבורה")]
-        Burial = 11,
+        Burial = 12,
         [Description("ארכיב")]
-        Archive = 12
+        Archive = 13
     }
 
     public enum GatewaySource

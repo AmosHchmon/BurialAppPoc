@@ -1,5 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Table} from "primeng/table";
 import {NgForm} from "@angular/forms";
 
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
@@ -7,9 +6,10 @@ import {IColumn} from "../../../../shared/ui-components/model/column";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {AlertService} from "../../../../shared/services/alert.service";
-import {EventService} from "../../services/event.service";
+import {AdminEventService} from "../../services/admin-event.service";
 import {IEvent} from "../../model/Event";
 import {ValidationModule} from "../../../../shared/validation/validation.module";
+import {BaseManagementComponent} from "../../../../core/abstract/base-management";
 
 @Component({
   selector: 'app-events-management',
@@ -18,9 +18,8 @@ import {ValidationModule} from "../../../../shared/validation/validation.module"
   templateUrl: './events-management.component.html',
   styleUrl: './events-management.component.scss'
 })
-export class EventsManagementComponent implements OnInit {
+export class EventsManagementComponent extends BaseManagementComponent<IEvent> implements OnInit {
 
-  @ViewChild('dt') dt: Table<IEvent>;
   @ViewChild('eventForm') eventForm: NgForm;
 
   eventsColumns: IColumn[] = [
@@ -28,25 +27,20 @@ export class EventsManagementComponent implements OnInit {
     {field: 'IsExercise', header: 'סוג אירוע'},
   ];
 
-  events: IEvent[] = [];
-  newEvent: IEvent = {};
-  showEventDialog: boolean = false;
-  searchText: string = '';
-
   constructor(
-    private eventService: EventService,
+    private adminEventService: AdminEventService,
     private alertService: AlertService,
   ) {
+    super();
   }
 
   async ngOnInit() {
-
     await this.loadEvents();
   }
 
   private async loadEvents() {
 
-    this.events = await this.eventService.getEvents();
+    this.items = await this.adminEventService.getEvents();
   }
 
   onAddEvent() {
@@ -60,53 +54,41 @@ export class EventsManagementComponent implements OnInit {
       this.eventForm.resetForm(defaultEvent);
     }
 
-    this.newEvent = defaultEvent;
-    this.showEventDialog = true;
+    this.initNewItem(defaultEvent);
   }
 
   onEditEvent() {
 
-    this.newEvent = {...this.dt.selection};
-    this.showEventDialog = true;
+    if (this.dt.selection) {
+      this.initEditItem(this.dt.selection);
+    }
   }
 
   async onSaveEvent() {
 
-    if (this.newEvent.Id) {
+    if (this.currentItem.Id) {
 
-      await this.eventService.updateEvent(this.newEvent);
+      await this.adminEventService.updateEvent(this.currentItem);
 
       this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemUpdateSuccessfully});
 
-      const index = this.events.findIndex(e => e.Id === this.newEvent.Id);
+      const index = this.items.findIndex(e => e.Id === this.currentItem.Id);
 
       if (index !== -1) {
-
-        this.events[index] = {...this.newEvent};
-        this.events = [...this.events];
+        this.items[index] = {...this.currentItem};
+        this.items = [...this.items];
       }
 
     } else {
 
-      const createdEvent = await this.eventService.saveEvent(this.newEvent);
+      const createdEvent = await this.adminEventService.saveEvent(this.currentItem);
 
       if (createdEvent) {
         this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
-
-        this.events = [createdEvent, ...this.events];
+        this.items = [createdEvent, ...this.items];
       }
     }
 
-    this.showEventDialog = false;
-    this.newEvent = {};
-  }
-
-  clearSearch() {
-
-    this.searchText = '';
-
-    if (this.dt) {
-      this.dt.filterGlobal(null, 'contains');
-    }
+    this.closeDialog();
   }
 }

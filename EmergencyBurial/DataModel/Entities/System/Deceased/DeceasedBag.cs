@@ -26,7 +26,7 @@ public class DeceasedBag
     [Description("קובץ רישיון קבורה")]
     public Guid? BurialLicenseFileId { get; set; }
 
-    public TarahStations ReceivingStation { get; set; }
+    public TarahStations? ReceivingStation { get; set; }
 
     public string? LastKnownLocation { get; set; }
     

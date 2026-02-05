@@ -14,8 +14,8 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-[Authorize(Roles = nameof(OrganizationType.Hamal), Policy = nameof(RoleAccessType.Edit))]
-public class EventController(EventService eventService, IMapper mapper) : ControllerBase
+[Authorize(Roles = nameof(OrganizationType.Hamal) + "," + nameof(OrganizationType.DatServices), Policy = nameof(RoleAccessType.Edit))]
+public class AdminEventController(EventService eventService, IMapper mapper) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<EventDto>>> GetEvents()

@@ -38,7 +38,7 @@ public class Deceased: BaseUpdatedEntity
     
     public ProcessStatus ProcessStatus { get; set; }
     
-    public Guid EventId { get; set; }
+    public Guid? EventId { get; set; }
     
     [ForeignKey(nameof(EventId))]
     public virtual Event Event { get; set; }

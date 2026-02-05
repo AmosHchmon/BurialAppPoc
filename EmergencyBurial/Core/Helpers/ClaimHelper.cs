@@ -9,6 +9,7 @@ namespace Core.Helpers
         public const string RoleId = "RoleId";
         public const string Permission = "Permission";
         public const string StationId = "StationId";
+        public const string EventId = "EventId";
 
         public static string ClaimValue(this ClaimsPrincipal claimsPrincipal, string claimType)
         {
