@@ -734,7 +734,7 @@ public class DbHelper
                 Mail = "amosh@dat.gov.il",
                 Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
-                OrganizationTypeId = (int)OrganizationType.Hamal,
+                OrganizationTypeId = (int)OrganizationType.DatServices,
                 StationTypeId = (int)StationType.TarahStations,
                 StationId = (int)TarahStations.Shura,
                 IsActive = true,
