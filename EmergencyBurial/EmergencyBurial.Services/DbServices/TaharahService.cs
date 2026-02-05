@@ -19,24 +19,28 @@ public class TaharahService(EmergencyBurialContext ctx)
 
     public async Task<List<Deceased>> GetPendingList(int? stationId = null)
     {
+        int? targetStation = stationId.HasValue ? stationId.Value : null;
+        
         return await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
             .Where(d => d.ProcessStatus == ProcessStatus.EndTransportBurialPreparation &&
-                        d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.Pending &&
-                        (stationId == null || d.DeceasedTaharahDetails.TaharahStation == stationId))
+                        d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.Pending)
+            .Where(d => targetStation == null || d.DeceasedTaharahDetails.TaharahStation == targetStation)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
     }
 
     public async Task<List<Deceased>> GetActiveList(int? stationId = null)
     {
+        int? targetStation = stationId.HasValue ? stationId.Value : null;        
+        
         var list = await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
             .Where(d => d.ProcessStatus == ProcessStatus.ReceivedForBurialPreparation &&
-                        d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.InProgress &&
-                        (stationId == null || d.DeceasedTaharahDetails.TaharahStation == stationId))
+                        d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.InProgress)
+            .Where(d => targetStation == null || d.DeceasedTaharahDetails.TaharahStation == targetStation)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
 
@@ -45,11 +49,13 @@ public class TaharahService(EmergencyBurialContext ctx)
 
     public async Task<List<Deceased>> GetReleasedList(int? stationId = null)
     {
+        int? targetStation = stationId.HasValue ? stationId.Value : null;
+        
         var list = await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
-            .Where(d => d.ProcessStatus == ProcessStatus.ReleasedFromBurialPreparation &&
-                        (stationId == null || d.DeceasedTaharahDetails.TaharahStation == stationId))
+            .Where(d => d.ProcessStatus == ProcessStatus.ReleasedFromBurialPreparation)
+            .Where(d => targetStation == null || d.DeceasedTaharahDetails.TaharahStation == targetStation)
             .OrderByDescending(d => d.DeceasedTaharahDetails.TaharahReleaseDate)
             .ToListAsync();
 
