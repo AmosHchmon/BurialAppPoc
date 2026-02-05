@@ -14,8 +14,15 @@
   </div>
 
   <div class="d-flex justify-content-between align-items-center mb-3 bg-gray-50 p-3 border-round">
-    <div class="d-flex gap-2">
+    <div class="d-flex gap-4">
       <p-button label="שינוע חדש" icon="pi pi-plus" (click)="onCreateTransport()" severity="primary"></p-button>
+
+      <p-button label="צפייה בפרטי שינוע"
+                icon="pi pi-eye"
+                severity="secondary"
+                [disabled]="!selectedTransport"
+                (click)="onViewDetails()">
+      </p-button>
 
       @if (selectedTransport && !selectedTransport.IsCompleted) {
         <p-button label="סיום שינוע"
@@ -104,5 +111,6 @@
 
 <app-create-transport-dialog
   [(visible)]="isCreateDialogOpen"
+  [transportId]="transportId"
   (onSaved)="onTransportSaved()">
 </app-create-transport-dialog>

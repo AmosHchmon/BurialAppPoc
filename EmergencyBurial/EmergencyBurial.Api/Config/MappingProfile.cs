@@ -41,8 +41,10 @@ public class MappingProfile : Profile
 
         CreateMap<DeceasedBag, DeceasedBagDto>()
             .ForMember(dest => dest.ReceivingStation,
-                opt => opt.MapFrom(src => src.ReceivingStation.HasValue ? src.ReceivingStation.GetEnumDescription() : null))
-            .ForMember(dest => dest.BroughtBy, opt => opt.MapFrom(src => src.BroughtBy.HasValue ? src.BroughtBy.GetEnumDescription() : null))
+                opt => opt.MapFrom(src =>
+                    src.ReceivingStation.HasValue ? src.ReceivingStation.GetEnumDescription() : null))
+            .ForMember(dest => dest.BroughtBy,
+                opt => opt.MapFrom(src => src.BroughtBy.HasValue ? src.BroughtBy.GetEnumDescription() : null))
             .ForMember(dest => dest.CanBeIdentifiedByAcquaintance,
                 opt => opt.MapFrom(src => src.CanBeIdentifiedByAcquaintance ? "כן" : "לא"))
             .ReverseMap()
@@ -52,7 +54,7 @@ public class MappingProfile : Profile
 
         CreateMap<DeceasedBag, BagSelectItemDto>()
             .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.Deceased.IdentityNumber));
-        
+
         CreateMap<DeceasedBurialProcessStatus, DeceasedBurialProcessStatusDto>()
             .ReverseMap();
 
@@ -172,7 +174,8 @@ public class MappingProfile : Profile
 
         CreateMap<DeceasedBag, TarahBagListDto>()
             .ForMember(dest => dest.IsIdentified, opt => opt.MapFrom(src => src.Deceased.IdentityNumber != null))
-            .ForMember(dest => dest.BagProcessStatusDesc, opt => opt.MapFrom(src => src.BagTarahProcessStatus.GetEnumDescription()));
+            .ForMember(dest => dest.BagProcessStatusDesc,
+                opt => opt.MapFrom(src => src.BagTarahProcessStatus.GetEnumDescription()));
 
         #endregion
 
@@ -182,29 +185,32 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.DeceasedBags, opt => opt.Ignore())
             .ForMember(dest => dest.IsCompleted, opt => opt.Ignore())
-            .ForMember(dest => dest.ArrivalDateTime, opt => opt.Ignore());
+            .ForMember(dest => dest.ArrivalDateTime, opt => opt.Ignore())
+            .ReverseMap()
+            .ForMember(dest => dest.BagNumbers,
+                opt => opt.MapFrom(src => src.DeceasedBags.Select(b => b.BagNumber).ToList()));
 
-        CreateMap<UpdateTransportDetailsDto, Transport>()
+        CreateMap<UpdateTransportDto, Transport>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.StartDateTime, opt => opt.Ignore())
-            .ForMember(dest => dest.IsCompleted, opt => opt.Ignore())
-            .ForMember(dest => dest.Purpose, opt => opt.Ignore());
-        
+            .ForMember(dest => dest.DeceasedBags, opt => opt.Ignore())
+            .ForMember(dest => dest.IsCompleted, opt => opt.Ignore());
+
         CreateMap<Transport, TransportListDto>()
             .ForMember(dest => dest.TotalBags, opt => opt.MapFrom(src => src.DeceasedBags.Count))
-            .ForMember(dest => dest.BagNumbers, opt => opt.MapFrom(src => 
+            .ForMember(dest => dest.BagNumbers, opt => opt.MapFrom(src =>
                 src.DeceasedBags.Select(h => h.BagNumber).ToList()))
             .ForMember(dest => dest.PurposeDesc, opt => opt.MapFrom(src => src.Purpose.GetEnumDescription()))
-            .ForMember(dest => dest.StartLocation, opt => opt.MapFrom(src => 
-                !string.IsNullOrEmpty(src.StartLocationNameFreeText) 
-                    ? src.StartLocationNameFreeText 
+            .ForMember(dest => dest.StartLocation, opt => opt.MapFrom(src =>
+                !string.IsNullOrEmpty(src.StartLocationNameFreeText)
+                    ? src.StartLocationNameFreeText
                     : src.StartLocationType.GetEnumDescription()));
-        
+
         #endregion
 
         CreateMap<Event, EventDto>()
             .ReverseMap();
-        
+
         #region common
 
         CreateMap<ListType, ListTypeDto>()
@@ -212,7 +218,7 @@ public class MappingProfile : Profile
 
         CreateMap<ListItem, ListItemDto>()
             .ReverseMap();
-        
+
         CreateMap<UserOtp, UserOtpDto>()
             .ReverseMap();
 

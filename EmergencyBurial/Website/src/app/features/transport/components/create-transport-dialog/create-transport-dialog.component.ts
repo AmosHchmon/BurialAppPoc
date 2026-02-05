@@ -13,6 +13,7 @@ import {AlertService} from "../../../../shared/services/alert.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {ValidationModule} from "../../../../shared/validation/validation.module";
+import {UpdateTransport} from "../../model/UpdateTransport";
 
 @Component({
   selector: 'app-create-transport-dialog',
@@ -23,11 +24,15 @@ import {ValidationModule} from "../../../../shared/validation/validation.module"
 export class CreateTransportDialogComponent implements OnInit, OnChanges {
 
   @Input() visible: boolean = false;
+  @Input() transportId: number | null = null;
 
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() onSaved = new EventEmitter<void>();
 
   @ViewChild('transportForm') transportForm!: NgForm;
+
+  isViewMode: boolean = false;
+  isEditMode: boolean = false;
 
   availableBags: BagSelectItem[] = [];
 
@@ -57,14 +62,44 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-
     if (changes['visible'] && changes['visible'].currentValue === true) {
-      await this.loadBags();
 
-      if (!this.transportData.StartDateTime) {
-        this.transportData.StartDateTime = new Date();
+
+      this.isEditMode = false;
+
+      if (this.transportId) {
+
+        this.isViewMode = true;
+        await this.loadTransportDetails(this.transportId);
+
+      } else {
+
+        this.isViewMode = false;
+        this.isEditMode = true;
+        this.transportData = this.getEmptyTransport();
+
+        await this.loadBags();
+
+        if (!this.transportData.StartDateTime) {
+          this.transportData.StartDateTime = new Date();
+        }
       }
     }
+  }
+
+  private async loadTransportDetails(id: number) {
+
+    const data = await this.transportService.getTransportById(id);
+
+    if (data.StartDateTime) {
+      data.StartDateTime = new Date(data.StartDateTime);
+    }
+
+    this.transportData = data;
+
+    this.availableBags = data.BagNumbers.map(b => ({BagNumber: b, FullLabel: b} as any));
+
+    this.onOrganizationTypeChange();
   }
 
   private async loadBags() {
@@ -125,13 +160,25 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
       return;
     }
 
-    await this.transportService.createTransport(this.transportData);
+    if (this.transportId) {
 
-    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.TransportCreated});
+      const updateDto: UpdateTransport = {
+        Id: this.transportId,
+        ...this.transportData
+      };
+
+      await this.transportService.updateTransport(updateDto);
+
+      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemUpdateSuccessfully});
+    } else {
+
+      await this.transportService.createTransport(this.transportData);
+
+      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.TransportCreated});
+    }
 
     this.onSaved.emit();
     this.close();
-
   }
 
   close() {
@@ -142,5 +189,9 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
     if (this.transportForm) {
       this.transportForm.resetForm();
     }
+  }
+
+  enableEdit() {
+    this.isEditMode = true;
   }
 }

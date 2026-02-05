@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using Core.Helpers;
 
 namespace EmergencyBurial.Api.ViewModel;
 
-public class CreateTransportDto
+public class UpdateTransportDto
 {
+    public int Id { get; set; }
+
     public DateTime StartDateTime { get; set; }
 
     public OrganizationType StartLocationType { get; set; }
@@ -31,6 +32,4 @@ public class CreateTransportDto
     public string DriverIdentityNumber { get; set; }
 
     public string DriverPhone { get; set; }
-
-    public List<string> BagNumbers { get; set; } = new();
 }

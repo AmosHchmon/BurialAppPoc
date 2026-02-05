@@ -4,7 +4,7 @@ import {HttpParams} from "@angular/common/http";
 import {BaseService} from "../../../core/abstract/base-service";
 import {TransportList} from "../model/TransportList";
 import {CreateTransport} from "../model/CreateTransport";
-import {UpdateTransportDetails} from "../model/UpdateTransportDetails";
+import {UpdateTransport} from "../model/UpdateTransport";
 import {TransportPurpose} from "../../../shared/enum/transport-purpose.enum";
 import {DeceasedBag} from "../../deceased/model/DeceasedBag";
 import {BagSelectItem} from "../model/BagSelectItem";
@@ -29,8 +29,11 @@ export class TransportService extends BaseService {
     return super.get({path: ``}, {params: params});
   }
 
-  async availableBags(): Promise<BagSelectItem[]> {
+  async getTransportById(id: number): Promise<CreateTransport> {
+    return super.get({path: `/${id}`});
+  }
 
+  async availableBags(): Promise<BagSelectItem[]> {
     return super.get({path: `/available-bags`});
   }
 
@@ -38,8 +41,8 @@ export class TransportService extends BaseService {
     return super.post({path: ``, body: dto});
   }
 
-  async updateDetails(dto: UpdateTransportDetails): Promise<void> {
-    return super.put({path: `/update-details`, body: dto});
+  async updateTransport(dto: UpdateTransport): Promise<void> {
+    return super.put({path: `/update-transport`, body: dto});
   }
 
   async endTransport(id: number): Promise<void> {

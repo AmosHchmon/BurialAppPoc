@@ -64,6 +64,7 @@ public class TransportService(EmergencyBurialContext ctx)
     {
         var transport = await ctx.Transports
             .AsTracking()
+            .Include(t => t.DeceasedBags)
             .FirstOrDefaultAsync(t => t.Id == id);
 
         if (transport == null)
@@ -119,7 +120,7 @@ public class TransportService(EmergencyBurialContext ctx)
             .OrderByDescending(t => t.StartDateTime)
             .ToListAsync();
     }
-    
+
     public async Task<List<DeceasedBag>> AvailableBags()
     {
         return await ctx.DeceasedBag

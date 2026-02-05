@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ConfirmationService, MessageService} from 'primeng/api';
+import {ConfirmationService} from 'primeng/api';
 import {Table} from "primeng/table";
 
 import {TransportList} from '../../model/TransportList';
@@ -29,6 +29,8 @@ export class TransportListComponent implements OnInit {
   selectedTransport: TransportList | null = null;
   searchText: string = '';
   isCreateDialogOpen: boolean = false;
+
+  transportId: number | null = null;
 
   cols: IColumn[] = [
     {field: 'select', header: 'בחירה'},
@@ -80,12 +82,20 @@ export class TransportListComponent implements OnInit {
   }
 
   onCreateTransport() {
+    this.transportId = null;
     this.isCreateDialogOpen = true;
   }
 
-  onTransportSaved() {
+  onViewDetails() {
+    if (this.selectedTransport) {
+      this.transportId = this.selectedTransport.Id;
+      this.isCreateDialogOpen = true;
+    }
+  }
 
+  onTransportSaved() {
     this.isCreateDialogOpen = false;
+    this.transportId = null;
     this.loadData();
   }
 
@@ -114,13 +124,6 @@ export class TransportListComponent implements OnInit {
         this.loadData();
       }
     });
-  }
-
-  onEditDetails() {
-
-    if (!this.selectedTransport)
-      return;
-
   }
 
   getGlobalFilterFields(): string[] {

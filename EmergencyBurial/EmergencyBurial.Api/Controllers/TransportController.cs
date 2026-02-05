@@ -28,7 +28,20 @@ public class TransportController(TransportService transportService, IMapper mapp
 
         return Ok(result);
     }
-    
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<CreateTransportDto>> GetTransport(string id)
+    {
+        if (!int.TryParse(id, out int idValue))
+        {
+            return BadRequest();
+        }
+
+        var transport = await transportService.GetTransportForEdit(idValue);
+
+        return Ok(mapper.Map<CreateTransportDto>(transport));
+    }
+
     [HttpPost]
     public async Task<ActionResult> Create(CreateTransportDto dto)
     {
@@ -45,19 +58,19 @@ public class TransportController(TransportService transportService, IMapper mapp
         return Ok();
     }
 
-    [HttpPut("update-details")]
-    public async Task<ActionResult> UpdateDetails(UpdateTransportDetailsDto dto)
+    [HttpPut("update-transport")]
+    public async Task<ActionResult> UpdateTransport(UpdateTransportDto dto)
     {
         if (dto == null)
             return BadRequest();
-        
-        var transport = await transportService.GetTransportForEdit(dto.TransportId);
-        
+
+        var transport = await transportService.GetTransportForEdit(dto.Id);
+
         mapper.Map(dto, transport);
-        
+
         transport.UpdateBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
         transport.UpdateOn = DateTime.Now;
-        
+
         await transportService.UpdateTransport();
 
         return Ok();
@@ -70,7 +83,7 @@ public class TransportController(TransportService transportService, IMapper mapp
         {
             return BadRequest();
         }
-        
+
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
 
         await transportService.EndTransport(idValue, userId);
@@ -82,7 +95,7 @@ public class TransportController(TransportService transportService, IMapper mapp
     public async Task<ActionResult<List<BagSelectItemDto>>> GetAvailableBags()
     {
         var results = await transportService.AvailableBags();
-        
+
         return Ok(mapper.Map<List<BagSelectItemDto>>(results));
     }
 }
