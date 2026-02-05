@@ -13,33 +13,39 @@ public class TarahService(EmergencyBurialContext ctx)
 {
     public async Task<List<DeceasedBag>> GetPendingList(int? stationId = null)
     {
+        TarahStations? targetStation = stationId.HasValue ? (TarahStations)stationId.Value : null;
+        
         return await ctx.DeceasedBag
             .Include(d => d.Deceased)
             .Where(d =>
                 d.BagTarahProcessStatus == BagTarahProcessStatus.PoliceIntake ||
                 d.BagTarahProcessStatus == BagTarahProcessStatus.Transport)
-            .Where(d => d.ReceivingStation == (TarahStations)stationId)
+            .Where(d => targetStation == null || d.ReceivingStation == targetStation)
             .OrderByDescending(d => d.ArrivalDateTime)
             .ToListAsync();
     }
 
     public async Task<List<DeceasedBag>> GetActiveList(int? stationId = null)
     {
+        TarahStations? targetStation = stationId.HasValue ? (TarahStations)stationId.Value : null;
+        
         return await ctx.DeceasedBag
             .Include(d => d.Deceased)
             .Where(d => d.BagTarahProcessStatus == BagTarahProcessStatus.InStorage)
-            .Where(d => d.ReceivingStation == (TarahStations)stationId)
+            .Where(d => targetStation == null || d.ReceivingStation == targetStation)
             .OrderByDescending(d => d.ArrivalDateTime)
             .ToListAsync();
     }
 
     public async Task<List<DeceasedBag>> GetReleasedList(int? stationId = null)
     {
+        TarahStations? targetStation = stationId.HasValue ? (TarahStations)stationId.Value : null;
+        
         return await ctx.DeceasedBag
             .Include(d => d.Deceased)
             .Where(d =>
                 d.BagTarahProcessStatus == BagTarahProcessStatus.Released)
-            .Where(d => d.ReceivingStation == (TarahStations)stationId)
+            .Where(d => targetStation == null || d.ReceivingStation == targetStation)
             .ToListAsync();
     }
 
