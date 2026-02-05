@@ -22,7 +22,7 @@
   </p-toolbar>
 
   <p-table #dt
-           [value]="members"
+           [value]="items"
            [rows]="10"
            [size]="'small'"
            [columns]="membersColumns"
@@ -75,8 +75,8 @@
 
   </p-table>
 
-  <p-dialog [(visible)]="showMemberDialog"
-            [header]="newMember?.Id ? 'עריכת משתמש' : 'הוספת משתמש'"
+  <p-dialog [(visible)]="showDialog"
+            [header]="currentItem?.Id ? 'עריכת משתמש' : 'הוספת משתמש'"
             [modal]="true"
             [style]="{ width: '45rem' }"
             [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
@@ -95,7 +95,7 @@
             <input pInputText
                    id="username"
                    name="username"
-                   [(ngModel)]="newMember.UserName"
+                   [(ngModel)]="currentItem.UserName"
                    #username="ngModel"
                    required
                    identityvalidator
@@ -107,7 +107,7 @@
             <input pInputText
                    id="fullName"
                    name="fullName"
-                   [(ngModel)]="newMember.FullName"
+                   [(ngModel)]="currentItem.FullName"
                    #fullName="ngModel"
                    required/>
             <label for="fullName">שם מלא</label>
@@ -117,7 +117,7 @@
             <input pInputText
                    id="mail"
                    name="mail"
-                   [(ngModel)]="newMember.Mail"
+                   [(ngModel)]="currentItem.Mail"
                    #mail="ngModel"
                    required
                    email/>
@@ -128,7 +128,7 @@
             <input pInputText
                    id="phoneNumber"
                    name="phoneNumber"
-                   [(ngModel)]="newMember.PhoneNumber"
+                   [(ngModel)]="currentItem.PhoneNumber"
                    #phoneNumber="ngModel"
                    required
                    pattern="^\d{10}$"/>
@@ -142,7 +142,7 @@
           <div>
             <label class="mb-2 d-block small text-muted">ארגון</label>
             <p-select [options]="organizationsList"
-                      [(ngModel)]="newMember.OrganizationTypeId"
+                      [(ngModel)]="currentItem.OrganizationTypeId"
                       name="OrganizationTypeId"
                       optionLabel="Text"
                       optionValue="Key"
@@ -156,21 +156,21 @@
           <div>
             <label class="mb-2 d-block small text-muted">תחנה</label>
             <p-select [options]="subStationsList"
-                      [(ngModel)]="newMember.StationId"
+                      [(ngModel)]="currentItem.StationId"
                       name="StationId"
                       optionLabel="Text"
                       optionValue="Key"
                       placeholder="בחר תחנה"
-                      [disabled]="!newMember.OrganizationTypeId"
+                      [disabled]="!currentItem.OrganizationTypeId"
                       class="w-100"
                       appendTo="body"
-                      [required]="newMember.OrganizationTypeId != enmOrganizationType.Hamal"/>
+                      [required]="isStationRequired()"/>
           </div>
 
           <div>
             <label class="mb-2 d-block small text-muted">תפקיד</label>
             <p-select [options]="rolesList"
-                      [(ngModel)]="newMember.RoleAccessTypeId"
+                      [(ngModel)]="currentItem.RoleAccessTypeId"
                       name="roleAccessTypeId"
                       optionLabel="Text"
                       optionValue="Value"
@@ -186,8 +186,8 @@
 
     <ng-template pTemplate="footer">
       <div class="d-flex justify-content-start gap-3 w-100">
-        <p-button [label]="newMember?.Id ? 'עדכן משתמש' : 'שמור משתמש'"
-                  [icon]="newMember?.Id ? 'pi pi-check' : 'pi pi-plus'"
+        <p-button [label]="currentItem?.Id ? 'עדכן משתמש' : 'שמור משתמש'"
+                  [icon]="currentItem?.Id ? 'pi pi-check' : 'pi pi-plus'"
                   [disabled]="memberForm.invalid"
                   (click)="onSaveMember()"
                   severity="primary"/>
@@ -196,7 +196,7 @@
                   icon="pi pi-times"
                   severity="secondary"
                   [outlined]="true"
-                  (click)="showMemberDialog = false"/>
+                  (click)="showDialog = false"/>
       </div>
     </ng-template>
   </p-dialog>

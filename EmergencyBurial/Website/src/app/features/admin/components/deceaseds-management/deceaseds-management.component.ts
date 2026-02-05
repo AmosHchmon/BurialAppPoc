@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Table} from "primeng/table";
 import {Subscription} from "rxjs";
 import {NgForm} from "@angular/forms";
 import {ConfirmationService} from "primeng/api";
@@ -13,7 +12,8 @@ import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {ValidationModule} from "../../../../shared/validation/validation.module";
 import {DeceasedBag} from "../../../deceased/model/DeceasedBag";
-import {ManageService} from "../../services/manage.service";
+import {AdminDeceasedService} from "../../services/admin-deceased.service";
+import {BaseManagementComponent} from "../../../../core/abstract/base-management";
 
 @Component({
   selector: 'app-deceaseds-management',
@@ -21,9 +21,8 @@ import {ManageService} from "../../services/manage.service";
   templateUrl: './deceaseds-management.component.html',
   styleUrl: './deceaseds-management.component.scss'
 })
-export class DeceasedsManagementComponent implements OnInit, OnDestroy {
+export class DeceasedsManagementComponent extends BaseManagementComponent<Deceased> implements OnInit, OnDestroy {
 
-  @ViewChild('dt') dt: Table<Deceased>;
   @ViewChild('deceasedForm') deceasedForm: NgForm;
 
   cols: IColumn[] = [
@@ -31,42 +30,32 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
     {field: 'FullName', header: 'שם מלא'},
     {field: 'FatherName', header: 'שם האב'},
   ];
-  deceasedList: Deceased[] = [];
-  newDeceased: Deceased = {};
-  selectedExistingDeceased: Deceased;
-  searchText: string;
-  activeTab: number = 0;
 
+  selectedExistingDeceased: Deceased;
+  activeTab: number = 0;
   isIdentified: boolean = true;
-  showDeceasedDialog: boolean = false;
-  isEdit: boolean = false;
 
   private deceasedSubscription: Subscription | undefined;
 
-  constructor(private manageService: ManageService,
+  constructor(private adminDeceasedService: AdminDeceasedService,
               private alertService: AlertService,
               private signalRService: SignalRService,
               private confirmService: ConfirmationService) {
-
+    super();
   }
 
   //#region [Lifecycle events]
   async ngOnInit() {
-
     await this.loadDeceased();
-
     this.subscribeToHubEvents();
   }
 
   private async loadDeceased() {
-
-    this.deceasedList = await this.manageService.getDeceaseds();
+    this.items = await this.adminDeceasedService.getDeceaseds();
   }
 
   ngOnDestroy(): void {
-
     this.unSubscribeToHubEvents();
-
   }
 
   //endregion
@@ -77,7 +66,6 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
     if (this.deceasedSubscription) {
       this.deceasedSubscription.unsubscribe();
     }
-
   }
 
   private subscribeToHubEvents(): void {
@@ -85,8 +73,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
     this.deceasedSubscription = this.signalRService.newDeceased.subscribe(
       (newDeceased: Deceased) => {
 
-        this.deceasedList.unshift(newDeceased);
-
+        this.items.unshift(newDeceased);
         this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.NewDeceasedAdded});
       }
     );
@@ -106,58 +93,51 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
       this.deceasedForm.resetForm(defaultValues);
     }
 
-    this.isEdit = false;
     this.isIdentified = true;
-
-    this.newDeceased = {};
     this.selectedExistingDeceased = null;
 
-    this.showDeceasedDialog = true;
+    this.initNewItem({});
   }
 
   async onSaveDeceased() {
 
-    if (this.newDeceased.Id) {
+    if (this.currentItem.Id) {
 
-      await this.manageService.updateDeceased(this.newDeceased);
+      await this.adminDeceasedService.updateDeceased(this.currentItem);
 
       this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemUpdateSuccessfully});
 
-      const index = this.deceasedList.findIndex(d => d.Id === this.newDeceased.Id);
+      const index = this.items.findIndex(d => d.Id === this.currentItem.Id);
 
       if (index !== -1) {
-
-        this.deceasedList[index] = {...this.newDeceased};
-        this.deceasedList = [...this.deceasedList];
+        this.items[index] = {...this.currentItem};
+        this.items = [...this.items];
       }
 
     } else {
 
-      const createdDeceased = await this.manageService.saveDeceased(this.newDeceased);
+      const createdDeceased = await this.adminDeceasedService.saveDeceased(this.currentItem);
 
       if (createdDeceased) {
         this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
-
-        this.deceasedList = [createdDeceased, ...this.deceasedList];
+        this.items = [createdDeceased, ...this.items];
       }
-
     }
 
-    this.newDeceased = {};
-    this.dt.selection = null;
-
-    this.showDeceasedDialog = false;
+    this.closeDialog();
+    this.activeTab = 0;
   }
 
   onEditDeceased() {
 
-    if (this.dt.selection.IdentityNumber.length > 0) {
+    if (!this.dt.selection)
+      return;
+
+    if (this.dt.selection.IdentityNumber && this.dt.selection.IdentityNumber.length > 0) {
       this.isIdentified = true;
     }
 
-    this.newDeceased = structuredClone(this.dt.selection);
-    this.isEdit = true;
-    this.showDeceasedDialog = true;
+    this.initEditItem(this.dt.selection);
   }
 
   onDeleteDeceased() {
@@ -172,59 +152,47 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
 
         const deceased = this.dt.selection;
 
-        await this.manageService.deleteDeceased(deceased.Id);
+        await this.adminDeceasedService.deleteDeceased(deceased.Id);
 
-        this.showDeceasedDialog = false;
-
-        this.dt.selection = null;
+        this.closeDialog();
 
         await this.loadDeceased();
       },
       reject: () => {
         return;
       }
-
     })
-
   }
 
   getGlobalFilterFields(): string[] {
-
     return this.cols.map(col => col.field);
   }
 
-  clearSearch() {
-
-    this.searchText = '';
-
-    if (this.dt) {
-      this.dt.filterGlobal(null, 'contains');
-    }
-  }
-
   removeBag(index: number) {
-    this.newDeceased.DeceasedBags.splice(index, 1);
+
+    if (this.currentItem.DeceasedBags) {
+      this.currentItem.DeceasedBags.splice(index, 1);
+    }
   }
 
   addBag() {
 
     const newBag: DeceasedBag = {
-      DeceasedId: this.newDeceased.Id,
+      DeceasedId: this.currentItem.Id,
       PartDescription: ''
     };
 
-    if (!this.newDeceased.DeceasedBags) {
-      this.newDeceased.DeceasedBags = [];
+    if (!this.currentItem.DeceasedBags) {
+      this.currentItem.DeceasedBags = [];
     }
 
-    this.newDeceased.DeceasedBags.push(newBag);
+    this.currentItem.DeceasedBags.push(newBag);
   }
 
   onCancelDialog() {
 
-    this.showDeceasedDialog = false;
+    this.closeDialog();
     this.activeTab = 0;
-    this.newDeceased = {};
   }
 
   //endregion

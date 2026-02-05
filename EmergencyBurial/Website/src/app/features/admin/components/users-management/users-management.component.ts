@@ -1,5 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Table} from "primeng/table";
 import {NgForm} from "@angular/forms";
 import {ConfirmationService} from "primeng/api";
 
@@ -15,6 +14,7 @@ import {DialogMessage} from "../../../../shared/static/messages";
 import {AlertService} from "../../../../shared/services/alert.service";
 import {MemberService} from "../../../../shared/services/member.service";
 import {enmOrganizationType} from "../../../../shared/enum/organization-type.enum";
+import {BaseManagementComponent} from "../../../../core/abstract/base-management";
 
 @Component({
   selector: 'app-users-management',
@@ -22,55 +22,31 @@ import {enmOrganizationType} from "../../../../shared/enum/organization-type.enu
   templateUrl: './users-management.component.html',
   styleUrl: './users-management.component.scss'
 })
-export class UsersManagementComponent implements OnInit {
+export class UsersManagementComponent extends BaseManagementComponent<IMember> implements OnInit {
 
-  @ViewChild('dt') dt: Table<IMember>;
   @ViewChild('memberForm') memberForm: NgForm;
 
   membersColumns: IColumn[] = [
-    {
-      field: 'UserName',
-      header: 'משתמש'
-    },
-    {
-      field: 'FullName',
-      header: 'שם מלא'
-    },
-    {
-      field: 'Mail',
-      header: 'מייל'
-    },
-    {
-      field: 'PhoneNumber',
-      header: 'טלפון'
-    },
-    {
-      field: 'OrganizationDesc',
-      header: 'ארגון'
-    },
-    {
-      field: 'RoleDesc',
-      header: 'תפקיד'
-    }, {
-      field: 'StationDesc',
-      header: 'תחנה'
-    }
-  ]
-  members: IMember[] = [];
-  newMember: IMember = {};
-  showMemberDialog: boolean = false;
+    {field: 'UserName', header: 'משתמש'},
+    {field: 'FullName', header: 'שם מלא'},
+    {field: 'Mail', header: 'מייל'},
+    {field: 'PhoneNumber', header: 'טלפון'},
+    {field: 'OrganizationDesc', header: 'ארגון'},
+    {field: 'RoleDesc', header: 'תפקיד'},
+    {field: 'StationDesc', header: 'תחנה'}
+  ];
+
   allListItems: IListItem[] = [];
   organizationsList: IListItem[] = [];
   rolesList: IListItem[] = [];
   stationsList: IListItem[] = [];
   subStationsList: IListItem[] = [];
 
-  searchText: string;
-
   constructor(private memberService: MemberService,
               private listService: ListService,
               private alertService: AlertService,
               private confirmService: ConfirmationService) {
+    super();
   }
 
   //#region [Lifecycle events]
@@ -79,31 +55,25 @@ export class UsersManagementComponent implements OnInit {
 
     await this.loadLists();
     await this.loadMembers();
-
   }
 
   private async loadLists() {
 
     this.allListItems = await this.listService.getItemList();
-
     this.rolesList = await this.listService.getRolesAccessList();
 
     this.splitLists();
-
   }
 
   private splitLists() {
 
     this.organizationsList = this.allListItems.filter(x => x.ListTypeId == enmListType.OrganizationType);
-
     this.stationsList = this.allListItems.filter(x => x.ListTypeId == enmListType.StationType);
-
   }
 
   private async loadMembers() {
 
-    this.members = await this.memberService.getMembers();
-
+    this.items = await this.memberService.getMembers();
   }
 
   //endregion
@@ -112,31 +82,38 @@ export class UsersManagementComponent implements OnInit {
 
   async onSaveMember() {
 
-    if (this.newMember.Id) {
-      await this.memberService.updateMember(this.newMember);
+    if (this.currentItem.Id) {
+
+      await this.memberService.updateMember(this.currentItem);
+
+      const index = this.items.findIndex(m => m.Id === this.currentItem.Id);
+
+      if (index !== -1) {
+        // שים לב: כאן אולי חסר מידע כמו "שם ארגון" שמגיע מהשרת ב-Join.
+        // אם הטבלה מציגה שדות מחושבים, עדיף להשאיר את loadMembers().
+        // למען העקביות עם הקבצים הקודמים השארתי עדכון לוקאלי, אך אם המידע חסר - תחזיר את await this.loadMembers()
+        this.items[index] = {...this.currentItem};
+        this.items = [...this.items];
+      }
+
     } else {
-      await this.memberService.saveMember(this.newMember);
+
+      await this.memberService.saveMember(this.currentItem);
+      await this.loadMembers();
     }
 
     this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
 
-    this.showMemberDialog = false;
-
-    this.dt.selection = null;
-
-    this.memberForm.resetForm();
-
-    await this.loadMembers();
+    this.closeDialog();
   }
 
   onEditMember() {
 
-    this.newMember = {...this.dt.selection};
+    if (this.dt.selection) {
 
-    this.onOrganizationTypeChange();
-
-    this.showMemberDialog = true;
-
+      this.initEditItem(this.dt.selection);
+      this.onOrganizationTypeChange();
+    }
   }
 
   async onDeleteMember() {
@@ -153,46 +130,45 @@ export class UsersManagementComponent implements OnInit {
 
         await this.memberService.deleteMember(member.Id);
 
-        this.showMemberDialog = false;
-
-        this.dt.selection = null;
-
+        this.closeDialog();
         await this.loadMembers();
       },
       reject: () => {
         return;
       }
-
     })
   }
 
   onAddMember() {
 
-    setTimeout(() => {
-      if (this.memberForm) {
-        this.memberForm.resetForm();
-      }
-    }, 0);
+    if (this.memberForm) {
+      this.memberForm.resetForm();
+    }
 
-    this.newMember = {RoleAccessTypeId: null};
+    const defaultValues: Partial<IMember> = {
+      RoleAccessTypeId: null
+    };
 
-    this.showMemberDialog = true;
+    this.initNewItem(defaultValues);
   }
 
   onOrganizationTypeChange() {
 
-    this.subStationsList = this.allListItems.filter(x => x.ListItemDepId == this.newMember.OrganizationTypeId);
-
+    this.subStationsList = this.allListItems.filter(x => x.ListItemDepId == this.currentItem.OrganizationTypeId);
   }
 
   //endregion
-  clearSearch() {
 
-    this.searchText = '';
+  isStationRequired(): boolean {
 
-    if (this.dt) {
-      this.dt.filterGlobal(null, 'contains');
-    }
+    const orgType = this.currentItem.OrganizationTypeId;
+
+    const notRequiredTypes = [
+      this.enmOrganizationType.Hamal,
+      this.enmOrganizationType.DatServices
+    ];
+
+    return !notRequiredTypes.includes(orgType);
   }
 
   protected readonly enmOrganizationType = enmOrganizationType;
