@@ -7,10 +7,10 @@ import {Deceased} from "../../deceased/model/Deceased";
 @Injectable({
   providedIn: 'root'
 })
-export class ManageService extends BaseService {
+export class AdminDeceasedService extends BaseService {
 
   constructor(protected injector: Injector) {
-    super("ManageService", injector);
+    super("AdminDeceasedService", injector);
   }
 
   async getDeceaseds(): Promise<Deceased[]> {
