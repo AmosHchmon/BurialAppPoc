@@ -34,15 +34,15 @@ export class TransportService extends BaseService {
     return super.get({path: `/available-bags`});
   }
 
-  async createTransport(dto: CreateTransport): Promise<any> {
+  async createTransport(dto: CreateTransport): Promise<void> {
     return super.post({path: ``, body: dto});
   }
 
-  async updateDetails(dto: UpdateTransportDetails): Promise<any> {
+  async updateDetails(dto: UpdateTransportDetails): Promise<void> {
     return super.put({path: `/update-details`, body: dto});
   }
 
-  async endTransport(id: number): Promise<any> {
-    return super.post({path: `/end/${id}`, body: {}});
+  async endTransport(id: number): Promise<void> {
+    return super.put({path: `/end/${id}`});
   }
 }

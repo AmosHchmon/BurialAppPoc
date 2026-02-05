@@ -18,8 +18,11 @@
       <p-button label="שינוע חדש" icon="pi pi-plus" (click)="onCreateTransport()" severity="primary"></p-button>
 
       @if (selectedTransport && !selectedTransport.IsCompleted) {
-        <p-button label="סיום שינוע" icon="pi pi-check-circle" (click)="onEndTransport()"
-                  severity="success"></p-button>
+        <p-button label="סיום שינוע"
+                  icon="pi pi-check-circle"
+                  (click)="onEndTransport()"
+                  severity="success">
+        </p-button>
       }
     </div>
   </div>

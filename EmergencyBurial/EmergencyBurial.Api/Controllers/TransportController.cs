@@ -64,11 +64,16 @@ public class TransportController(TransportService transportService, IMapper mapp
     }
 
     [HttpPut("end/{id}")]
-    public async Task<ActionResult> EndTransport(int id)
+    public async Task<ActionResult> EndTransport(string id)
     {
+        if (!int.TryParse(id, out int idValue))
+        {
+            return BadRequest();
+        }
+        
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
 
-        await transportService.EndTransport(id, userId);
+        await transportService.EndTransport(idValue, userId);
 
         return Ok();
     }

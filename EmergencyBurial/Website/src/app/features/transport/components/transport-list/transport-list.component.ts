@@ -8,6 +8,9 @@ import {UiComponentsModule} from "../../../../shared/ui-components/ui-components
 import {CreateTransportDialogComponent} from "../create-transport-dialog/create-transport-dialog.component";
 import {IColumn} from "../../../../shared/ui-components/model/column";
 import {TransportPurpose} from "../../../../shared/enum/transport-purpose.enum";
+import {DialogMessage} from "../../../../shared/static/messages";
+import {AlertService} from "../../../../shared/services/alert.service";
+import {AlertType} from "../../../../core/enums/alert.enum";
 
 @Component({
   selector: 'app-transport-list',
@@ -45,7 +48,7 @@ export class TransportListComponent implements OnInit {
 
   constructor(
     private transportService: TransportService,
-    private messageService: MessageService,
+    private alertService: AlertService,
     private confirmationService: ConfirmationService
   ) {
   }
@@ -92,10 +95,10 @@ export class TransportListComponent implements OnInit {
       return;
 
     this.confirmationService.confirm({
-      message: 'האם אתה בטוח שברצונך לסיים את השינוע שנבחר? פעולה זו תשחרר את השקים מהרכב.',
-      header: 'אישור סיום שינוע',
+      message: DialogMessage.ShouldEndTransport,
+      header: DialogMessage.EndTransport,
       icon: 'pi pi-exclamation-triangle',
-      acceptLabel: 'כן, סיים שינוע',
+      acceptLabel: 'כן',
       rejectLabel: 'ביטול',
       acceptButtonStyleClass: 'p-button-success',
       rejectButtonStyleClass: 'p-button-text',
@@ -103,9 +106,11 @@ export class TransportListComponent implements OnInit {
       accept: async () => {
 
         await this.transportService.endTransport(this.selectedTransport!.Id);
-        this.messageService.add({severity: 'success', summary: 'בוצע', detail: 'השינוע הסתיים בהצלחה'});
+
+        this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.TransportEnded});
 
         this.selectedTransport = null;
+
         this.loadData();
       }
     });
