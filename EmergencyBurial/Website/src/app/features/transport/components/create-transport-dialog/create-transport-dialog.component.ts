@@ -62,6 +62,7 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
   }
 
   async ngOnChanges(changes: SimpleChanges) {
+
     if (changes['visible'] && changes['visible'].currentValue === true) {
 
 
@@ -182,6 +183,7 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
   }
 
   close() {
+
     this.visible = false;
     this.visibleChange.emit(this.visible);
 

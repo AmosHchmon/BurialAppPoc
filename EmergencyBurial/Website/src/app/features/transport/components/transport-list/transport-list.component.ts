@@ -67,6 +67,7 @@ export class TransportListComponent implements OnInit {
   }
 
   onFilterChange(event: any) {
+
     this.filterByPurpose(event.value);
 
     this.selectedTransport = null;
@@ -82,11 +83,13 @@ export class TransportListComponent implements OnInit {
   }
 
   onCreateTransport() {
+
     this.transportId = null;
     this.isCreateDialogOpen = true;
   }
 
   onViewDetails() {
+
     if (this.selectedTransport) {
       this.transportId = this.selectedTransport.Id;
       this.isCreateDialogOpen = true;
@@ -94,6 +97,7 @@ export class TransportListComponent implements OnInit {
   }
 
   onTransportSaved() {
+
     this.isCreateDialogOpen = false;
     this.transportId = null;
     this.loadData();
