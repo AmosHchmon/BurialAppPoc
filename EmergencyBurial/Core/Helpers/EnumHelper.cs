@@ -55,14 +55,12 @@ namespace Core.Helpers
         OrganizationType = 1000,
         [Description("סוג תחנה")]
         StationType = 2000,
-        [Description("מכון לרפואה משפטית")]
-        ForensicInstituteStations = 3000,
         [Description("תר'ח")]
-        TarahStations = 4000,
+        TarahStations = 3000,
         [Description("הכנה לקבורה")]
-        BurialPreparation = 5000,
+        BurialPreparation = 4000,
         [Description("גוף קבורה")]
-        BurialBody = 6000
+        BurialBody = 5000
     }
 
     #endregion
@@ -81,62 +79,52 @@ namespace Core.Helpers
         BurialPreparation = 1004,
         [Description("גוף קבורה")]
         BetAlmin = 1005,
-        [Description("מכון רפואי")]
-        Medical = 1006
+        [Description("מוקד")]
+        Moked = 1006
     }
     
     public enum StationType
     {
         [Description("תר'ח")]
         TarahStations = 2001,
-        [Description("מכון לרפואה משפטית")]
-        ForensicInstitute = 2002,
         [Description("הכנה לקבורה")]
-        BurialPreparation = 2003,
+        BurialPreparation = 3002,
         [Description("גוף קבורה")]
-        BetAlmin = 2004,
-    }
-
-    public enum ForensicInstituteStations
-    {
-        [Description("מכון רפואי")]
-        Medical = 3001
+        BetAlmin = 3003,
     }
     
     public enum TarahStations
     {
         [Description("שורה")]
-        Shura = 4001,
+        Shura = 3001,
         [Description("ציפורית")]
-        Tziporit = 4002,
+        Tziporit = 3002,
         [Description("שדה תימן")]
-        SdeTeiman = 4003
+        SdeTeiman = 3003
     }
 
     public enum BurialPreparation
     {
         [Description("תל רגב")]
-        TelRegev = 5001,
+        TelRegev = 4001,
         [Description("ראשון לציון")]
-        RishonLezion = 5002
+        RishonLezion = 4002
     }
 
     public enum BurialBody
     {
         [Description("ראשון לציון")]
-        RishonLezion = 6001,
+        RishonLezion = 5001,
         [Description("עמק חפר")]
-        EmekHefer = 6002,
+        EmekHefer = 5002,
         [Description("אילת")]
-        Eilat = 6003,
-        [Description("אבו כביר")]
-        AbuKabir = 6004,
+        Eilat = 5003,
         [Description("חולון")]
-        Holon = 6005,
+        Holon = 5004,
         [Description("תל אביב")]
-        TelAviv = 6006,
+        TelAviv = 5005,
         [Description("פתח תקווה")]
-        PetahTikva = 6007,
+        PetahTikva = 5006,
     }
 
     #endregion
@@ -277,27 +265,19 @@ namespace Core.Helpers
     {
         [Description("קליטה משטרה")]
         PoliceIntake = 0,
-        [Description("שינוע - חזרה משינוע מכון רפואה משפטית")]
-        Transport = 1,
         [Description("מאוחסן בתר\"ח")]
-        InStorage = 2,
+        InStorage = 1,
         [Description("שוחרר מתר\"ח")]
-        Released = 3
+        Released = 2
     }
     
     public enum TransportPurpose
     {
-        [Description("שינוע למכון לרפואה משפטית")]
-        ToForensicInstitute = 1,
-        
-        [Description("שינוע לתר'ח")]
-        ToTarah = 2,
-        
         [Description("שינוע להכנה לקבורה")]
-        ToBurialPreparation = 3,
+        ToBurialPreparation = 1,
     
         [Description("שינוע לגוף קבורה")]
-        ToBurialBody = 4
+        ToBurialBody = 2
     }
 
     #endregion

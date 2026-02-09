@@ -13,12 +13,14 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-[Authorize(Roles = nameof(OrganizationType.Tarah) + "," + nameof(OrganizationType.DatServices),
+[Authorize(Roles = nameof(OrganizationType.Tarah) + "," +
+                   nameof(OrganizationType.DatServices) + "," +
+                   nameof(OrganizationType.Moked),
     Policy = nameof(RoleAccessType.Edit))]
 public class TarahController(TarahService tarahService, IMapper mapper) : ControllerBase
 {
     [HttpGet("pending")]
-    public async Task<ActionResult<List<TarahBagListDto>>> GetPending()
+    public async Task<ActionResult<List<TarahListDto>>> GetPending()
     {
         int? stationId = null;
 
@@ -29,11 +31,11 @@ public class TarahController(TarahService tarahService, IMapper mapper) : Contro
 
         var entities = await tarahService.GetPendingList(stationId);
 
-        return Ok(mapper.Map<List<TarahBagListDto>>(entities));
+        return Ok(mapper.Map<List<TarahListDto>>(entities));
     }
 
     [HttpGet("active")]
-    public async Task<ActionResult<List<TarahBagListDto>>> GetActive()
+    public async Task<ActionResult<List<TarahListDto>>> GetActive()
     {
         int? stationId = null;
 
@@ -44,11 +46,11 @@ public class TarahController(TarahService tarahService, IMapper mapper) : Contro
 
         var entities = await tarahService.GetActiveList(stationId);
 
-        return Ok(mapper.Map<List<TarahBagListDto>>(entities));
+        return Ok(mapper.Map<List<TarahListDto>>(entities));
     }
 
     [HttpGet("released")]
-    public async Task<ActionResult<List<TarahBagListDto>>> GetReleased()
+    public async Task<ActionResult<List<TarahListDto>>> GetReleased()
     {
         int? stationId = null;
         
@@ -59,7 +61,7 @@ public class TarahController(TarahService tarahService, IMapper mapper) : Contro
 
         var entities = await tarahService.GetReleasedList(stationId);
 
-        return Ok(mapper.Map<List<TarahBagListDto>>(entities));
+        return Ok(mapper.Map<List<TarahListDto>>(entities));
     }
 
     [HttpPut("receive")]

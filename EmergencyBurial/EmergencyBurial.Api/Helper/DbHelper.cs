@@ -95,20 +95,6 @@ public class DbHelper
 
             db.ListItems.Add(obj);
         }
-        
-        count = 1;
-        foreach (ForensicInstituteStations type in (ForensicInstituteStations[])Enum.GetValues(typeof(ForensicInstituteStations)))
-        {
-            var obj = new ListItem()
-            {
-                Key = (int)EntityType.ForensicInstituteStations + count++,
-                ListTypeId = (int)EntityType.ForensicInstituteStations,
-                Text = type.GetEnumDescription(),
-                ListItemDepId = (int)StationType.ForensicInstitute
-            };
-
-            db.ListItems.Add(obj);
-        }
 
         count = 1;
         foreach (TarahStations type in (TarahStations[])Enum.GetValues(typeof(TarahStations)))
@@ -187,7 +173,7 @@ public class DbHelper
                     DeceasedId = deceased1Id,
                     BagNumber = "C-1001",
                     ReceivingStation = TarahStations.Shura,
-                    BroughtBy = BurialBody.AbuKabir,
+                    BroughtBy = BurialBody.Holon,
                     CanBeIdentifiedByAcquaintance = true,
                     RelatedBagNumbers = 5,
                     ArrivalDateTime = DateTime.Now.AddDays(-2),
@@ -199,7 +185,7 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased1Id,
                     BagNumber = "C-1001-B",
-                    BroughtBy = BurialBody.AbuKabir,
+                    BroughtBy = BurialBody.Holon,
                     PartDescription = "חלק גוף עליון",
                     ReceivingStation = TarahStations.Shura,
                     ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(2),
@@ -210,7 +196,7 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased1Id,
                     BagNumber = "C-1001-C",
-                    BroughtBy = BurialBody.AbuKabir,
+                    BroughtBy = BurialBody.Holon,
                     PartDescription = "ראש",
                     ReceivingStation = TarahStations.Shura,
                     ArrivalDateTime = DateTime.Now.AddDays(-2).AddHours(2),
@@ -298,7 +284,7 @@ public class DbHelper
                     DeceasedId = deceased2Id,
                     BagNumber = "C-1002",
                     ReceivingStation = TarahStations.Tziporit,
-                    BroughtBy = BurialBody.AbuKabir,
+                    BroughtBy = BurialBody.TelAviv,
                     ArrivalDateTime = DateTime.Now.AddDays(-1),
                     PartDescription = "ראש",
                     BagTarahProcessStatus = BagTarahProcessStatus.Released
@@ -309,7 +295,7 @@ public class DbHelper
                     DeceasedId = deceased2Id,
                     BagNumber = "C-1002-B",
                     ReceivingStation = TarahStations.Tziporit,
-                    BroughtBy = BurialBody.AbuKabir,
+                    BroughtBy = BurialBody.TelAviv,
                     PartDescription = "חלק גוף עליון",
                     ArrivalDateTime = DateTime.Now.AddDays(-1),
                     BagTarahProcessStatus = BagTarahProcessStatus.Released
@@ -397,7 +383,7 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased3Id,
                     BagNumber = "C-1003",
-                    BroughtBy = BurialBody.AbuKabir,
+                    BroughtBy = BurialBody.TelAviv,
                     ReceivingStation = TarahStations.Shura,
                     ArrivalDateTime = DateTime.Now.AddDays(-5),
                     BagTarahProcessStatus = BagTarahProcessStatus.Released
@@ -488,7 +474,7 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased4Id,
                     BagNumber = "T-4002",
-                    BagTarahProcessStatus = BagTarahProcessStatus.Transport,
+                    BagTarahProcessStatus = BagTarahProcessStatus.PoliceIntake,
                     ReceivingStation = TarahStations.Shura,
                     ArrivalDateTime = DateTime.Now.AddHours(-2)
                 }
@@ -627,8 +613,8 @@ public class DbHelper
         StartLocationType = StationType.TarahStations,
         StartStationId = (int)TarahStations.Shura,
         StartLocationNameFreeText = "תחנת ריכוז שדרות",
-        Purpose = TransportPurpose.ToForensicInstitute,
-        Destination = TransportPurpose.ToForensicInstitute,
+        Purpose = TransportPurpose.ToBurialPreparation,
+        Destination = TransportPurpose.ToBurialPreparation,
         Organization = "זק\"א",
         VehicleType = "אמבולנס",
         LicensePlate = "88-555-22",
@@ -670,8 +656,8 @@ public class DbHelper
         StartLocationType = StationType.BurialPreparation,
         StartStationId = (int)BurialPreparation.TelRegev,
         StartLocationNameFreeText = "שטח כינוס בארי",
-        Purpose = TransportPurpose.ToForensicInstitute,
-        Destination = TransportPurpose.ToForensicInstitute,
+        Purpose = TransportPurpose.ToBurialBody,
+        Destination = TransportPurpose.ToBurialBody,
         Organization = "צה\"ל",
         VehicleType = "משאית",
         LicensePlate = "88-555-22",

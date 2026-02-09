@@ -30,4 +30,6 @@ export interface CreateTransport {
   DriverPhone: string;
 
   BagNumbers: string[];
+
+  DeceasedIds: string[];
 }

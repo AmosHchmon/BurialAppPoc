@@ -52,6 +52,12 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.BroughtBy, opt => opt.Ignore())
             .ForMember(dest => dest.CanBeIdentifiedByAcquaintance, opt => opt.Ignore());
 
+        CreateMap<Deceased, DeceasedSelectItemDto>()
+            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
+            .ForMember(dest => dest.RelatedBagNumbers, opt => opt.MapFrom(src => src.DeceasedBags.Count))
+            .ForMember(dest => dest.BagNumbersDisplay, opt =>
+                opt.MapFrom(src => string.Join(" | ", src.DeceasedBags.Select(b => b.BagNumber))));
+        
         CreateMap<DeceasedBag, BagSelectItemDto>()
             .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.Deceased.IdentityNumber));
 
@@ -132,11 +138,14 @@ public class MappingProfile : Profile
         #endregion
 
         #region Tarah
+        
+        CreateMap<DeceasedBag, TarahBagHistoryDto>();
 
         CreateMap<Deceased, TarahListDto>()
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
-            .ForMember(dest => dest.ProcessStatusDesc,
-                opt => opt.MapFrom(src => src.ProcessStatus.GetEnumDescription()))
+            .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.IdentityNumber ?? "חלל אינו מזוהה")) // טיפול ב-null
+            .ForMember(dest => dest.FatherName, opt => opt.MapFrom(src => src.FatherName)) // הוספת שם האב
+            .ForMember(dest => dest.ProcessStatusDesc, opt => opt.MapFrom(src => src.ProcessStatus.GetEnumDescription()))
             .ForMember(dest => dest.RelatedBagNumbers, opt => opt.MapFrom(src => src.DeceasedBags.Count))
             .ForMember(dest => dest.BagNumbersDisplay, opt =>
                 opt.MapFrom(src => string.Join(" | ", src.DeceasedBags.Select(b => b.BagNumber))))
@@ -144,7 +153,11 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.TarahStatusDesc, opt =>
                 opt.MapFrom(src => src.DeceasedTarahDetails != null
                     ? src.DeceasedTarahDetails.TarahStatus.GetEnumDescription()
-                    : "טרם הוגדר"));
+                    : "טרם הוגדר"))
+            .ForMember(dest => dest.Bags, opt => opt.MapFrom(src => src.DeceasedBags));
+        
+        CreateMap<Transport, TransportHistoryDto>()
+            .ReverseMap();
 
         CreateMap<DeceasedTarahDetails, TarahIntakeDto>()
             .ReverseMap();

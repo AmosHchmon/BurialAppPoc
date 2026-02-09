@@ -4,6 +4,6 @@ export enum enmOrganizationType {
   Tarah = 1003,
   BurialPreparation = 1004,
   BetAlmin = 1005,
-  ForensicInstitute = 1006,
+  Moked = 1006,
   All = 1010
 }

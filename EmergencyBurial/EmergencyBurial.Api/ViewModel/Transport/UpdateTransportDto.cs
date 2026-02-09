@@ -9,7 +9,7 @@ public class UpdateTransportDto
 
     public DateTime StartDateTime { get; set; }
 
-    public OrganizationType StartLocationType { get; set; }
+    public StationType StartLocationType { get; set; }
 
     public int? StartStationId { get; set; }
 

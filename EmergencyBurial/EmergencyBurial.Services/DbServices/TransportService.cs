@@ -13,25 +13,21 @@ namespace EmergencyBurial.Services.DbServices;
 
 public class TransportService(EmergencyBurialContext ctx)
 {
-    public async Task CreateTransport(Transport transport, List<string> bagNumbers)
+    public async Task CreateTransport(Transport transport, List<string> bagNumbers, List<Guid> deceasedIds)
     {
+        var allBags = await ctx.DeceasedBag
+            .AsTracking()
+            .Where(b => bagNumbers.Contains(b.BagNumber) || deceasedIds.Contains(b.DeceasedId))
+            .ToListAsync();
+        
         if (bagNumbers.Count > 3)
             throw new ApplicationException(UserMessage.LimitBagsInTransport);
 
-        var bags = await ctx.DeceasedBag
-            .AsTracking()
-            .Where(b => bagNumbers.Contains(b.BagNumber))
-            .ToListAsync();
-
-        var bagsInActiveTransport = bags
-            .Where(b => b.IsInTransport)
-            .Select(b => b.BagNumber)
-            .ToList();
-
-        if (bagsInActiveTransport.Count > 0)
+        var busyBags = allBags.Where(b => b.IsInTransport).Select(b => b.BagNumber).ToList();
+        
+        if (busyBags.Count > 0)
         {
-            var busyBagsString = string.Join(", ", bagsInActiveTransport);
-
+            var busyBagsString = string.Join(", ", busyBags);
             throw new ApplicationException(string.Format(UserMessage.ActiveTransport, busyBagsString));
         }
 
@@ -42,7 +38,7 @@ public class TransportService(EmergencyBurialContext ctx)
 
         await ctx.SaveChangesAsync();
 
-        foreach (var bag in bags)
+        foreach (var bag in allBags)
         {
             bag.IsInTransport = true;
             bag.CurrentTransportId = transport.Id;
@@ -121,13 +117,26 @@ public class TransportService(EmergencyBurialContext ctx)
             .ToListAsync();
     }
 
-    public async Task<List<DeceasedBag>> AvailableBags()
+    public async Task<List<DeceasedBag>> GetAvailableBagsForTarah(int? stationId)
     {
         return await ctx.DeceasedBag
             .Include(b => b.Deceased)
-            .Where(b => !b.IsInTransport)
+            .Where(b => !b.IsInTransport && b.BagTarahProcessStatus == BagTarahProcessStatus.Released)
+            .Where(d => (int)d.ReceivingStation == stationId)
             .OrderBy(b => b.Deceased.IdentityNumber)
             .ThenBy(b => b.BagNumber)
             .ToListAsync();
+    }
+    
+    public async Task<List<Deceased>> GetAvailableDeceasedsForTaharah(int? stationId)
+    {
+        var list = await ctx.Deceaseds
+            .Include(d => d.DeceasedBags)
+            .Include(d => d.DeceasedTaharahDetails)
+            .Where(d => d.ProcessStatus == ProcessStatus.ReleasedFromBurialPreparation)
+            .Where(d =>  d.DeceasedTaharahDetails.TaharahStation == stationId)
+            .ToListAsync();
+
+        return list;
     }
 }

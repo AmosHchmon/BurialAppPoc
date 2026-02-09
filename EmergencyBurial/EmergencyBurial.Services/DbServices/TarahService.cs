@@ -11,41 +11,44 @@ namespace EmergencyBurial.Services.DbServices;
 
 public class TarahService(EmergencyBurialContext ctx)
 {
-    public async Task<List<DeceasedBag>> GetPendingList(int? stationId = null)
+    public async Task<List<Deceased>> GetPendingList(int? stationId = null)
     {
         TarahStations? targetStation = stationId.HasValue ? (TarahStations)stationId.Value : null;
-        
-        return await ctx.DeceasedBag
-            .Include(d => d.Deceased)
-            .Where(d =>
-                d.BagTarahProcessStatus == BagTarahProcessStatus.PoliceIntake ||
-                d.BagTarahProcessStatus == BagTarahProcessStatus.Transport)
-            .Where(d => targetStation == null || d.ReceivingStation == targetStation)
-            .OrderByDescending(d => d.ArrivalDateTime)
+    
+        return await ctx.Deceaseds
+            .Include(d => d.DeceasedBags)
+            .Where(d => d.DeceasedBags.Any(bag => 
+                bag.BagTarahProcessStatus == BagTarahProcessStatus.PoliceIntake &&
+                (targetStation == null || bag.ReceivingStation == targetStation)))
+            .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
     }
 
-    public async Task<List<DeceasedBag>> GetActiveList(int? stationId = null)
+    public async Task<List<Deceased>> GetActiveList(int? stationId = null)
     {
         TarahStations? targetStation = stationId.HasValue ? (TarahStations)stationId.Value : null;
-        
-        return await ctx.DeceasedBag
-            .Include(d => d.Deceased)
-            .Where(d => d.BagTarahProcessStatus == BagTarahProcessStatus.InStorage)
-            .Where(d => targetStation == null || d.ReceivingStation == targetStation)
-            .OrderByDescending(d => d.ArrivalDateTime)
+    
+        return await ctx.Deceaseds
+            .Include(d => d.DeceasedBags)
+            .Include(d => d.DeceasedTarahDetails)
+            .Where(d => d.DeceasedBags.Any(bag => 
+                bag.BagTarahProcessStatus == BagTarahProcessStatus.InStorage &&
+                (targetStation == null || bag.ReceivingStation == targetStation)))
+            .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
     }
 
-    public async Task<List<DeceasedBag>> GetReleasedList(int? stationId = null)
+    public async Task<List<Deceased>> GetReleasedList(int? stationId = null)
     {
         TarahStations? targetStation = stationId.HasValue ? (TarahStations)stationId.Value : null;
         
-        return await ctx.DeceasedBag
-            .Include(d => d.Deceased)
-            .Where(d =>
-                d.BagTarahProcessStatus == BagTarahProcessStatus.Released)
-            .Where(d => targetStation == null || d.ReceivingStation == targetStation)
+        return await ctx.Deceaseds
+            .Include(d => d.DeceasedBags)
+            .Include(d => d.DeceasedTarahDetails)
+            .Where(d => d.DeceasedBags.Any(bag => 
+                bag.BagTarahProcessStatus == BagTarahProcessStatus.Released &&
+                (targetStation == null || bag.ReceivingStation == targetStation)))
+            .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
     }
 

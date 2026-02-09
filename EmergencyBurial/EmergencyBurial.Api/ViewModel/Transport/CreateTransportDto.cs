@@ -8,7 +8,7 @@ public class CreateTransportDto
 {
     public DateTime StartDateTime { get; set; }
 
-    public OrganizationType StartLocationType { get; set; }
+    public StationType StartLocationType { get; set; }
 
     public int? StartStationId { get; set; }
 
@@ -32,5 +32,7 @@ public class CreateTransportDto
 
     public string DriverPhone { get; set; }
 
+    public List<Guid> DeceasedIds { get; set; } = new();
+    
     public List<string> BagNumbers { get; set; } = new();
 }

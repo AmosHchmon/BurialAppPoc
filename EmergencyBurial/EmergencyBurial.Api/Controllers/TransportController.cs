@@ -14,7 +14,7 @@ namespace EmergencyBurial.Api.Controllers;
 [Produces("application/json")]
 [Route("[controller]")]
 [ApiController]
-[Authorize]
+[Authorize(Roles = nameof(OrganizationType.Moked) + "," + nameof(OrganizationType.DatServices), Policy = nameof(RoleAccessType.Edit))]
 public class TransportController(TransportService transportService, IMapper mapper) : ControllerBase
 {
     [HttpGet]
@@ -53,7 +53,7 @@ public class TransportController(TransportService transportService, IMapper mapp
         transport.StartDateTime = DateTime.Now;
         transport.UpdateBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
 
-        await transportService.CreateTransport(transport, dto.BagNumbers);
+        await transportService.CreateTransport(transport, dto.BagNumbers, dto.DeceasedIds);
 
         return Ok();
     }
@@ -91,11 +91,29 @@ public class TransportController(TransportService transportService, IMapper mapp
         return Ok();
     }
 
-    [HttpGet("available-bags")]
-    public async Task<ActionResult<List<BagSelectItemDto>>> GetAvailableBags()
+    [HttpGet("available-bags/{stationId}")]
+    public async Task<ActionResult<List<BagSelectItemDto>>> GetAvailableBags(string stationId)
     {
-        var results = await transportService.AvailableBags();
-
+        if (!int.TryParse(stationId, out int stationIdValue))
+        {
+            return BadRequest();
+        }
+        
+        var results = await transportService.GetAvailableBagsForTarah(stationIdValue);
+        
         return Ok(mapper.Map<List<BagSelectItemDto>>(results));
+    }
+    
+    [HttpGet("available-deceaseds/{stationId}")]
+    public async Task<ActionResult<List<DeceasedSelectItemDto>>> GetAvailableDeceased(string stationId)
+    {
+        if (!int.TryParse(stationId, out int stationIdValue))
+        {
+            return BadRequest();
+        }
+ 
+        var results = await transportService.GetAvailableDeceasedsForTaharah(stationIdValue);
+        
+        return Ok(mapper.Map<List<DeceasedSelectItemDto>>(results));
     }
 }
