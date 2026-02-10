@@ -6,7 +6,6 @@ import {AlertService} from "../../../../shared/services/alert.service";
 import {TarahProcess} from "../../model/TarahProcess";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
-import {TarahIntake} from "../../model/TarahIntake";
 import {TarahBag} from "../../model/TarahBag";
 
 @Component({
@@ -41,22 +40,21 @@ export class BagReceptionDialogComponent {
     this.selectedBagForHistory = null;
     this.visible = false;
     this.activeTabIndex = 0;
+
     this.visibleChange.emit(false);
   }
 
   async submitReception() {
 
-    if (!this.data)
+    if (!this.data?.DeceasedId)
       return;
 
-    const receiveData: TarahIntake = {
-      //BagNumber: this.data.BagNumber
-    }
-    await this.tarahService.receiveBag(receiveData);
+      await this.tarahService.receiveBag(this.data.DeceasedId);
 
-    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.BagReceived});
+      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.BagReceived});
 
-    this.onSaved.emit();
-    this.closeDialog();
+      this.onSaved.emit();
+      this.closeDialog();
+
   }
 }

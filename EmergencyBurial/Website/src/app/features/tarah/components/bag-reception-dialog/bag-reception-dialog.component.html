@@ -1,127 +1,68 @@
 <p-dialog [(visible)]="visible"
           (onHide)="closeDialog()"
+          header="קליטת חלל לתר״ח"
+          [modal]="true"
           closeOnEscape="true"
           dismissableMask="true"
-          header="פרטי חלל ושקים"
-          [modal]="true"
-          [style]="{width: '50vw'}">
+          [style]="{width: '35vw'}">
   @if (data) {
-    <p-tabs [(value)]="activeTabIndex">
-      <p-tablist>
-        <p-tab [value]="0"><i class="pi pi-user mr-2"></i> פרטי חלל</p-tab>
-        <p-tab [value]="1"><i class="pi pi-briefcase mr-2"></i> רשימת שקים ({{ data.Bags?.length || 0 }})</p-tab>
-        <p-tab [value]="2"><i class="pi pi-history mr-2"></i> היסטוריית שינועים</p-tab>
+    <div class="d-flex flex-column gap-4 py-2 text-end" dir="rtl">
 
-      </p-tablist>
-
-      <p-tabpanels>
-        <p-tabpanel [value]="0">
-          <div class="py-3">
-            @if (data.IsIdentified) {
-              <div class="row g-4">
-                <div class="col-6">
-                  <p-floatlabel variant="on">
-                    <input pInputText class="w-100" [ngModel]="data.FullName" [readonly]="true"/>
-                    <label>שם מלא</label>
-                  </p-floatlabel>
-                </div>
-                <div class="col-6">
-                  <p-floatlabel variant="on">
-                    <input pInputText class="w-100" [ngModel]="data.FatherName" [readonly]="true"/>
-                    <label>שם האב</label>
-                  </p-floatlabel>
-                </div>
-                <div class="col-6">
-                  <p-floatlabel variant="on">
-                    <input pInputText class="w-100" [ngModel]="data.IdentityNumber" [readonly]="true"/>
-                    <label>מספר זהות</label>
-                  </p-floatlabel>
-                </div>
-                <div class="col-6">
-                  <p-floatlabel variant="on">
-                    <input pInputText class="w-100" [ngModel]="data.Gender" [readonly]="true"/>
-                    <label>מין</label>
-                  </p-floatlabel>
-                </div>
-              </div>
-            } @else {
-              <div class="text-center py-4 bg-gray-50 border-round border-1 border-gray-200">
-                <i class="pi pi-user-minus text-4xl mb-2 text-orange-500"></i>
-                <p class="font-bold text-lg m-0 text-orange-700">שק זה אינו מזוהה עדיין</p>
-              </div>
-            }
+      @if (data.IsIdentified) {
+        <div class="row g-3 my-2">
+          <div class="col-6">
+            <p-floatlabel variant="on">
+              <input pInputText class="form-control" [ngModel]="data.FullName" [readonly]="true"/>
+              <label>שם מלא</label>
+            </p-floatlabel>
           </div>
-        </p-tabpanel>
-
-        <p-tabpanel [value]="1">
-          <div class="py-3">
-            <p-table [value]="data.Bags" [size]="'small'" class="w-100">
-              <ng-template pTemplate="header">
-                <tr>
-                  <th>מספר שק</th>
-                  <th>תיאור חלק</th>
-                  <th>סטטוס</th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-bag>
-                <tr>
-                  <td><span class="font-bold">{{ bag.BagNumber }}</span></td>
-                  <td>{{ bag.PartDescription || '-' }}</td>
-                  <td>{{ bag.BagProcessStatusDesc }}</td>
-                </tr>
-              </ng-template>
-            </p-table>
+          <div class="col-6">
+            <p-floatlabel variant="on">
+              <input pInputText class="form-control" [ngModel]="data.FatherName" [readonly]="true"/>
+              <label>שם האב</label>
+            </p-floatlabel>
           </div>
-        </p-tabpanel>
-
-
-        <p-tabpanel [value]="2">
-          <div class="py-3 d-flex flex-column gap-3">
-            @if (hasAnyHistory) {
-              <div class="w-100">
-                <label class="d-block mb-2 font-bold">בחר שק לצפייה בהיסטוריה:</label>
-                <p-select [options]="data.Bags"
-                          [(ngModel)]="selectedBagForHistory"
-                          optionLabel="BagNumber"
-                          placeholder="בחר מספר שק"
-                          class="w-100"></p-select>
-              </div>
-
-              @if (selectedBagForHistory) {
-                <p-table [value]="selectedBagForHistory.TransportHistory || []" [size]="'small'">
-                  <ng-template pTemplate="header">
-                    <tr>
-                      <th>תאריך התחלה</th>
-                      <th>יעד</th>
-                      <th>סטטוס</th>
-                    </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-h>
-                    <tr>
-                      <td>{{ h.StartDate | date:'dd/MM/yy HH:mm' }}</td>
-                      <td>{{ h.Destination }}</td>
-                      <td>
-                        <p-tag [severity]="h.IsCompleted ? 'success' : 'info'"
-                               [value]="h.IsCompleted ? 'הושלם' : 'בביצוע'"></p-tag>
-                      </td>
-                    </tr>
-                  </ng-template>
-                </p-table>
-              }
-            } @else {
-              <div class="text-center py-5 bg-gray-50 border-round border-1 border-gray-200">
-                <i class="pi pi-info-circle text-4xl mb-2 text-blue-500"></i>
-                <p class="font-bold text-lg m-0 text-gray-700">לא קיימים שינועים לחלל זה</p>
-              </div>
-            }
+          <div class="col-6">
+            <p-floatlabel variant="on">
+              <input pInputText class="form-control" [ngModel]="data.IdentityNumber" [readonly]="true"/>
+              <label>מספר זהות</label>
+            </p-floatlabel>
           </div>
-        </p-tabpanel>
+          <div class="col-6">
+            <p-floatlabel variant="on">
+              <input pInputText class="form-control" [ngModel]="data.Gender" [readonly]="true"/>
+              <label>מין</label>
+            </p-floatlabel>
+          </div>
+        </div>
+      } @else {
+        <div class="p-4 rounded bg-warning-subtle border border-warning text-center">
+          <i class="pi pi-exclamation-triangle text-warning display-6 mb-2"></i>
+          <p class="h6 mb-0 fw-bold text-dark">חלל אינו מזוהה במערכת</p>
+        </div>
+      }
 
-      </p-tabpanels>
-    </p-tabs>
+      <div class="card p-3 border rounded bg-light">
+        <h6 class="fw-bold mb-3">שקים המשויכים לחלל ({{data.Bags?.length || 0}}):</h6>
+        <div class="d-flex flex-wrap gap-2">
+          @for (bag of data.Bags; track bag.BagNumber) {
+            <p-chip [label]="bag.BagNumber" icon="pi pi-briefcase"></p-chip>
+          }
+        </div>
+      </div>
 
-    <div class="d-flex justify-content-end gap-2 mt-4">
-      <p-button label="סגור" (click)="closeDialog()" severity="secondary" [text]="true"></p-button>
+      <div class="d-flex justify-content-end gap-2 mt-3">
+        <p-button label="ביטול"
+                  (click)="closeDialog()"
+                  severity="secondary"
+                  [text]="true">
+        </p-button>
+        <p-button label="בצע קליטה לתר״ח"
+                  icon="pi pi-check"
+                  (click)="submitReception()"
+                  severity="success">
+        </p-button>
+      </div>
     </div>
   }
 </p-dialog>

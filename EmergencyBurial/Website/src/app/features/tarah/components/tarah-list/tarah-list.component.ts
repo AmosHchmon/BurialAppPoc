@@ -6,7 +6,7 @@ import {TarahService} from '../../services/tarah.service';
 import {IColumn} from "../../../../shared/ui-components/model/column";
 import {TarahList} from '../../model/TarahList';
 import {TarahUpdateDialogComponent} from "../tarah-update-dialog/tarah-update-dialog.component";
-import {BagReceptionDialogComponent} from "../bag-reception-dialog/bag-reception-dialog.component";
+import {TarahIntakeDialogComponent} from "../tarah-intake-dialog/tarah-intake-dialog.component";
 import {TarahStatusEnum} from "../../../../shared/enum/tarah-status.enum";
 import {TarahProcess} from '../../model/TarahProcess';
 import {AlertService} from "../../../../shared/services/alert.service";
@@ -18,7 +18,7 @@ import {DialogMessage} from "../../../../shared/static/messages";
   standalone: true,
   imports: [UiComponentsModule,
     TarahUpdateDialogComponent,
-    BagReceptionDialogComponent
+    TarahIntakeDialogComponent
   ],
   templateUrl: './tarah-list.component.html',
   styleUrls: ['./tarah-list.component.scss']
@@ -93,6 +93,7 @@ export class TarahListComponent implements OnInit {
   async openReceptionDialog() {
 
     this.selectedDeceasedForReception = await this.tarahService.getDetailsForEdit(this.selectedDeceased.Id);
+
     this.isReceptionDialogOpen = true;
   }
 
@@ -101,6 +102,7 @@ export class TarahListComponent implements OnInit {
     if (this.selectedDeceased) {
 
       this.selectedDeceasedForUpdate = await this.tarahService.getDetailsForEdit(this.selectedDeceased.Id);
+
       this.isReleaseAction = false;
       this.isUpdateDialogOpen = true;
     }

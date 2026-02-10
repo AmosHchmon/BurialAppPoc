@@ -133,9 +133,9 @@
 </div>
 
 @if (selectedDeceasedForReception) {
-  <app-bag-reception-dialog [(visible)]="isReceptionDialogOpen"
-                            [data]="selectedDeceasedForReception"
-                            (onSaved)="onDialogSaved()"></app-bag-reception-dialog>
+  <app-tarah-intake-dialog [(visible)]="isReceptionDialogOpen"
+                             [data]="selectedDeceasedForReception"
+                             (onSaved)="onDialogSaved()"></app-tarah-intake-dialog>
 }
 
 @if (selectedDeceasedForUpdate) {

@@ -26,8 +26,15 @@ export class TarahUpdateDialogComponent implements OnChanges {
   @Output() onSaved = new EventEmitter<void>();
 
   processData: TarahProcess | null = null;
-  selectedBag: any | null = null;
+
   affiliationOptions = AffiliationOptions;
+
+  activeTabIndex: number = 0;
+  selectedBagForHistory: any | null = null;
+
+  get hasAnyHistory(): boolean {
+    return !!this.processData?.Bags?.some(bag => bag.TransportHistory && bag.TransportHistory.length > 0);
+  }
 
   constructor(
     private tarahService: TarahService,
@@ -41,20 +48,9 @@ export class TarahUpdateDialogComponent implements OnChanges {
     if (changes['visible'] && this.visible && this.data) {
 
       this.processData = {...this.data};
-
-      await this.loadData();
+      this.activeTabIndex = 0;
+      this.selectedBagForHistory = null;
     }
-  }
-
-  async loadData() {
-
-    /*if (!this.data.BagNumber) {
-      return;
-    }*/
-
-    /*if (this.processData?.Bags?.length) {
-      this.selectedBag = this.processData.Bags[0];
-    }*/
   }
 
   closeDialog() {
@@ -62,7 +58,6 @@ export class TarahUpdateDialogComponent implements OnChanges {
     this.visible = false;
     this.visibleChange.emit(false);
     this.processData = null;
-    this.selectedBag = null;
   }
 
   onPendingExitChange() {
