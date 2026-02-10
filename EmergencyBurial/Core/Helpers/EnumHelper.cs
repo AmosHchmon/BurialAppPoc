@@ -88,9 +88,9 @@ namespace Core.Helpers
         [Description("תר'ח")]
         TarahStations = 2001,
         [Description("הכנה לקבורה")]
-        BurialPreparation = 3002,
+        BurialPreparation = 2002,
         [Description("גוף קבורה")]
-        BetAlmin = 3003,
+        BetAlmin = 2003,
     }
     
     public enum TarahStations

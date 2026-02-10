@@ -8,6 +8,7 @@ import {UpdateTransport} from "../model/UpdateTransport";
 import {TransportPurpose} from "../../../shared/enum/transport-purpose.enum";
 import {DeceasedBag} from "../../deceased/model/DeceasedBag";
 import {BagSelectItem} from "../model/BagSelectItem";
+import {DeceasedSelectItem} from "../model/DeceasedSelectItem";
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,13 @@ export class TransportService extends BaseService {
 
   async endTransport(id: number): Promise<void> {
     return super.put({path: `/end/${id}`});
+  }
+
+  async getAvailableBags(stationId: number): Promise<BagSelectItem[]> {
+    return super.get({path: `/available-bags/${stationId}`});
+  }
+
+  async getAvailableDeceaseds(stationId: number): Promise<DeceasedSelectItem[]> {
+    return super.get({path: `/available-deceaseds/${stationId}`});
   }
 }

@@ -1,11 +1,11 @@
-﻿import {enmOrganizationType} from "../../../shared/enum/organization-type.enum";
-import {TransportPurpose} from "../../../shared/enum/transport-purpose.enum";
+﻿import {TransportPurpose} from "../../../shared/enum/transport-purpose.enum";
+import {enmStationType} from "../../../shared/enum/station-type.enum";
 
 export interface CreateTransport {
 
   StartDateTime: Date;
 
-  StartLocationType: enmOrganizationType;
+  StartLocationType: enmStationType;
 
   StartStationId?: number;
 

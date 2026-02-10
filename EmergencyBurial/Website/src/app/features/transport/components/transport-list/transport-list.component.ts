@@ -43,9 +43,8 @@ export class TransportListComponent implements OnInit {
 
   filterOptions = [
     {label: 'כל השינועים', value: null},
-    {label: 'מכון לרפואה משפטית', value: TransportPurpose.ToForensicInstitute},
-    {label: 'הכנה לקבורה', value: TransportPurpose.ToBurialPreparation},
-    {label: 'גוף קבורה', value: TransportPurpose.ToBurialBody}
+    {label: 'להכנה לקבורה', value: TransportPurpose.ToBurialPreparation},
+    {label: 'לגוף קבורה', value: TransportPurpose.ToBurialBody}
   ];
 
   constructor(

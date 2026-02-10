@@ -5,19 +5,19 @@ import {TransportService} from '../../services/transport.service';
 import {TransportPurpose} from 'src/app/shared/enum/transport-purpose.enum';
 import {CreateTransport} from '../../model/CreateTransport';
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
-import {BagSelectItem} from "../../model/BagSelectItem";
-import {IListItem} from "../../../../shared/model/list-item";
 import {ListService} from "../../../../shared/services/list.service";
 import {enmListType} from "../../../../shared/enum/list-type.enum";
 import {AlertService} from "../../../../shared/services/alert.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {ValidationModule} from "../../../../shared/validation/validation.module";
-import {UpdateTransport} from "../../model/UpdateTransport";
+import {IListItem} from "../../../../shared/model/list-item";
+import {enmStationType} from "../../../../shared/enum/station-type.enum";
 
 @Component({
   selector: 'app-create-transport-dialog',
   templateUrl: './create-transport-dialog.component.html',
+  standalone: true,
   imports: [UiComponentsModule, ValidationModule],
   styleUrls: ['./create-transport-dialog.component.scss']
 })
@@ -34,19 +34,18 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
   isViewMode: boolean = false;
   isEditMode: boolean = false;
 
-  availableBags: BagSelectItem[] = [];
+  selectableItems: any[] = [];
 
   allListItems: IListItem[] = [];
   stationsList: IListItem[] = [];
-  subStationsList: IListItem[] = [];
+  startSubStationsList: IListItem[] = [];
+  endSubStationsList: IListItem[] = [];
 
   transportData: CreateTransport = this.getEmptyTransport();
 
   purposes = [
-    {label: 'למכון לרפואה משפטית', value: TransportPurpose.ToForensicInstitute},
-    {label: 'לתר"ח', value: TransportPurpose.ToTarah},
-    {label: 'למכון הכנה לקבורה', value: TransportPurpose.ToBurialPreparation},
-    {label: 'לגוף קבורה', value: TransportPurpose.ToBurialBody}
+    {label: 'הכנה לקבורה', value: enmStationType.BurialPreparation},
+    {label: 'גוף קבורה', value: enmStationType.BetAlmin}
   ];
 
   constructor(
@@ -57,14 +56,12 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
   }
 
   async ngOnInit() {
-
     await this.loadLists();
   }
 
   async ngOnChanges(changes: SimpleChanges) {
 
     if (changes['visible'] && changes['visible'].currentValue === true) {
-
 
       this.isEditMode = false;
 
@@ -74,16 +71,10 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
         await this.loadTransportDetails(this.transportId);
 
       } else {
-
         this.isViewMode = false;
         this.isEditMode = true;
         this.transportData = this.getEmptyTransport();
-
-        await this.loadBags();
-
-        if (!this.transportData.StartDateTime) {
-          this.transportData.StartDateTime = new Date();
-        }
+        this.selectableItems = [];
       }
     }
   }
@@ -95,31 +86,97 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
     if (data.StartDateTime) {
       data.StartDateTime = new Date(data.StartDateTime);
     }
-
     this.transportData = data;
 
-    this.availableBags = data.BagNumbers.map(b => ({BagNumber: b, FullLabel: b} as any));
-
     this.onOrganizationTypeChange();
-  }
 
-  private async loadBags() {
-
-    this.availableBags = await this.transportService.availableBags();
-
-    this.availableBags = this.availableBags.map(bag => ({
-      ...bag,
-      FullLabel: bag.IdentityNumber
-        ? ` שק: ${bag.BagNumber} ת'ז: (${bag.IdentityNumber})`
-        : ` שק: ${bag.BagNumber} - לא מזוהה`,
-    }));
+    if (this.transportData.StartLocationType === enmStationType.TarahStations) {
+      this.selectableItems = this.transportData.BagNumbers.map(b => ({
+        label: `שק: ${b}`,
+        value: b
+      }));
+    } else {
+      this.selectableItems = this.transportData.DeceasedIds.map(d => ({
+        label: `חלל (מזהה: ${d})`,
+        value: d
+      }));
+    }
   }
 
   private async loadLists() {
 
     this.allListItems = await this.listService.getItemList();
 
-    this.stationsList = this.allListItems.filter(x => x.ListTypeId == enmListType.StationType);
+    this.stationsList = this.allListItems.filter(x =>
+      x.ListTypeId == enmListType.StationType &&
+      (x.Key === enmStationType.TarahStations || x.Key === enmStationType.BurialPreparation)
+    );
+  }
+
+  onOrganizationTypeChange() {
+
+    this.startSubStationsList = this.allListItems.filter(x => x.ListItemDepId == this.transportData.StartLocationType);
+
+    this.transportData.StartStationId = null;
+    this.selectableItems = [];
+    this.transportData.BagNumbers = [];
+    this.transportData.DeceasedIds = [];
+  }
+
+  onPurposeChange() {
+
+    this.endSubStationsList = this.allListItems.filter(x => x.ListItemDepId == this.transportData.Purpose);
+  debugger
+  }
+
+  async onStationChange() {
+
+    this.transportData.BagNumbers = [];
+    this.transportData.DeceasedIds = [];
+    this.selectableItems = [];
+
+    if (!this.transportData.StartStationId)
+      return;
+
+    if (this.transportData.StartLocationType === enmStationType.TarahStations) {
+
+      const bags = await this.transportService.getAvailableBags(this.transportData.StartStationId);
+
+      this.selectableItems = bags.map(b => ({
+        label: b.IdentityNumber ? `שק: ${b.BagNumber} (${b.IdentityNumber})` : `שק: ${b.BagNumber}`,
+        value: b.BagNumber
+      }));
+
+    } else {
+
+      const deceaseds = await this.transportService.getAvailableDeceaseds(this.transportData.StartStationId);
+
+      this.selectableItems = deceaseds.map(d => ({
+        label: d.FullName ? `${d.FullName} (${d.IdentityNumber})` : `חלל (${d.BagNumbersDisplay})`,
+        value: d.Id
+      }));
+    }
+  }
+
+  async save() {
+
+    if (this.transportData.StartLocationType === enmStationType.BurialPreparation) {
+
+      this.transportData.DeceasedIds = [];
+    } else {
+
+      this.transportData.BagNumbers = [];
+    }
+
+    if (this.transportForm.invalid)
+      return;
+
+    await this.transportService.createTransport(this.transportData);
+
+    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.TransportCreated});
+
+    this.onSaved.emit();
+    this.close();
   }
 
   private getEmptyTransport(): CreateTransport {
@@ -131,70 +188,33 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
 
       StartLocationType: null,
       StartStationId: null,
-      StartLocationNameFreeText: null,
-
       Purpose: null,
+
       Destination: null,
       Organization: '',
-
       VehicleType: '',
       LicensePlate: '',
+
       DriverFirstName: '',
       DriverLastName: '',
       DriverIdentityNumber: '',
       DriverPhone: ''
-    }
-  }
-
-  onOrganizationTypeChange() {
-
-    this.subStationsList = this.allListItems.filter(x => x.ListItemDepId == this.transportData.StartLocationType);
-  }
-
-  async save() {
-
-    if (this.transportForm.invalid) {
-
-      Object.keys(this.transportForm.controls).forEach(field => {
-        const control = this.transportForm.control.get(field);
-        control?.markAsTouched();
-      });
-      return;
-    }
-
-    if (this.transportId) {
-
-      const updateDto: UpdateTransport = {
-        Id: this.transportId,
-        ...this.transportData
-      };
-
-      await this.transportService.updateTransport(updateDto);
-
-      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemUpdateSuccessfully});
-    } else {
-
-      await this.transportService.createTransport(this.transportData);
-
-      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.TransportCreated});
-    }
-
-    this.onSaved.emit();
-    this.close();
+    };
   }
 
   close() {
 
     this.visible = false;
     this.visibleChange.emit(this.visible);
-
     this.transportData = this.getEmptyTransport();
-    if (this.transportForm) {
+
+    if (this.transportForm)
       this.transportForm.resetForm();
-    }
   }
 
   enableEdit() {
-    this.isEditMode = true;
+
   }
+
+  protected readonly enmStationType = enmStationType;
 }

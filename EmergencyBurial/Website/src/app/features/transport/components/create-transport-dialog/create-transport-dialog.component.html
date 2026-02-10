@@ -2,78 +2,111 @@
           [(visible)]="visible"
           (onHide)="close()"
           [modal]="true"
-          [style]="{width: '60vw'}"
+          [style]="{width: '70vw'}"
           [draggable]="false"
           [resizable]="false"
           closeOnEscape="true"
           dismissableMask="true"
           dir="rtl">
+  <form #transportForm="ngForm" class="container-fluid p-0">
 
-  <form #transportForm="ngForm">
+    <div class="border-0 mb-4">
+      <div class="card-body">
+        <h5 class="mb-3 text-secondary">
+          <i class="pi pi-map-marker ms-2"></i>נקודת מוצא
+        </h5>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <p-floatlabel variant="on" class="w-100">
+              <p-select id="startLocationTypeMain"
+                        name="StartLocationTypeMain"
+                        [options]="stationsList"
+                        [(ngModel)]="transportData.StartLocationType"
+                        optionLabel="Text"
+                        optionValue="Key"
+                        (onChange)="onOrganizationTypeChange()"
+                        [disabled]="!isEditMode || !!transportId"
+                        appendTo="body"
+                        class="w-100"
+                        required></p-select>
+              <label>סוג מיקום מוצא</label>
+            </p-floatlabel>
+          </div>
 
-    <div class="w-100">
-      <h5 class="mb-3 text-gray-600">שיוך שקים</h5>
-      <p-floatlabel variant="on" class="w-100">
-        <p-multiSelect name="BagNumbers"
-                       [options]="availableBags"
-                       [(ngModel)]="transportData.BagNumbers"
-                       optionLabel="FullLabel"
-                       optionValue="BagNumber"
-                       filterPlaceHolder="חפש לפי מספר שק או ת.ז..."
-                       display="chip"
-                       [selectionLimit]="3"
-                       [maxSelectedLabels]="4"
-                       placeholder="בחר שקים לשינוע"
-                       appendTo="body"
-                       class="w-100"
-                       [disabled]="!!transportId"
-                       required></p-multiSelect>
-      </p-floatlabel>
+          <div class="col-md-6">
+            <p-floatlabel variant="on" class="w-100">
+              <p-select id="startStationMain"
+                        name="StartStationIdMain"
+                        [options]="startSubStationsList"
+                        [(ngModel)]="transportData.StartStationId"
+                        optionLabel="Text"
+                        optionValue="Key"
+                        (onChange)="onStationChange()"
+                        [disabled]="!transportData.StartLocationType || !isEditMode || !!transportId"
+                        appendTo="body"
+                        class="w-100"
+                        required></p-select>
+              <label>תחנה ספציפית</label>
+            </p-floatlabel>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <p-divider></p-divider>
+    @if (transportData.StartStationId || transportId) {
 
-    <div class="d-flex flex-column gap-4 py-2">
-
-      <div class="row">
-
-        <div class="col-6 d-flex flex-column gap-4 border-left-1 border-gray-200 pl-4">
-          <h5 class="m-0 text-gray-600">פרטי מקור וארגון</h5>
-
-          <p-floatlabel variant="on" class="w-100">
-            <p-select id="startType"
-                      name="StartLocationType"
-                      [options]="stationsList"
-                      [(ngModel)]="transportData.StartLocationType"
-                      (onChange)="onOrganizationTypeChange()"
-                      optionLabel="Text"
-                      optionValue="Key"
-                      appendTo="body"
-                      class="w-100"
-                      [disabled]="!isEditMode"
-                      required
-                      #startType="ngModel"></p-select>
-            <label>סוג תחנה משנעת</label>
-          </p-floatlabel>
+      <div class="row mb-5">
+        <div class="col-12">
+          <h5 class="mb-3 text-secondary border-bottom pb-2">
+            <i class="pi pi-box ms-2"></i>
+            {{ transportData.StartLocationType === enmStationType.TarahStations ? 'בחירת שקים לשינוע' : 'בחירת חללים לשינוע' }}
+          </h5>
 
           <p-floatlabel variant="on" class="w-100">
-            <p-select id="startStation"
-                      name="StartStationId"
-                      [options]="subStationsList"
-                      [(ngModel)]="transportData.StartStationId"
-                      optionLabel="Text"
-                      optionValue="Key"
-                      [disabled]="!transportData.StartLocationType || !isEditMode"
-                      appendTo="body"
-                      class="w-100"
-                      #station="ngModel"></p-select>
-            <label>תחנה משנעת</label>
+            @if (transportData.StartLocationType === enmStationType.TarahStations) {
+              <p-multiSelect name="BagNumbers"
+                             [options]="selectableItems"
+                             [(ngModel)]="transportData.BagNumbers"
+                             optionLabel="label"
+                             optionValue="value"
+                             display="chip"
+                             [selectionLimit]="3"
+                             placeholder="בחר שקים..."
+                             appendTo="body"
+                             class="w-100"
+                             [disabled]="!isEditMode || !!transportId"
+                             required>
+              </p-multiSelect>
+            }
+            @else {
+              <p-multiSelect name="DeceasedIds"
+                             [options]="selectableItems"
+                             [(ngModel)]="transportData.DeceasedIds"
+                             optionLabel="label"
+                             optionValue="value"
+                             display="chip"
+                             [selectionLimit]="3"
+                             placeholder="בחר חללים..."
+                             appendTo="body"
+                             class="w-100"
+                             [disabled]="!isEditMode || !!transportId"
+                             required></p-multiSelect>
+            }
           </p-floatlabel>
+        </div>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col-md-6 d-flex flex-column gap-4 mb-4 mb-md-0 ps-md-4">
+          <h5 class="text-secondary mb-0 border-bottom pb-2">
+            <i class="pi pi-building ms-2"></i>נקודת יעד וארגון משנע
+          </h5>
 
           <p-floatlabel variant="on" class="w-100">
             <p-select id="purpose"
                       name="Purpose"
                       [options]="purposes"
+                      (onChange)="onPurposeChange()"
                       [(ngModel)]="transportData.Purpose"
                       optionLabel="label"
                       optionValue="value"
@@ -85,22 +118,12 @@
           </p-floatlabel>
 
           <p-floatlabel variant="on" class="w-100">
-            <input pInputText name="Organization" [(ngModel)]="transportData.Organization" class="w-100" required
-                   [disabled]="!isEditMode"/>
-            <label>ארגון מבצע (לדוגמה: זק"א)</label>
-          </p-floatlabel>
-        </div>
-
-        <div class="col-6 d-flex flex-column gap-4 pr-4">
-          <h5 class="m-0 text-gray-600">פרטי יעד ורכב</h5>
-
-          <p-floatlabel variant="on" class="w-100">
             <p-select id="Destination"
                       name="Destination"
-                      [options]="purposes"
+                      [options]="endSubStationsList"
                       [(ngModel)]="transportData.Destination"
-                      optionLabel="label"
-                      optionValue="value"
+                      optionLabel="Text"
+                      optionValue="Key"
                       appendTo="body"
                       class="w-100"
                       [disabled]="!isEditMode"
@@ -109,9 +132,24 @@
           </p-floatlabel>
 
           <p-floatlabel variant="on" class="w-100">
+            <input pInputText
+                   name="Organization"
+                   [(ngModel)]="transportData.Organization"
+                   class="w-100" required
+                   [disabled]="!isEditMode"/>
+            <label>ארגון משנע (לדוגמה: זק"א)</label>
+          </p-floatlabel>
+        </div>
+
+        <div class="col-md-6 d-flex flex-column gap-4 pe-md-4 mt-4 mt-md-0">
+          <h5 class="text-secondary mb-0 border-bottom pb-2">
+            <i class="pi pi-send ms-2"></i>פרטי יעד ורכב
+          </h5>
+
+          <p-floatlabel variant="on" class="w-100">
             <input pInputText name="VehicleType" [(ngModel)]="transportData.VehicleType" class="w-100" required
                    [disabled]="!isEditMode"/>
-            <label>סוג רכב</label>
+            <label>סוג רכב  (לדוגמה: אמבולנס)</label>
           </p-floatlabel>
 
           <p-floatlabel variant="on" class="w-100">
@@ -122,70 +160,65 @@
         </div>
       </div>
 
-      <p-divider></p-divider>
+      <div class="row">
+        <div class="col-12">
+          <h5 class="mb-3 text-secondary border-bottom pb-2">
+            <i class="pi pi-user ms-2"></i>פרטי נהג
+          </h5>
+        </div>
 
-      <div>
-        <h5 class="mb-3 text-gray-600">פרטי נהג</h5>
+        <div class="col-md-3 mb-3">
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText name="DriverFirstName"
+                   [(ngModel)]="transportData.DriverFirstName"
+                   class="w-100"
+                   required
+                   [disabled]="!isEditMode"/>
+            <label>שם פרטי</label>
+          </p-floatlabel>
+        </div>
 
-        <div class="row">
+        <div class="col-md-3 mb-3">
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText name="DriverLastName"
+                   [(ngModel)]="transportData.DriverLastName"
+                   class="w-100"
+                   required
+                   [disabled]="!isEditMode"/>
+            <label>שם משפחה</label>
+          </p-floatlabel>
+        </div>
 
-          <div class="col-6 mb-4">
-            <p-floatlabel variant="on" class="w-100">
-              <input pInputText name="DriverFirstName"
-                     [(ngModel)]="transportData.DriverFirstName"
-                     class="w-100"
-                     required
-                     [disabled]="!isEditMode"/>
-              <label>שם פרטי</label>
-            </p-floatlabel>
-          </div>
+        <div class="col-md-3 mb-3">
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText
+                   name="DriverIdentityNumber"
+                   identityvalidator
+                   [(ngModel)]="transportData.DriverIdentityNumber"
+                   class="w-100"
+                   required
+                   [disabled]="!isEditMode"/>
+            <label>תעודת זהות</label>
+          </p-floatlabel>
+        </div>
 
-          <div class="col-6 mb-4">
-            <p-floatlabel variant="on" class="w-100">
-              <input pInputText name="DriverLastName"
-                     [(ngModel)]="transportData.DriverLastName"
-                     class="w-100"
-                     required
-                     [disabled]="!isEditMode"/>
-              <label>שם משפחה</label>
-            </p-floatlabel>
-          </div>
-
-          <div class="col-6">
-            <p-floatlabel variant="on" class="w-100">
-              <input pInputText
-                     name="DriverIdentityNumber"
-                     identityvalidator
-                     [(ngModel)]="transportData.DriverIdentityNumber"
-                     class="w-100"
-                     required
-                     [disabled]="!isEditMode"/>
-              <label>תעודת זהות</label>
-            </p-floatlabel>
-          </div>
-
-          <div class="col-6">
-            <p-floatlabel variant="on" class="w-100">
-              <input pInputText name="DriverPhone"
-                     [(ngModel)]="transportData.DriverPhone"
-                     class="w-100"
-                     required
-                     [disabled]="!isEditMode"/>
-              <label>טלפון נייד</label>
-            </p-floatlabel>
-          </div>
-
+        <div class="col-md-3 mb-3">
+          <p-floatlabel variant="on" class="w-100">
+            <input pInputText name="DriverPhone"
+                   [(ngModel)]="transportData.DriverPhone"
+                   class="w-100"
+                   required
+                   [disabled]="!isEditMode"/>
+            <label>טלפון נייד</label>
+          </p-floatlabel>
         </div>
       </div>
 
-      <p-divider></p-divider>
-
-    </div>
+    }
   </form>
 
   <ng-template pTemplate="footer">
-    <div class="d-flex justify-content-end gap-2 mt-2">
-
+    <div class="d-flex justify-content-end gap-2 p-2 border-top">
       @if (isViewMode && !isEditMode) {
         <p-button label="עריכה" icon="pi pi-pencil" (click)="enableEdit()" severity="help"></p-button>
       }
@@ -195,11 +228,11 @@
                   icon="pi pi-check"
                   (click)="save()"
                   severity="primary"
-                  [disabled]="transportForm.invalid">
+                  [disabled]="transportForm.invalid || (!transportData.BagNumbers?.length && !transportData.DeceasedIds?.length)">
         </p-button>
       }
 
-      <p-button label="סגור" icon="pi pi-times" [text]="true" severity="secondary" (click)="close()"></p-button>
+      <p-button label="ביטול" icon="pi pi-times" [text]="true" severity="secondary" (click)="close()"></p-button>
     </div>
   </ng-template>
 
