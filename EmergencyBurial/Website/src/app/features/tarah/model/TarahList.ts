@@ -8,6 +8,8 @@ export interface TarahList {
 
   FatherName: string;
 
+  IsIdentified: boolean;
+
   ProcessStatusDesc: string;
 
   BagNumbersDisplay: string;
@@ -17,26 +19,4 @@ export interface TarahList {
   TarahStatus?: number;
 
   TarahStatusDesc: string;
-
-  Bags: TarahBagHistory[];
-}
-
-export interface TarahBagHistory {
-
-  BagNumber: string;
-
-  CurrentTransportId?: number;
-
-  Transports: TransportHistory[];
-}
-
-export interface TransportHistory {
-
-  TransportId: number;
-
-  StartDate: Date;
-
-  Destination: string;
-
-  IsCompleted: boolean;
 }

@@ -6,8 +6,8 @@ import {AlertService} from "../../../../shared/services/alert.service";
 import {TarahProcess} from "../../model/TarahProcess";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
-import {TaharahIntake} from "../../../taharah/model/TaharahIntake";
 import {TarahIntake} from "../../model/TarahIntake";
+import {TarahBag} from "../../model/TarahBag";
 
 @Component({
   selector: 'app-bag-reception-dialog',
@@ -23,8 +23,11 @@ export class BagReceptionDialogComponent {
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() onSaved = new EventEmitter<void>();
 
-  get isIdentified(): boolean {
-    return !!(this.data?.IdentityNumber && this.data.IdentityNumber.trim().length > 0);
+  selectedBagForHistory: TarahBag | null = null;
+  activeTabIndex: number = 0;
+
+  get hasAnyHistory(): boolean {
+    return !!this.data?.Bags?.some(bag => bag.TransportHistory && bag.TransportHistory.length > 0);
   }
 
   constructor(
@@ -34,7 +37,10 @@ export class BagReceptionDialogComponent {
   }
 
   closeDialog() {
+
+    this.selectedBagForHistory = null;
     this.visible = false;
+    this.activeTabIndex = 0;
     this.visibleChange.emit(false);
   }
 
@@ -44,7 +50,7 @@ export class BagReceptionDialogComponent {
       return;
 
     const receiveData: TarahIntake = {
-      BagNumber: this.data.BagNumber
+      //BagNumber: this.data.BagNumber
     }
     await this.tarahService.receiveBag(receiveData);
 

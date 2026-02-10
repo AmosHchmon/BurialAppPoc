@@ -86,20 +86,19 @@ public class TarahService(EmergencyBurialContext ctx)
         await ctx.SaveChangesAsync();
     }
 
-    public async Task<DeceasedBag> GetBagForEdit(string id)
+    public async Task<Deceased> GetDeceasedForEdit(Guid? deceasedId)
     {
-        return await ctx.DeceasedBag
+        return await ctx.Deceaseds
             .AsTracking()
-            .Include(d => d.Deceased)
-            .ThenInclude(d => d.DeceasedTarahDetails)
-            .Include(d => d.Deceased)
-            .ThenInclude(d => d.DeceasedBurialDetails)
-            .Include(d => d.Deceased)
-            .ThenInclude(d => d.DeceasedBags)
-            .FirstOrDefaultAsync(d => d.BagNumber == id);
+            .Include(d => d.DeceasedTarahDetails)
+            .Include(d => d.DeceasedBurialDetails)
+            .Include(d => d.DeceasedBags)
+            .ThenInclude(b => b.TransportHistory)
+            .ThenInclude(th => th.Transport)
+            .FirstOrDefaultAsync(d => d.Id == deceasedId);
     }
 
-    public async Task ReleaseFromTarah(string bagNumber, Guid? updateBy)
+    /*public async Task ReleaseFromTarah(Guid? deceasedId, Guid? updateBy)
     {
         var bag = await ctx.DeceasedBag
             .Include(d => d.Deceased)
@@ -120,5 +119,5 @@ public class TarahService(EmergencyBurialContext ctx)
         }
 
         await ctx.SaveChangesAsync();
-    }
+    }*/
 }

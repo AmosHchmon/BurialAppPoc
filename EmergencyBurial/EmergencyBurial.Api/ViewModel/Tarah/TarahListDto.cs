@@ -12,6 +12,8 @@ public class TarahListDto
     public string FullName { get; set; }
 
     public string FatherName { get; set; }
+    
+    public bool IsIdentified { get; set; }
 
     public string ProcessStatusDesc { get; set; }
 
@@ -22,26 +24,4 @@ public class TarahListDto
     public int? TarahStatus { get; set; }
 
     public string TarahStatusDesc { get; set; }
-
-    public List<TarahBagHistoryDto> Bags { get; set; } = new();
-}
-
-public class TarahBagHistoryDto
-{
-    public int? CurrentTransportId { get; set; }
-    
-    public string BagNumber { get; set; }
-
-    public List<TransportHistoryDto> Transports { get; set; } = new();
-}
-
-public class TransportHistoryDto
-{
-    public int TransportId { get; set; }
-
-    public DateTime StartDate { get; set; }
-
-    public string Destination { get; set; }
-
-    public bool IsCompleted { get; set; }
 }

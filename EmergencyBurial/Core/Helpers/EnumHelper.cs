@@ -227,26 +227,22 @@ namespace Core.Helpers
         ReceptionAtTarah = 2,
         [Description("שחרור תר\"ח")]
         ReleaseFromTarah = 3,
-        [Description("שינוע למכון רפואה משפטית")]
-        TransportToForensicInstitute = 4,
-        [Description("חזרה משינוע מכון רפואה משפטית")]
-        ReturnFromForensicInstitute = 5,
         [Description("שינוע להכנה לקבורה")]
-        TransportToBurialPreparation = 6,
+        TransportToBurialPreparation = 4,
         [Description("סיום שינוע הכנה לקבורה")]
-        EndTransportBurialPreparation = 7,
+        EndTransportBurialPreparation = 5,
         [Description("נקלט להכנה לקבורה")]
-        ReceivedForBurialPreparation = 8,
+        ReceivedForBurialPreparation = 6,
         [Description("שוחרר מהכנה לקבורה")]
-        ReleasedFromBurialPreparation = 9,
+        ReleasedFromBurialPreparation = 7,
         [Description("שינוע לגוף קבורה")]
-        TransportToBurialEntity = 10,
+        TransportToBurialEntity = 8,
         [Description("סיום שינוע גוף קבורה")]
-        EndTransportBurialEntity = 11,
+        EndTransportBurialEntity = 9,
         [Description("קבורה")]
-        Burial = 12,
+        Burial = 10,
         [Description("ארכיב")]
-        Archive = 13
+        Archive = 11
     }
 
     public enum GatewaySource

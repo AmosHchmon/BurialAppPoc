@@ -126,6 +126,7 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
 
     return {
       BagNumbers: [],
+      DeceasedIds: [],
       StartDateTime: new Date(),
 
       StartLocationType: null,

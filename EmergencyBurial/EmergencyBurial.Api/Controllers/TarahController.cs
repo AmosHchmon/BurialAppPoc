@@ -80,14 +80,17 @@ public class TarahController(TarahService tarahService, IMapper mapper) : Contro
         return Ok();
     }
 
-    [HttpGet("details/{id}")]
-    public async Task<ActionResult<TarahProcessDto>> GetDetails(string id)
+    [HttpGet("details/{deceasedId}")]
+    public async Task<ActionResult<TarahProcessDto>> GetDetails(string deceasedId)
     {
-        var entity = await tarahService.GetBagForEdit(id);
+        if (!Guid.TryParse(deceasedId, out Guid idValue))
+        {
+            return BadRequest();
+        }
+        
+        var entity = await tarahService.GetDeceasedForEdit(idValue);
 
-        var res = mapper.Map<TarahProcessDto>(entity);
-
-        return Ok(res);
+        return Ok(mapper.Map<TarahProcessDto>(entity));
     }
 
     [HttpPut("update-details")]
@@ -96,21 +99,26 @@ public class TarahController(TarahService tarahService, IMapper mapper) : Contro
         if (dto == null)
             return BadRequest();
 
-        var bag = await tarahService.GetBagForEdit(dto.BagNumber);
+        var deceased = await tarahService.GetDeceasedForEdit(dto.DeceasedId);
 
-        mapper.Map(dto, bag.Deceased);
+        mapper.Map(dto, deceased);
 
         await tarahService.UpdateFullDeceased();
 
         return Ok();
     }
 
-    [HttpPut("release/{bagNumber}")]
-    public async Task<ActionResult> ReleaseFromTarah(string bagNumber)
+    [HttpPut("release/{deceasedId}")]
+    public async Task<ActionResult> ReleaseFromTarah(string deceasedId)
     {
+        if (!Guid.TryParse(deceasedId, out Guid idValue))
+        {
+            return BadRequest();
+        }
+        
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
         
-        await tarahService.ReleaseFromTarah(bagNumber, userId);
+        //await tarahService.ReleaseFromTarah(idValue, userId);
 
         return Ok();
     }

@@ -465,7 +465,8 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased4Id,
                     BagNumber = "T-4001",
-                    BagTarahProcessStatus = BagTarahProcessStatus.PoliceIntake,
+                    BagTarahProcessStatus = BagTarahProcessStatus.InStorage,
+                    PartDescription = "ראש",
                     ReceivingStation = TarahStations.Shura,
                     ArrivalDateTime = DateTime.Now.AddHours(-2)
                 },
@@ -474,7 +475,8 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased4Id,
                     BagNumber = "T-4002",
-                    BagTarahProcessStatus = BagTarahProcessStatus.PoliceIntake,
+                    BagTarahProcessStatus = BagTarahProcessStatus.InStorage,
+                    PartDescription = "יד ימין",
                     ReceivingStation = TarahStations.Shura,
                     ArrivalDateTime = DateTime.Now.AddHours(-2)
                 }
@@ -708,7 +710,7 @@ public class DbHelper
                 PhoneNumber = "0545416161",
                 Password = "123456",
                 RoleAccessTypeId = RoleAccessType.Edit,
-                OrganizationTypeId = (int)OrganizationType.Hamal,
+                OrganizationTypeId = (int)OrganizationType.Tarah,
                 StationTypeId = (int)StationType.TarahStations,
                 StationId = (int)TarahStations.Shura,
                 IsActive = true,

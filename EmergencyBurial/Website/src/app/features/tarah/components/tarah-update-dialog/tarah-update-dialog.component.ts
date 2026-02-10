@@ -48,9 +48,9 @@ export class TarahUpdateDialogComponent implements OnChanges {
 
   async loadData() {
 
-    if (!this.data.BagNumber) {
+    /*if (!this.data.BagNumber) {
       return;
-    }
+    }*/
 
     /*if (this.processData?.Bags?.length) {
       this.selectedBag = this.processData.Bags[0];
@@ -101,7 +101,7 @@ export class TarahUpdateDialogComponent implements OnChanges {
       rejectLabel: 'לא',
       accept: async () => {
 
-        await this.tarahService.releaseFromTarah(this.processData.BagNumber);
+        await this.tarahService.releaseFromTarah(this.processData.DeceasedId);
 
         this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.DeceasedReleasedFromTarah});
 

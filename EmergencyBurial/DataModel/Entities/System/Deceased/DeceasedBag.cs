@@ -63,6 +63,8 @@ public class DeceasedBag
     [ForeignKey(nameof(DeceasedId))]
     public virtual Deceased Deceased { get; set; }
     
+    public virtual ICollection<TransportHistory> TransportHistory { get; set; }
+    
     [ForeignKey(nameof(CurrentTransportId))]
     public virtual Transport CurrentTransport { get; set; }
 }
