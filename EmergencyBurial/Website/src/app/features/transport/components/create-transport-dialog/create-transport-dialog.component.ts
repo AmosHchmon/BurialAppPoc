@@ -91,11 +91,13 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
     this.onOrganizationTypeChange();
 
     if (this.transportData.StartLocationType === enmStationType.TarahStations) {
+
       this.selectableItems = this.transportData.BagNumbers.map(b => ({
         label: `שק: ${b}`,
         value: b
       }));
     } else {
+
       this.selectableItems = this.transportData.DeceasedIds.map(d => ({
         label: `חלל (מזהה: ${d})`,
         value: d
@@ -126,7 +128,6 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
   onPurposeChange() {
 
     this.endSubStationsList = this.allListItems.filter(x => x.ListItemDepId == this.transportData.Purpose);
-  debugger
   }
 
   async onStationChange() {

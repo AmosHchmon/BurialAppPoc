@@ -29,7 +29,7 @@
                         appendTo="body"
                         class="w-100"
                         required></p-select>
-              <label>סוג מיקום מוצא</label>
+              <label>מקום מוצא</label>
             </p-floatlabel>
           </div>
 
@@ -46,7 +46,7 @@
                         appendTo="body"
                         class="w-100"
                         required></p-select>
-              <label>תחנה ספציפית</label>
+              <label>תחנת יציאה</label>
             </p-floatlabel>
           </div>
         </div>
@@ -99,7 +99,7 @@
       <div class="row mb-5">
         <div class="col-md-6 d-flex flex-column gap-4 mb-4 mb-md-0 ps-md-4">
           <h5 class="text-secondary mb-0 border-bottom pb-2">
-            <i class="pi pi-building ms-2"></i>נקודת יעד וארגון משנע
+            <i class="pi pi-send ms-2"></i>נקודת יעד וארגון משנע
           </h5>
 
           <p-floatlabel variant="on" class="w-100">
@@ -143,17 +143,25 @@
 
         <div class="col-md-6 d-flex flex-column gap-4 pe-md-4 mt-4 mt-md-0">
           <h5 class="text-secondary mb-0 border-bottom pb-2">
-            <i class="pi pi-send ms-2"></i>פרטי יעד ורכב
+            <i class="pi pi-car ms-2"></i>פרטי רכב
           </h5>
 
           <p-floatlabel variant="on" class="w-100">
-            <input pInputText name="VehicleType" [(ngModel)]="transportData.VehicleType" class="w-100" required
+            <input pInputText
+                   name="VehicleType"
+                   [(ngModel)]="transportData.VehicleType"
+                   class="w-100"
+                   required
                    [disabled]="!isEditMode"/>
             <label>סוג רכב  (לדוגמה: אמבולנס)</label>
           </p-floatlabel>
 
           <p-floatlabel variant="on" class="w-100">
-            <input pInputText name="LicensePlate" [(ngModel)]="transportData.LicensePlate" class="w-100" required
+            <input pInputText
+                   name="LicensePlate"
+                   [(ngModel)]="transportData.LicensePlate"
+                   class="w-100"
+                   required
                    [disabled]="!isEditMode"/>
             <label>לוחית רישוי</label>
           </p-floatlabel>
