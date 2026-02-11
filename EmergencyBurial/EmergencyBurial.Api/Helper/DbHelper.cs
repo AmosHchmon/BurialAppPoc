@@ -37,7 +37,7 @@ public class DbHelper
 
                 InitDeceasedTestData(exerciseEventId);
 
-                InitTransportTestData();
+                //InitTransportTestData();
 
                 transaction.Commit();
             }
@@ -150,7 +150,7 @@ public class DbHelper
 
         var deceased1Id = Guid.NewGuid();
 
-        var deceased1 = new Deceased
+        /*var deceased1 = new Deceased
         {
             Id = deceased1Id,
             IdentityNumber = "2222222",
@@ -259,11 +259,11 @@ public class DbHelper
                 FamilyContactName = "משה ישראלי",
                 FamilyContactPhone = "050-1234567"
             }
-        };
+        };*/
 
         var deceased2Id = Guid.NewGuid();
 
-        var deceased2 = new Deceased
+        /*var deceased2 = new Deceased
         {
             Id = deceased2Id,
             IdentityNumber = "1111111",
@@ -359,11 +359,11 @@ public class DbHelper
                 DeceasedId = deceased2Id,
                 IsCoordinatedWithHevratKadisha = false
             }
-        };
+        };*/
 
         var deceased3Id = Guid.NewGuid();
 
-        var deceased3 = new Deceased
+        /*var deceased3 = new Deceased
         {
             Id = deceased3Id,
             IdentityNumber = "000000",
@@ -445,10 +445,11 @@ public class DbHelper
             {
                 DeceasedId = deceased3Id,
             }
-        };
+        };*/
 
         var deceased4Id = Guid.NewGuid();
-        var deceased4 = new Deceased
+        
+        /*var deceased4 = new Deceased
         {
             Id = deceased4Id,
             IdentityNumber = "222333444",
@@ -487,10 +488,11 @@ public class DbHelper
                 TarahStation = (int)TarahStations.Shura,
                 TarahStatus = TarahStatus.Pending
             }
-        };
+        };*/
 
         var deceased5Id = Guid.NewGuid();
-        var deceased5 = new Deceased
+        
+        /*var deceased5 = new Deceased
         {
             Id = deceased5Id,
             IdentityNumber = "555666777",
@@ -519,10 +521,11 @@ public class DbHelper
                 TarahStatus = TarahStatus.InProgress,
                 TarahTeamManager = "צוות א' - תר\"ח"
             }
-        };
+        };*/
 
         var deceased6Id = Guid.NewGuid();
-        var deceased6 = new Deceased
+        
+        /*var deceased6 = new Deceased
         {
             Id = deceased6Id,
             IdentityNumber = "888999000",
@@ -550,7 +553,7 @@ public class DbHelper
                 TarahStation = (int)TarahStations.SdeTeiman,
                 TarahStatus = TarahStatus.Completed,
             }
-        };
+        };*/
 
         var deceased7Id = Guid.NewGuid();
         var deceased7 = new Deceased
@@ -566,6 +569,7 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased7Id,
                     BagTarahProcessStatus = BagTarahProcessStatus.PoliceIntake,
+                    PartDescription = "גופה שלמה",
                     BagNumber = "T-7001",
                     ReceivingStation = TarahStations.Shura,
                     ArrivalDateTime = DateTime.Now.AddHours(-1)
@@ -579,7 +583,8 @@ public class DbHelper
             }
         };
 
-        db.Deceaseds.AddRange(deceased1, deceased2, deceased3, deceased4, deceased5, deceased6, deceased7);
+        //db.Deceaseds.AddRange(deceased1, deceased2, deceased3, deceased4, deceased5, deceased6, deceased7);
+        db.Deceaseds.AddRange(deceased7);
         db.SaveChanges();
     }
 
