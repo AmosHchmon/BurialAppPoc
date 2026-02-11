@@ -16,7 +16,7 @@ public class CreateTransportDto
 
     public TransportPurpose Purpose { get; set; }
 
-    public TransportPurpose Destination { get; set; }
+    public int? EndStationId { get; set; }
 
     public string Organization { get; set; }
 
@@ -33,6 +33,6 @@ public class CreateTransportDto
     public string DriverPhone { get; set; }
 
     public List<Guid> DeceasedIds { get; set; } = new();
-    
+
     public List<string> BagNumbers { get; set; } = new();
 }

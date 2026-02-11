@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Core.Helpers;
 
 namespace EmergencyBurial.Api.ViewModel;
@@ -17,7 +18,7 @@ public class UpdateTransportDto
 
     public TransportPurpose Purpose { get; set; }
 
-    public TransportPurpose Destination { get; set; }
+    public int? EndStationId { get; set; }
 
     public string Organization { get; set; }
 
@@ -32,4 +33,8 @@ public class UpdateTransportDto
     public string DriverIdentityNumber { get; set; }
 
     public string DriverPhone { get; set; }
+
+    public List<Guid> DeceasedIds { get; set; } = new();
+
+    public List<string> BagNumbers { get; set; } = new();
 }

@@ -1,5 +1,6 @@
 ﻿import {enmOrganizationType} from "../../../shared/enum/organization-type.enum";
 import {TransportPurpose} from "../../../shared/enum/transport-purpose.enum";
+import {enmStationType} from "../../../shared/enum/station-type.enum";
 
 export interface UpdateTransport {
 
@@ -7,7 +8,7 @@ export interface UpdateTransport {
 
   StartDateTime?: Date;
 
-  StartLocationType?: enmOrganizationType;
+  StartLocationType?: enmStationType;
 
   StartStationId?: number;
 
@@ -15,7 +16,7 @@ export interface UpdateTransport {
 
   Purpose?: TransportPurpose;
 
-  Destination?: TransportPurpose;
+  EndStationId?: number;
 
   Organization?: string;
 
@@ -32,4 +33,6 @@ export interface UpdateTransport {
   DriverPhone?: string;
 
   BagNumbers?: string[];
+
+  DeceasedIds?: string[];
 }

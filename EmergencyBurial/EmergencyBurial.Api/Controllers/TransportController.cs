@@ -30,7 +30,7 @@ public class TransportController(TransportService transportService, IMapper mapp
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<CreateTransportDto>> GetTransport(string id)
+    public async Task<ActionResult<UpdateTransportDto>> GetTransport(string id)
     {
         if (!int.TryParse(id, out int idValue))
         {
@@ -39,7 +39,7 @@ public class TransportController(TransportService transportService, IMapper mapp
 
         var transport = await transportService.GetTransportForEdit(idValue);
 
-        return Ok(mapper.Map<CreateTransportDto>(transport));
+        return Ok(mapper.Map<UpdateTransportDto>(transport));
     }
 
     [HttpPost]

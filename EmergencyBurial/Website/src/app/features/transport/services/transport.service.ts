@@ -30,12 +30,8 @@ export class TransportService extends BaseService {
     return super.get({path: ``}, {params: params});
   }
 
-  async getTransportById(id: number): Promise<CreateTransport> {
+  async getTransportById(id: number): Promise<UpdateTransport> {
     return super.get({path: `/${id}`});
-  }
-
-  async availableBags(): Promise<BagSelectItem[]> {
-    return super.get({path: `/available-bags`});
   }
 
   async createTransport(dto: CreateTransport): Promise<void> {

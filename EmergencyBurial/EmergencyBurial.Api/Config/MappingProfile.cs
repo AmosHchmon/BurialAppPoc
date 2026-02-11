@@ -157,7 +157,7 @@ public class MappingProfile : Profile
         
         CreateMap<TransportHistory, TarahBagHistoryDto>()
             .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.Transport.StartDateTime))
-            .ForMember(dest => dest.Destination, opt => opt.MapFrom(src => src.Transport.Destination.GetEnumDescription()))
+            .ForMember(dest => dest.Destination, opt => opt.MapFrom(src => src.Transport.Purpose.GetEnumDescription()))
             .ForMember(dest => dest.IsCompleted, opt => opt.MapFrom(src => src.Transport.IsCompleted));
 
         CreateMap<DeceasedTarahDetails, TarahIntakeDto>()
@@ -191,18 +191,25 @@ public class MappingProfile : Profile
 
         CreateMap<CreateTransportDto, Transport>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.DeceasedBags, opt => opt.Ignore())
             .ForMember(dest => dest.IsCompleted, opt => opt.Ignore())
             .ForMember(dest => dest.ArrivalDateTime, opt => opt.Ignore())
             .ReverseMap()
             .ForMember(dest => dest.BagNumbers,
-                opt => opt.MapFrom(src => src.DeceasedBags.Select(b => b.BagNumber).ToList()));
+                opt => opt.MapFrom(src => src.DeceasedBags.Select(b => b.BagNumber).ToList()))
+            .ForMember(dest => dest.DeceasedIds, 
+                opt => opt.MapFrom(src => src.Deceaseds.Select(d => d.Id).ToList()));
 
         CreateMap<UpdateTransportDto, Transport>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.StartDateTime, opt => opt.Ignore())
             .ForMember(dest => dest.DeceasedBags, opt => opt.Ignore())
-            .ForMember(dest => dest.IsCompleted, opt => opt.Ignore());
+            .ForMember(dest => dest.Deceaseds, opt => opt.Ignore())
+            .ForMember(dest => dest.IsCompleted, opt => opt.Ignore())
+            .ReverseMap()
+            .ForMember(dest => dest.BagNumbers,
+                opt => opt.MapFrom(src => src.DeceasedBags.Select(b => b.BagNumber).ToList()))
+            .ForMember(dest => dest.DeceasedIds, 
+                opt => opt.MapFrom(src => src.Deceaseds.Select(d => d.Id).ToList()));;
 
         CreateMap<Transport, TransportListDto>()
             .ForMember(dest => dest.TotalBags, opt => opt.MapFrom(src => src.DeceasedBags.Count))

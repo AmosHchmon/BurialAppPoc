@@ -3,33 +3,33 @@ import {enmStationType} from "../../../shared/enum/station-type.enum";
 
 export interface CreateTransport {
 
-  StartDateTime: Date;
+  StartDateTime?: Date;
 
-  StartLocationType: enmStationType;
+  StartLocationType?: enmStationType;
 
   StartStationId?: number;
 
   StartLocationNameFreeText?: string;
 
-  Purpose: TransportPurpose;
+  Purpose?: TransportPurpose;
 
-  Destination: TransportPurpose;
+  EndStationId?: number;
 
-  Organization: string;
+  Organization?: string;
 
-  VehicleType: string;
+  VehicleType?: string;
 
-  LicensePlate: string;
+  LicensePlate?: string;
 
-  DriverFirstName: string;
+  DriverFirstName?: string;
 
-  DriverLastName: string;
+  DriverLastName?: string;
 
-  DriverIdentityNumber: string;
+  DriverIdentityNumber?: string;
 
-  DriverPhone: string;
+  DriverPhone?: string;
 
-  BagNumbers: string[];
+  BagNumbers?: string[];
 
-  DeceasedIds: string[];
+  DeceasedIds?: string[];
 }

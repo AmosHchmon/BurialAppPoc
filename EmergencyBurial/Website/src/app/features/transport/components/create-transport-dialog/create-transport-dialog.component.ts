@@ -6,13 +6,15 @@ import {TransportPurpose} from 'src/app/shared/enum/transport-purpose.enum';
 import {CreateTransport} from '../../model/CreateTransport';
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
 import {ListService} from "../../../../shared/services/list.service";
-import {enmListType} from "../../../../shared/enum/list-type.enum";
 import {AlertService} from "../../../../shared/services/alert.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {ValidationModule} from "../../../../shared/validation/validation.module";
 import {IListItem} from "../../../../shared/model/list-item";
 import {enmStationType} from "../../../../shared/enum/station-type.enum";
+import {UpdateTransport} from "../../model/UpdateTransport";
+
+type TransportModel = CreateTransport & UpdateTransport;
 
 @Component({
   selector: 'app-create-transport-dialog',
@@ -34,19 +36,17 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
   isViewMode: boolean = false;
   isEditMode: boolean = false;
 
-  selectableItems: any[] = [];
+  selectableItems: { label: string, value: string }[] = [];
 
   allListItems: IListItem[] = [];
-  stationsList: IListItem[] = [];
+
+  startOrganizationList: IListItem[] = [];
   startSubStationsList: IListItem[] = [];
+
+  endOrganizationList: IListItem[];
   endSubStationsList: IListItem[] = [];
 
-  transportData: CreateTransport = this.getEmptyTransport();
-
-  purposes = [
-    {label: 'הכנה לקבורה', value: enmStationType.BurialPreparation},
-    {label: 'גוף קבורה', value: enmStationType.BetAlmin}
-  ];
+  transportData: TransportModel = this.getEmptyTransport();
 
   constructor(
     private transportService: TransportService,
@@ -71,6 +71,7 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
         await this.loadTransportDetails(this.transportId);
 
       } else {
+
         this.isViewMode = false;
         this.isEditMode = true;
         this.transportData = this.getEmptyTransport();
@@ -86,18 +87,19 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
     if (data.StartDateTime) {
       data.StartDateTime = new Date(data.StartDateTime);
     }
+
     this.transportData = data;
 
-    this.onOrganizationTypeChange();
+    this.onStartOrganizationTypeChange();
+    this.onPurposeChange();
 
     if (this.transportData.StartLocationType === enmStationType.TarahStations) {
-
       this.selectableItems = this.transportData.BagNumbers.map(b => ({
         label: `שק: ${b}`,
         value: b
       }));
-    } else {
 
+    } else {
       this.selectableItems = this.transportData.DeceasedIds.map(d => ({
         label: `חלל (מזהה: ${d})`,
         value: d
@@ -109,32 +111,24 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
 
     this.allListItems = await this.listService.getItemList();
 
-    this.stationsList = this.allListItems.filter(x =>
-      x.ListTypeId == enmListType.StationType &&
+    this.startOrganizationList = this.allListItems.filter(x =>
       (x.Key === enmStationType.TarahStations || x.Key === enmStationType.BurialPreparation)
+    );
+
+    this.endOrganizationList = this.allListItems.filter(x =>
+      (x.Key === TransportPurpose.ToBurialPreparation || x.Key === TransportPurpose.ToBurialBody)
     );
   }
 
-  onOrganizationTypeChange() {
-
+  onStartOrganizationTypeChange() {
     this.startSubStationsList = this.allListItems.filter(x => x.ListItemDepId == this.transportData.StartLocationType);
-
-    this.transportData.StartStationId = null;
-    this.selectableItems = [];
-    this.transportData.BagNumbers = [];
-    this.transportData.DeceasedIds = [];
   }
 
   onPurposeChange() {
-
     this.endSubStationsList = this.allListItems.filter(x => x.ListItemDepId == this.transportData.Purpose);
   }
 
   async onStationChange() {
-
-    this.transportData.BagNumbers = [];
-    this.transportData.DeceasedIds = [];
-    this.selectableItems = [];
 
     if (!this.transportData.StartStationId)
       return;
@@ -161,28 +155,53 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
 
   async save() {
 
-    if (this.transportData.StartLocationType === enmStationType.BurialPreparation) {
-
-      this.transportData.DeceasedIds = [];
-    } else {
-
-      this.transportData.BagNumbers = [];
+    if (this.transportForm.invalid) {
+      // הדפסת כל השדות הלא תקינים כדי לאתר את הבעיה
+      Object.keys(this.transportForm.controls).forEach(key => {
+        const controlErrors = this.transportForm.controls[key].errors;
+        if (controlErrors != null) {
+          console.log('Key control: ' + key + ', errors: ', controlErrors);
+        }
+      });
+      return;
     }
 
-    if (this.transportForm.invalid)
-      return;
+    /*if (this.transportData.StartLocationType === enmStationType.BurialPreparation) {
 
-    await this.transportService.createTransport(this.transportData);
 
-    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.TransportCreated});
+    } else {
+
+      //
+    }*/
+
+    if(this.transportData.Id){
+
+      this.transportData.DeceasedIds = [];
+      this.transportData.BagNumbers = [];
+
+      const updateTransport = this.transportData as UpdateTransport;
+
+      await this.transportService.updateTransport(updateTransport);
+
+      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.TransportUpdated});
+
+    }else{
+
+      const newTransport = this.transportData as CreateTransport;
+
+      await this.transportService.createTransport(newTransport);
+
+      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.TransportCreated});
+    }
 
     this.onSaved.emit();
     this.close();
   }
 
-  private getEmptyTransport(): CreateTransport {
+  private getEmptyTransport(): TransportModel{
 
     return {
+      Id: null,
       BagNumbers: [],
       DeceasedIds: [],
       StartDateTime: new Date(),
@@ -191,7 +210,7 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
       StartStationId: null,
       Purpose: null,
 
-      Destination: null,
+      EndStationId: null,
       Organization: '',
       VehicleType: '',
       LicensePlate: '',
@@ -200,7 +219,7 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
       DriverLastName: '',
       DriverIdentityNumber: '',
       DriverPhone: ''
-    };
+    } as TransportModel;
   }
 
   close() {
@@ -211,10 +230,6 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
 
     if (this.transportForm)
       this.transportForm.resetForm();
-  }
-
-  enableEdit() {
-
   }
 
   protected readonly enmStationType = enmStationType;

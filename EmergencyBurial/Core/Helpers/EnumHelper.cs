@@ -270,10 +270,9 @@ namespace Core.Helpers
     public enum TransportPurpose
     {
         [Description("שינוע להכנה לקבורה")]
-        ToBurialPreparation = 1,
-    
+        ToBurialPreparation = 2002,
         [Description("שינוע לגוף קבורה")]
-        ToBurialBody = 2
+        ToBurialBody = 2003,
     }
 
     #endregion

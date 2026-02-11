@@ -22,7 +22,7 @@ public class Transport : BaseUpdatedEntity
     public TransportPurpose Purpose { get; set; }
 
     [Required] 
-    public TransportPurpose Destination { get; set; }
+    public int? EndStationId { get; set; }
 
     [Required] 
     public string Organization { get; set; }
@@ -49,4 +49,6 @@ public class Transport : BaseUpdatedEntity
     public DateTime? ArrivalDateTime{ get; set; }
     
     public virtual ICollection<DeceasedBag> DeceasedBags { get; set; }
+    
+    public virtual ICollection<Deceased> Deceaseds { get; set; }
 }

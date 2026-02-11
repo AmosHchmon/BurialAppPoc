@@ -1,4 +1,4 @@
 ﻿export enum TransportPurpose {
-  ToBurialPreparation = 1,
-  ToBurialBody = 2
+  ToBurialPreparation = 2002,
+  ToBurialBody = 2003
 }
