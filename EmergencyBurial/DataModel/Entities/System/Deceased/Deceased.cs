@@ -49,14 +49,14 @@ public class Deceased: BaseUpdatedEntity
     public bool IsPopulationRegistryUpdated { get; set; }
 
     public virtual ICollection<DeceasedBag> DeceasedBags { get; set; }
-    
-    public virtual DeceasedBurialProcessStatus DeceasedBurialProcessStatus { get; set; }
-    
-    public virtual DeceasedBurialDetails DeceasedBurialDetails { get; set; }
-    
-    public virtual DeceasedTaharahDetails DeceasedTaharahDetails { get; set; }
-    
-    public virtual DeceasedTarahDetails DeceasedTarahDetails { get; set; }
-    
-    public virtual DeceasedBurialCoordination DeceasedBurialCoordination { get; set; }
+
+    public virtual DeceasedBurialProcessStatus DeceasedBurialProcessStatus { get; set; } = new ();
+
+    public virtual DeceasedBurialDetails DeceasedBurialDetails { get; set; } = new ();
+
+    public virtual DeceasedTaharahDetails DeceasedTaharahDetails { get; set; } = new ();
+
+    public virtual DeceasedTarahDetails DeceasedTarahDetails { get; set; } = new ();
+
+    public virtual DeceasedBurialCoordination DeceasedBurialCoordination { get; set; } = new ();
 }

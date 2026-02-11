@@ -64,10 +64,10 @@ public class TarahController(TarahService tarahService, IMapper mapper) : Contro
         return Ok(mapper.Map<List<TarahListDto>>(entities));
     }
 
-    [HttpPut("receive")]
-    public async Task<ActionResult> ReceiveDeceased(TarahIntakeDto dto)
+    [HttpPut("receive/{deceasedId}")]
+    public async Task<ActionResult> ReceiveDeceasedToTarah(string deceasedId)
     {
-        if (dto == null)
+        if (!Guid.TryParse(deceasedId, out Guid idValue))
         {
             return BadRequest();
         }
@@ -75,7 +75,7 @@ public class TarahController(TarahService tarahService, IMapper mapper) : Contro
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
         var stationId = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
         
-        await tarahService.ReceiveBagToTarah(dto.BagNumber, stationId, userId);
+        await tarahService.ReceiveDeceasedToTarah(idValue, stationId, userId);
 
         return Ok();
     }

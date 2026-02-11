@@ -52,32 +52,36 @@ public class TarahService(EmergencyBurialContext ctx)
             .ToListAsync();
     }
 
-    public async Task ReceiveBagToTarah(string bagNumber, int stationId, Guid? updateBy)
+    public async Task ReceiveDeceasedToTarah(Guid deceasedId, int stationId, Guid userId)
     {
-        var bag = await ctx.DeceasedBag
+        var deceased = await ctx.Deceaseds
+            .Include(d => d.DeceasedBags)
+            .Include(d => d.DeceasedTarahDetails)
             .AsTracking()
-            .Include(d => d.Deceased)
-            .ThenInclude(d => d.DeceasedTarahDetails)
-            .FirstOrDefaultAsync(d => d.BagNumber == bagNumber);
+            .FirstOrDefaultAsync(d => d.Id == deceasedId);
+        
+        deceased.ProcessStatus = ProcessStatus.ReceptionAtTarah;
+        deceased.UpdateBy = userId;
+        deceased.UpdateOn = DateTime.Now;
+        
+        foreach (var bag in deceased.DeceasedBags)
+        {
+            if (bag.BagTarahProcessStatus == BagTarahProcessStatus.PoliceIntake)
+            {
+                bag.BagTarahProcessStatus = BagTarahProcessStatus.InStorage;
+                bag.ReceivingStation = (TarahStations)stationId;
+                bag.ArrivalDateTime = DateTime.Now;
+            }
+        }
 
-        bag.BagTarahProcessStatus = BagTarahProcessStatus.InStorage;
-        bag.ReceivingStation = (TarahStations)stationId;
-        bag.ArrivalDateTime = DateTime.Now;
-
-        var tarahDetails = bag.Deceased.DeceasedTarahDetails;
-
-        // עדכון תיק התר"ח (אם זו כניסה ראשונה)
+        var tarahDetails = deceased.DeceasedTarahDetails;
+        
         if (tarahDetails.TarahStatus == TarahStatus.Pending || tarahDetails.TarahStatus == null)
         {
             tarahDetails.TarahStatus = TarahStatus.InProgress;
             tarahDetails.TarahStation = stationId;
-
-            bag.Deceased.ProcessStatus = ProcessStatus.ReceptionAtTarah;
         }
-
-        bag.Deceased.UpdateBy = updateBy;
-        bag.Deceased.UpdateOn = DateTime.Now;
-
+        
         await ctx.SaveChangesAsync();
     }
 
