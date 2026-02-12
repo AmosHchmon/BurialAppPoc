@@ -102,26 +102,30 @@ public class TarahService(EmergencyBurialContext ctx)
             .FirstOrDefaultAsync(d => d.Id == deceasedId);
     }
 
-    /*public async Task ReleaseFromTarah(Guid? deceasedId, Guid? updateBy)
+    public async Task ReleaseFromTarah(Guid deceasedId, int stationId, Guid userId)
     {
-        var bag = await ctx.DeceasedBag
-            .Include(d => d.Deceased)
-            .ThenInclude(d => d.DeceasedTarahDetails)
+        var deceased = await ctx.Deceaseds
+            .Include(d => d.DeceasedBags)
+            .Include(d => d.DeceasedTarahDetails)
             .AsTracking()
-            .FirstOrDefaultAsync(d => d.BagNumber == bagNumber);
-
-        bag.BagTarahProcessStatus = BagTarahProcessStatus.Released;
-
-        bag.Deceased.ProcessStatus = ProcessStatus.ReleaseFromTarah;
-        bag.Deceased.UpdateBy = updateBy;
-        bag.Deceased.UpdateOn = DateTime.Now;
-
-        if (bag.Deceased.DeceasedTarahDetails != null)
+            .FirstOrDefaultAsync(d => d.Id == deceasedId);
+        
+        deceased.UpdateBy = userId;
+        deceased.UpdateOn = DateTime.Now;
+        deceased.ProcessStatus = ProcessStatus.ReleaseFromTarah;
+        deceased.DeceasedTarahDetails.IsPendingExit = false;
+        deceased.DeceasedTarahDetails.TarahStatus = TarahStatus.Completed;
+        
+        foreach (var bag in deceased.DeceasedBags)
         {
-            bag.Deceased.DeceasedTarahDetails.IsPendingExit = false;
-            bag.Deceased.DeceasedTarahDetails.TarahStatus = TarahStatus.Completed;
+            if (bag.BagTarahProcessStatus == BagTarahProcessStatus.InStorage)
+            {
+                bag.BagTarahProcessStatus = BagTarahProcessStatus.Released;
+                bag.ReceivingStation = (TarahStations)stationId;
+                bag.ArrivalDateTime = DateTime.Now;
+            }
         }
-
+    
         await ctx.SaveChangesAsync();
-    }*/
+    }
 }

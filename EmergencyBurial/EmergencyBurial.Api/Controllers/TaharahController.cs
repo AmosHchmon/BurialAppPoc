@@ -25,6 +25,7 @@ public class TaharahController(TaharahService taharahService, IMapper mapper) : 
         {
             stationId = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
         }
+        
         var entities = await taharahService.GetPendingList(stationId);
 
         return Ok(mapper.Map<List<TaharahListDto>>(entities));
@@ -94,9 +95,7 @@ public class TaharahController(TaharahService taharahService, IMapper mapper) : 
 
         var entity = await taharahService.GetDeceasedForEdit(idValue);
 
-        var res = mapper.Map<TaharahProcessDto>(entity);
-
-        return Ok(res);
+        return Ok(mapper.Map<TaharahProcessDto>(entity));
     }
 
     [HttpPut("update-details")]

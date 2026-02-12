@@ -186,15 +186,23 @@
   }
 
   <ng-template pTemplate="footer">
-    <div class="d-flex justify-content-between border-top pt-3 w-100">
+    <div class="d-flex gap-3 border-top pt-3 w-100">
       @if (!isReleasedMode && showReleaseButton) {
-        <p-button label="שחרור" (click)="onRelease()" icon="pi pi-sign-out" severity="warn"></p-button>
-      }
-      <div class="d-flex gap-2 ms-auto">
-        <p-button label="שמור שינויים" (click)="submitUpdate()" icon="pi pi-save" severity="primary"
+        <p-button label="שחרור"
+                  (click)="onRelease()"
+                  icon="pi pi-sign-out"
+                  severity="warn"></p-button>
+      } @else if (!isReleasedMode) {
+        <p-button label="שמור שינויים"
+                  (click)="submitUpdate()"
+                  icon="pi pi-save"
+                  severity="primary"
                   [disabled]="isReleasedMode"></p-button>
-        <p-button label="ביטול" (click)="closeDialog()" [text]="true" severity="secondary"></p-button>
-      </div>
+      }
+      <p-button label="ביטול"
+                (click)="closeDialog()"
+                [text]="true"
+                severity="secondary"></p-button>
     </div>
   </ng-template>
 </p-dialog>

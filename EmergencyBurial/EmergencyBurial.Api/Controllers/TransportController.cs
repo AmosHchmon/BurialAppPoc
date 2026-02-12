@@ -38,7 +38,7 @@ public class TransportController(TransportService transportService, IMapper mapp
         }
 
         var transport = await transportService.GetTransportForEdit(idValue);
-
+        
         return Ok(mapper.Map<UpdateTransportDto>(transport));
     }
 

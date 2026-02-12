@@ -12,7 +12,7 @@ namespace DataModel.Entities
         [Key]
         public Guid DeceasedId { get; set; }
 
-        public TaharahStatus? TaharahStatus { get; set; }
+        public TaharahStatus TaharahStatus { get; set; }
 
         public int? TaharahStation { get; set; }
 

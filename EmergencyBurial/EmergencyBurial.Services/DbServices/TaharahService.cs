@@ -54,7 +54,7 @@ public class TaharahService(EmergencyBurialContext ctx)
         var list = await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
-            .Where(d => d.ProcessStatus == ProcessStatus.ReleasedFromBurialPreparation)
+            .Where(d => d.ProcessStatus >= ProcessStatus.ReleasedFromBurialPreparation)
             .Where(d => targetStation == null || d.DeceasedTaharahDetails.TaharahStation == targetStation)
             .OrderByDescending(d => d.DeceasedTaharahDetails.TaharahReleaseDate)
             .ToListAsync();

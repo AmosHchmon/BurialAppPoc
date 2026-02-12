@@ -18,6 +18,8 @@ export interface UpdateTransport {
 
   EndStationId?: number;
 
+  IsCompleted?: boolean;
+
   Organization?: string;
 
   VehicleType?: string;

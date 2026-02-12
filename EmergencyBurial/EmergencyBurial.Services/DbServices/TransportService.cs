@@ -17,11 +17,15 @@ public class TransportService(EmergencyBurialContext ctx)
     {
         var allBags = await ctx.DeceasedBag
             .AsTracking()
+            .Include(b => b.Deceased)
+            .ThenInclude(d => d.DeceasedTaharahDetails)
+            .Include(b => b.Deceased)
+            .ThenInclude(d => d.DeceasedBurialCoordination)
             .Where(b => bagNumbers.Contains(b.BagNumber) || deceasedIds.Contains(b.DeceasedId))
             .ToListAsync();
         
-        if (bagNumbers.Count > 3)
-            throw new ApplicationException(UserMessage.LimitBagsInTransport);
+        if (deceasedIds.Count > 2)
+            throw new ApplicationException(UserMessage.LimitDeceasedsInTransport);
 
         var busyBags = allBags.Where(b => b.IsInTransport).Select(b => b.BagNumber).ToList();
         
@@ -37,11 +41,25 @@ public class TransportService(EmergencyBurialContext ctx)
         ctx.Transports.Add(transport);
 
         await ctx.SaveChangesAsync();
+        
+        var newStatus = GetProcessStatusByPurpose(transport.Purpose);
 
         foreach (var bag in allBags)
         {
             bag.IsInTransport = true;
             bag.CurrentTransportId = transport.Id;
+            bag.Deceased.ProcessStatus = newStatus;
+
+            switch (transport.Purpose)
+            {
+                case TransportPurpose.ToBurialPreparation:
+                    bag.Deceased.DeceasedTaharahDetails.TaharahStation = transport.EndStationId;
+                    break;
+                
+                case TransportPurpose.ToBurialBody:
+                    bag.Deceased.DeceasedBurialCoordination.BurialBody = (BurialBody)transport.EndStationId!;
+                    break;
+            }
 
             var historyItem = new TransportHistory
             {
@@ -61,6 +79,7 @@ public class TransportService(EmergencyBurialContext ctx)
         var transport = await ctx.Transports
             .AsTracking()
             .Include(t => t.DeceasedBags)
+            .ThenInclude(b => b.Deceased)
             .FirstOrDefaultAsync(t => t.Id == id);
 
         if (transport == null)
@@ -80,22 +99,33 @@ public class TransportService(EmergencyBurialContext ctx)
     {
         var transport = await ctx.Transports
             .AsTracking()
-            .Include(t => t.DeceasedBags)
             .FirstOrDefaultAsync(t => t.Id == transportId);
-
+        
         if (transport.IsCompleted)
             throw new ApplicationException(UserMessage.TransportIsComplete);
-
+        
+        var allBags = await ctx.DeceasedBag
+            .AsTracking()
+            .Include(b => b.Deceased)
+            .Where(b => b.CurrentTransportId == transportId)
+            .ToListAsync();
+        
+        var arrivalStatus = GetArrivalStatusByPurpose(transport.Purpose);
+        
         transport.IsCompleted = true;
         transport.UpdateBy = userId;
         transport.UpdateOn = DateTime.Now;
         transport.ArrivalDateTime = DateTime.Now;
-
-
-        foreach (var bag in transport.DeceasedBags)
+        
+        foreach (var bag in allBags)
         {
             bag.IsInTransport = false;
             bag.CurrentTransportId = null;
+            
+            if (bag.Deceased != null)
+            {
+                bag.Deceased.ProcessStatus = arrivalStatus;
+            }
         }
 
         await ctx.SaveChangesAsync();
@@ -121,7 +151,9 @@ public class TransportService(EmergencyBurialContext ctx)
     {
         return await ctx.DeceasedBag
             .Include(b => b.Deceased)
-            .Where(b => !b.IsInTransport && b.BagTarahProcessStatus == BagTarahProcessStatus.Released)
+            .Where(b => !b.IsInTransport &&
+                        b.Deceased.ProcessStatus == ProcessStatus.ReleaseFromTarah &&
+                        b.BagTarahProcessStatus == BagTarahProcessStatus.Released)
             .Where(d => (int)d.ReceivingStation == stationId)
             .OrderBy(b => b.Deceased.IdentityNumber)
             .ThenBy(b => b.BagNumber)
@@ -138,5 +170,25 @@ public class TransportService(EmergencyBurialContext ctx)
             .ToListAsync();
 
         return list;
+    }
+    
+    private ProcessStatus GetProcessStatusByPurpose(TransportPurpose purpose)
+    {
+        return purpose switch
+        {
+            TransportPurpose.ToBurialPreparation => ProcessStatus.TransportToBurialPreparation,
+            TransportPurpose.ToBurialBody => ProcessStatus.TransportToBurialEntity,
+            _ => throw new ApplicationException(UserMessage.UnknownTransportDestination)
+        };
+    }
+    
+    private ProcessStatus GetArrivalStatusByPurpose(TransportPurpose purpose)
+    {
+        return purpose switch
+        {
+            TransportPurpose.ToBurialPreparation => ProcessStatus.EndTransportBurialPreparation,
+            TransportPurpose.ToBurialBody => ProcessStatus.EndTransportBurialEntity,
+            _ => throw new ApplicationException(UserMessage.UnknownTransportDestination)
+        };
     }
 }

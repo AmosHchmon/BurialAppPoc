@@ -227,7 +227,7 @@
 
   <ng-template pTemplate="footer">
     <div class="d-flex justify-content-end gap-2 p-2">
-      @if (isViewMode && !isEditMode) {
+      @if (!transportData?.IsCompleted && !isEditMode) {
         <p-button label="עריכה"
                   icon="pi pi-pencil"
                   (click)="isEditMode = true"

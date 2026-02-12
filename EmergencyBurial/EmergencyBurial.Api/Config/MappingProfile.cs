@@ -213,7 +213,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.BagNumbers,
                 opt => opt.MapFrom(src => src.DeceasedBags.Select(b => b.BagNumber).ToList()))
             .ForMember(dest => dest.DeceasedIds, 
-                opt => opt.MapFrom(src => src.Deceaseds.Select(d => d.Id).ToList()));;
+                opt => opt.MapFrom(src => src.DeceasedBags.Select(d => d.Deceased.Id).ToList()));;
 
         CreateMap<Transport, TransportListDto>()
             .ForMember(dest => dest.TotalBags, opt => opt.MapFrom(src => src.DeceasedBags.Count))

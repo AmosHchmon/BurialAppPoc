@@ -177,11 +177,11 @@ namespace Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to לא ניתן לשנע יותר מ-3 שקים בבת אחת.
+        ///   Looks up a localized string similar to לא ניתן לשנע יותר מ-2 חללים בבת אחת.
         /// </summary>
-        public static string LimitBagsInTransport {
+        public static string LimitDeceasedsInTransport {
             get {
-                return ResourceManager.GetString("LimitBagsInTransport", resourceCulture);
+                return ResourceManager.GetString("LimitDeceasedsInTransport", resourceCulture);
             }
         }
         
@@ -227,6 +227,15 @@ namespace Core.Resources {
         public static string TransportIsComplete {
             get {
                 return ResourceManager.GetString("TransportIsComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to יעד שינוע לא נתמך.
+        /// </summary>
+        public static string UnknownTransportDestination {
+            get {
+                return ResourceManager.GetString("UnknownTransportDestination", resourceCulture);
             }
         }
         

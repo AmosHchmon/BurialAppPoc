@@ -33,7 +33,6 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
 
   @ViewChild('transportForm') transportForm!: NgForm;
 
-  isViewMode: boolean = false;
   isEditMode: boolean = false;
 
   selectableItems: { label: string, value: string }[] = [];
@@ -67,12 +66,10 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
 
       if (this.transportId) {
 
-        this.isViewMode = true;
         await this.loadTransportDetails(this.transportId);
 
       } else {
 
-        this.isViewMode = false;
         this.isEditMode = true;
         this.transportData = this.getEmptyTransport();
         this.selectableItems = [];
@@ -156,23 +153,8 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
   async save() {
 
     if (this.transportForm.invalid) {
-      // הדפסת כל השדות הלא תקינים כדי לאתר את הבעיה
-      Object.keys(this.transportForm.controls).forEach(key => {
-        const controlErrors = this.transportForm.controls[key].errors;
-        if (controlErrors != null) {
-          console.log('Key control: ' + key + ', errors: ', controlErrors);
-        }
-      });
       return;
     }
-
-    /*if (this.transportData.StartLocationType === enmStationType.BurialPreparation) {
-
-
-    } else {
-
-      //
-    }*/
 
     if(this.transportData.Id){
 
@@ -211,6 +193,7 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
       Purpose: null,
 
       EndStationId: null,
+      IsComplete: false,
       Organization: '',
       VehicleType: '',
       LicensePlate: '',

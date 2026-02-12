@@ -19,6 +19,8 @@ public class UpdateTransportDto
     public TransportPurpose Purpose { get; set; }
 
     public int? EndStationId { get; set; }
+    
+    public bool IsCompleted { get; set; }
 
     public string Organization { get; set; }
 
