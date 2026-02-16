@@ -262,7 +262,7 @@ public class DbHelper
 
         var deceased2Id = Guid.NewGuid();
 
-        /*var deceased2 = new Deceased
+        var deceased2 = new Deceased
         {
             Id = deceased2Id,
             IdentityNumber = "1111111",
@@ -272,7 +272,7 @@ public class DbHelper
             FatherName = "טינופת",
             Gender = "נקבה",
             HomeCity = "בית לחם",
-            ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
+            DeceasedProcessStatus = DeceasedProcessStatus.PoliceIntake,
             EventId = eventId,
 
             DeceasedBags = new List<DeceasedBag>
@@ -300,36 +300,41 @@ public class DbHelper
                     BagTarahProcessStatus = BagTarahProcessStatus.Released
                 }
             },
+            DeceasedTarahDetails = new DeceasedTarahDetails
+            {
+                DeceasedId = deceased2Id,
+                TarahStation = (int)TarahStations.Tziporit,
+            },
             StatusHistory = new List<DeceasedStatusHistory>
             {
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased2Id,
-                    CurrentStatus = ProcessStatus.ReceptionAtTarah,
+                    CurrentStatus = DeceasedProcessStatus.ReceptionAtTarah,
                     CreatedOn = DateTime.Now.AddDays(-5),
                     CreatedBy = deceased2Id
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased2Id,
-                    OldStatus = ProcessStatus.ReceptionAtTarah,
-                    CurrentStatus = ProcessStatus.ReleaseFromTarah,
+                    OldStatus = DeceasedProcessStatus.ReceptionAtTarah,
+                    CurrentStatus = DeceasedProcessStatus.ReleaseFromTarah,
                     CreatedOn = DateTime.Now.AddDays(-4),
                     CreatedBy = deceased2Id
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased2Id,
-                    CurrentStatus = ProcessStatus.TransportToBurialPreparation,
-                    OldStatus = ProcessStatus.ReceivedForBurialPreparation,
+                    CurrentStatus = DeceasedProcessStatus.TransportToBurialPreparation,
+                    OldStatus = DeceasedProcessStatus.ReceivedForBurialPreparation,
                     CreatedOn = DateTime.Now.AddDays(-3),
                     CreatedBy = deceased2Id
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased2Id,
-                    CurrentStatus = ProcessStatus.EndTransportBurialPreparation,
-                    OldStatus = ProcessStatus.TransportToBurialPreparation,
+                    CurrentStatus = DeceasedProcessStatus.EndTransportBurialPreparation,
+                    OldStatus = DeceasedProcessStatus.TransportToBurialPreparation,
                     CreatedOn = DateTime.Now.AddDays(-3),
                     CreatedBy = deceased2Id
                 }
@@ -357,7 +362,7 @@ public class DbHelper
                 DeceasedId = deceased2Id,
                 IsCoordinatedWithHevratKadisha = false
             }
-        };*/
+        };
 
         var deceased3Id = Guid.NewGuid();
 
@@ -483,7 +488,6 @@ public class DbHelper
             {
                 DeceasedId = deceased4Id,
                 TarahStation = (int)TarahStations.Shura,
-                TarahStatus = TarahStatus.Pending
             }
         };*/
 
@@ -515,7 +519,6 @@ public class DbHelper
             {
                 DeceasedId = deceased5Id,
                 TarahStation = (int)TarahStations.Tziporit,
-                TarahStatus = TarahStatus.InProgress,
                 TarahTeamManager = "צוות א' - תר\"ח"
             }
         };*/
@@ -547,8 +550,7 @@ public class DbHelper
             DeceasedTarahDetails = new DeceasedTarahDetails
             {
                 DeceasedId = deceased6Id,
-                TarahStation = (int)TarahStations.SdeTeiman,
-                TarahStatus = TarahStatus.Completed,
+                TarahStation = (int)TarahStations.SdeTeiman
             }
         };*/
 
@@ -576,12 +578,11 @@ public class DbHelper
             {
                 DeceasedId = deceased7Id,
                 TarahStation = (int)TarahStations.Shura,
-                TarahStatus = TarahStatus.Pending
             }
         };
 
         //db.Deceaseds.AddRange(deceased1, deceased2, deceased3, deceased4, deceased5, deceased6, deceased7);
-        db.Deceaseds.AddRange(deceased1,deceased7);
+        db.Deceaseds.AddRange(deceased1,deceased2);
         db.SaveChanges();
     }
 

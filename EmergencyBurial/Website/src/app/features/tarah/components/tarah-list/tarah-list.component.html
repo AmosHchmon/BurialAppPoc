@@ -14,14 +14,14 @@
     </p-selectButton>
 
     <div class="d-flex gap-2">
-      @if (viewMode === TarahStatusEnum.Pending) {
+      @if (viewMode === DeceasedProcessStatus.PoliceIntake) {
         <p-button label="קליטת שק" icon="pi pi-check-square"
                   (click)="openReceptionDialog()"
                   [disabled]="!selectedDeceased"
                   severity="success"></p-button>
       }
 
-      @if (viewMode === TarahStatusEnum.InProgress) {
+      @if (viewMode === DeceasedProcessStatus.ReceptionAtTarah) {
         <p-button label="עדכון פרטי חלל" icon="pi pi-pencil"
                   (click)="openUpdateDetailsDialog()"
                   [disabled]="!selectedDeceased"
@@ -33,7 +33,7 @@
                   severity="warn"></p-button>
       }
 
-      @if (viewMode === TarahStatusEnum.Complete) {
+      @if (viewMode === DeceasedProcessStatus.ReleaseFromTarah) {
         <p-button label="צפייה בנתוני תר'ח"
                   icon="pi pi-eye"
                   severity="secondary"
@@ -98,12 +98,8 @@
                  [severity]="deceased.IsIdentified ? 'success' : 'warn'"></p-tag>
         </td>
         <td>
-          <p-tag [value]="deceased.ProcessStatusDesc"
-                 [severity]="viewMode === TarahStatusEnum.Pending ? 'info' : 'warning'"></p-tag>
-        </td>
-        <td>
-          <p-tag [value]="deceased.TarahStatusDesc"
-                 [severity]="getTarahStatusSeverity(deceased.TaharahStatus)"></p-tag>
+          <p-tag [value]="deceased.DeceasedProcessStatusDesc"
+                 [severity]="viewMode === DeceasedProcessStatus.PoliceIntake ? 'info' : 'warning'"></p-tag>
         </td>
         <td>
           <span class="text-ellipsis"
@@ -120,7 +116,7 @@
       <tr>
         <td [attr.colspan]="cols.length + 1" class="text-center p-4">
 
-          @if (viewMode === TarahStatusEnum.Pending) {
+          @if (viewMode === DeceasedProcessStatus.PoliceIntake) {
             <span>אין חללים הממתינים לקליטה כרגע.</span>
           } @else {
             <span>לא נמצאו נתונים לחודש זה.</span>
@@ -134,14 +130,14 @@
 
 @if (selectedDeceasedForReception) {
   <app-tarah-intake-dialog [(visible)]="isReceptionDialogOpen"
-                             [data]="selectedDeceasedForReception"
-                             (onSaved)="onDialogSaved()"></app-tarah-intake-dialog>
+                           [data]="selectedDeceasedForReception"
+                           (onSaved)="onDialogSaved()"></app-tarah-intake-dialog>
 }
 
 @if (selectedDeceasedForUpdate) {
   <app-tarah-update-dialog [(visible)]="isUpdateDialogOpen"
                            [data]="selectedDeceasedForUpdate"
                            [showReleaseButton]="isReleaseAction"
-                           [isReleasedMode]="viewMode === TarahStatusEnum.Complete"
+                           [isReleasedMode]="viewMode === DeceasedProcessStatus.ReleaseFromTarah"
                            (onSaved)="onDialogSaved()"></app-tarah-update-dialog>
 }

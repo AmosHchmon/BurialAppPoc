@@ -237,16 +237,6 @@ namespace Core.Helpers
         Archive = 11
     }
 
-    public enum TarahStatus
-    {
-        [Description("ממתין לקבלה")]
-        Pending = 0,
-        [Description("בתהליך תר'ח")]
-        InProgress = 1,
-        [Description("שוחרר מתר'ח")]
-        Completed = 2
-    }
-
     public enum BagTarahProcessStatus
     {
         [Description("קליטה משטרה")]

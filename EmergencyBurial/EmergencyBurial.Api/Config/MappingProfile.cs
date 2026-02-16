@@ -137,15 +137,10 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.IdentityNumber ?? "חלל אינו מזוהה"))
             .ForMember(dest => dest.FatherName, opt => opt.MapFrom(src => src.FatherName))
             .ForMember(dest => dest.IsIdentified, opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.IdentityNumber)))         
-            .ForMember(dest => dest.ProcessStatusDesc, opt => opt.MapFrom(src => src.DeceasedProcessStatus.GetEnumDescription()))
+            .ForMember(dest => dest.DeceasedProcessStatusDesc, opt => opt.MapFrom(src => src.DeceasedProcessStatus.GetEnumDescription()))
             .ForMember(dest => dest.RelatedBagNumbers, opt => opt.MapFrom(src => src.DeceasedBags.Count))
             .ForMember(dest => dest.BagNumbersDisplay, opt =>
-                opt.MapFrom(src => string.Join(" | ", src.DeceasedBags.Select(b => b.BagNumber))))
-            .ForMember(dest => dest.TarahStatus, opt => opt.MapFrom(src => src.DeceasedTarahDetails.TarahStatus))
-            .ForMember(dest => dest.TarahStatusDesc, opt =>
-                opt.MapFrom(src => src.DeceasedTarahDetails != null
-                    ? src.DeceasedTarahDetails.TarahStatus.GetEnumDescription()
-                    : "טרם הוגדר"));
+                opt.MapFrom(src => string.Join(" | ", src.DeceasedBags.Select(b => b.BagNumber))));
         
         CreateMap<Deceased, TarahProcessDto>()
             .ForMember(dest => dest.DeceasedId, opt => opt.MapFrom(src => src.Id))

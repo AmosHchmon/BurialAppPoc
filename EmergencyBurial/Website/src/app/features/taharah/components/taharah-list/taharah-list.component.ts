@@ -119,23 +119,5 @@ export class TaharahListComponent implements OnInit {
     return this.cols.map(col => col.field);
   }
 
-  getProcessStatusSeverity(deceasedProcessStatus: DeceasedProcessStatus) {
-
-    switch (deceasedProcessStatus) {
-      case DeceasedProcessStatus.EndTransportBurialPreparation:
-        return 'warn';
-
-      case DeceasedProcessStatus.ReceivedForBurialPreparation:
-        return 'info';
-
-      case DeceasedProcessStatus.ReleasedFromBurialPreparation:
-        return 'success';
-
-      default:
-        return 'secondary';
-    }
-
-  }
-
   protected readonly DeceasedProcessStatus = DeceasedProcessStatus;
 }

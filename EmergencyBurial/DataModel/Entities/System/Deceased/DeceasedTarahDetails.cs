@@ -12,8 +12,6 @@ namespace DataModel.Entities
         [Key]
         public Guid DeceasedId { get; set; }
 
-        public TarahStatus TarahStatus { get; set; }
-
         public int? TarahStation { get; set; }
         
         [Description("שם מנהל הצוות בתר\"ח")]
