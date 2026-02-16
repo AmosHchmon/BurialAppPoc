@@ -236,16 +236,6 @@ namespace Core.Helpers
         [Description("ארכיב")]
         Archive = 11
     }
-    
-    public enum TaharahStatus
-    {
-        [Description("ממתין לקבלה")]
-        Pending = 0,
-        [Description("בתהליך טהרה")]
-        InProgress = 1,
-        [Description("שוחרר מטהרה")]
-        Completed = 2
-    }
 
     public enum TarahStatus
     {

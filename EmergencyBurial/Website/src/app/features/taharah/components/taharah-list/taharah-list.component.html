@@ -16,7 +16,7 @@
 
     <div class="d-flex gap-2">
 
-      @if (viewMode === TaharahStatusEnum.Pending) {
+      @if (viewMode === DeceasedProcessStatus.EndTransportBurialPreparation) {
         <p-button label="קליטה"
                   icon="pi pi-download"
                   severity="success"
@@ -25,7 +25,7 @@
         </p-button>
       }
 
-      @if (viewMode === TaharahStatusEnum.InProgress) {
+      @if (viewMode === DeceasedProcessStatus.ReceivedForBurialPreparation) {
         <div class="d-flex gap-2">
           <p-button label="עדכון פרטים"
                     icon="pi pi-file-edit"
@@ -43,7 +43,7 @@
         </div>
       }
 
-      @if (viewMode === TaharahStatusEnum.Complete) {
+      @if (viewMode === DeceasedProcessStatus.ReleasedFromBurialPreparation) {
         <p-button label="צפייה בנתוני טהרה"
                   icon="pi pi-eye"
                   severity="secondary"
@@ -107,12 +107,8 @@
         <td>{{ deceased.FullName }}</td>
         <td>{{ deceased.FatherName }}</td>
         <td>
-          <p-tag [value]="deceased.ProcessStatusDesc"
-                 [severity]="viewMode === TaharahStatusEnum.Pending ? 'info' : 'warning'"></p-tag>
-        </td>
-        <td>
-          <p-tag [value]="deceased.TaharahStatusDesc"
-                 [severity]="getTaharahStatusSeverity(deceased.TaharahStatus)"></p-tag>
+          <p-tag [value]="deceased.DeceasedProcessStatusDesc"
+                 [severity]="viewMode === DeceasedProcessStatus.EndTransportBurialPreparation ? 'info' : 'warning'"></p-tag>
         </td>
         <td>
           <span class="text-ellipsis"
@@ -129,7 +125,7 @@
       <tr>
         <td [attr.colspan]="cols.length + 1" class="text-center p-4">
 
-          @if (viewMode === TaharahStatusEnum.Pending) {
+          @if (viewMode === DeceasedProcessStatus.EndTransportBurialPreparation) {
             <span>אין חללים הממתינים לקליטה כרגע.</span>
           } @else {
             <span>לא נמצאו נתונים לחודש זה.</span>
@@ -149,7 +145,7 @@
 
 <app-taharah-update-dialog
   [(visible)]="isUpdateDialogOpen"
-  [isReleasedMode]="viewMode === TaharahStatusEnum.Complete"
+  [isReleasedMode]="viewMode === DeceasedProcessStatus.ReleasedFromBurialPreparation"
   [showReleaseButton]="isReleaseAction"
   [deceasedId]="selectedDeceased?.Id"
   (onSaved)="onDialogSaved()">

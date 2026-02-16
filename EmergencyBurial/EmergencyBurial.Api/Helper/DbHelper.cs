@@ -150,7 +150,7 @@ public class DbHelper
 
         var deceased1Id = Guid.NewGuid();
 
-        /*var deceased1 = new Deceased
+        var deceased1 = new Deceased
         {
             Id = deceased1Id,
             IdentityNumber = "2222222",
@@ -162,7 +162,7 @@ public class DbHelper
             HomeCity = "גיהנום",
             PeleNumber = "PL-789123",
             Affiliation = Affiliation.Civilian,
-            ProcessStatus = ProcessStatus.EndTransportBurialPreparation,
+            DeceasedProcessStatus = DeceasedProcessStatus.EndTransportBurialPreparation,
             EventId = eventId,
 
             DeceasedBags = new List<DeceasedBag>
@@ -209,24 +209,24 @@ public class DbHelper
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased1Id,
-                    OldStatus = ProcessStatus.ReceptionAtTarah,
-                    CurrentStatus = ProcessStatus.ReleaseFromTarah,
+                    OldStatus = DeceasedProcessStatus.ReceptionAtTarah,
+                    CurrentStatus = DeceasedProcessStatus.ReleaseFromTarah,
                     CreatedOn = DateTime.Now.AddDays(-7),
                     CreatedBy = deceased1Id
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased1Id,
-                    OldStatus = ProcessStatus.ReleaseFromTarah,
-                    CurrentStatus = ProcessStatus.TransportToBurialPreparation,
+                    OldStatus = DeceasedProcessStatus.ReleaseFromTarah,
+                    CurrentStatus = DeceasedProcessStatus.TransportToBurialPreparation,
                     CreatedOn = DateTime.Now.AddDays(-6),
                     CreatedBy = deceased1Id
                 },
                 new DeceasedStatusHistory
                 {
                     DeceasedId = deceased1Id,
-                    CurrentStatus = ProcessStatus.EndTransportBurialPreparation,
-                    OldStatus = ProcessStatus.ReceivedForBurialPreparation,
+                    CurrentStatus = DeceasedProcessStatus.EndTransportBurialPreparation,
+                    OldStatus = DeceasedProcessStatus.ReceivedForBurialPreparation,
                     CreatedOn = DateTime.Now.AddHours(-6),
                     CreatedBy = deceased1Id
                 }
@@ -248,7 +248,6 @@ public class DbHelper
             {
                 DeceasedId = deceased1Id,
                 TaharahStation = (int)BurialPreparation.RishonLezion,
-                TaharahStatus = TaharahStatus.Pending,
                 IsTaharahPerformed = false
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination
@@ -259,7 +258,7 @@ public class DbHelper
                 FamilyContactName = "משה ישראלי",
                 FamilyContactPhone = "050-1234567"
             }
-        };*/
+        };
 
         var deceased2Id = Guid.NewGuid();
 
@@ -351,7 +350,6 @@ public class DbHelper
             {
                 DeceasedId = deceased2Id,
                 TaharahStation = (int)BurialPreparation.RishonLezion,
-                TaharahStatus = TaharahStatus.Pending,
                 IsTaharahPerformed = false
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination
@@ -438,7 +436,6 @@ public class DbHelper
             {
                 DeceasedId = deceased3Id,
                 TaharahStation = (int)BurialPreparation.TelRegev,
-                TaharahStatus = TaharahStatus.Pending,
                 IsTaharahPerformed = false,
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination
@@ -584,7 +581,7 @@ public class DbHelper
         };
 
         //db.Deceaseds.AddRange(deceased1, deceased2, deceased3, deceased4, deceased5, deceased6, deceased7);
-        db.Deceaseds.AddRange(deceased7);
+        db.Deceaseds.AddRange(deceased1,deceased7);
         db.SaveChanges();
     }
 

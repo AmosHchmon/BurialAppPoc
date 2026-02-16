@@ -69,8 +69,6 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.IsCivilBurial, opt => opt.MapFrom(src => src.IsCivilBurial ? "כן" : "לא"))
             .ForMember(dest => dest.BurialLicenseScanned,
                 opt => opt.MapFrom(src => src.BurialLicenseScanned ? "כן" : "לא"))
-            .ForMember(dest => dest.TaharahStatus,
-                opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahStatus.GetEnumDescription()))
             .ForMember(dest => dest.TaharahReceptionDate,
                 opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahReceptionDate))
             .ForMember(dest => dest.TaharahReceptionDate,
@@ -100,16 +98,11 @@ public class MappingProfile : Profile
 
         CreateMap<Deceased, TaharahListDto>()
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
-            .ForMember(dest => dest.ProcessStatusDesc,
+            .ForMember(dest => dest.DeceasedProcessStatusDesc,
                 opt => opt.MapFrom(src => src.DeceasedProcessStatus.GetEnumDescription()))
             .ForMember(dest => dest.RelatedBagNumbers, opt => opt.MapFrom(src => src.DeceasedBags.Count))
             .ForMember(dest => dest.BagNumbersDisplay, opt =>
-                opt.MapFrom(src => string.Join(" | ", src.DeceasedBags.Select(b => b.BagNumber))))
-            .ForMember(dest => dest.TaharahStatus, opt => opt.MapFrom(src => src.DeceasedTaharahDetails.TaharahStatus))
-            .ForMember(dest => dest.TaharahStatusDesc, opt =>
-                opt.MapFrom(src => src.DeceasedTaharahDetails != null
-                    ? src.DeceasedTaharahDetails.TaharahStatus.GetEnumDescription()
-                    : "טרם הוגדר"));
+                opt.MapFrom(src => string.Join(" | ", src.DeceasedBags.Select(b => b.BagNumber))));
 
         CreateMap<DeceasedTaharahDetails, TaharahIntakeDto>()
             .ReverseMap();

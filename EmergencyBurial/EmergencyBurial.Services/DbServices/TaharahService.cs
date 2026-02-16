@@ -23,9 +23,7 @@ public class TaharahService(EmergencyBurialContext ctx)
         
         return await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
-            .Include(d => d.DeceasedTaharahDetails)
-            .Where(d => d.DeceasedProcessStatus == DeceasedProcessStatus.EndTransportBurialPreparation &&
-                        d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.Pending)
+            .Where(d => d.DeceasedProcessStatus == DeceasedProcessStatus.EndTransportBurialPreparation)
             .Where(d => targetStation == null || d.DeceasedTaharahDetails.TaharahStation == targetStation)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
@@ -37,9 +35,7 @@ public class TaharahService(EmergencyBurialContext ctx)
         
         var list = await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
-            .Include(d => d.DeceasedTaharahDetails)
-            .Where(d => d.DeceasedProcessStatus == DeceasedProcessStatus.ReceivedForBurialPreparation &&
-                        d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.InProgress)
+            .Where(d => d.DeceasedProcessStatus == DeceasedProcessStatus.ReceivedForBurialPreparation)
             .Where(d => targetStation == null || d.DeceasedTaharahDetails.TaharahStation == targetStation)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
@@ -53,7 +49,6 @@ public class TaharahService(EmergencyBurialContext ctx)
         
         var list = await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
-            .Include(d => d.DeceasedTaharahDetails)
             .Where(d => d.DeceasedProcessStatus >= DeceasedProcessStatus.ReleasedFromBurialPreparation)
             .Where(d => targetStation == null || d.DeceasedTaharahDetails.TaharahStation == targetStation)
             .OrderByDescending(d => d.DeceasedTaharahDetails.TaharahReleaseDate)

@@ -12,13 +12,9 @@ public class TaharahListDto
 
     public string FatherName { get; set; }
 
-    public string ProcessStatusDesc { get; set; }
+    public string DeceasedProcessStatusDesc { get; set; }
 
     public string BagNumbersDisplay { get; set; }
 
     public int RelatedBagNumbers { get; set; }
-    
-    public int? TaharahStatus { get; set; }
-    
-    public string TaharahStatusDesc { get; set; }
 }

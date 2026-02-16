@@ -1,4 +1,6 @@
-﻿export interface TaharahList {
+﻿import {DeceasedProcessStatus} from "../../../shared/enum/deceased-process-status.enum";
+
+export interface TaharahList {
 
   Id?: string;
 
@@ -8,13 +10,11 @@
 
   FatherName?: string;
 
-  ProcessStatusDesc?: string;
+  DeceasedProcessStatus: DeceasedProcessStatus;
+
+  DeceasedProcessStatusDesc?: string;
 
   BagNumbersDisplay?: string;
 
   RelatedBagNumbers?: number;
-
-  TaharahStatus?: number;
-
-  TaharahStatusDesc: string;
 }
