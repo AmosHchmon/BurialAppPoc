@@ -18,7 +18,7 @@ public class TarahService(EmergencyBurialContext ctx)
         return await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .Where(d => d.DeceasedProcessStatus == DeceasedProcessStatus.PoliceIntake)
-            .Where(d => targetStation == null || d.DeceasedTarahDetails.TarahStation == targetStation)
+            .Where(d => targetStation == null || d.DeceasedTarahDetails.StationId == targetStation)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
     }
@@ -31,7 +31,7 @@ public class TarahService(EmergencyBurialContext ctx)
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTarahDetails)
             .Where(d => d.DeceasedProcessStatus == DeceasedProcessStatus.ReceptionAtTarah)
-            .Where(d => targetStation == null || d.DeceasedTarahDetails.TarahStation == targetStation)
+            .Where(d => targetStation == null || d.DeceasedTarahDetails.StationId == targetStation)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
     }
@@ -44,12 +44,12 @@ public class TarahService(EmergencyBurialContext ctx)
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTarahDetails)
             .Where(d => d.DeceasedProcessStatus == DeceasedProcessStatus.ReleaseFromTarah)
-            .Where(d => targetStation == null || d.DeceasedTarahDetails.TarahStation == targetStation)
+            .Where(d => targetStation == null || d.DeceasedTarahDetails.StationId == targetStation)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
     }
 
-    public async Task ReceiveDeceasedToTarah(Guid deceasedId, int stationId, Guid userId)
+    public async Task ReceiveToTarah(Guid deceasedId, int stationId, Guid? userId)
     {
         var deceased = await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
@@ -61,6 +61,9 @@ public class TarahService(EmergencyBurialContext ctx)
         deceased.UpdateBy = userId;
         deceased.UpdateOn = DateTime.Now;
         
+        deceased.DeceasedTarahDetails.ReceptionDate = DateTime.Now;
+        deceased.DeceasedTarahDetails.ReceivedBy = userId;
+        
         foreach (var bag in deceased.DeceasedBags)
         {
             if (bag.BagTarahProcessStatus == BagTarahProcessStatus.PoliceIntake)
@@ -71,7 +74,7 @@ public class TarahService(EmergencyBurialContext ctx)
             }
         }
 
-        deceased.DeceasedTarahDetails.TarahStation = stationId;
+        deceased.DeceasedTarahDetails.StationId = stationId;
         
         await ctx.SaveChangesAsync();
     }

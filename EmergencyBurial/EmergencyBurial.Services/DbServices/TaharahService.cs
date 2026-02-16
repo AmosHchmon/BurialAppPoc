@@ -25,7 +25,7 @@ public class TaharahService(EmergencyBurialContext ctx)
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
             .Where(d => d.DeceasedProcessStatus == DeceasedProcessStatus.EndTransportBurialPreparation)
-            .Where(d => targetStation == null || d.DeceasedTaharahDetails.TaharahStation == targetStation)
+            .Where(d => targetStation == null || d.DeceasedTaharahDetails.StationId == targetStation)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
     }
@@ -38,7 +38,7 @@ public class TaharahService(EmergencyBurialContext ctx)
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
             .Where(d => d.DeceasedProcessStatus == DeceasedProcessStatus.ReceivedForBurialPreparation)
-            .Where(d => targetStation == null || d.DeceasedTaharahDetails.TaharahStation == targetStation)
+            .Where(d => targetStation == null || d.DeceasedTaharahDetails.StationId == targetStation)
             .OrderByDescending(d => d.CreatedOn)
             .ToListAsync();
 
@@ -53,14 +53,14 @@ public class TaharahService(EmergencyBurialContext ctx)
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
             .Where(d => d.DeceasedProcessStatus >= DeceasedProcessStatus.ReleasedFromBurialPreparation)
-            .Where(d => targetStation == null || d.DeceasedTaharahDetails.TaharahStation == targetStation)
-            .OrderByDescending(d => d.DeceasedTaharahDetails.TaharahReleaseDate)
+            .Where(d => targetStation == null || d.DeceasedTaharahDetails.StationId == targetStation)
+            .OrderByDescending(d => d.DeceasedTaharahDetails.ReleaseDate)
             .ToListAsync();
 
         return list;
     }
 
-    public async Task ReceiveDeceasedToTaharah(DeceasedTaharahDetails details, Guid? updateBy)
+    public async Task ReceiveToTaharah(DeceasedTaharahDetails details, Guid? userId)
     {
         var deceased = await ctx.Deceaseds
             .Include(d => d.DeceasedTaharahDetails)
@@ -68,8 +68,12 @@ public class TaharahService(EmergencyBurialContext ctx)
             .FirstOrDefaultAsync(d => d.Id == details.DeceasedId);
 
         deceased.DeceasedProcessStatus = DeceasedProcessStatus.ReceivedForBurialPreparation;
-        deceased.UpdateBy = updateBy;
+        deceased.UpdateBy = userId;
         deceased.UpdateOn = DateTime.Now;
+        
+        deceased.DeceasedTaharahDetails.ReceptionDate = DateTime.Now;
+        deceased.DeceasedTaharahDetails.ReceivedBy = userId;
+        
         ctx.Entry(deceased.DeceasedTaharahDetails).CurrentValues.SetValues(details);
 
         await ctx.SaveChangesAsync();

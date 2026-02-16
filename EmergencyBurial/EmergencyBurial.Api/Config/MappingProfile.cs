@@ -70,11 +70,9 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.BurialLicenseScanned,
                 opt => opt.MapFrom(src => src.BurialLicenseScanned ? "כן" : "לא"))
             .ForMember(dest => dest.TaharahReceptionDate,
-                opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahReceptionDate))
-            .ForMember(dest => dest.TaharahReceptionDate,
-                opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahReceptionDate))
+                opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.ReceptionDate))
             .ForMember(dest => dest.TaharahReleaseDate,
-                opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.TaharahReleaseDate))
+                opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.ReleaseDate))
             .ForMember(dest => dest.IsTaharahPerformed,
                 opt => opt.MapFrom(src => src.Deceased.DeceasedTaharahDetails.IsTaharahPerformed))
             .ForMember(dest => dest.HasTachrichim,
@@ -112,8 +110,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
             .ForMember(dest => dest.BagNumbers,
                 opt => opt.MapFrom(src => src.DeceasedBags.Select(b => b.BagNumber).ToList()))
-            .ForMember(dest => dest.TaharahTeamManager,
-                opt => opt.MapFrom(src => src.DeceasedTaharahDetails.TaharahTeamManager))
+            .ForMember(dest => dest.TeamManager,
+                opt => opt.MapFrom(src => src.DeceasedTaharahDetails.TeamManager))
             .ForMember(dest => dest.IntermediateStorage,
                 opt => opt.MapFrom(src => src.DeceasedTaharahDetails.IntermediateStorage))
             .ForMember(dest => dest.IsPendingExit, opt => opt.MapFrom(src => src.DeceasedTaharahDetails.IsPendingExit))
@@ -149,8 +147,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.IsIdentified, opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.IdentityNumber)))
             .ForMember(dest => dest.BurialLicenseScanned,
                 opt => opt.MapFrom(src => src.DeceasedBurialDetails.BurialLicenseScanned))
-            .ForMember(dest => dest.TarahTeamManager,
-                opt => opt.MapFrom(src => src.DeceasedTarahDetails.TarahTeamManager))
+            .ForMember(dest => dest.TeamManager,
+                opt => opt.MapFrom(src => src.DeceasedTarahDetails.TeamManager))
             .ForMember(dest => dest.IntermediateStorage,
                 opt => opt.MapFrom(src => src.DeceasedTarahDetails.IntermediateStorage))
             .ForMember(dest => dest.IsPendingExit,

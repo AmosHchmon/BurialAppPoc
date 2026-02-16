@@ -53,7 +53,7 @@ public class TransportService(EmergencyBurialContext ctx)
             switch (transport.Purpose)
             {
                 case TransportPurpose.ToBurialPreparation:
-                    bag.Deceased.DeceasedTaharahDetails.TaharahStation = transport.EndStationId;
+                    bag.Deceased.DeceasedTaharahDetails.StationId = transport.EndStationId;
                     break;
                 
                 case TransportPurpose.ToBurialBody:
@@ -166,7 +166,7 @@ public class TransportService(EmergencyBurialContext ctx)
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
             .Where(d => d.DeceasedProcessStatus == DeceasedProcessStatus.ReleasedFromBurialPreparation)
-            .Where(d =>  d.DeceasedTaharahDetails.TaharahStation == stationId)
+            .Where(d =>  d.DeceasedTaharahDetails.StationId == stationId)
             .ToListAsync();
 
         return list;

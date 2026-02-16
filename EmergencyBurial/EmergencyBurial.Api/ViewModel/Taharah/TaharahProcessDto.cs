@@ -20,7 +20,7 @@ public class TaharahProcessDto
 
     // שדות לעריכה
     
-    public string TaharahTeamManager { get; set; }
+    public string TeamManager { get; set; }
     
     public string IntermediateStorage { get; set; }
     

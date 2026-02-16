@@ -18,7 +18,7 @@ export interface TarahProcess {
 
   BurialLicenseScanned?: boolean;
 
-  TarahTeamManager?: string;
+  TeamManager?: string;
 
   IntermediateStorage?: string;
 

@@ -247,7 +247,7 @@ public class DbHelper
             DeceasedTaharahDetails = new DeceasedTaharahDetails
             {
                 DeceasedId = deceased1Id,
-                TaharahStation = (int)BurialPreparation.RishonLezion,
+                StationId = (int)BurialPreparation.RishonLezion,
                 IsTaharahPerformed = false
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination
@@ -303,7 +303,7 @@ public class DbHelper
             DeceasedTarahDetails = new DeceasedTarahDetails
             {
                 DeceasedId = deceased2Id,
-                TarahStation = (int)TarahStations.Tziporit,
+                StationId = (int)TarahStations.Tziporit,
             },
             StatusHistory = new List<DeceasedStatusHistory>
             {
@@ -354,7 +354,7 @@ public class DbHelper
             DeceasedTaharahDetails = new DeceasedTaharahDetails
             {
                 DeceasedId = deceased2Id,
-                TaharahStation = (int)BurialPreparation.RishonLezion,
+                StationId = (int)BurialPreparation.RishonLezion,
                 IsTaharahPerformed = false
             },
             DeceasedBurialCoordination = new DeceasedBurialCoordination
@@ -577,7 +577,7 @@ public class DbHelper
             DeceasedTarahDetails = new DeceasedTarahDetails
             {
                 DeceasedId = deceased7Id,
-                TarahStation = (int)TarahStations.Shura,
+                StationId = (int)TarahStations.Shura,
             }
         };
 

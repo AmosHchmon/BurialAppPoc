@@ -65,7 +65,7 @@ public class TarahController(TarahService tarahService, IMapper mapper) : Contro
     }
 
     [HttpPut("receive/{deceasedId}")]
-    public async Task<ActionResult> ReceiveDeceasedToTarah(string deceasedId)
+    public async Task<ActionResult> ReceiveDeceased(string deceasedId)
     {
         if (!Guid.TryParse(deceasedId, out Guid idValue))
         {
@@ -75,7 +75,7 @@ public class TarahController(TarahService tarahService, IMapper mapper) : Contro
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
         var stationId = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
         
-        await tarahService.ReceiveDeceasedToTarah(idValue, stationId, userId);
+        await tarahService.ReceiveToTarah(idValue, stationId, userId);
 
         return Ok();
     }

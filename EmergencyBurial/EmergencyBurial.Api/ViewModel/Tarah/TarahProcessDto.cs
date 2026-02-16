@@ -21,7 +21,7 @@ public class TarahProcessDto
 
     public bool BurialLicenseScanned { get; set; }
 
-    public string TarahTeamManager { get; set; }
+    public string TeamManager { get; set; }
 
     public string IntermediateStorage { get; set; }
 
