@@ -60,7 +60,7 @@ public class TarahService(EmergencyBurialContext ctx)
             .AsTracking()
             .FirstOrDefaultAsync(d => d.Id == deceasedId);
         
-        deceased.ProcessStatus = ProcessStatus.ReceptionAtTarah;
+        deceased.DeceasedProcessStatus = DeceasedProcessStatus.ReceptionAtTarah;
         deceased.UpdateBy = userId;
         deceased.UpdateOn = DateTime.Now;
         
@@ -112,7 +112,7 @@ public class TarahService(EmergencyBurialContext ctx)
         
         deceased.UpdateBy = userId;
         deceased.UpdateOn = DateTime.Now;
-        deceased.ProcessStatus = ProcessStatus.ReleaseFromTarah;
+        deceased.DeceasedProcessStatus = DeceasedProcessStatus.ReleaseFromTarah;
         deceased.DeceasedTarahDetails.IsPendingExit = false;
         deceased.DeceasedTarahDetails.TarahStatus = TarahStatus.Completed;
         

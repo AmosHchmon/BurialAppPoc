@@ -43,7 +43,7 @@ public class DeceasedService(EmergencyBurialContext ctx)
         deceased.UpdateBy = userId;
         deceased.EventId = eventId;
         deceased.CreatedOn = DateTime.Now;
-        deceased.ProcessStatus = ProcessStatus.PoliceIntake;
+        deceased.DeceasedProcessStatus = DeceasedProcessStatus.PoliceIntake;
         
         if (deceased.DeceasedBags != null)
         {
@@ -74,7 +74,7 @@ public class DeceasedService(EmergencyBurialContext ctx)
     {
         deceased.UpdateBy = userId;
         deceased.UpdateOn = DateTime.Now;
-        deceased.ProcessStatus = ProcessStatus.Archive;
+        deceased.DeceasedProcessStatus = DeceasedProcessStatus.Archive;
 
         await ctx.SaveChangesAsync();
     }

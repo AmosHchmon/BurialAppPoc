@@ -48,7 +48,7 @@ public class TransportService(EmergencyBurialContext ctx)
         {
             bag.IsInTransport = true;
             bag.CurrentTransportId = transport.Id;
-            bag.Deceased.ProcessStatus = newStatus;
+            bag.Deceased.DeceasedProcessStatus = newStatus;
 
             switch (transport.Purpose)
             {
@@ -124,7 +124,7 @@ public class TransportService(EmergencyBurialContext ctx)
             
             if (bag.Deceased != null)
             {
-                bag.Deceased.ProcessStatus = arrivalStatus;
+                bag.Deceased.DeceasedProcessStatus = arrivalStatus;
             }
         }
 
@@ -152,7 +152,7 @@ public class TransportService(EmergencyBurialContext ctx)
         return await ctx.DeceasedBag
             .Include(b => b.Deceased)
             .Where(b => !b.IsInTransport &&
-                        b.Deceased.ProcessStatus == ProcessStatus.ReleaseFromTarah &&
+                        b.Deceased.DeceasedProcessStatus == DeceasedProcessStatus.ReleaseFromTarah &&
                         b.BagTarahProcessStatus == BagTarahProcessStatus.Released)
             .Where(d => (int)d.ReceivingStation == stationId)
             .OrderBy(b => b.Deceased.IdentityNumber)
@@ -165,29 +165,29 @@ public class TransportService(EmergencyBurialContext ctx)
         var list = await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
-            .Where(d => d.ProcessStatus == ProcessStatus.ReleasedFromBurialPreparation)
+            .Where(d => d.DeceasedProcessStatus == DeceasedProcessStatus.ReleasedFromBurialPreparation)
             .Where(d =>  d.DeceasedTaharahDetails.TaharahStation == stationId)
             .ToListAsync();
 
         return list;
     }
     
-    private ProcessStatus GetProcessStatusByPurpose(TransportPurpose purpose)
+    private DeceasedProcessStatus GetProcessStatusByPurpose(TransportPurpose purpose)
     {
         return purpose switch
         {
-            TransportPurpose.ToBurialPreparation => ProcessStatus.TransportToBurialPreparation,
-            TransportPurpose.ToBurialBody => ProcessStatus.TransportToBurialEntity,
+            TransportPurpose.ToBurialPreparation => DeceasedProcessStatus.TransportToBurialPreparation,
+            TransportPurpose.ToBurialBody => DeceasedProcessStatus.TransportToBurialEntity,
             _ => throw new ApplicationException(UserMessage.UnknownTransportDestination)
         };
     }
     
-    private ProcessStatus GetArrivalStatusByPurpose(TransportPurpose purpose)
+    private DeceasedProcessStatus GetArrivalStatusByPurpose(TransportPurpose purpose)
     {
         return purpose switch
         {
-            TransportPurpose.ToBurialPreparation => ProcessStatus.EndTransportBurialPreparation,
-            TransportPurpose.ToBurialBody => ProcessStatus.EndTransportBurialEntity,
+            TransportPurpose.ToBurialPreparation => DeceasedProcessStatus.EndTransportBurialPreparation,
+            TransportPurpose.ToBurialBody => DeceasedProcessStatus.EndTransportBurialEntity,
             _ => throw new ApplicationException(UserMessage.UnknownTransportDestination)
         };
     }

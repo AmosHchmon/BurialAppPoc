@@ -24,7 +24,7 @@ public class TaharahService(EmergencyBurialContext ctx)
         return await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
-            .Where(d => d.ProcessStatus == ProcessStatus.EndTransportBurialPreparation &&
+            .Where(d => d.DeceasedProcessStatus == DeceasedProcessStatus.EndTransportBurialPreparation &&
                         d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.Pending)
             .Where(d => targetStation == null || d.DeceasedTaharahDetails.TaharahStation == targetStation)
             .OrderByDescending(d => d.CreatedOn)
@@ -38,7 +38,7 @@ public class TaharahService(EmergencyBurialContext ctx)
         var list = await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
-            .Where(d => d.ProcessStatus == ProcessStatus.ReceivedForBurialPreparation &&
+            .Where(d => d.DeceasedProcessStatus == DeceasedProcessStatus.ReceivedForBurialPreparation &&
                         d.DeceasedTaharahDetails.TaharahStatus == TaharahStatus.InProgress)
             .Where(d => targetStation == null || d.DeceasedTaharahDetails.TaharahStation == targetStation)
             .OrderByDescending(d => d.CreatedOn)
@@ -54,7 +54,7 @@ public class TaharahService(EmergencyBurialContext ctx)
         var list = await ctx.Deceaseds
             .Include(d => d.DeceasedBags)
             .Include(d => d.DeceasedTaharahDetails)
-            .Where(d => d.ProcessStatus >= ProcessStatus.ReleasedFromBurialPreparation)
+            .Where(d => d.DeceasedProcessStatus >= DeceasedProcessStatus.ReleasedFromBurialPreparation)
             .Where(d => targetStation == null || d.DeceasedTaharahDetails.TaharahStation == targetStation)
             .OrderByDescending(d => d.DeceasedTaharahDetails.TaharahReleaseDate)
             .ToListAsync();
@@ -69,7 +69,7 @@ public class TaharahService(EmergencyBurialContext ctx)
             .AsTracking()
             .FirstOrDefaultAsync(d => d.Id == details.DeceasedId);
 
-        deceased.ProcessStatus = ProcessStatus.ReceivedForBurialPreparation;
+        deceased.DeceasedProcessStatus = DeceasedProcessStatus.ReceivedForBurialPreparation;
         deceased.UpdateBy = updateBy;
         deceased.UpdateOn = DateTime.Now;
         ctx.Entry(deceased.DeceasedTaharahDetails).CurrentValues.SetValues(details);
@@ -100,7 +100,7 @@ public class TaharahService(EmergencyBurialContext ctx)
             .AsTracking()
             .FirstOrDefaultAsync(d => d.Id == taharahDetails.DeceasedId);
 
-        deceased.ProcessStatus = ProcessStatus.ReleasedFromBurialPreparation;
+        deceased.DeceasedProcessStatus = DeceasedProcessStatus.ReleasedFromBurialPreparation;
         deceased.UpdateBy = updateBy;
         deceased.UpdateOn = DateTime.Now;
         ctx.Entry(deceased.DeceasedTaharahDetails).CurrentValues.SetValues(taharahDetails);

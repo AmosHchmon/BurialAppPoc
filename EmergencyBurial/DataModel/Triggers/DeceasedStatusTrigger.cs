@@ -13,11 +13,11 @@ public class DeceasedStatusTrigger() : IAfterSaveTrigger<Deceased>
     {
         if (context.ChangeType == ChangeType.Modified || context.ChangeType == ChangeType.Added)
         {
-            var newStatus = context.Entity.ProcessStatus;
+            var newStatus = context.Entity.DeceasedProcessStatus;
             var oldStatus = newStatus;
             if (context.ChangeType == ChangeType.Modified)
             {
-                oldStatus = context.UnmodifiedEntity.ProcessStatus;
+                oldStatus = context.UnmodifiedEntity.DeceasedProcessStatus;
 
                 if (oldStatus == newStatus)
                     return Task.CompletedTask;

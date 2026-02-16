@@ -34,7 +34,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.BagNumbersDisplay, opt =>
                 opt.MapFrom(src => string.Join(" | ", src.DeceasedBags.Select(b => b.BagNumber))))
             .ForMember(dest => dest.ProcessStatusDesc,
-                opt => opt.MapFrom(src => src.ProcessStatus.GetEnumDescription()))
+                opt => opt.MapFrom(src => src.DeceasedProcessStatus.GetEnumDescription()))
             .ReverseMap();
         CreateMap<Deceased, ExternalDeceasedDto>()
             .ReverseMap();
@@ -101,7 +101,7 @@ public class MappingProfile : Profile
         CreateMap<Deceased, TaharahListDto>()
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
             .ForMember(dest => dest.ProcessStatusDesc,
-                opt => opt.MapFrom(src => src.ProcessStatus.GetEnumDescription()))
+                opt => opt.MapFrom(src => src.DeceasedProcessStatus.GetEnumDescription()))
             .ForMember(dest => dest.RelatedBagNumbers, opt => opt.MapFrom(src => src.DeceasedBags.Count))
             .ForMember(dest => dest.BagNumbersDisplay, opt =>
                 opt.MapFrom(src => string.Join(" | ", src.DeceasedBags.Select(b => b.BagNumber))))
@@ -144,7 +144,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.IdentityNumber ?? "חלל אינו מזוהה"))
             .ForMember(dest => dest.FatherName, opt => opt.MapFrom(src => src.FatherName))
             .ForMember(dest => dest.IsIdentified, opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.IdentityNumber)))         
-            .ForMember(dest => dest.ProcessStatusDesc, opt => opt.MapFrom(src => src.ProcessStatus.GetEnumDescription()))
+            .ForMember(dest => dest.ProcessStatusDesc, opt => opt.MapFrom(src => src.DeceasedProcessStatus.GetEnumDescription()))
             .ForMember(dest => dest.RelatedBagNumbers, opt => opt.MapFrom(src => src.DeceasedBags.Count))
             .ForMember(dest => dest.BagNumbersDisplay, opt =>
                 opt.MapFrom(src => string.Join(" | ", src.DeceasedBags.Select(b => b.BagNumber))))

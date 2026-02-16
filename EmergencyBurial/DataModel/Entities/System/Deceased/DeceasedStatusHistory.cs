@@ -13,10 +13,10 @@ public class DeceasedStatusHistory
     [Required] 
     public Guid DeceasedId { get; set; }
 
-    public ProcessStatus? OldStatus { get; set; }
+    public DeceasedProcessStatus? OldStatus { get; set; }
 
     [Required] 
-    public ProcessStatus CurrentStatus { get; set; }
+    public DeceasedProcessStatus CurrentStatus { get; set; }
 
     public DateTime CreatedOn { get; set; }
 

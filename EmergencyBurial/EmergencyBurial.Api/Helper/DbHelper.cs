@@ -560,7 +560,7 @@ public class DbHelper
         {
             Id = deceased7Id,
             Affiliation = Affiliation.Civilian,
-            ProcessStatus = ProcessStatus.ReceptionAtTarah,
+            DeceasedProcessStatus = DeceasedProcessStatus.ReceptionAtTarah,
             EventId = eventId,
             DeceasedBags = new List<DeceasedBag>
             {

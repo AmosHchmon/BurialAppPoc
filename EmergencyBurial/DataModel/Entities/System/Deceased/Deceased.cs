@@ -36,7 +36,7 @@ public class Deceased: BaseUpdatedEntity
     [Description("שיוך ארגוני")]
     public Affiliation? Affiliation { get; set; }
     
-    public ProcessStatus ProcessStatus { get; set; }
+    public DeceasedProcessStatus DeceasedProcessStatus { get; set; }
     
     public Guid? EventId { get; set; }
     

@@ -156,26 +156,6 @@ namespace Core.Helpers
         [Description("זוהה")]
         Identified = 1
     }
-    
-    public enum TaharahStatus
-    {
-        [Description("ממתין לקבלה")]
-        Pending = 0,
-        [Description("בתהליך טהרה")]
-        InProgress = 1,
-        [Description("שוחרר מטהרה")]
-        Completed = 2
-    }
-
-    public enum TarahStatus
-    {
-        [Description("ממתין לקבלה")]
-        Pending = 0,
-        [Description("בתהליך תר'ח")]
-        InProgress = 1,
-        [Description("שוחרר מתר'ח")]
-        Completed = 2
-    }
 
     public enum BadMessageProcessStatus
     {
@@ -219,7 +199,19 @@ namespace Core.Helpers
         View = 3
     }
 
-    public enum ProcessStatus 
+    public enum GatewaySource
+    {
+        [Description("משטרה - פלא")]
+        Police = 1,
+        [Description("פיקוד העורף - אומץ")]
+        IDF = 2,
+        [Description("רווחה")]
+        Welfare = 3,
+        [Description("בריאות")]
+        Health = 4
+    }
+    
+    public enum DeceasedProcessStatus 
     {
         [Description("שדר מהמשטרה")]
         PoliceIntake = 1,
@@ -244,17 +236,25 @@ namespace Core.Helpers
         [Description("ארכיב")]
         Archive = 11
     }
-
-    public enum GatewaySource
+    
+    public enum TaharahStatus
     {
-        [Description("משטרה - פלא")]
-        Police = 1,
-        [Description("פיקוד העורף - אומץ")]
-        IDF = 2,
-        [Description("רווחה")]
-        Welfare = 3,
-        [Description("בריאות")]
-        Health = 4
+        [Description("ממתין לקבלה")]
+        Pending = 0,
+        [Description("בתהליך טהרה")]
+        InProgress = 1,
+        [Description("שוחרר מטהרה")]
+        Completed = 2
+    }
+
+    public enum TarahStatus
+    {
+        [Description("ממתין לקבלה")]
+        Pending = 0,
+        [Description("בתהליך תר'ח")]
+        InProgress = 1,
+        [Description("שוחרר מתר'ח")]
+        Completed = 2
     }
 
     public enum BagTarahProcessStatus
