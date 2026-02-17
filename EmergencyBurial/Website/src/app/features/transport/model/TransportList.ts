@@ -6,11 +6,15 @@ export interface TransportList {
 
   StartDateTime?: Date;
 
-  StartLocation?: string;
+  SourceLocation?: string;
 
-  Purpose: TransportPurpose;
+  SourceStation?: string;
 
-  PurposeDesc?: string;
+  DestinationLocationType: TransportPurpose;
+
+  DestinationLocation?: string;
+
+  DestinationStation?: string;
 
   IsCompleted?: boolean;
 

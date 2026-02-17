@@ -113,14 +113,6 @@ public class DeceasedService(EmergencyBurialContext ctx)
         return burialCoordination;
     }
 
-    public async Task<DeceasedBurialProcessStatus> GetBurialProcess(Guid? deceasedId)
-    {
-        var burialProcessStatus = await ctx.DeceasedBurialProcessStatus
-            .FirstOrDefaultAsync(d => d.DeceasedId == deceasedId);
-
-        return burialProcessStatus;
-    }
-
     public async Task<DeceasedBurialDetails> GetBurialDetails(Guid? deceasedId)
     {
         var burialDetails = await ctx.DeceasedBurialDetails
@@ -129,16 +121,6 @@ public class DeceasedService(EmergencyBurialContext ctx)
             .FirstOrDefaultAsync(d => d.DeceasedId == deceasedId);
 
         return burialDetails;
-    }
-
-    public async Task<DeceasedBurialProcessStatus> UpdateBurialProcessStatus(
-        DeceasedBurialProcessStatus deceasedBurialProcessStatus)
-    {
-        ctx.DeceasedBurialProcessStatus.Update(deceasedBurialProcessStatus);
-
-        await ctx.SaveChangesAsync();
-
-        return deceasedBurialProcessStatus;
     }
 
     private void GenerateBagNumber(Deceased deceased)

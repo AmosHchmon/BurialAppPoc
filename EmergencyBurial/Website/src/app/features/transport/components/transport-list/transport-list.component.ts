@@ -35,8 +35,8 @@ export class TransportListComponent implements OnInit {
   cols: IColumn[] = [
     {field: 'select', header: 'בחירה'},
     {field: 'StartDateTime', header: 'תאריך שינוע'},
-    {field: 'StartLocation', header: 'מקום יציאה'},
-    {field: 'PurposeDesc', header: 'תכלית'},
+    {field: 'SourceLocation', header: 'מקום יציאה'},
+    {field: 'DestinationLocationDesc', header: 'תכלית'},
     {field: 'IsCompleted', header: 'סטטוס'},
     {field: 'BagNumbers', header: 'שקים בשינוע'}
   ];
@@ -77,7 +77,7 @@ export class TransportListComponent implements OnInit {
     if (purpose === null) {
       this.filteredTransports = [...this.allTransports];
     } else {
-      this.filteredTransports = this.allTransports.filter(t => t.Purpose === purpose);
+      this.filteredTransports = this.allTransports.filter(t => t.DestinationLocationType === purpose);
     }
   }
 

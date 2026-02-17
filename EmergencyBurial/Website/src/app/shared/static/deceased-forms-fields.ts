@@ -18,8 +18,6 @@ export const bagDetailsFields: IColumn[] = [
   {field: 'Affiliation', header: 'ארגון שיוך'},
   {field: 'PartDescription', header: 'תיאור חלק'},
   {field: 'RelatedBagNumbers', header: 'מספר שקים מקושרים'},
-  {field: 'CanBeIdentifiedByAcquaintance', header: 'האם ניתן לזהות בהיכרות אישית'},
-  {field: 'ObjectsOnDeceased', header: 'פרטים שנמצאו על החלל'}
 ]
 export const burialDetailsFields: IColumn[] = [
   {field: 'BurialType', header: 'סוג קבורה'},

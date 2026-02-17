@@ -10,9 +10,5 @@ export interface DeceasedBag {
 
   PartDescription?: string;
 
-  CanBeIdentifiedByAcquaintance?: string;
-
-  ObjectsOnDeceased?: string;
-
   Transports?: Transport[];
 }

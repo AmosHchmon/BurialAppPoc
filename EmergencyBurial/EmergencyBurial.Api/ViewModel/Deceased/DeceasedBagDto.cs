@@ -12,8 +12,4 @@ public class DeceasedBagDto
     public string BagNumber { get; set; }
 
     public string? PartDescription { get; set; }
-
-    public string? CanBeIdentifiedByAcquaintance { get; set; }
-    
-    public string? ObjectsOnDeceased { get; set; }
 }

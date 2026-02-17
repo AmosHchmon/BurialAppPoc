@@ -162,6 +162,8 @@ public class DbHelper
             HomeCity = "גיהנום",
             PeleNumber = "PL-789123",
             Affiliation = Affiliation.Civilian,
+            CanBeIdentifiedByAcquaintance = true,
+            ObjectsOnDeceased = "שרשרת זהב מזוייפת",
             DeceasedProcessStatus = DeceasedProcessStatus.EndTransportBurialPreparation,
             EventId = eventId,
 
@@ -172,7 +174,6 @@ public class DbHelper
                     Id = Guid.NewGuid(),
                     DeceasedId = deceased1Id,
                     BagNumber = "C-1001",
-                    CanBeIdentifiedByAcquaintance = true,
                     PartDescription = "חלק גוף תחתון",
                 },
                 new DeceasedBag
@@ -217,13 +218,6 @@ public class DbHelper
                     CreatedOn = DateTime.Now.AddHours(-6),
                     CreatedBy = deceased1Id
                 }
-            },
-            DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
-            {
-                DeceasedId = deceased1Id,
-                IdentificationStatus = IdentificationStatus.Identified,
-                IsReleasedFromTarah = true,
-                IsBuried = false
             },
             DeceasedBurialDetails = new DeceasedBurialDetails
             {
@@ -317,13 +311,6 @@ public class DbHelper
                     CreatedOn = DateTime.Now.AddDays(-3),
                     CreatedBy = deceased2Id
                 }
-            },
-            DeceasedBurialProcessStatus = new DeceasedBurialProcessStatus
-            {
-                DeceasedId = deceased2Id,
-                IdentificationStatus = IdentificationStatus.Identified,
-                IsReleasedFromTarah = true,
-                ReleasedFromTarahDate = DateTime.Now.AddDays(-4)
             },
             DeceasedBurialDetails = new DeceasedBurialDetails
             {
@@ -542,7 +529,7 @@ public class DbHelper
         };
 
         //db.Deceaseds.AddRange(deceased1, deceased2, deceased3, deceased4, deceased5, deceased6, deceased7);
-        db.Deceaseds.AddRange(deceased1,deceased2);
+        //db.Deceaseds.AddRange(deceased1,deceased2);
         db.SaveChanges();
     }
 
@@ -575,11 +562,11 @@ public class DbHelper
 
     var activeTransport = new Transport
     {
-        StartLocationType = StationType.TarahStations,
-        StartStationId = (int)TarahStations.Shura,
+        SourceLocationType = StationType.TarahStations,
+        SourceStationId = (int)TarahStations.Shura,
         StartLocationNameFreeText = "תחנת ריכוז שדרות",
-        Purpose = TransportPurpose.ToBurialPreparation,
-        EndStationId = (int)BurialPreparation.TelRegev,
+        DestinationLocationType = TransportPurpose.ToBurialPreparation,
+        DestinationStationId = (int)BurialPreparation.TelRegev,
         Organization = "זק\"א",
         VehicleType = "אמבולנס",
         LicensePlate = "88-555-22",
@@ -618,11 +605,11 @@ public class DbHelper
 
     var completedTransport = new Transport
     {
-        StartLocationType = StationType.BurialPreparation,
-        StartStationId = (int)BurialPreparation.TelRegev,
+        SourceLocationType = StationType.BurialPreparation,
+        SourceStationId = (int)BurialPreparation.TelRegev,
         StartLocationNameFreeText = "שטח כינוס בארי",
-        Purpose = TransportPurpose.ToBurialBody,
-        EndStationId = (int)BurialBody.TelAviv,
+        DestinationLocationType = TransportPurpose.ToBurialBody,
+        DestinationStationId = (int)BurialBody.TelAviv,
         Organization = "צה\"ל",
         VehicleType = "משאית",
         LicensePlate = "88-555-22",

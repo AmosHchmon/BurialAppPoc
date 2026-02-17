@@ -10,11 +10,11 @@ public class TransportListDto
     
     public DateTime StartDateTime { get; set; }
     
-    public string StartLocation { get; set; }
+    public string SourceLocation { get; set; }
     
-    public TransportPurpose Purpose { get; set; }
+    public TransportPurpose DestinationLocationType { get; set; }
     
-    public string PurposeDesc { get; set; }
+    public string DestinationLocation { get; set; }
     
     public bool IsCompleted { get; set; }
     

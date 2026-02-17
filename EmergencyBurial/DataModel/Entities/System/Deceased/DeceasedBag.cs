@@ -20,18 +20,9 @@ public class DeceasedBag
     [Required]
     [Description("מספר שק")]
     public string BagNumber { get; set; }
-
-    [Description("קובץ רישיון קבורה")]
-    public Guid? BurialLicenseFileId { get; set; }
     
     [Description("תיאור חלק (במקרה של חלל חלקי)")]
     public string? PartDescription { get; set; }
-
-    [Description("האם ניתן לזהות את החלל בהיכרות אישית")]
-    public bool CanBeIdentifiedByAcquaintance { get; set; }
-    
-    [Description("חפצים שנמצאו על החלל")]
-    public string? ObjectsOnDeceased { get; set; }
     
     [Description("האם נמצא בשינוע")]
     public bool IsInTransport { get; set; }

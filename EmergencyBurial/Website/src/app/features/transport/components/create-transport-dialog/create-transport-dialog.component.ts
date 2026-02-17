@@ -87,10 +87,10 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
 
     this.transportData = data;
 
-    this.onStartOrganizationTypeChange();
-    this.onPurposeChange();
+    this.onSourceOrganizationTypeChange();
+    this.onDestinationChange();
 
-    if (this.transportData.StartLocationType === enmStationType.TarahStations) {
+    if (this.transportData.SourceLocationType === enmStationType.TarahStations) {
       this.selectableItems = this.transportData.BagNumbers.map(b => ({
         label: `שק: ${b}`,
         value: b
@@ -117,22 +117,22 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
     );
   }
 
-  onStartOrganizationTypeChange() {
-    this.startSubStationsList = this.allListItems.filter(x => x.ListItemDepId == this.transportData.StartLocationType);
+  onSourceOrganizationTypeChange() {
+    this.startSubStationsList = this.allListItems.filter(x => x.ListItemDepId == this.transportData.SourceLocationType);
   }
 
-  onPurposeChange() {
-    this.endSubStationsList = this.allListItems.filter(x => x.ListItemDepId == this.transportData.Purpose);
+  onDestinationChange() {
+    this.endSubStationsList = this.allListItems.filter(x => x.ListItemDepId == this.transportData.DestinationLocationType);
   }
 
   async onStationChange() {
 
-    if (!this.transportData.StartStationId)
+    if (!this.transportData.SourceStationId)
       return;
 
-    if (this.transportData.StartLocationType === enmStationType.TarahStations) {
+    if (this.transportData.SourceLocationType === enmStationType.TarahStations) {
 
-      const bags = await this.transportService.getAvailableBags(this.transportData.StartStationId);
+      const bags = await this.transportService.getAvailableBags(this.transportData.SourceStationId);
 
       this.selectableItems = bags.map(b => ({
         label: b.IdentityNumber ? `שק: ${b.BagNumber} (${b.IdentityNumber})` : `שק: ${b.BagNumber}`,
@@ -141,7 +141,7 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
 
     } else {
 
-      const deceaseds = await this.transportService.getAvailableDeceaseds(this.transportData.StartStationId);
+      const deceaseds = await this.transportService.getAvailableDeceaseds(this.transportData.SourceStationId);
 
       this.selectableItems = deceaseds.map(d => ({
         label: d.FullName ? `${d.FullName} (${d.IdentityNumber})` : `חלל (${d.BagNumbersDisplay})`,
@@ -188,11 +188,11 @@ export class CreateTransportDialogComponent implements OnInit, OnChanges {
       DeceasedIds: [],
       StartDateTime: new Date(),
 
-      StartLocationType: null,
-      StartStationId: null,
-      Purpose: null,
+      SourceLocationType: null,
+      SourceStationId: null,
+      DestinationLocationType: null,
+      DestinationStationId: null,
 
-      EndStationId: null,
       IsComplete: false,
       Organization: '',
       VehicleType: '',

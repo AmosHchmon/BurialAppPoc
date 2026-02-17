@@ -156,22 +156,6 @@ namespace Core.Helpers
         [Description("זוהה")]
         Identified = 1
     }
-
-    public enum BadMessageProcessStatus
-    {
-        [Description("הודעה לא נמסרה")]
-        NotDelivered = 0,
-        [Description("הודעה נמסרה")]
-        Delivered = 1
-    }
-    
-    public enum CollectionStatus
-    {
-        [Description("לא נאסף")]
-        NotCollected = 0,
-        [Description("נאסף")]
-        Collected = 1
-    }
     
     public enum BurialType
     {

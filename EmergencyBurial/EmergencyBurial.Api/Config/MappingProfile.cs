@@ -40,10 +40,7 @@ public class MappingProfile : Profile
             .ReverseMap();
 
         CreateMap<DeceasedBag, DeceasedBagDto>()
-            .ForMember(dest => dest.CanBeIdentifiedByAcquaintance,
-                opt => opt.MapFrom(src => src.CanBeIdentifiedByAcquaintance ? "כן" : "לא"))
-            .ReverseMap()
-            .ForMember(dest => dest.CanBeIdentifiedByAcquaintance, opt => opt.Ignore());
+            .ReverseMap();
 
         CreateMap<Deceased, DeceasedSelectItemDto>()
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
@@ -53,9 +50,6 @@ public class MappingProfile : Profile
         
         CreateMap<DeceasedBag, BagSelectItemDto>()
             .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.Deceased.IdentityNumber));
-
-        CreateMap<DeceasedBurialProcessStatus, DeceasedBurialProcessStatusDto>()
-            .ReverseMap();
 
         CreateMap<DeceasedBurialDetails, DeceasedBurialDetailsDto>()
             .ForMember(dest => dest.BurialType, opt => opt.MapFrom(src => src.BurialType.GetEnumDescription()))
@@ -161,7 +155,7 @@ public class MappingProfile : Profile
         
         CreateMap<TransportHistory, TarahBagHistoryDto>()
             .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.Transport.StartDateTime))
-            .ForMember(dest => dest.Destination, opt => opt.MapFrom(src => src.Transport.Purpose.GetEnumDescription()))
+            .ForMember(dest => dest.Destination, opt => opt.MapFrom(src => src.Transport.DestinationLocationType.GetEnumDescription()))
             .ForMember(dest => dest.IsCompleted, opt => opt.MapFrom(src => src.Transport.IsCompleted));
         
         #endregion
@@ -194,11 +188,11 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.TotalBags, opt => opt.MapFrom(src => src.DeceasedBags.Count))
             .ForMember(dest => dest.BagNumbers, opt => opt.MapFrom(src =>
                 src.DeceasedBags.Select(h => h.BagNumber).ToList()))
-            .ForMember(dest => dest.PurposeDesc, opt => opt.MapFrom(src => src.Purpose.GetEnumDescription()))
-            .ForMember(dest => dest.StartLocation, opt => opt.MapFrom(src =>
+            .ForMember(dest => dest.DestinationLocation, opt => opt.MapFrom(src => src.DestinationLocationType.GetEnumDescription()))
+            .ForMember(dest => dest.SourceLocation, opt => opt.MapFrom(src =>
                 !string.IsNullOrEmpty(src.StartLocationNameFreeText)
                     ? src.StartLocationNameFreeText
-                    : src.StartLocationType.GetEnumDescription()));
+                    : src.SourceLocationType.GetEnumDescription()));
 
         #endregion
 

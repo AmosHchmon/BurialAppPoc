@@ -12,17 +12,17 @@ public class Transport : BaseUpdatedEntity
     public int Id { get; set; }
     
     [Required]
-    public StationType StartLocationType { get; set; }
+    public StationType SourceLocationType { get; set; }
 
-    public int? StartStationId { get; set; }
+    public int? SourceStationId { get; set; }
     
     public string? StartLocationNameFreeText { get; set; }
     
     [Required] 
-    public TransportPurpose Purpose { get; set; }
+    public TransportPurpose DestinationLocationType { get; set; }
 
     [Required] 
-    public int? EndStationId { get; set; }
+    public int? DestinationStationId { get; set; }
 
     [Required] 
     public string Organization { get; set; }

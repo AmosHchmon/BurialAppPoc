@@ -10,15 +10,15 @@ public class UpdateTransportDto
 
     public DateTime StartDateTime { get; set; }
 
-    public StationType StartLocationType { get; set; }
+    public StationType SourceLocationType { get; set; }
 
-    public int? StartStationId { get; set; }
+    public int? SourceStationId { get; set; }
 
     public string StartLocationNameFreeText { get; set; }
 
-    public TransportPurpose Purpose { get; set; }
+    public TransportPurpose DestinationLocationType { get; set; }
 
-    public int? EndStationId { get; set; }
+    public int? DestinationStationId { get; set; }
     
     public bool IsCompleted { get; set; }
 

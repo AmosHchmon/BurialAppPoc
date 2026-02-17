@@ -20,6 +20,8 @@ public class TarahProcessDto
     public int? Affiliation { get; set; }
 
     public bool BurialLicenseScanned { get; set; }
+    
+    public bool CanBeIdentifiedByAcquaintance { get; set; }
 
     public string TeamManager { get; set; }
 

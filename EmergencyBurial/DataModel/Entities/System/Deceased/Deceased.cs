@@ -38,19 +38,38 @@ public class Deceased: BaseUpdatedEntity
     
     public DeceasedProcessStatus DeceasedProcessStatus { get; set; }
     
+    [Description("האם רשות האוכלוסין עודכנה")]
+    public bool IsPopulationRegistryUpdated { get; set; }
+    
+    [Description("קובץ רישיון קבורה")]
+    public Guid? BurialLicenseFileId { get; set; }
+    
+    [Description("האם ניתן לזהות את החלל בהיכרות אישית")]
+    public bool CanBeIdentifiedByAcquaintance { get; set; }
+    
+    [Description("חפצים שנמצאו על החלל")]
+    public string? ObjectsOnDeceased { get; set; }
+    
+    [Description("האם נמסרה הודעה מרה")]
+    public bool IsBadMessageReceived { get; set; }
+    
+    [Description("האם החלל נקבר")]
+    public bool IsBuried { get; set; }
+    
+    [Description("תאריך קבורה")]
+    public DateTime? BurialDate { get; set; }
+    
+    [Description("תאריך מסירת הודעה מרה")]
+    public DateTime? BadMessageStartDate { get; set; }
+    
     public Guid? EventId { get; set; }
     
     [ForeignKey(nameof(EventId))]
     public virtual Event Event { get; set; }
     
     public virtual ICollection<DeceasedStatusHistory> StatusHistory { get; set; }
-    
-    [Description("האם רשות האוכלוסין עודכנה")]
-    public bool IsPopulationRegistryUpdated { get; set; }
 
     public virtual ICollection<DeceasedBag> DeceasedBags { get; set; }
-
-    public virtual DeceasedBurialProcessStatus DeceasedBurialProcessStatus { get; set; } = new ();
 
     public virtual DeceasedBurialDetails DeceasedBurialDetails { get; set; } = new ();
 

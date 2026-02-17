@@ -6,8 +6,6 @@
 
   PartDescription?: string;
 
-  BurialLicenseFileId?: string;
-
   TransportHistory?: TarahBagHistory[];
 }
 

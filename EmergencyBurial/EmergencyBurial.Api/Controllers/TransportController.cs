@@ -49,8 +49,7 @@ public class TransportController(TransportService transportService, IMapper mapp
             return BadRequest();
 
         var transport = mapper.Map<Transport>(dto);
-
-        transport.StartDateTime = DateTime.Now;
+        
         transport.UpdateBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
 
         await transportService.CreateTransport(transport, dto.BagNumbers, dto.DeceasedIds);

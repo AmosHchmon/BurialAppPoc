@@ -44,8 +44,6 @@ public class DeceasedDto
 
     public List<DeceasedBagDto> DeceasedBags { get; set; }
     
-    public DeceasedBurialProcessStatusDto? DeceasedBurialProcessStatus { get; set; }
-    
     public DeceasedBurialDetailsDto? DeceasedBurialDetails { get; set; }
     
     public DeceasedBurialCoordinationDto? DeceasedBurialCoordination { get; set; }

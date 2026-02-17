@@ -8,15 +8,15 @@ export interface UpdateTransport {
 
   StartDateTime?: Date;
 
-  StartLocationType?: enmStationType;
+  SourceLocationType?: enmStationType;
 
-  StartStationId?: number;
+  SourceStationId?: number;
 
   StartLocationNameFreeText?: string;
 
-  Purpose?: TransportPurpose;
+  DestinationLocationType?: TransportPurpose;
 
-  EndStationId?: number;
+  DestinationStationId?: number;
 
   IsCompleted?: boolean;
 

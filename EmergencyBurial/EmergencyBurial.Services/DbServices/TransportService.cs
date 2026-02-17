@@ -37,12 +37,13 @@ public class TransportService(EmergencyBurialContext ctx)
 
         transport.IsCompleted = false;
         transport.UpdateOn = DateTime.Now;
+        transport.StartDateTime = DateTime.Now;
 
         ctx.Transports.Add(transport);
 
         await ctx.SaveChangesAsync();
         
-        var newStatus = GetProcessStatusByPurpose(transport.Purpose);
+        var newStatus = GetProcessStatusByPurpose(transport.DestinationLocationType);
 
         foreach (var bag in allBags)
         {
@@ -50,14 +51,14 @@ public class TransportService(EmergencyBurialContext ctx)
             bag.CurrentTransportId = transport.Id;
             bag.Deceased.DeceasedProcessStatus = newStatus;
 
-            switch (transport.Purpose)
+            switch (transport.DestinationLocationType)
             {
                 case TransportPurpose.ToBurialPreparation:
-                    bag.Deceased.DeceasedTaharahDetails.StationId = transport.EndStationId;
+                    bag.Deceased.DeceasedTaharahDetails.StationId = transport.DestinationStationId;
                     break;
                 
                 case TransportPurpose.ToBurialBody:
-                    bag.Deceased.DeceasedBurialCoordination.BurialBody = (BurialBody)transport.EndStationId!;
+                    bag.Deceased.DeceasedBurialCoordination.BurialBody = (BurialBody)transport.DestinationStationId!;
                     break;
             }
 
@@ -110,7 +111,7 @@ public class TransportService(EmergencyBurialContext ctx)
             .Where(b => b.CurrentTransportId == transportId)
             .ToListAsync();
         
-        var arrivalStatus = GetArrivalStatusByPurpose(transport.Purpose);
+        var arrivalStatus = GetArrivalStatusByPurpose(transport.DestinationLocationType);
         
         transport.IsCompleted = true;
         transport.UpdateBy = userId;
@@ -139,7 +140,7 @@ public class TransportService(EmergencyBurialContext ctx)
 
         if (filterPurpose.HasValue)
         {
-            query = query.Where(t => t.Purpose == filterPurpose.Value);
+            query = query.Where(t => t.DestinationLocationType == filterPurpose.Value);
         }
 
         return await query

@@ -18,13 +18,13 @@
         <div class="row g-3">
           <div class="col-md-6">
             <p-floatlabel variant="on" class="w-100">
-              <p-select id="startLocationTypeMain"
-                        name="StartLocationTypeMain"
+              <p-select id="sourceLocationType"
+                        name="SourceLocationType"
                         [options]="startOrganizationList"
-                        [(ngModel)]="transportData.StartLocationType"
+                        [(ngModel)]="transportData.SourceLocationType"
                         optionLabel="Text"
                         optionValue="Key"
-                        (onChange)="onStartOrganizationTypeChange()"
+                        (onChange)="onSourceOrganizationTypeChange()"
                         [disabled]="!isEditMode || !!transportId"
                         appendTo="body"
                         class="w-100"
@@ -35,14 +35,14 @@
 
           <div class="col-md-6">
             <p-floatlabel variant="on" class="w-100">
-              <p-select id="startStationMain"
-                        name="StartStationIdMain"
+              <p-select id="sourceStationId"
+                        name="SourceStationId"
                         [options]="startSubStationsList"
-                        [(ngModel)]="transportData.StartStationId"
+                        [(ngModel)]="transportData.SourceStationId"
                         optionLabel="Text"
                         optionValue="Key"
                         (onChange)="onStationChange()"
-                        [disabled]="!transportData.StartLocationType || !isEditMode || !!transportId"
+                        [disabled]="!transportData.SourceLocationType || !isEditMode || !!transportId"
                         appendTo="body"
                         class="w-100"
                         required></p-select>
@@ -53,17 +53,17 @@
       </div>
     </div>
 
-    @if (transportData.StartStationId || transportId) {
+    @if (transportData.SourceStationId || transportId) {
 
       <div class="row mb-5">
         <div class="col-12">
           <h5 class="mb-3 text-secondary border-bottom pb-2">
             <i class="pi pi-box ms-2"></i>
-            {{ transportData.StartLocationType === enmStationType.TarahStations ? 'בחירת שקים לשינוע' : 'בחירת חללים לשינוע' }}
+            {{ transportData.SourceLocationType === enmStationType.TarahStations ? 'בחירת שקים לשינוע' : 'בחירת חללים לשינוע' }}
           </h5>
 
           <p-floatlabel variant="on" class="w-100">
-            @if (transportData.StartLocationType === enmStationType.TarahStations) {
+            @if (transportData.SourceLocationType === enmStationType.TarahStations) {
               <p-multiSelect name="BagNumbers"
                              [options]="selectableItems"
                              [maxSelectedLabels]="5"
@@ -103,11 +103,11 @@
           </h5>
 
           <p-floatlabel variant="on" class="w-100">
-            <p-select id="purpose"
-                      name="Purpose"
+            <p-select id="destinationLocationType"
+                      name="DestinationLocationType"
                       [options]="endOrganizationList"
-                      (onChange)="onPurposeChange()"
-                      [(ngModel)]="transportData.Purpose"
+                      (onChange)="onDestinationChange()"
+                      [(ngModel)]="transportData.DestinationLocationType"
                       optionLabel="Text"
                       optionValue="Key"
                       appendTo="body"
@@ -118,10 +118,10 @@
           </p-floatlabel>
 
           <p-floatlabel variant="on" class="w-100">
-            <p-select id="Destination"
-                      name="Destination"
+            <p-select id="destinationStationId"
+                      name="DestinationStationId"
                       [options]="endSubStationsList"
-                      [(ngModel)]="transportData.EndStationId"
+                      [(ngModel)]="transportData.DestinationStationId"
                       optionLabel="Text"
                       optionValue="Key"
                       appendTo="body"
