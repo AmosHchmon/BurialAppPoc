@@ -60,7 +60,7 @@
               <div class="col-6">
                 <p-floatlabel variant="on">
                   <input pInputText name="TarahTeamManager" [disabled]="isReleasedMode"
-                         [(ngModel)]="processData.TarahTeamManager" class="form-control"/>
+                         [(ngModel)]="processData.TeamManager" class="form-control"/>
                   <label>שם מנהל צוות בתר'ח</label>
                 </p-floatlabel>
               </div>
@@ -119,7 +119,7 @@
                     <input pInputText [(ngModel)]="bag.PartDescription" [disabled]="isReleasedMode"
                            class="form-control form-control-sm w-75"/>
                   </td>
-                  <td class="text-end">{{ bag.BagProcessStatusDesc }}</td>
+                  <td class="text-end">{{ bag.DeceasedProcessStatusDesc }}</td>
                 </tr>
               </ng-template>
               <ng-template pTemplate="emptymessage">

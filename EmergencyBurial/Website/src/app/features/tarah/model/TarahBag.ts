@@ -6,10 +6,6 @@
 
   PartDescription?: string;
 
-  BagProcessStatus?: number;
-
-  BagProcessStatusDesc?: string;
-
   BurialLicenseFileId?: string;
 
   TransportHistory?: TarahBagHistory[];

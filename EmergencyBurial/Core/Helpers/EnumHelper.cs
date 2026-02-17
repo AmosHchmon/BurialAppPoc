@@ -236,16 +236,6 @@ namespace Core.Helpers
         [Description("ארכיב")]
         Archive = 11
     }
-
-    public enum BagTarahProcessStatus
-    {
-        [Description("קליטה משטרה")]
-        PoliceIntake = 0,
-        [Description("מאוחסן בתר\"ח")]
-        InStorage = 1,
-        [Description("שוחרר מתר\"ח")]
-        Released = 2
-    }
     
     public enum TransportPurpose
     {

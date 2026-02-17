@@ -40,16 +40,9 @@ public class MappingProfile : Profile
             .ReverseMap();
 
         CreateMap<DeceasedBag, DeceasedBagDto>()
-            .ForMember(dest => dest.ReceivingStation,
-                opt => opt.MapFrom(src =>
-                    src.ReceivingStation.HasValue ? src.ReceivingStation.GetEnumDescription() : null))
-            .ForMember(dest => dest.BroughtBy,
-                opt => opt.MapFrom(src => src.BroughtBy.HasValue ? src.BroughtBy.GetEnumDescription() : null))
             .ForMember(dest => dest.CanBeIdentifiedByAcquaintance,
                 opt => opt.MapFrom(src => src.CanBeIdentifiedByAcquaintance ? "כן" : "לא"))
             .ReverseMap()
-            .ForMember(dest => dest.ReceivingStation, opt => opt.Ignore())
-            .ForMember(dest => dest.BroughtBy, opt => opt.Ignore())
             .ForMember(dest => dest.CanBeIdentifiedByAcquaintance, opt => opt.Ignore());
 
         CreateMap<Deceased, DeceasedSelectItemDto>()
@@ -163,7 +156,6 @@ public class MappingProfile : Profile
             .ReverseMap();
         
         CreateMap<DeceasedBag, TarahBagDto>()
-            .ForMember(dest => dest.BagProcessStatusDesc, opt => opt.MapFrom(src => src.BagTarahProcessStatus.GetEnumDescription()))
             .ReverseMap()
             .ForAllMembers(dest => dest.Ignore());
         
@@ -171,9 +163,6 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.Transport.StartDateTime))
             .ForMember(dest => dest.Destination, opt => opt.MapFrom(src => src.Transport.Purpose.GetEnumDescription()))
             .ForMember(dest => dest.IsCompleted, opt => opt.MapFrom(src => src.Transport.IsCompleted));
-
-        CreateMap<DeceasedTarahDetails, TarahIntakeDto>()
-            .ReverseMap();
         
         #endregion
 

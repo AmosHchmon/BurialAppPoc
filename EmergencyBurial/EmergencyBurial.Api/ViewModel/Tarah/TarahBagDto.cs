@@ -11,10 +11,6 @@ public class TarahBagDto
 
     public string PartDescription { get; set; }
 
-    public int BagProcessStatus { get; set; }
-    
-    public string BagProcessStatusDesc { get; set; }
-
     public Guid? BurialLicenseFileId { get; set; }
 
     public List<TarahBagHistoryDto> TransportHistory { get; set; } = new();

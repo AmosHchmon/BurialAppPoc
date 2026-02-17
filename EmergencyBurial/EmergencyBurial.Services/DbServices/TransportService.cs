@@ -151,10 +151,10 @@ public class TransportService(EmergencyBurialContext ctx)
     {
         return await ctx.DeceasedBag
             .Include(b => b.Deceased)
+            .ThenInclude(d => d.DeceasedTarahDetails)
             .Where(b => !b.IsInTransport &&
-                        b.Deceased.DeceasedProcessStatus == DeceasedProcessStatus.ReleaseFromTarah &&
-                        b.BagTarahProcessStatus == BagTarahProcessStatus.Released)
-            .Where(d => (int)d.ReceivingStation == stationId)
+                        b.Deceased.DeceasedProcessStatus == DeceasedProcessStatus.ReleaseFromTarah)
+            .Where(d => d.Deceased.DeceasedTarahDetails.StationId == stationId)
             .OrderBy(b => b.Deceased.IdentityNumber)
             .ThenBy(b => b.BagNumber)
             .ToListAsync();

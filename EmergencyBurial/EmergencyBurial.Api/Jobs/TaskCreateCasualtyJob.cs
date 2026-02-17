@@ -42,10 +42,7 @@ namespace EmergencyBurial.Api.Jobs
                         new DeceasedBag
                         {
                             Id = Guid.NewGuid(),
-                            BagNumber = bagNumber,
-                            ReceivingStation = TarahStations.Shura,
-                            BagTarahProcessStatus = BagTarahProcessStatus.PoliceIntake,
-                            ArrivalDateTime = DateTime.Now
+                            BagNumber = bagNumber
                         }
                     }
                 };

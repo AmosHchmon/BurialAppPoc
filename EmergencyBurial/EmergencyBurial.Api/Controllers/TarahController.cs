@@ -117,9 +117,8 @@ public class TarahController(TarahService tarahService, IMapper mapper) : Contro
         }
         
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
-        var stationId = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
 
-        await tarahService.ReleaseFromTarah(idValue, stationId, userId);
+        await tarahService.ReleaseFromTarah(idValue, userId);
 
         return Ok();
     }
