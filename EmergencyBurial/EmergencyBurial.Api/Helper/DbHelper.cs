@@ -578,7 +578,6 @@ public class DbHelper
         IsCompleted = false,
         UpdateOn = DateTime.Now,
         UpdateBy = userId,
-        DeceasedBags = new List<DeceasedBag>() 
     };
 
     var activeBags = db.DeceasedBag.
@@ -592,13 +591,15 @@ public class DbHelper
         bag.CurrentTransport = activeTransport;
         bag.CurrentTransportId = activeTransport.Id;
         
-        var history = new TransportHistory
+        var relDeceasedTransport = new RelDeceasedTransport()
         {
-            Transport = activeTransport,
+            TransportId = activeTransport.Id,
+            DeceasedId = bag.DeceasedId,
             DeceasedBagId = bag.Id,
-            CreatedOn = DateTime.Now
+            TransportPurpose = activeTransport.DestinationLocationType
         };
-        db.TransportHistory.Add(history);
+
+        db.RelDeceasedTransports.Add(relDeceasedTransport);
     }
 
     db.Transports.Add(activeTransport);
@@ -622,7 +623,6 @@ public class DbHelper
         IsCompleted = true,
         UpdateOn = DateTime.Now,
         UpdateBy = userId,
-        DeceasedBags = new List<DeceasedBag>()
     };
 
     var historyBags = db.DeceasedBag
@@ -634,13 +634,15 @@ public class DbHelper
     foreach (var bag in historyBags)
     {
  
-        var history = new TransportHistory
+        var relDeceasedTransport = new RelDeceasedTransport()
         {
-            Transport = completedTransport,
+            TransportId = activeTransport.Id,
+            DeceasedId = bag.DeceasedId,
             DeceasedBagId = bag.Id,
-            CreatedOn = DateTime.Now.AddDays(-2)
+            TransportPurpose = activeTransport.DestinationLocationType
         };
-        db.TransportHistory.Add(history);
+
+        db.RelDeceasedTransports.Add(relDeceasedTransport);
     }
 
     db.SaveChanges();

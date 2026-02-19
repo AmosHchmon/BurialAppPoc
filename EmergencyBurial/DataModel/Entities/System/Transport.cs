@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using DataModel.Abstract;
 using Core.Helpers;
+using DataModel.Entities.System;
 
 namespace DataModel.Entities;
 
@@ -48,7 +49,5 @@ public class Transport : BaseUpdatedEntity
     
     public DateTime? ArrivalDateTime{ get; set; }
     
-    public virtual ICollection<DeceasedBag> DeceasedBags { get; set; }
-    
-    public virtual ICollection<Deceased> Deceaseds { get; set; }
+    public virtual ICollection<RelDeceasedTransport> RelDeceasedTransports { get; set; } = new List<RelDeceasedTransport>();
 }

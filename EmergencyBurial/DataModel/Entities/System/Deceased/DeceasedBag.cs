@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Core.Helpers;
 using DataModel.Entities.System;
 
 namespace DataModel.Entities;
@@ -33,8 +32,8 @@ public class DeceasedBag
     [ForeignKey(nameof(DeceasedId))]
     public virtual Deceased Deceased { get; set; }
     
-    public virtual ICollection<TransportHistory> TransportHistory { get; set; }
-    
     [ForeignKey(nameof(CurrentTransportId))]
     public virtual Transport CurrentTransport { get; set; }
+    
+    public virtual ICollection<RelDeceasedTransport> TransportHistory { get; set; } = new List<RelDeceasedTransport>();
 }

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.Helpers;
 using DataModel.Abstract;
+using DataModel.Entities.System;
 
 namespace DataModel.Entities;
 
@@ -68,6 +69,8 @@ public class Deceased: BaseUpdatedEntity
     public virtual Event Event { get; set; }
     
     public virtual ICollection<DeceasedStatusHistory> StatusHistory { get; set; }
+    
+    public virtual ICollection<RelDeceasedTransport> TransportHistory { get; set; } = new List<RelDeceasedTransport>();
 
     public virtual ICollection<DeceasedBag> DeceasedBags { get; set; }
 

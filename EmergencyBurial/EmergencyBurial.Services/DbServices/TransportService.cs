@@ -62,14 +62,15 @@ public class TransportService(EmergencyBurialContext ctx)
                     break;
             }
 
-            var historyItem = new TransportHistory
+            var relDeceasedTransport = new RelDeceasedTransport()
             {
                 TransportId = transport.Id,
+                DeceasedId = bag.DeceasedId,
                 DeceasedBagId = bag.Id,
-                CreatedOn = DateTime.Now
+                TransportPurpose = transport.DestinationLocationType
             };
 
-            ctx.TransportHistory.Add(historyItem);
+            ctx.RelDeceasedTransports.Add(relDeceasedTransport);
         }
 
         await ctx.SaveChangesAsync();
@@ -79,8 +80,10 @@ public class TransportService(EmergencyBurialContext ctx)
     {
         var transport = await ctx.Transports
             .AsTracking()
-            .Include(t => t.DeceasedBags)
-            .ThenInclude(b => b.Deceased)
+            .Include(t => t.RelDeceasedTransports)
+            .ThenInclude(r => r.Deceased)
+            .Include(t => t.RelDeceasedTransports)
+            .ThenInclude(r => r.DeceasedBag)
             .FirstOrDefaultAsync(t => t.Id == id);
 
         if (transport == null)
@@ -135,7 +138,10 @@ public class TransportService(EmergencyBurialContext ctx)
     public async Task<List<Transport>> GetTransportsList(TransportPurpose? filterPurpose)
     {
         var query = ctx.Transports
-            .Include(t => t.DeceasedBags)
+            .Include(t => t.RelDeceasedTransports)
+            .ThenInclude(rel => rel.Deceased)
+            .Include(t => t.RelDeceasedTransports)
+            .ThenInclude(rel => rel.DeceasedBag)
             .AsQueryable();
 
         if (filterPurpose.HasValue)

@@ -1,8 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Core.Helpers;
+﻿using System.ComponentModel;
 using DataModel.Abstract;
 
 namespace DataModel.Entities
