@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Core.Helpers;
 
 namespace EmergencyBurial.Api.ViewModel;
@@ -18,7 +17,5 @@ public class TransportListDto
     
     public bool IsCompleted { get; set; }
     
-    public List<string> BagNumbers { get; set; }
-    
-    public int TotalBags { get; set; }
+    public string BagNumbers { get; set; }
 }

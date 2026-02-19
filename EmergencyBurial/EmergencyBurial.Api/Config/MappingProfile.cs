@@ -153,9 +153,10 @@ public class MappingProfile : Profile
             .ReverseMap()
             .ForAllMembers(dest => dest.Ignore());
         
-        CreateMap<TransportHistory, TarahBagHistoryDto>()
+        CreateMap<RelDeceasedTransport, TarahBagHistoryDto>()
             .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.Transport.StartDateTime))
-            .ForMember(dest => dest.Destination, opt => opt.MapFrom(src => src.Transport.DestinationLocationType.GetEnumDescription()))
+            .ForMember(dest => dest.Destination, opt => opt.MapFrom(src => 
+                src.Transport.DestinationLocationType.GetEnumDescription()))
             .ForMember(dest => dest.IsCompleted, opt => opt.MapFrom(src => src.Transport.IsCompleted));
         
         #endregion
@@ -193,12 +194,10 @@ public class MappingProfile : Profile
                     .Select(r => r.DeceasedId).ToList()));
 
         CreateMap<Transport, TransportListDto>()
-            .ForMember(dest => dest.TotalBags, opt => opt.MapFrom(src => 
-                src.RelDeceasedTransports.Count))
             .ForMember(dest => dest.BagNumbers, opt => opt.MapFrom(src =>
-                src.RelDeceasedTransports
+                string.Join(" | ", src.RelDeceasedTransports
                     .Where(r => r.DeceasedBag != null)
-                    .Select(r => r.DeceasedBag.BagNumber).ToList()))
+                    .Select(r => r.DeceasedBag.BagNumber))))
             .ForMember(dest => dest.DestinationLocation, opt => opt.MapFrom(src => 
                 src.DestinationLocationType.GetEnumDescription()))
             .ForMember(dest => dest.SourceLocation, opt => opt.MapFrom(src =>

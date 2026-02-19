@@ -18,7 +18,5 @@ export interface TransportList {
 
   IsCompleted?: boolean;
 
-  BagNumbers?: string[];
-
-  TotalBags?: number;
+  BagNumbers?: string;
 }

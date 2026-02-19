@@ -48,7 +48,6 @@ public class TransportService(EmergencyBurialContext ctx)
         foreach (var bag in allBags)
         {
             bag.IsInTransport = true;
-            bag.CurrentTransportId = transport.Id;
             bag.Deceased.DeceasedProcessStatus = newStatus;
 
             switch (transport.DestinationLocationType)
@@ -78,20 +77,13 @@ public class TransportService(EmergencyBurialContext ctx)
 
     public async Task<Transport> GetTransportForEdit(int id)
     {
-        var transport = await ctx.Transports
+        return await ctx.Transports
             .AsTracking()
             .Include(t => t.RelDeceasedTransports)
             .ThenInclude(r => r.Deceased)
             .Include(t => t.RelDeceasedTransports)
             .ThenInclude(r => r.DeceasedBag)
             .FirstOrDefaultAsync(t => t.Id == id);
-
-        if (transport == null)
-        {
-            throw new ApplicationException(UserMessage.ErrorLoadData);
-        }
-
-        return transport;
     }
 
     public async Task UpdateTransport()
@@ -103,16 +95,14 @@ public class TransportService(EmergencyBurialContext ctx)
     {
         var transport = await ctx.Transports
             .AsTracking()
+            .Include(t => t.RelDeceasedTransports)
+            .ThenInclude(rel => rel.DeceasedBag)
+            .Include(t => t.RelDeceasedTransports)
+            .ThenInclude(rel => rel.Deceased)
             .FirstOrDefaultAsync(t => t.Id == transportId);
         
         if (transport.IsCompleted)
             throw new ApplicationException(UserMessage.TransportIsComplete);
-        
-        var allBags = await ctx.DeceasedBag
-            .AsTracking()
-            .Include(b => b.Deceased)
-            .Where(b => b.CurrentTransportId == transportId)
-            .ToListAsync();
         
         var arrivalStatus = GetArrivalStatusByPurpose(transport.DestinationLocationType);
         
@@ -121,14 +111,16 @@ public class TransportService(EmergencyBurialContext ctx)
         transport.UpdateOn = DateTime.Now;
         transport.ArrivalDateTime = DateTime.Now;
         
-        foreach (var bag in allBags)
+        foreach (var rel in transport.RelDeceasedTransports)
         {
-            bag.IsInTransport = false;
-            bag.CurrentTransportId = null;
-            
-            if (bag.Deceased != null)
+            if (rel.DeceasedBag != null)
             {
-                bag.Deceased.DeceasedProcessStatus = arrivalStatus;
+                rel.DeceasedBag.IsInTransport = false;
+            }
+            
+            if (rel.Deceased != null)
+            {
+                rel.Deceased.DeceasedProcessStatus = arrivalStatus;
             }
         }
 

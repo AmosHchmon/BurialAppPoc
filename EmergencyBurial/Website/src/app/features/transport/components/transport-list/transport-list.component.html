@@ -86,13 +86,11 @@
         </td>
 
         <td>
-          <span [pTooltip]="rowData.BagNumbers?.join(', ')" tooltipPosition="top" class="cursor-pointer">
-
-            {{ rowData.BagNumbers?.[0] }}
-
-            @if (rowData.TotalBags > 1) {
-              <span class="font-bold text-primary">... (+{{ rowData.TotalBags - 1 }})</span>
-            }
+          <span
+            [pTooltip]="rowData.BagNumbers"
+            tooltipPosition="top"
+            class="text-ellipsis">
+            {{ rowData.BagNumbers }}
           </span>
         </td>
       </tr>

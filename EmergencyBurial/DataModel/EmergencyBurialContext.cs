@@ -30,7 +30,6 @@ public partial class EmergencyBurialContext : DbContext
         modelBuilder.Entity<Member>().HasIndex(m => m.UserName).IsUnique(true);
         modelBuilder.Entity<ListType>().HasIndex(u => u.Text);
         modelBuilder.Entity<DeceasedBag>().HasIndex(d => d.BagNumber).IsUnique(true);
-        modelBuilder.Entity<Transport>().HasIndex(d => d.Id).IsUnique(true);
         modelBuilder.Entity<RelDeceasedTransport>().HasIndex(r => new { r.TransportId, r.DeceasedId });
         
         foreach (var relationship in modelBuilder.Model.GetEntityTypes()

@@ -588,8 +588,6 @@ public class DbHelper
     foreach (var bag in activeBags)
     {
         bag.IsInTransport = true;
-        bag.CurrentTransport = activeTransport;
-        bag.CurrentTransportId = activeTransport.Id;
         
         var relDeceasedTransport = new RelDeceasedTransport()
         {

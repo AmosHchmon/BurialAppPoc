@@ -26,14 +26,8 @@ public class DeceasedBag
     [Description("האם נמצא בשינוע")]
     public bool IsInTransport { get; set; }
     
-    [Description("מזהה שינוע נוכחי")]
-    public int? CurrentTransportId { get; set; }
-    
     [ForeignKey(nameof(DeceasedId))]
     public virtual Deceased Deceased { get; set; }
-    
-    [ForeignKey(nameof(CurrentTransportId))]
-    public virtual Transport CurrentTransport { get; set; }
     
     public virtual ICollection<RelDeceasedTransport> TransportHistory { get; set; } = new List<RelDeceasedTransport>();
 }

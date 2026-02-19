@@ -7,7 +7,8 @@ public class TaharahProcessDto
 {
     public Guid? DeceasedId { get; set; }
 
-    // שדות ReadOnly לתצוגה בדיאלוג
+    #region ReadOnly
+
     public string FullName { get; set; }
 
     public string IdentityNumber { get; set; }
@@ -15,22 +16,28 @@ public class TaharahProcessDto
     public string FatherName { get; set; }
 
     public string Gender { get; set; }
-    
+
     public List<string> BagNumbers { get; set; }
 
-    // שדות לעריכה
-    
+    #endregion
+
+    #region Editable
+
     public string TeamManager { get; set; }
-    
+
     public string IntermediateStorage { get; set; }
-    
+
     public bool IsPendingExit { get; set; }
-    
+
     public string PendingExitReason { get; set; }
-    
+
     public bool IsTaharahPerformed { get; set; }
-    
+
     public bool HasTachrichim { get; set; }
+
     public bool InCoffin { get; set; }
+
     public string CoffinReason { get; set; }
+
+    #endregion
 }
