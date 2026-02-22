@@ -16,18 +16,17 @@ public class TransportService(EmergencyBurialContext ctx)
     public async Task CreateTransport(Transport transport, List<string> bagNumbers, List<Guid> deceasedIds)
     {
         var allBags = await ctx.DeceasedBag
-            .AsTracking()
-            .Include(b => b.Deceased)
-            .ThenInclude(d => d.DeceasedTaharahDetails)
-            .Include(b => b.Deceased)
-            .ThenInclude(d => d.DeceasedBurialCoordination)
             .Where(b => bagNumbers.Contains(b.BagNumber) || deceasedIds.Contains(b.DeceasedId))
+            .Select(b => new { b.Id, b.BagNumber, b.DeceasedId, b.IsInTransport })
             .ToListAsync();
         
         if (deceasedIds.Count > 2)
             throw new ApplicationException(UserMessage.LimitDeceasedsInTransport);
 
-        var busyBags = allBags.Where(b => b.IsInTransport).Select(b => b.BagNumber).ToList();
+        var busyBags = allBags
+            .Where(b => b.IsInTransport)
+            .Select(b => b.BagNumber)
+            .ToList();
         
         if (busyBags.Count > 0)
         {
@@ -44,41 +43,58 @@ public class TransportService(EmergencyBurialContext ctx)
         await ctx.SaveChangesAsync();
         
         var newStatus = GetProcessStatusByPurpose(transport.DestinationLocationType);
+        
+        var allDeceasedIds = allBags
+            .Select(b => b.DeceasedId)
+            .Distinct()
+            .ToList();
+        
+        await ctx.DeceasedBag
+            .Where(b => bagNumbers.Contains(b.BagNumber) || deceasedIds.Contains(b.DeceasedId))
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(b => b.IsInTransport, true));
+        
+        var deceaseds = await ctx.Deceaseds
+            .AsTracking()
+            .Include(d => d.DeceasedTaharahDetails)
+            .Include(d => d.DeceasedBurialCoordination)
+            .Where(d => allDeceasedIds.Contains(d.Id))
+            .ToListAsync();
 
-        foreach (var bag in allBags)
+        foreach (var deceased in deceaseds)
         {
-            bag.IsInTransport = true;
-            bag.Deceased.DeceasedProcessStatus = newStatus;
+       
+            deceased.DeceasedProcessStatus = newStatus;
 
             switch (transport.DestinationLocationType)
             {
                 case TransportPurpose.ToBurialPreparation:
-                    bag.Deceased.DeceasedTaharahDetails.StationId = transport.DestinationStationId;
+                    
+                    deceased.DeceasedTaharahDetails.StationId = transport.DestinationStationId;
                     break;
                 
                 case TransportPurpose.ToBurialBody:
-                    bag.Deceased.DeceasedBurialCoordination.BurialBody = (BurialBody)transport.DestinationStationId!;
+                    deceased.DeceasedBurialCoordination.BurialBody = (BurialBody)transport.DestinationStationId!;
                     break;
             }
 
-            var relDeceasedTransport = new RelDeceasedTransport()
+            var relations = allBags.Select(bag => new RelDeceasedTransport
             {
                 TransportId = transport.Id,
                 DeceasedId = bag.DeceasedId,
                 DeceasedBagId = bag.Id,
                 TransportPurpose = transport.DestinationLocationType
-            };
+            });
 
-            ctx.RelDeceasedTransports.Add(relDeceasedTransport);
+            await ctx.RelDeceasedTransports.AddRangeAsync(relations);
         }
 
         await ctx.SaveChangesAsync();
     }
 
-    public async Task<Transport> GetTransportForEdit(int id)
+    public async Task<Transport> GetTransport(int id)
     {
         return await ctx.Transports
-            .AsTracking()
             .Include(t => t.RelDeceasedTransports)
             .ThenInclude(r => r.Deceased)
             .Include(t => t.RelDeceasedTransports)
@@ -86,9 +102,11 @@ public class TransportService(EmergencyBurialContext ctx)
             .FirstOrDefaultAsync(t => t.Id == id);
     }
 
-    public async Task UpdateTransport()
+    public void UpdateTransport(Transport transport)
     {
-        await ctx.SaveChangesAsync();
+        ctx.Transports.Update(transport);
+        
+        ctx.SaveChanges();
     }
 
     public async Task EndTransport(int transportId, Guid userId)
@@ -113,12 +131,12 @@ public class TransportService(EmergencyBurialContext ctx)
         
         foreach (var rel in transport.RelDeceasedTransports)
         {
-            if (rel.DeceasedBag != null)
+            if (rel.DeceasedBag is not null)
             {
                 rel.DeceasedBag.IsInTransport = false;
             }
             
-            if (rel.Deceased != null)
+            if (rel.Deceased is not null)
             {
                 rel.Deceased.DeceasedProcessStatus = arrivalStatus;
             }

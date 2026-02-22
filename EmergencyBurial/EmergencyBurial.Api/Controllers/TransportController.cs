@@ -37,7 +37,7 @@ public class TransportController(TransportService transportService, IMapper mapp
             return BadRequest();
         }
 
-        var transport = await transportService.GetTransportForEdit(idValue);
+        var transport = await transportService.GetTransport(idValue);
         
         return Ok(mapper.Map<UpdateTransportDto>(transport));
     }
@@ -63,14 +63,14 @@ public class TransportController(TransportService transportService, IMapper mapp
         if (dto == null)
             return BadRequest();
 
-        var transport = await transportService.GetTransportForEdit(dto.Id);
+        var transport = await transportService.GetTransport(dto.Id);
 
         mapper.Map(dto, transport);
 
         transport.UpdateBy = new Guid(User.ClaimValue(ClaimHelper.UserId));
         transport.UpdateOn = DateTime.Now;
 
-        await transportService.UpdateTransport();
+        transportService.UpdateTransport(transport);
 
         return Ok();
     }
