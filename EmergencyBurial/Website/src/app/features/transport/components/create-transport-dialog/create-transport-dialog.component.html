@@ -66,7 +66,6 @@
             @if (transportData.SourceLocationType === enmStationType.TarahStations) {
               <p-multiSelect name="BagNumbers"
                              [options]="selectableItems"
-                             [maxSelectedLabels]="5"
                              [(ngModel)]="transportData.BagNumbers"
                              optionLabel="label"
                              optionValue="value"
@@ -85,7 +84,7 @@
                              optionLabel="label"
                              optionValue="value"
                              display="chip"
-                             [selectionLimit]="2"
+                             [selectionLimit]="1"
                              placeholder="בחר חללים..."
                              appendTo="body"
                              class="w-100"

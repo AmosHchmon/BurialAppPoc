@@ -20,7 +20,7 @@ public class TransportService(EmergencyBurialContext ctx)
             .Select(b => new { b.Id, b.BagNumber, b.DeceasedId, b.IsInTransport })
             .ToListAsync();
         
-        if (deceasedIds.Count > 2)
+        if (deceasedIds.Count > 1)
             throw new ApplicationException(UserMessage.LimitDeceasedsInTransport);
 
         var busyBags = allBags
