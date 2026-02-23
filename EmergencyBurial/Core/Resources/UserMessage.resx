@@ -171,4 +171,16 @@
   <data name="DeceasedNotExists" xml:space="preserve">
     <value>חלל לא נמצא</value>
   </data>
+  <data name="LimitDeceasedsInTransport" xml:space="preserve">
+    <value>לא ניתן לשנע יותר מ-2 חללים בבת אחת</value>
+  </data>
+  <data name="TransportIsComplete" xml:space="preserve">
+    <value>שינוע זה כבר הסתיים</value>
+  </data>
+  <data name="ActiveTransport" xml:space="preserve">
+    <value>השקים הבאים כבר נמצאים בשינוע פעיל: {0}</value>
+  </data>
+  <data name="UnknownTransportDestination" xml:space="preserve">
+    <value>יעד שינוע לא נתמך</value>
+  </data>
 </root>

@@ -1,10 +1,8 @@
+import {TarahBag} from "./TarahBag";
+
 export interface TarahProcess {
 
-  Id?: string;
-
   DeceasedId?: string;
-
-  BagNumber?: string;
 
   FullName?: string;
 
@@ -12,13 +10,15 @@ export interface TarahProcess {
 
   FatherName?: string;
 
-  Gender?: string;
+  IsIdentified?: boolean;
 
-  PartDescription?: string;
+  Gender?: string;
 
   Affiliation?: number;
 
-  TarahTeamManager?: string;
+  BurialLicenseScanned?: boolean;
+
+  TeamManager?: string;
 
   IntermediateStorage?: string;
 
@@ -26,7 +26,7 @@ export interface TarahProcess {
 
   PendingExitReason?: string;
 
-  BurialLicenseScanned?: boolean;
-
   IsPopulationRegistryUpdated?: boolean;
+
+  Bags: TarahBag[];
 }

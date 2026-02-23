@@ -16,17 +16,8 @@ export const deceasedFields: IColumn[] = [
 ]
 export const bagDetailsFields: IColumn[] = [
   {field: 'Affiliation', header: 'ארגון שיוך'},
-  {field: 'ReceivingStation', header: 'תחנת קליטה'},
-  {field: 'LastKnownLocation', header: 'מיקום אחרון'},
   {field: 'PartDescription', header: 'תיאור חלק'},
   {field: 'RelatedBagNumbers', header: 'מספר שקים מקושרים'},
-  {field: 'CanBeIdentifiedByAcquaintance', header: 'האם ניתן לזהות בהיכרות אישית'},
-  {field: 'ReceivingNotes', header: 'הערות שנרשמו בעת הקליטה בתר"ח'},
-  {field: 'FillerName', header: 'שם ממלא טופס הקליטה'},
-  {field: 'ArrivalDateTime', header: 'תאריך ושעת ההגעה'},
-  {field: 'BroughtBy', header: 'הגורם שהביא את השק'},
-  {field: 'BroughtFrom', header: 'המיקום ממנו הובא השק'},
-  {field: 'ObjectsOnDeceased', header: 'פרטים שנמצאו על החלל'}
 ]
 export const burialDetailsFields: IColumn[] = [
   {field: 'BurialType', header: 'סוג קבורה'},

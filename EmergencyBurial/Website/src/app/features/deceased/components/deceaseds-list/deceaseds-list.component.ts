@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
-
 import {Deceased} from "../../model/Deceased";
 import {DeceasedService} from "../../services/deceased.service";
 import {IColumn} from "../../../../shared/ui-components/model/column";

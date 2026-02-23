@@ -40,4 +40,10 @@ export let DialogMessage = {
   DeceasedReleasedFromTarah: 'החלל שוחרר מתר"ח בהצלחה',
   BagReceived: 'השק נקלט בהצלחה',
   BagNotIdentified: 'לא ניתן לשחרר שק שלא זוהה',
+  TransportCreated: 'השינוע נוצר בהצלחה',
+  TransportUpdated: 'השינוע עודכן בהצלחה',
+  ShouldEndTransport: 'האם אתה בטוח שברצונך לסיים את השינוע שנבחר? פעולה זו תשחרר את השקים מהרכב.',
+  EndTransport: 'אישור סיום שינוע',
+  TransportEnded: 'השינוע הסתיים בהצלחה'
+
 };

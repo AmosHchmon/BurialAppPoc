@@ -2,6 +2,7 @@ import {DeceasedBurialCoordination} from "./DeceasedBurialCoordination";
 import {DeceasedBurialProcessStatus} from "./DeceasedBurialProcessStatus";
 import {DeceasedBag} from "./DeceasedBag";
 import {DeceasedBurialDetails} from "./DeceasedBurialDetails";
+import {DeceasedProcessStatus} from "../../../shared/enum/deceased-process-status.enum";
 
 export interface Deceased {
 
@@ -35,9 +36,9 @@ export interface Deceased {
 
   RelatedBagNumbers?: number;
 
-  ProcessStatus?: number;
+  DeceasedProcessStatus?: DeceasedProcessStatus;
 
-  ProcessStatusDesc?: string;
+  DeceasedProcessStatusDesc?: string;
 
   CreatedOn?: Date;
 

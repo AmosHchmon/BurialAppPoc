@@ -7,136 +7,117 @@ import {IColumn} from "../../../../shared/ui-components/model/column";
 import {TaharahList} from "../../model/TaharahList";
 import {TaharahIntakeDialogComponent} from "../taharah-intake-dialog/taharah-intake-dialog.component";
 import {TaharahUpdateDialogComponent} from "../taharah-update-dialog/taharah-update-dialog.component";
-import {TaharahStatusEnum} from "../../../../shared/enum/taharah-status.enum";
+import {DeceasedProcessStatus} from "../../../../shared/enum/deceased-process-status.enum";
 
 @Component({
-    selector: 'app-taharah-list',
-    templateUrl: './taharah-list.component.html',
-    imports: [UiComponentsModule, TaharahIntakeDialogComponent, TaharahUpdateDialogComponent],
-    styleUrls: ['./taharah-list.component.scss']
+  selector: 'app-taharah-list',
+  templateUrl: './taharah-list.component.html',
+  imports: [UiComponentsModule, TaharahIntakeDialogComponent, TaharahUpdateDialogComponent],
+  styleUrls: ['./taharah-list.component.scss']
 })
 export class TaharahListComponent implements OnInit {
 
-    @ViewChild('dt') dt: Table | undefined;
+  @ViewChild('dt') dt: Table | undefined;
 
-    deceasedList: TaharahList[] = [];
-    cols: IColumn[] = [
-        {field: 'select', header: 'בחירה'},
-        {field: 'IdentityNumber', header: 'מספר זהות'},
-        {field: 'FullName', header: 'שם מלא'},
-        {field: 'FatherName', header: 'שם האב'},
-        {field: 'ProcessStatusDesc', header: 'סטטוס תהליך'},
-        {field: 'TaharahStatusDesc', header: 'סטטוס טהרה'},
-        {field: 'BagNumbersDisplay', header: 'מספרי שק'},
-        {field: 'RelatedBagNumbers', header: 'שקים מקושרים'},
-    ];
-    viewOptions = [
-        {label: 'ממתינים לקליטה', value: TaharahStatusEnum.Pending},
-        {label: 'פעילים בטהרה', value: TaharahStatusEnum.InProgress},
-        {label: 'שוחררו מטהרה', value: TaharahStatusEnum.Complete}
-    ];
+  deceasedList: TaharahList[] = [];
+  cols: IColumn[] = [
+    {field: 'select', header: 'בחירה'},
+    {field: 'IdentityNumber', header: 'מספר זהות'},
+    {field: 'FullName', header: 'שם מלא'},
+    {field: 'FatherName', header: 'שם האב'},
+    {field: 'DeceasedProcessStatusDesc', header: 'סטטוס תהליך'},
+    {field: 'BagNumbersDisplay', header: 'מספרי שק'},
+    {field: 'RelatedBagNumbers', header: 'שקים מקושרים'},
+  ];
+  viewOptions = [
+    {label: 'ממתינים לקליטה', value: DeceasedProcessStatus.EndTransportBurialPreparation},
+    {label: 'פעילים בטהרה', value: DeceasedProcessStatus.ReceivedForBurialPreparation},
+    {label: 'שוחררו מטהרה', value: DeceasedProcessStatus.ReleasedFromBurialPreparation}
+  ];
 
-    selectedDeceased: TaharahList | null = null;
+  selectedDeceased: TaharahList | null = null;
 
-    viewMode: TaharahStatusEnum = TaharahStatusEnum.Pending;
-    isPendingDialogOpen: boolean = false;
-    isUpdateDialogOpen: boolean = false;
-    isReleaseAction: boolean = false;
-    searchText: string;
+  viewMode: DeceasedProcessStatus = DeceasedProcessStatus.EndTransportBurialPreparation;
+  isPendingDialogOpen: boolean = false;
+  isUpdateDialogOpen: boolean = false;
+  isReleaseAction: boolean = false;
+  searchText: string;
 
-    constructor(private taharahService: TaharahService) {
+  constructor(private taharahService: TaharahService) {
+  }
+
+  ngOnInit(): void {
+
+    this.loadData();
+  }
+
+  async loadData() {
+
+    this.deceasedList = [];
+
+    switch (this.viewMode) {
+
+      case DeceasedProcessStatus.EndTransportBurialPreparation:
+        this.deceasedList = await this.taharahService.getPendingList();
+        break;
+
+      case DeceasedProcessStatus.ReceivedForBurialPreparation:
+        this.deceasedList = await this.taharahService.getActiveList();
+        break;
+
+      case DeceasedProcessStatus.ReleasedFromBurialPreparation:
+        this.deceasedList = await this.taharahService.getReleasedList();
+        break;
     }
+  }
 
-    ngOnInit(): void {
+  onViewChange() {
 
-        this.loadData();
+    this.clearSearch();
+    this.loadData();
+  }
+
+  openIntakeDialog() {
+
+    if (this.selectedDeceased) {
+      this.isPendingDialogOpen = true;
     }
+  }
 
-    async loadData() {
+  openUpdateDetailsDialog() {
 
-        this.deceasedList = [];
+    if (this.selectedDeceased) {
 
-        switch (this.viewMode) {
-
-            case TaharahStatusEnum.Pending:
-                this.deceasedList = await this.taharahService.getPendingList();
-                break;
-
-            case TaharahStatusEnum.InProgress:
-                this.deceasedList = await this.taharahService.getActiveList();
-                break;
-
-            case TaharahStatusEnum.Complete:
-                this.deceasedList = await this.taharahService.getReleasedList();
-                break;
-        }
+      this.isReleaseAction = false;
+      this.isUpdateDialogOpen = true;
     }
+  }
 
-    onViewChange() {
+  openReleaseDialog() {
 
-        this.clearSearch();
-        this.loadData();
+    if (this.selectedDeceased) {
+
+      this.isReleaseAction = true;
+      this.isUpdateDialogOpen = true;
     }
+  }
 
-    openIntakeDialog() {
+  async onDialogSaved() {
 
-        if (this.selectedDeceased) {
-            this.isPendingDialogOpen = true;
-        }
-    }
+    this.selectedDeceased = null;
+    await this.loadData();
+  }
 
-    openUpdateDetailsDialog() {
+  clearSearch() {
 
-        if (this.selectedDeceased) {
+    this.searchText = '';
+    this.dt?.filterGlobal(null, 'contains');
+  }
 
-            this.isReleaseAction = false;
-            this.isUpdateDialogOpen = true;
-        }
-    }
+  getGlobalFilterFields() {
 
-    openReleaseDialog() {
+    return this.cols.map(col => col.field);
+  }
 
-        if (this.selectedDeceased) {
-
-            this.isReleaseAction = true;
-            this.isUpdateDialogOpen = true;
-        }
-    }
-
-    async onDialogSaved() {
-
-        this.selectedDeceased = null;
-        await this.loadData();
-    }
-
-    clearSearch() {
-
-        this.searchText = '';
-        this.dt?.filterGlobal(null, 'contains');
-    }
-
-    getGlobalFilterFields() {
-
-        return this.cols.map(col => col.field);
-    }
-
-    getTaharahStatusSeverity(TaharahStatus: TaharahStatusEnum) {
-
-        switch (TaharahStatus) {
-            case TaharahStatusEnum.Pending:
-                return 'warn';
-
-            case TaharahStatusEnum.InProgress:
-                return 'info';
-
-            case TaharahStatusEnum.Complete:
-                return 'success';
-
-            default:
-                return 'secondary';
-        }
-
-    }
-
-    protected readonly TaharahStatusEnum = TaharahStatusEnum;
+  protected readonly DeceasedProcessStatus = DeceasedProcessStatus;
 }

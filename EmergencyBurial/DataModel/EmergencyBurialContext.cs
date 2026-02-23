@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using DataModel.Entities;
+using DataModel.Entities.System;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataModel;
@@ -8,20 +9,18 @@ public partial class EmergencyBurialContext : DbContext
 {
     public virtual DbSet<ListItem> ListItems { get; set; }
     public virtual DbSet<ListType> ListTypes { get; set; }
-    
     public virtual DbSet<Event> Events { get; set; }
     public virtual DbSet<AppFile> Files { get; set; }
     public virtual DbSet<Member> Members { get; set; }
     public virtual DbSet<Deceased> Deceaseds { get; set; }
     public virtual DbSet<DeceasedBag> DeceasedBag { get; set; }
-    public virtual DbSet<DeceasedBurialProcessStatus> DeceasedBurialProcessStatus { get; set; }
     public virtual DbSet<DeceasedBurialDetails> DeceasedBurialDetails { get; set; }
     public virtual DbSet<DeceasedTaharahDetails> DeceasedTaharahDetails { get; set; }
     public virtual DbSet<DeceasedTarahDetails> DeceasedTarahDetails { get; set; }
     public virtual DbSet<DeceasedBurialCoordination> DeceasedBurialCoordination { get; set; }
-
     public virtual DbSet<Transport> Transports { get; set; }
-
+    public virtual DbSet<RelDeceasedTransport> RelDeceasedTransports { get; set; }
+    
     public EmergencyBurialContext(DbContextOptions<EmergencyBurialContext> options) : base(options)
     {
     }
@@ -31,7 +30,7 @@ public partial class EmergencyBurialContext : DbContext
         modelBuilder.Entity<Member>().HasIndex(m => m.UserName).IsUnique(true);
         modelBuilder.Entity<ListType>().HasIndex(u => u.Text);
         modelBuilder.Entity<DeceasedBag>().HasIndex(d => d.BagNumber).IsUnique(true);
-        modelBuilder.Entity<Transport>().HasIndex(d => d.Id).IsUnique(true);
+        modelBuilder.Entity<RelDeceasedTransport>().HasIndex(r => new { r.TransportId, r.DeceasedId });
         
         foreach (var relationship in modelBuilder.Model.GetEntityTypes()
                      .SelectMany(e => e.GetForeignKeys())

@@ -1,7 +1,14 @@
 import {Injectable, Injector} from '@angular/core';
+import {HttpParams} from "@angular/common/http";
 
 import {BaseService} from "../../../core/abstract/base-service";
-import {Transport} from "../model/transport";
+import {TransportList} from "../model/TransportList";
+import {CreateTransport} from "../model/CreateTransport";
+import {UpdateTransport} from "../model/UpdateTransport";
+import {TransportPurpose} from "../../../shared/enum/transport-purpose.enum";
+import {DeceasedBag} from "../../deceased/model/DeceasedBag";
+import {BagSelectItem} from "../model/BagSelectItem";
+import {DeceasedSelectItem} from "../model/DeceasedSelectItem";
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +19,38 @@ export class TransportService extends BaseService {
     super("TransportService", injector);
   }
 
-  async getTransportsByBagDetailsId(id: string): Promise<Transport[]> {
+  async getTransports(purpose?: TransportPurpose): Promise<TransportList[]> {
 
-    return super.get({path: `/bag-number/${id}`});
+    let params = new HttpParams();
+
+    if (purpose) {
+      params = params.set('filterPurpose', purpose.toString());
+    }
+
+    return super.get({path: ``}, {params: params});
   }
 
-  async createTransport(transport: Transport): Promise<Transport> {
+  async getTransportById(id: number): Promise<UpdateTransport> {
+    return super.get({path: `/${id}`});
+  }
 
-    return super.post({body: transport});
+  async createTransport(dto: CreateTransport): Promise<void> {
+    return super.post({path: ``, body: dto});
+  }
+
+  async updateTransport(dto: UpdateTransport): Promise<void> {
+    return super.put({path: `/update-transport`, body: dto});
+  }
+
+  async endTransport(id: number): Promise<void> {
+    return super.put({path: `/end/${id}`});
+  }
+
+  async getAvailableBags(stationId: number): Promise<BagSelectItem[]> {
+    return super.get({path: `/available-bags/${stationId}`});
+  }
+
+  async getAvailableDeceaseds(stationId: number): Promise<DeceasedSelectItem[]> {
+    return super.get({path: `/available-deceaseds/${stationId}`});
   }
 }

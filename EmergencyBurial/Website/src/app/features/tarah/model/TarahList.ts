@@ -1,14 +1,22 @@
+import {DeceasedProcessStatus} from "../../../shared/enum/deceased-process-status.enum";
+
 export interface TarahList {
 
   Id: string;
 
-  DeceasedId: string;
+  IdentityNumber: string;
 
-  BagNumber?: string;
+  FullName: string;
 
-  IsIdentified?: boolean;
+  FatherName: string;
 
-  BagProcessStatusDesc?: string;
+  IsIdentified: boolean;
 
-  BagTarahProcessStatus?: number;
+  DeceasedProcessStatus: DeceasedProcessStatus;
+
+  DeceasedProcessStatusDesc?: string;
+
+  BagNumbersDisplay: string;
+
+  RelatedBagNumbers: number;
 }

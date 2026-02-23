@@ -60,6 +60,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to השקים הבאים כבר נמצאים בשינוע פעיל: {0}.
+        /// </summary>
+        public static string ActiveTransport {
+            get {
+                return ResourceManager.GetString("ActiveTransport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to אחד מפרטי ההזדהות אינם נכונים.
         /// </summary>
         public static string CerdError {
@@ -168,6 +177,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to לא ניתן לשנע יותר מ-2 חללים בבת אחת.
+        /// </summary>
+        public static string LimitDeceasedsInTransport {
+            get {
+                return ResourceManager.GetString("LimitDeceasedsInTransport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to אינך רשאי לבצע פעולה זו.
         /// </summary>
         public static string NotAllowedAction {
@@ -200,6 +218,24 @@ namespace Core.Resources {
         public static string SuccessSendRequest {
             get {
                 return ResourceManager.GetString("SuccessSendRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to שינוע זה כבר הסתיים.
+        /// </summary>
+        public static string TransportIsComplete {
+            get {
+                return ResourceManager.GetString("TransportIsComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to יעד שינוע לא נתמך.
+        /// </summary>
+        public static string UnknownTransportDestination {
+            get {
+                return ResourceManager.GetString("UnknownTransportDestination", resourceCulture);
             }
         }
         

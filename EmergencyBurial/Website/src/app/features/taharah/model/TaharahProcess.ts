@@ -10,7 +10,7 @@
 
   Gender?: string;
 
-  TaharahTeamManager?: string;
+  TeamManager?: string;
 
   IntermediateStorage?: string;
 
