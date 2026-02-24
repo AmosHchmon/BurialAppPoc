@@ -1,0 +1,68 @@
+<p-dialog [(visible)]="visible"
+          (onHide)="closeDialog()"
+          header="קליטת חלל לתר״ח"
+          [modal]="true"
+          closeOnEscape="true"
+          dismissableMask="true"
+          [style]="{width: '35vw'}">
+  @if (data) {
+    <div class="d-flex flex-column gap-4 py-2 text-end" dir="rtl">
+
+      @if (data.IsIdentified) {
+        <div class="row g-3 my-2">
+          <div class="col-6">
+            <p-floatlabel variant="on">
+              <input pInputText class="form-control" [ngModel]="data.FullName" [readonly]="true"/>
+              <label>שם מלא</label>
+            </p-floatlabel>
+          </div>
+          <div class="col-6">
+            <p-floatlabel variant="on">
+              <input pInputText class="form-control" [ngModel]="data.FatherName" [readonly]="true"/>
+              <label>שם האב</label>
+            </p-floatlabel>
+          </div>
+          <div class="col-6">
+            <p-floatlabel variant="on">
+              <input pInputText class="form-control" [ngModel]="data.IdentityNumber" [readonly]="true"/>
+              <label>מספר זהות</label>
+            </p-floatlabel>
+          </div>
+          <div class="col-6">
+            <p-floatlabel variant="on">
+              <input pInputText class="form-control" [ngModel]="data.Gender" [readonly]="true"/>
+              <label>מין</label>
+            </p-floatlabel>
+          </div>
+        </div>
+      } @else {
+        <div class="p-4 rounded bg-warning-subtle border border-warning text-center">
+          <i class="pi pi-exclamation-triangle text-warning display-6 mb-2"></i>
+          <p class="h6 mb-0 fw-bold text-dark">חלל אינו מזוהה במערכת</p>
+        </div>
+      }
+
+      <div class="card p-3 border rounded bg-light">
+        <h6 class="fw-bold mb-3">שקים המשויכים לחלל ({{data.Bags?.length || 0}}):</h6>
+        <div class="d-flex flex-wrap gap-2">
+          @for (bag of data.Bags; track bag.BagNumber) {
+            <p-chip [label]="bag.BagNumber" icon="pi pi-briefcase"></p-chip>
+          }
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2 mt-3">
+        <p-button label="ביטול"
+                  (click)="closeDialog()"
+                  severity="secondary"
+                  [text]="true">
+        </p-button>
+        <p-button label="בצע קליטה לתר״ח"
+                  icon="pi pi-check"
+                  (click)="submitReception()"
+                  severity="success">
+        </p-button>
+      </div>
+    </div>
+  }
+</p-dialog>

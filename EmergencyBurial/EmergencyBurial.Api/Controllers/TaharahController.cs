@@ -25,6 +25,7 @@ public class TaharahController(TaharahService taharahService, IMapper mapper) : 
         {
             stationId = Convert.ToInt32(User.ClaimValue(ClaimHelper.StationId));
         }
+        
         var entities = await taharahService.GetPendingList(stationId);
 
         return Ok(mapper.Map<List<TaharahListDto>>(entities));
@@ -73,13 +74,8 @@ public class TaharahController(TaharahService taharahService, IMapper mapper) : 
         mapper.Map(dto, entity);
 
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
-
-        entity.ReceivedBy = userId;
-
-        entity.TaharahStatus = TaharahStatus.InProgress;
-        entity.TaharahReceptionDate = DateTime.Now;
-
-        await taharahService.ReceiveDeceasedToTaharah(entity, userId);
+        
+        await taharahService.ReceiveToTaharah(entity, userId);
 
         return Ok();
     }
@@ -94,9 +90,7 @@ public class TaharahController(TaharahService taharahService, IMapper mapper) : 
 
         var entity = await taharahService.GetDeceasedForEdit(idValue);
 
-        var res = mapper.Map<TaharahProcessDto>(entity);
-
-        return Ok(res);
+        return Ok(mapper.Map<TaharahProcessDto>(entity));
     }
 
     [HttpPut("update-details")]
@@ -129,9 +123,8 @@ public class TaharahController(TaharahService taharahService, IMapper mapper) : 
         mapper.Map(dto, entity);
 
         var userId = new Guid(User.ClaimValue(ClaimHelper.UserId));
-
-        entity.TaharahStatus = TaharahStatus.Completed;
-        entity.TaharahReleaseDate = DateTime.Now;
+        
+        entity.ReleaseDate = DateTime.Now;
         entity.IsPendingExit = false;
 
         await taharahService.ReleaseFromTaharah(entity, userId);

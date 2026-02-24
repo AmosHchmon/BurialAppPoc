@@ -131,16 +131,6 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
           trackNumber: 3
         };
         break;
-
-      case "4":
-
-        if (this.selectedBag) {
-
-          const transports = await this.transportService.getTransportsByBagDetailsId(this.selectedBag.Id);
-
-          this.transports = transports ? [...transports] : [];
-        }
-        break;
     }
   }
 
@@ -210,20 +200,6 @@ export class DeceasedDetailComponent implements OnInit, OnDestroy {
 
   openTransportDialog(isOpen: boolean) {
     this.isTransportDialogOpen = isOpen;
-  }
-
-  async saveTransport(newTransport: Transport) {
-
-    newTransport.DeceasedId = this.deceased.Id;
-
-    const transport = await this.transportService.createTransport(newTransport);
-
-    this.transports.push(transport);
-
-    this.isTransportDialogOpen = false;
-
-    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
-
   }
 
   async onTabChange(newTabValue: any) {

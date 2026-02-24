@@ -1,5 +1,5 @@
-import { INavItem } from '../model/nav-item';
-import { enmOrganizationType } from "../enum/organization-type.enum";
+import {INavItem} from '../model/nav-item';
+import {enmOrganizationType} from "../enum/organization-type.enum";
 
 export const NavMenuItems: Array<INavItem> = [
   {
@@ -14,7 +14,8 @@ export const NavMenuItems: Array<INavItem> = [
     module: "deceased",
     url: "/dashboard/deceaseds",
     icon: "pi pi-user",
-    roles: [enmOrganizationType.Tarah, enmOrganizationType.Hamal]
+    roles: [enmOrganizationType.Tarah, enmOrganizationType.Hamal,
+      enmOrganizationType.DatServices, enmOrganizationType.Moked]
   },
   {
     name: "שינוע",

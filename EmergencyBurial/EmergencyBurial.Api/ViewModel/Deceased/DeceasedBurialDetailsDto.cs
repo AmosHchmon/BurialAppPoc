@@ -14,8 +14,6 @@ public class DeceasedBurialDetailsDto
     
     public string? BurialLicenseScanned { get; set; }
     
-    public string? TaharahStatus { get; set; }
-    
     public string? TaharahLocation { get; set; }
     
     public DateTime? TaharahReceptionDate { get; set; }

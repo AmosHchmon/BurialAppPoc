@@ -1,9 +1,9 @@
 import {Routes} from "@angular/router";
-import {TransportComponent} from "./components/transport/transport.component";
+import {TransportListComponent} from "./components/transport-list/transport-list.component";
 
 export const TransportRouting: Routes = [
   {
     path: '',
-    component: TransportComponent
+    component: TransportListComponent
   }
 ]

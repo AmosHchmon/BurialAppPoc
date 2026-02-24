@@ -1,6 +1,4 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Table} from "primeng/table";
-import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {NgForm} from "@angular/forms";
 import {ConfirmationService} from "primeng/api";
@@ -8,12 +6,14 @@ import {ConfirmationService} from "primeng/api";
 import {Deceased} from "../../../deceased/model/Deceased";
 import {IColumn} from "../../../../shared/ui-components/model/column";
 import {UiComponentsModule} from "../../../../shared/ui-components/ui-components.module";
-import {DeceasedService} from "../../../deceased/services/deceased.service";
 import {AlertService} from "../../../../shared/services/alert.service";
 import {SignalRService} from "../../../../shared/services/signalR.service";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
 import {ValidationModule} from "../../../../shared/validation/validation.module";
+import {DeceasedBag} from "../../../deceased/model/DeceasedBag";
+import {AdminDeceasedService} from "../../services/admin-deceased.service";
+import {BaseManagementComponent} from "../../../../core/abstract/base-management";
 
 @Component({
   selector: 'app-deceaseds-management',
@@ -21,50 +21,41 @@ import {ValidationModule} from "../../../../shared/validation/validation.module"
   templateUrl: './deceaseds-management.component.html',
   styleUrl: './deceaseds-management.component.scss'
 })
-export class DeceasedsManagementComponent implements OnInit, OnDestroy {
+export class DeceasedsManagementComponent extends BaseManagementComponent<Deceased> implements OnInit, OnDestroy {
 
-  @ViewChild('dt') dt: Table<Deceased>;
   @ViewChild('deceasedForm') deceasedForm: NgForm;
 
   cols: IColumn[] = [
-    {field: 'HalalNumber', header: 'מספר חלל'},
     {field: 'IdentityNumber', header: 'מספר זהות'},
     {field: 'FullName', header: 'שם מלא'},
     {field: 'FatherName', header: 'שם האב'},
   ];
-  deceasedList: Deceased[] = [];
-  newDeceased: Deceased = {};
-  searchText: string;
-  showDeceasedDialog: boolean = false;
+
+  selectedExistingDeceased: Deceased;
+  activeTab: number = 0;
+  isIdentified: boolean = true;
 
   private deceasedSubscription: Subscription | undefined;
 
-  constructor(private deceasedService: DeceasedService,
+  constructor(private adminDeceasedService: AdminDeceasedService,
               private alertService: AlertService,
-              private router: Router,
               private signalRService: SignalRService,
               private confirmService: ConfirmationService) {
-
+    super();
   }
 
   //#region [Lifecycle events]
   async ngOnInit() {
-
     await this.loadDeceased();
-
     this.subscribeToHubEvents();
   }
 
   private async loadDeceased() {
-
-    this.deceasedList = await this.deceasedService.getDeceaseds();
-
+    this.items = await this.adminDeceasedService.getDeceaseds();
   }
 
   ngOnDestroy(): void {
-
     this.unSubscribeToHubEvents();
-
   }
 
   //endregion
@@ -75,7 +66,6 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
     if (this.deceasedSubscription) {
       this.deceasedSubscription.unsubscribe();
     }
-
   }
 
   private subscribeToHubEvents(): void {
@@ -83,8 +73,7 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
     this.deceasedSubscription = this.signalRService.newDeceased.subscribe(
       (newDeceased: Deceased) => {
 
-        this.deceasedList.unshift(newDeceased);
-
+        this.items.unshift(newDeceased);
         this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.NewDeceasedAdded});
       }
     );
@@ -95,78 +84,115 @@ export class DeceasedsManagementComponent implements OnInit, OnDestroy {
   //#region [Client events]
   onAddDeceased() {
 
-    this.newDeceased = {};
+    const defaultValues = {
+      isIdentified: true,
+      isFullBody: true
+    };
 
-    this.showDeceasedDialog = true;
+    if (this.deceasedForm) {
+      this.deceasedForm.resetForm(defaultValues);
+    }
+
+    this.isIdentified = true;
+    this.selectedExistingDeceased = null;
+
+    this.initNewItem({});
   }
 
   async onSaveDeceased() {
 
-    if (this.newDeceased.Id) {
-      await this.deceasedService.updateDeceased(this.newDeceased);
+    if (this.currentItem.Id) {
+
+      await this.adminDeceasedService.updateDeceased(this.currentItem);
+
+      this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemUpdateSuccessfully});
+
+      const index = this.items.findIndex(d => d.Id === this.currentItem.Id);
+
+      if (index !== -1) {
+        this.items[index] = {...this.currentItem};
+        this.items = [...this.items];
+      }
+
     } else {
-      await this.deceasedService.saveDeceased(this.newDeceased);
-      this.showDeceasedDialog = false;
+
+      const createdDeceased = await this.adminDeceasedService.saveDeceased(this.currentItem);
+
+      if (createdDeceased) {
+        this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
+        this.items = [createdDeceased, ...this.items];
+      }
     }
 
-    this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.ItemSavedSuccessfully});
-
-    this.showDeceasedDialog = false;
-
-    this.dt.selection = null;
-
-    this.deceasedForm.resetForm();
-
-    await this.loadDeceased();
-
+    this.closeDialog();
+    this.activeTab = 0;
   }
 
   onEditDeceased() {
 
-    this.newDeceased = {...this.dt.selection};
-    this.showDeceasedDialog = true;
+    if (!this.dt.selection)
+      return;
+
+    if (this.dt.selection.IdentityNumber && this.dt.selection.IdentityNumber.length > 0) {
+      this.isIdentified = true;
+    }
+
+    this.initEditItem(this.dt.selection);
   }
 
   onDeleteDeceased() {
 
     this.confirmService.confirm({
-      header: DialogMessage.DeleteListItem,
+      header: DialogMessage.ArchiveDeceased,
       message: DialogMessage.ConfirmQuestion,
       icon: 'pi pi-exclamation-triangle',
       acceptLabel: 'כן',
       rejectLabel: 'לא',
       accept: async () => {
 
-        const member = this.dt.selection;
+        const deceased = this.dt.selection;
 
-        await this.deceasedService.deleteDeceased(member.Id);
+        await this.adminDeceasedService.deleteDeceased(deceased.Id);
 
-        this.showDeceasedDialog = false;
-
-        this.dt.selection = null;
+        this.closeDialog();
 
         await this.loadDeceased();
       },
       reject: () => {
         return;
       }
-
     })
-
   }
 
   getGlobalFilterFields(): string[] {
-
     return this.cols.map(col => col.field);
   }
 
-  clearSearch() {
+  removeBag(index: number) {
 
-    this.searchText = '';
-
-    if (this.dt) {
-      this.dt.filterGlobal(null, 'contains');
+    if (this.currentItem.DeceasedBags) {
+      this.currentItem.DeceasedBags.splice(index, 1);
     }
+  }
+
+  addBag() {
+
+    const newBag: DeceasedBag = {
+      DeceasedId: this.currentItem.Id,
+      PartDescription: ''
+    };
+
+    if (!this.currentItem.DeceasedBags) {
+      this.currentItem.DeceasedBags = [];
+    }
+
+    this.currentItem.DeceasedBags.push(newBag);
+  }
+
+  onCancelDialog() {
+
+    this.closeDialog();
+    this.activeTab = 0;
   }
 
   //endregion

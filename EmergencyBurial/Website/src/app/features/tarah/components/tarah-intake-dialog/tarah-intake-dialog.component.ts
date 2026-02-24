@@ -6,16 +6,15 @@ import {AlertService} from "../../../../shared/services/alert.service";
 import {TarahProcess} from "../../model/TarahProcess";
 import {AlertType} from "../../../../core/enums/alert.enum";
 import {DialogMessage} from "../../../../shared/static/messages";
-import {TaharahIntake} from "../../../taharah/model/TaharahIntake";
-import {TarahIntake} from "../../model/TarahIntake";
+import {TarahBag} from "../../model/TarahBag";
 
 @Component({
-  selector: 'app-bag-reception-dialog',
+  selector: 'app-tarah-intake-dialog',
   standalone: true,
   imports: [UiComponentsModule],
-  templateUrl: './bag-reception-dialog.component.html'
+  templateUrl: './tarah-intake-dialog.component.html'
 })
-export class BagReceptionDialogComponent {
+export class TarahIntakeDialogComponent {
 
   @Input() visible: boolean = false;
   @Input() data: TarahProcess | null = null;
@@ -23,9 +22,8 @@ export class BagReceptionDialogComponent {
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() onSaved = new EventEmitter<void>();
 
-  get isIdentified(): boolean {
-    return !!(this.data?.IdentityNumber && this.data.IdentityNumber.trim().length > 0);
-  }
+  selectedBagForHistory: TarahBag | null = null;
+  activeTabIndex: number = 0;
 
   constructor(
     private tarahService: TarahService,
@@ -34,23 +32,25 @@ export class BagReceptionDialogComponent {
   }
 
   closeDialog() {
+
+    this.selectedBagForHistory = null;
     this.visible = false;
+    this.activeTabIndex = 0;
+
     this.visibleChange.emit(false);
   }
 
   async submitReception() {
 
-    if (!this.data)
+    if (!this.data?.DeceasedId)
       return;
 
-    const receiveData: TarahIntake = {
-      BagNumber: this.data.BagNumber
-    }
-    await this.tarahService.receiveBag(receiveData);
+    await this.tarahService.receiveBag(this.data.DeceasedId);
 
     this.alertService.alert(AlertType.Success, {ClientMessage: DialogMessage.BagReceived});
 
     this.onSaved.emit();
     this.closeDialog();
+
   }
 }

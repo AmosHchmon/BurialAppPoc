@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.Helpers;
 using DataModel.Abstract;
+using DataModel.Entities.System;
 
 namespace DataModel.Entities;
 
@@ -36,27 +37,48 @@ public class Deceased: BaseUpdatedEntity
     [Description("שיוך ארגוני")]
     public Affiliation? Affiliation { get; set; }
     
-    public ProcessStatus ProcessStatus { get; set; }
+    public DeceasedProcessStatus DeceasedProcessStatus { get; set; }
     
-    public Guid EventId { get; set; }
+    [Description("האם רשות האוכלוסין עודכנה")]
+    public bool IsPopulationRegistryUpdated { get; set; }
+    
+    [Description("קובץ רישיון קבורה")]
+    public Guid? BurialLicenseFileId { get; set; }
+    
+    [Description("האם ניתן לזהות את החלל בהיכרות אישית")]
+    public bool CanBeIdentifiedByAcquaintance { get; set; }
+    
+    [Description("חפצים שנמצאו על החלל")]
+    public string? ObjectsOnDeceased { get; set; }
+    
+    [Description("האם נמסרה הודעה מרה")]
+    public bool IsBadMessageReceived { get; set; }
+    
+    [Description("האם החלל נקבר")]
+    public bool IsBuried { get; set; }
+    
+    [Description("תאריך קבורה")]
+    public DateTime? BurialDate { get; set; }
+    
+    [Description("תאריך מסירת הודעה מרה")]
+    public DateTime? BadMessageStartDate { get; set; }
+    
+    public Guid? EventId { get; set; }
     
     [ForeignKey(nameof(EventId))]
     public virtual Event Event { get; set; }
     
     public virtual ICollection<DeceasedStatusHistory> StatusHistory { get; set; }
     
-    [Description("האם רשות האוכלוסין עודכנה")]
-    public bool IsPopulationRegistryUpdated { get; set; }
+    public virtual ICollection<RelDeceasedTransport> TransportHistory { get; set; } = new List<RelDeceasedTransport>();
 
     public virtual ICollection<DeceasedBag> DeceasedBags { get; set; }
-    
-    public virtual DeceasedBurialProcessStatus DeceasedBurialProcessStatus { get; set; }
-    
-    public virtual DeceasedBurialDetails DeceasedBurialDetails { get; set; }
-    
-    public virtual DeceasedTaharahDetails DeceasedTaharahDetails { get; set; }
-    
-    public virtual DeceasedTarahDetails DeceasedTarahDetails { get; set; }
-    
-    public virtual DeceasedBurialCoordination DeceasedBurialCoordination { get; set; }
+
+    public virtual DeceasedBurialDetails DeceasedBurialDetails { get; set; } = new ();
+
+    public virtual DeceasedTaharahDetails DeceasedTaharahDetails { get; set; } = new ();
+
+    public virtual DeceasedTarahDetails DeceasedTarahDetails { get; set; } = new ();
+
+    public virtual DeceasedBurialCoordination DeceasedBurialCoordination { get; set; } = new ();
 }

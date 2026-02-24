@@ -53,12 +53,14 @@ namespace Core.Helpers
     {
         [Description("סוג ארגון")]
         OrganizationType = 1000,
+        [Description("סוג תחנה")]
+        StationType = 2000,
         [Description("תר'ח")]
-        TarahStations = 2000,
+        TarahStations = 3000,
         [Description("הכנה לקבורה")]
-        BurialPreparation = 3000,
+        BurialPreparation = 4000,
         [Description("גוף קבורה")]
-        BurialBody = 4000
+        BurialBody = 5000
     }
 
     #endregion
@@ -77,42 +79,52 @@ namespace Core.Helpers
         BurialPreparation = 1004,
         [Description("גוף קבורה")]
         BetAlmin = 1005,
+        [Description("מוקד")]
+        Moked = 1006
+    }
+    
+    public enum StationType
+    {
+        [Description("תר'ח")]
+        TarahStations = 2001,
+        [Description("הכנה לקבורה")]
+        BurialPreparation = 2002,
+        [Description("גוף קבורה")]
+        BetAlmin = 2003,
     }
     
     public enum TarahStations
     {
         [Description("שורה")]
-        Shura = 2001,
+        Shura = 3001,
         [Description("ציפורית")]
-        Tziporit = 2002,
+        Tziporit = 3002,
         [Description("שדה תימן")]
-        SdeTeiman = 2003
+        SdeTeiman = 3003
     }
 
     public enum BurialPreparation
     {
         [Description("תל רגב")]
-        TelRegev = 3001,
+        TelRegev = 4001,
         [Description("ראשון לציון")]
-        RishonLezion = 3002
+        RishonLezion = 4002
     }
 
     public enum BurialBody
     {
         [Description("ראשון לציון")]
-        RishonLezion = 4001,
+        RishonLezion = 5001,
         [Description("עמק חפר")]
-        EmekHefer = 4002,
+        EmekHefer = 5002,
         [Description("אילת")]
-        Eilat = 4003,
-        [Description("אבו כביר")]
-        AbuKabir = 4004,
+        Eilat = 5003,
         [Description("חולון")]
-        Holon = 4005,
+        Holon = 5004,
         [Description("תל אביב")]
-        TelAviv = 4006,
+        TelAviv = 5005,
         [Description("פתח תקווה")]
-        PetahTikva = 4007,
+        PetahTikva = 5006,
     }
 
     #endregion
@@ -145,42 +157,6 @@ namespace Core.Helpers
         Identified = 1
     }
     
-    public enum TaharahStatus
-    {
-        [Description("ממתין לקבלה")]
-        Pending = 0,
-        [Description("בתהליך טהרה")]
-        InProgress = 1,
-        [Description("שוחרר מטהרה")]
-        Completed = 2
-    }
-
-    public enum TarahStatus
-    {
-        [Description("ממתין לקבלה")]
-        Pending = 0,
-        [Description("בתהליך תר'ח")]
-        InProgress = 1,
-        [Description("שוחרר מתר'ח")]
-        Completed = 2
-    }
-
-    public enum BadMessageProcessStatus
-    {
-        [Description("הודעה לא נמסרה")]
-        NotDelivered = 0,
-        [Description("הודעה נמסרה")]
-        Delivered = 1
-    }
-    
-    public enum CollectionStatus
-    {
-        [Description("לא נאסף")]
-        NotCollected = 0,
-        [Description("נאסף")]
-        Collected = 1
-    }
-    
     public enum BurialType
     {
         [Description("זמני")]
@@ -207,34 +183,6 @@ namespace Core.Helpers
         View = 3
     }
 
-    public enum ProcessStatus 
-    {
-        [Description("קליטה בתר\"ח")]
-        ReceptionAtTarah = 1,
-        [Description("שחרור תר\"ח")]
-        ReleaseFromTarah = 2,
-        [Description("שינוע למכון רפואה משפטית")]
-        TransportToForensicInstitute = 3,
-        [Description("חזרה משינוע מכון רפואה משפטית")]
-        ReturnFromForensicInstitute = 4,
-        [Description("שינוע להכנה לקבורה")]
-        TransportToBurialPreparation = 5,
-        [Description("סיום שינוע הכנה לקבורה")]
-        EndTransportBurialPreparation = 6,
-        [Description("נקלט להכנה לקבורה")]
-        ReceivedForBurialPreparation = 7,
-        [Description("שוחרר מהכנה לקבורה")]
-        ReleasedFromBurialPreparation = 8,
-        [Description("שינוע לגוף קבורה")]
-        TransportToBurialEntity = 9,
-        [Description("סיום שינוע גוף קבורה")]
-        EndTransportBurialEntity = 10,
-        [Description("קבורה")]
-        Burial = 11,
-        [Description("ארכיב")]
-        Archive = 12
-    }
-
     public enum GatewaySource
     {
         [Description("משטרה - פלא")]
@@ -246,17 +194,39 @@ namespace Core.Helpers
         [Description("בריאות")]
         Health = 4
     }
-
-    public enum BagTarahProcessStatus
+    
+    public enum DeceasedProcessStatus 
     {
-        [Description("קליטה משטרה")]
-        PoliceIntake = 0,
-        [Description("שינוע - חזרה משינוע מכון רפואה משפטית")]
-        Transport = 1,
-        [Description("מאוחסן בתר\"ח")]
-        InStorage = 2,
-        [Description("שוחרר מתר\"ח")]
-        Released = 3
+        [Description("שדר מהמשטרה")]
+        PoliceIntake = 1,
+        [Description("קליטה בתר\"ח")]
+        ReceptionAtTarah = 2,
+        [Description("שחרור תר\"ח")]
+        ReleaseFromTarah = 3,
+        [Description("שינוע להכנה לקבורה")]
+        TransportToBurialPreparation = 4,
+        [Description("סיום שינוע הכנה לקבורה")]
+        EndTransportBurialPreparation = 5,
+        [Description("נקלט להכנה לקבורה")]
+        ReceivedForBurialPreparation = 6,
+        [Description("שוחרר מהכנה לקבורה")]
+        ReleasedFromBurialPreparation = 7,
+        [Description("שינוע לגוף קבורה")]
+        TransportToBurialEntity = 8,
+        [Description("סיום שינוע גוף קבורה")]
+        EndTransportBurialEntity = 9,
+        [Description("קבורה")]
+        Burial = 10,
+        [Description("ארכיב")]
+        Archive = 11
+    }
+    
+    public enum TransportPurpose
+    {
+        [Description("שינוע להכנה לקבורה")]
+        ToBurialPreparation = 2002,
+        [Description("שינוע לגוף קבורה")]
+        ToBurialBody = 2003,
     }
 
     #endregion

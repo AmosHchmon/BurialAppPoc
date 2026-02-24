@@ -6,10 +6,10 @@ import {IEvent} from "../model/Event";
 @Injectable({
   providedIn: 'root'
 })
-export class EventService extends BaseService {
+export class AdminEventService extends BaseService {
 
   constructor(protected injector: Injector) {
-    super("EventService", injector);
+    super("AdminEventService", injector);
   }
 
   async getEvents(): Promise<IEvent[]> {

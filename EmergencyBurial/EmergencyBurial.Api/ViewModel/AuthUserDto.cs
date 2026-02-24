@@ -1,4 +1,5 @@
-﻿using Core.Helpers;
+﻿using System;
+using Core.Helpers;
 
 namespace EmergencyBurial.Api.ViewModel
 {

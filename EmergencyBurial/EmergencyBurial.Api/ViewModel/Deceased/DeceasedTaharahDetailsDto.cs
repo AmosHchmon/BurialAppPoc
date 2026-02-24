@@ -7,8 +7,6 @@ public class DeceasedTaharahDetailsDto
 {
     public Guid DeceasedId { get; set; }
 
-    public TaharahStatus? TaharahStatus { get; set; }
-
     public BurialPreparation? TaharahLocation { get; set; }
 
     public DateTime? TaharahReceptionDate { get; set; }

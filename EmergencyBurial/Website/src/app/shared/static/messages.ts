@@ -21,6 +21,7 @@ export let DialogMessage = {
   ItemUpdateSuccessfully: 'הפריט עודכן בהצלחה',
   DeleteListType: 'פעולה זו תמחק סוג רשימה זו',
   DeleteListItem: 'פעולה זו תמחק פריט זה',
+  ArchiveDeceased: 'פעולה זו תעביר את החלל לארכיון',
   Cancel: 'האם ברצונך לבטל?',
   ConnectedListItems: 'ישנם רשימות הקשורות לסוג רשימה זו. נא למחוק אותם',
   AccessDenied: "אינך מורשה גישה.",
@@ -32,10 +33,17 @@ export let DialogMessage = {
   ShouldReleaseFromTaharah: 'האם לשחרר את החלל מתהליך הטהרה?',
   DeceasedReleasedFromTaharah: 'החלל שוחרר מטהרה בהצלחה',
   TachrichimIsRequired: 'יש להכניס תכריכי פשתן לטובת שחרור מטהרה',
+  MemberUpdated: 'משתמש עודכן בהצלחה',
+  FullBodyInsideBag: 'גופה מלאה',
   ReleaseFromTarah: 'אישור שחרור מתר"ח',
   ShouldReleaseFromTarah: 'האם לשחרר את החלל מתהליך התר"ח?',
   DeceasedReleasedFromTarah: 'החלל שוחרר מתר"ח בהצלחה',
   BagReceived: 'השק נקלט בהצלחה',
   BagNotIdentified: 'לא ניתן לשחרר שק שלא זוהה',
-  MemberUpdated: 'משתמש עודכן בהצלחה'
+  TransportCreated: 'השינוע נוצר בהצלחה',
+  TransportUpdated: 'השינוע עודכן בהצלחה',
+  ShouldEndTransport: 'האם אתה בטוח שברצונך לסיים את השינוע שנבחר? פעולה זו תשחרר את השקים מהרכב.',
+  EndTransport: 'אישור סיום שינוע',
+  TransportEnded: 'השינוע הסתיים בהצלחה'
+
 };

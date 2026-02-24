@@ -1,0 +1,114 @@
+<div class="card p-3">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="font-bold">ניהול שינועים</h4>
+  </div>
+
+  <div class="mb-3">
+    <p-selectButton [options]="filterOptions"
+                    [(ngModel)]="selectedView"
+                    (onChange)="onFilterChange($event)"
+                    optionLabel="label"
+                    optionValue="value"
+                    [allowEmpty]="false"></p-selectButton>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mb-3 bg-gray-50 p-3 border-round">
+    <div class="d-flex gap-4">
+      <p-button label="שינוע חדש" icon="pi pi-plus" (click)="onCreateTransport()" severity="primary"></p-button>
+
+      <p-button label="צפייה בפרטי שינוע"
+                icon="pi pi-eye"
+                severity="secondary"
+                [disabled]="!selectedTransport"
+                (click)="onViewDetails()">
+      </p-button>
+
+      @if (selectedTransport && !selectedTransport.IsCompleted) {
+        <p-button label="סיום שינוע"
+                  icon="pi pi-check-circle"
+                  (click)="onEndTransport()"
+                  severity="success">
+        </p-button>
+      }
+    </div>
+  </div>
+
+  <p-table #dt
+           [columns]="cols"
+           showGridlines="true"
+           [value]="filteredTransports"
+           [tableStyle]="{ 'min-width': '50rem' }"
+           [size]="'small'"
+           [paginator]="true"
+           [rows]="10"
+           [showCurrentPageReport]="true"
+           selectionMode="single"
+           [(selection)]="selectedTransport"
+           currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} רשומות"
+           [globalFilterFields]="getGlobalFilterFields()"
+           [rowHover]="true"
+           dataKey="Id">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        @for (col of columns; track col.field) {
+          <th [pSortableColumn]="col.field">
+            <div class="d-flex align-items-center gap-1 px-2">
+              {{ col.header }}
+              <p-sortIcon [field]="col.field"/>
+            </div>
+          </th>
+        }
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData>
+      <tr [pSelectableRow]="rowData">
+        <td>
+          <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
+        </td>
+
+        <td>
+          {{ rowData.StartDateTime | date:'dd/MM/yyyy HH:mm' }}
+        </td>
+
+        <td>
+          {{ rowData.SourceLocation }}
+        </td>
+
+        <td>
+          {{ rowData.DestinationLocation }}
+        </td>
+
+        <td>
+          <p-tag [value]="rowData.IsCompleted ? 'הסתיים' : 'פעיל'"
+                 [severity]="rowData.IsCompleted ? 'secondary' : 'success'"></p-tag>
+        </td>
+
+        <td>
+          <span
+            [pTooltip]="rowData.BagNumbers"
+            tooltipPosition="top"
+            class="text-ellipsis">
+            {{ rowData.BagNumbers }}
+          </span>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center p-4">
+          לא נמצאו שינועים במערכת
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+</div>
+
+<app-create-transport-dialog
+  [(visible)]="isCreateDialogOpen"
+  [transportId]="transportId"
+  (onSaved)="onTransportSaved()">
+</app-create-transport-dialog>

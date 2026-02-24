@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Helpers;
 
 namespace EmergencyBurial.Api.ViewModel;
 
@@ -29,6 +30,8 @@ public class DeceasedDto
     
     public string? Notes { get; set; }
     
+    public string? Affiliation { get; set; }
+    
     public string? BagNumbersDisplay { get; set; }
     
     public int? RelatedBagNumbers { get; set; }
@@ -40,8 +43,6 @@ public class DeceasedDto
     public DateTime? CreatedOn { get; set; }
 
     public List<DeceasedBagDto> DeceasedBags { get; set; }
-    
-    public DeceasedBurialProcessStatusDto? DeceasedBurialProcessStatus { get; set; }
     
     public DeceasedBurialDetailsDto? DeceasedBurialDetails { get; set; }
     

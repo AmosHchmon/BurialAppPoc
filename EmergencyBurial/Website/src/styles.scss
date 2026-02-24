@@ -74,3 +74,11 @@ input::-webkit-inner-spin-button {
   display: flex !important;
   align-items: center !important;
 }
+
+.text-ellipsis {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
