@@ -1,0 +1,24 @@
+header {
+  background: #2c3e50;
+  color: white;
+
+  .status-badge {
+    color: #2ecc71;
+  }
+}
+
+.scan-wrapper {
+  top: -25px; // הכפתור קופץ מעל הבר — נשאר כאן כי זה עיצוב ייחודי
+}
+
+.scan-btn {
+  width: 4rem;
+  height: 4rem;
+  // background: #e74c3c;
+  // color: white;
+  border: 4px solid white !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-size: 1.8rem;
+}
+
+

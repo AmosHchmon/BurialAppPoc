@@ -1,0 +1,21 @@
+ <section class="stats-grid">
+    <div class="stat-card">
+      <span class="label">ממתינים לקליטה</span>
+      <span class="value">12</span>
+    </div>
+    <div class="stat-card accent">
+      <span class="label">בטיפול בתחנה</span>
+      <span class="value">4</span>
+    </div>
+  </section>
+
+  <section class="activity-section">
+    <h3>פעולות אחרונות</h3>
+    <div class="activity-list">
+      <div class="activity-item" *ngFor="let item of recentItems">
+        <div class="item-id">מזהה: {{item.id}}</div>
+        <div class="item-status">{{item.status}}</div>
+        <div class="item-time">{{item.time}}</div>
+      </div>
+    </div>
+  </section>
