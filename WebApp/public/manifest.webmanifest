@@ -1,6 +1,6 @@
 {
-  "name": "emergency-burial-app",
-  "short_name": "emergency-burial-app",
+  "name": "ניהול חללים בחירום",
+  "short_name": "ניהול חללים",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
