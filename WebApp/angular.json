@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "angular-pwa-app": {
+    "emergency-burial-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -64,10 +64,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "angular-pwa-app:build:production"
+              "buildTarget": "emergency-burial-app:build:production"
             },
             "development": {
-              "buildTarget": "angular-pwa-app:build:development"
+              "buildTarget": "emergency-burial-app:build:development"
             }
           },
           "defaultConfiguration": "development"

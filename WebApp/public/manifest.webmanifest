@@ -1,6 +1,6 @@
 {
-  "name": "angular-pwa-app",
-  "short_name": "angular-pwa-app",
+  "name": "emergency-burial-app",
+  "short_name": "emergency-burial-app",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
