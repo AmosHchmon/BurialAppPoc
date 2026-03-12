@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - task-1514-init-burial-app
+  # השארתי את זה כדי שתוכל להפעיל ידנית מהטאב Actions ב-GitHub
   workflow_dispatch:
 
 jobs:
@@ -21,18 +22,17 @@ jobs:
         working-directory: WebApp
         run: |
           npm install
-          npm run build
+          npm run build -- --configuration=production
 
-      # שלב בדיקה: מדפיס ללוג את הקבצים שנוצרו כדי לוודא שהנתיב נכון
-      - name: List files in dist
+      - name: List files in dist (Verification)
         run: ls -R WebApp/dist/emergency-burial-app/browser
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          # אנחנו מעלים את התוכן של תיקיית ה-browser
-          path: WebApp/dist/emergency-burial-app/browser/.
+          # העלאת התיקייה ללא נקודה בסוף כדי למנוע שגיאת רגרסיה
+          path: WebApp/dist/emergency-burial-app/browser
 
   deploy:
     runs-on: ubuntu-latest
@@ -46,7 +46,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
-          path: ./publish # הורדה לתיקייה מוגדרת מראש
+          path: ./temp_build
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -60,7 +60,5 @@ jobs:
         with:
           app-name: 'burial-app'
           slot-name: 'Production'
-          package: ./publish # פריסה מתוך התיקייה שאליה הורדנו
-
-
-
+          # הפריסה מתבצעת מהתיקייה הזמנית, מה שיבטיח שהקבצים יהיו בשורש ה-wwwroot
+          package: ./temp_build
