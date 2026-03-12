@@ -37,7 +37,7 @@ jobs:
         with:
           name: node-app
           # שים לב: הנתיב הזה חייב להתאים בדיוק למה שמוגדר ב-angular.json תחת outputPath
-          path: WebApp/dist/emergency-burial-app 
+          path: WebApp/dist/emergency-burial-app/browser
 
   deploy:
     runs-on: ubuntu-latest
@@ -66,4 +66,5 @@ jobs:
           app-name: 'burial-app'
           slot-name: 'Production'
           package: . # אנחנו משתמשים בנקודה כי ה-Artifact כבר מכיל רק את הקבצים המוכנים מה-dist
+
 
