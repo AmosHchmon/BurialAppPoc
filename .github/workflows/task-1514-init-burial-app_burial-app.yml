@@ -1,43 +1,40 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Node.js app to Azure Web App - burial-app
 
 on:
   push:
     branches:
       - task-1514-init-burial-app
+    paths:
+      - 'WebApp/**'
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v4 # עדכון לגרסה יציבה
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20.x'
 
-      - name: npm install, build, and test
-        # השורה למטה היא הקריטית ביותר - היא פותרת את שגיאת ה-ENOENT
-        working-directory: WebApp 
+      - name: npm install and build
+        working-directory: WebApp
         run: |
           npm install
-          npm run build --if-present
-          # אם יש לך טסטים באנגולר, וודא שהם מוגדרים לרוץ ב-CI (בלי דפדפן פתוח)
-          # npm run test --if-present
+          npm run build --configuration production
+
+      # שלב בדיקה: מדפיס ללוג את הקבצים שנוצרו כדי לוודא שהנתיב נכון
+      - name: List files in dist
+        run: ls -R WebApp/dist/emergency-burial-app/browser
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          # שים לב: הנתיב הזה חייב להתאים בדיוק למה שמוגדר ב-angular.json תחת outputPath
-          path: WebApp/dist/emergency-burial-app/browser
+          # אנחנו מעלים את התוכן של תיקיית ה-browser
+          path: WebApp/dist/emergency-burial-app/browser/
 
   deploy:
     runs-on: ubuntu-latest
@@ -51,7 +48,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
-      
+          path: ./publish # הורדה לתיקייה מוגדרת מראש
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -60,11 +58,8 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9A672855C4944CC5AB643DD87F6F6538 }}
 
       - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'burial-app'
           slot-name: 'Production'
-          package: . # אנחנו משתמשים בנקודה כי ה-Artifact כבר מכיל רק את הקבצים המוכנים מה-dist
-
-
+          package: ./publish # פריסה מתוך התיקייה שאליה הורדנו
