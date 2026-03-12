@@ -7,8 +7,6 @@ on:
   push:
     branches:
       - task-1514-init-burial-app
-    paths:
-      - 'WebApp/**' # מפעיל את ה-Workflow רק כשמשנים קוד בתוך תיקיית ה-Frontend
   workflow_dispatch:
 
 jobs:
@@ -68,3 +66,4 @@ jobs:
           app-name: 'burial-app'
           slot-name: 'Production'
           package: . # אנחנו משתמשים בנקודה כי ה-Artifact כבר מכיל רק את הקבצים המוכנים מה-dist
+
