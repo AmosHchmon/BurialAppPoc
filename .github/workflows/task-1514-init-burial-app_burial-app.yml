@@ -23,7 +23,7 @@ jobs:
         working-directory: WebApp
         run: |
           npm install
-          npm run build --configuration production
+          npm run build
 
       # שלב בדיקה: מדפיס ללוג את הקבצים שנוצרו כדי לוודא שהנתיב נכון
       - name: List files in dist
@@ -63,3 +63,4 @@ jobs:
           app-name: 'burial-app'
           slot-name: 'Production'
           package: ./publish # פריסה מתוך התיקייה שאליה הורדנו
+
