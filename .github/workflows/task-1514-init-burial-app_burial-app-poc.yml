@@ -28,11 +28,6 @@ jobs:
         working-directory: WebApp
         run: npm run build -- --configuration=production
 
-      - name: Copy web.config to build output
-        shell: powershell
-        run: |
-          Copy-Item "WebApp\web.config" "WebApp\dist\emergency-burial-app\browser\web.config" -Force
-
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -67,3 +62,4 @@ jobs:
           app-name: 'burial-app-poc'
           slot-name: 'Production'
           package: ./angular-app
+
