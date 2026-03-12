@@ -1,10 +1,9 @@
-name: Build and deploy Node.js app to Azure Web App - burial-app
+name: Build and deploy Angular to .NET Azure Web App - burial-app-demo
 
 on:
   push:
     branches:
       - task-1514-init-burial-app
-  # השארתי את זה כדי שתוכל להפעיל ידנית מהטאב Actions ב-GitHub
   workflow_dispatch:
 
 jobs:
@@ -13,25 +12,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # שלב 1: התקנת Node.js כדי לבנות את ה-Angular
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
 
+      # שלב 2: בניית ה-Angular
       - name: npm install and build
         working-directory: WebApp
         run: |
           npm install
           npm run build -- --configuration=production
 
-      - name: List files in dist (Verification)
-        run: ls -R WebApp/dist/emergency-burial-app/browser
-
+      # שלב 3: העלאת הקבצים (התוצר של אנגולר) כ-Artifact
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: node-app
-          # העלאת התיקייה ללא נקודה בסוף כדי למנוע שגיאת רגרסיה
+          name: angular-app
+          # וודא שהנתיב הזה תואם למה שראינו ב-dist
           path: WebApp/dist/emergency-burial-app/browser
 
   deploy:
@@ -42,23 +41,25 @@ jobs:
       contents: read
 
     steps:
+      # שלב 4: הורדת הקבצים לתיקייה זמנית
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: node-app
+          name: angular-app
           path: ./temp_build
 
+      # שלב 5: התחברות לאזור עם הסיקרטים החדשים של ה-App Service החדש
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B018D377A7EC4F2E8E802FE047207C85 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_79B40B89188F4F5E857FCA561CA50938 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9A672855C4944CC5AB643DD87F6F6538 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D5A7E1E5BEE046C59957C72300857FC7 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_244ABF1009034FD7851EEC9F9EF6DF8F }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_420C30073F5C438380A578439D2F363B }}
 
+      # שלב 6: פריסה לשרת ה-Demo (ה-Runtime הוא .NET אבל הקבצים הם Angular)
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'burial-app'
+          app-name: 'burial-app-demo'
           slot-name: 'Production'
-          # הפריסה מתבצעת מהתיקייה הזמנית, מה שיבטיח שהקבצים יהיו בשורש ה-wwwroot
           package: ./temp_build
