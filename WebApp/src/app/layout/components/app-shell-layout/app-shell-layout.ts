@@ -12,7 +12,7 @@ export class AppShellLayout {
 
 
   openScanner() {
-    console.log('פותח מצלמה לסריקה...');
+    alert('פותח מצלמה לסריקה...');
     // כאן תבוא הקריאה לספריית הסריקה (למשל ngx-scanner)
   }
 }

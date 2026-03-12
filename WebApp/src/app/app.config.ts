@@ -6,6 +6,8 @@ import { provideToastr } from 'ngx-toastr';
 import { routes } from './app.routes';
 import { provideServiceWorker } from '@angular/service-worker';
 import { provideNgxWebstorage, withLocalStorage, withNgxWebstorageConfig, withSessionStorage } from 'ngx-webstorage';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatIconModule } from '@angular/material/icon';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,6 +27,8 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-bottom-right', // מומלץ למובייל/PWA
       preventDuplicates: true,
     }),
+    provideAnimationsAsync(),
+    importProvidersFrom(MatIconModule)
   ]
 };
 

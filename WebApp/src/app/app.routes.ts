@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { AppShellLayout } from './layout/components/app-shell-layout/app-shell-layout';
 import { Home } from './features/dashboard/components/home/home';
+import { DemoBarcode } from './features/dashboard/components/demo-barcode/demo-barcode';
 
 export const routes: Route[] = [
   {
@@ -8,8 +9,12 @@ export const routes: Route[] = [
     component: AppShellLayout,
     children: [
       {
-        path: '',
+        path: 'home',
         component: Home
+      },
+      {
+        path: '',
+        component: DemoBarcode
       }
     ]
   }
