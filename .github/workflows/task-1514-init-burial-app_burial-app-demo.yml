@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy ASP.Net Core app to Azure Web App - burial-app-demo
+name: Build and deploy Angular to .NET Azure Web App - burial-app-demo
 
 on:
   push:
@@ -12,42 +9,46 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read #This is required for actions/checkout
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v4
+      # שלב 1: התקנת Node.js כדי לבנות את ה-Angular
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          dotnet-version: '8.x'
+          node-version: '20.x'
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      # שלב 2: בניית ה-Angular
+      - name: npm install and build
+        working-directory: WebApp
+        run: |
+          npm install
+          npm run build -- --configuration=production
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
+      # שלב 3: העלאת הקבצים (התוצר של אנגולר) כ-Artifact
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: angular-app
+          # וודא שהנתיב הזה תואם למה שראינו ב-dist
+          path: WebApp/dist/emergency-burial-app/browser
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
+      # שלב 4: הורדת הקבצים לתיקייה זמנית
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: .net-app
-      
+          name: angular-app
+          path: ./temp_build
+
+      # שלב 5: התחברות לאזור עם הסיקרטים החדשים של ה-App Service החדש
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -55,11 +56,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_244ABF1009034FD7851EEC9F9EF6DF8F }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_420C30073F5C438380A578439D2F363B }}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+      # שלב 6: פריסה לשרת ה-Demo (ה-Runtime הוא .NET אבל הקבצים הם Angular)
+      - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'burial-app-demo'
           slot-name: 'Production'
-          package: .
-          
+          package: ./temp_build
