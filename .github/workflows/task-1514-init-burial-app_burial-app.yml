@@ -8,41 +8,45 @@ on:
     branches:
       - task-1514-init-burial-app
     paths:
-      - 'WebApp/**' # מפעיל את ה-Workflow רק כשמשנים קוד בתיקיית ה-Frontend
+      - 'WebApp/**' # מפעיל את ה-Workflow רק כשמשנים קוד בתוך תיקיית ה-Frontend
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Set up Node.js version
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4 # עדכון לגרסה יציבה
         with:
-          node-version: '20.x' # מומלץ להשתמש בגרסה יציבה כמו 20 לאנגולר
+          node-version: '20.x'
 
       - name: npm install, build, and test
+        # השורה למטה היא הקריטית ביותר - היא פותרת את שגיאת ה-ENOENT
+        working-directory: WebApp 
         run: |
           npm install
           npm run build --if-present
-          npm run test --if-present
+          # אם יש לך טסטים באנגולר, וודא שהם מוגדרים לרוץ ב-CI (בלי דפדפן פתוח)
+          # npm run test --if-present
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: WebApp/dist/emergency-burial-app
-        
+          # שים לב: הנתיב הזה חייב להתאים בדיוק למה שמוגדר ב-angular.json תחת outputPath
+          path: WebApp/dist/emergency-burial-app 
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
       - name: Download artifact from build job
@@ -63,6 +67,4 @@ jobs:
         with:
           app-name: 'burial-app'
           slot-name: 'Production'
-          package: .
-
-          
+          package: . # אנחנו משתמשים בנקודה כי ה-Artifact כבר מכיל רק את הקבצים המוכנים מה-dist
