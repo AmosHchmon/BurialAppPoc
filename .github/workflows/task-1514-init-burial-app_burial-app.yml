@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - task-1514-init-burial-app
-    paths:
-      - 'WebApp/**'
   workflow_dispatch:
 
 jobs:
@@ -63,5 +61,6 @@ jobs:
           app-name: 'burial-app'
           slot-name: 'Production'
           package: ./publish # פריסה מתוך התיקייה שאליה הורדנו
+
 
 
