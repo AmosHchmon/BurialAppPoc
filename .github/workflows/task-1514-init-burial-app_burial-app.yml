@@ -34,7 +34,7 @@ jobs:
         with:
           name: node-app
           # אנחנו מעלים את התוכן של תיקיית ה-browser
-          path: WebApp/dist/emergency-burial-app/browser/
+          path: WebApp/dist/emergency-burial-app/browser/.
 
   deploy:
     runs-on: ubuntu-latest
@@ -63,4 +63,5 @@ jobs:
           app-name: 'burial-app'
           slot-name: 'Production'
           package: ./publish # פריסה מתוך התיקייה שאליה הורדנו
+
 
