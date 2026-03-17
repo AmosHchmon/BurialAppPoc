@@ -1,14 +1,89 @@
-header {
-  background: #2c3e50;
-  color: white;
-
-  .status-badge {
-    color: #2ecc71;
-  }
+:host {
+  display: block;
+  height: 100vh; /* נועל גובה למסך המכשיר */
+  width: 100vw;
+  overflow: hidden; /* מונע גלילה של ה-Body */
+  background-color: #f8f9fa;
+}
+/* הגדרות כלליות למבנה */
+.app-header {
+  height: 60px;
+  background-color: #2c3e50; /* צבע כהה ומקצועי */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 10;
 }
 
+.status-badge.online {
+  font-size: 0.7rem;
+  background: #27ae60;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* הגדרות הניווט התחתון */
+.app-nav {
+  height: 70px;
+  position: relative;
+  padding-bottom: env(safe-area-inset-bottom); /* תמיכה ב-iPhone עם Notch */
+}
+
+.nav-item {
+  border: none;
+  background: none;
+  color: #7f8c8d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.75rem;
+  transition: color 0.2s;
+}
+
+.nav-item mat-icon {
+  font-size: 24px;
+}
+
+.nav-item:active {
+  color: #3498db;
+}
+
+/* עיצוב כפתור הסריקה המרכזי */
 .scan-wrapper {
-  top: -25px; // הכפתור קופץ מעל הבר — נשאר כאן כי זה עיצוב ייחודי
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top: -15px; /* גורם לכפתור לבלוט למעלה */
+}
+
+.scan-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: #3498db;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+  margin-bottom: 4px;
+}
+
+.scan-btn mat-icon {
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
+}
+
+.scan-label {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* גלילה חלקה למובייל */
+main {
+  -webkit-overflow-scrolling: touch;
 }
 
 .scan-btn {

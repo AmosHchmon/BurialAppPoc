@@ -1,0 +1,74 @@
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* נמתח על כל ה-main של ה-Layout */
+  width: 100%;
+}
+
+/* הקונטיינר הראשי */
+.scanner-wrapper {
+  flex: 1;
+  width: 100%;
+  padding: 20px 0;
+}
+
+/* הגבלת המצלמה ל-25% מגובה המסך (viewport height) */
+.scanner-viewport {
+  position: relative;
+  width: 90%; /* רוחב כמעט מלא */
+  height: 25vh; /* בדיוק 25% מגובה המסך */
+  overflow: hidden;
+  border-radius: 12px;
+  background: #000;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* התאמת הוידאו של הסורק שימלא את הקונטיינר */
+zxing-scanner {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover; /* חשוב! כדי שהתמונה לא תתעוות */
+}
+
+/* שכבת הכוונת */
+.scanner-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none; /* מאפשר ללחוץ דרך השכבה אם צריך */
+}
+
+/* המסגרת הלבנה */
+.focus-frame {
+  width: 90%;
+  height: 80%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4); /* אפקט האפלה מסביב לכוונת */
+}
+
+/* קו ה"לייזר" שזז למעלה ולמטה */
+.scan-line {
+  position: absolute;
+  width: 90%;
+  height: 2px;
+  background: #e74c3c;
+  box-shadow: 0 0 8px #e74c3c;
+  animation: scan 2s infinite ease-in-out;
+}
+
+@keyframes scan {
+  0%, 100% { transform: translateY(-40px); }
+  50% { transform: translateY(40px); }
+}
+
+/* עיצוב כרטיס התוצאה */
+.results-card {
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #dee2e6;
+}
