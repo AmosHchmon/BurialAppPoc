@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DemoBarcode } from './demo-barcode';
+import { SelectedDeceasedBug } from './selected-deceased-bug';
 
-describe('DemoBarcode', () => {
-  let component: DemoBarcode;
-  let fixture: ComponentFixture<DemoBarcode>;
+describe('SelectedDeceasedBug', () => {
+  let component: SelectedDeceasedBug;
+  let fixture: ComponentFixture<SelectedDeceasedBug>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DemoBarcode]
+      imports: [SelectedDeceasedBug]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DemoBarcode);
+    fixture = TestBed.createComponent(SelectedDeceasedBug);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -1,0 +1,67 @@
+<div class="details-container p-0" dir="rtl"> <div class="d-flex justify-content-between align-items-center p-3 bg-light border-bottom">
+    <h2 class="m-0 fs-5 fw-bold text-dark">אישור פרטי חלל</h2>
+    <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+  </div>
+
+  <div class="p-3">
+    <div class="card shadow-sm mb-3 border-0">
+      <div class="card-header bg-primary text-white d-flex align-items-center">
+        <mat-icon class="ms-2">person</mat-icon> <h5 class="m-0 fs-6">פרטי זיהוי חלל</h5>
+      </div>
+      <div class="card-body">
+        <div class="row gy-3 text-end">
+          <div class="col-6">
+            <label class="text-muted small d-block">מספר זהות</label>
+            <span class="fw-bold">{{ deceased.identityNumber || 'לא הוזן' }}</span>
+          </div>
+          <div class="col-6">
+            <label class="text-muted small d-block">שם פרטי</label>
+            <span class="fw-bold">{{ deceased.firstName }}</span>
+          </div>
+          <div class="col-6">
+            <label class="text-muted small d-block">שם משפחה</label>
+            <span class="fw-bold">{{ deceased.lastName }}</span>
+          </div>
+          <div class="col-6">
+            <label class="text-muted small d-block">שם האב</label>
+            <span class="fw-bold">{{ deceased.fatherName || '---' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm border-0 border-top border-4 border-warning">
+      <div class="card-header bg-light d-flex align-items-center">
+        <mat-icon class="ms-2 text-warning">inventory_2</mat-icon>
+        <h5 class="m-0 fs-6 text-dark">פרטי שק ושינוע</h5>
+      </div>
+      <div class="card-body bg-white text-end">
+        <div class="mb-3">
+          <label class="text-muted small d-block">מספר שק (ברקוד)</label>
+          <span class="fs-4 fw-bold text-dark">{{ bag.bagNumber }}</span>
+        </div>
+
+        @if (bag.partDescription) {
+          <div class="p-2 rounded bg-light border-start border-3 border-warning">
+            <label class="text-muted small d-block fw-bold text-warning">תיאור חלק:</label>
+            <p class="m-0 small text-dark">{{ bag.partDescription }}</p>
+          </div>
+        } @else {
+          <div class="text-success small fw-bold">
+            <mat-icon inline class="align-middle">check_circle</mat-icon> חלל שלם
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="d-flex gap-2 p-3 border-top bg-light justify-content-end">
+    <button class="btn btn-outline-secondary px-4 py-2" mat-dialog-close>
+      סגור
+    </button>
+    <button class="btn btn-success px-4 py-2 fw-bold" (click)="onConfirmSelection()">
+      אשר העמסה
+    </button>
+  </div>
+
+</div>

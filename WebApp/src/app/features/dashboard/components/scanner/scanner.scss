@@ -57,12 +57,12 @@ zxing-scanner {
   height: 2px;
   background: #e74c3c;
   box-shadow: 0 0 8px #e74c3c;
-  animation: scan 2s infinite ease-in-out;
+  animation: scan 3s infinite ease-in-out;
 }
 
 @keyframes scan {
-  0%, 100% { transform: translateY(-40px); }
-  50% { transform: translateY(40px); }
+  0%, 100% { transform: translateY(-60px); }
+  50% { transform: translateY(60px); }
 }
 
 /* עיצוב כרטיס התוצאה */

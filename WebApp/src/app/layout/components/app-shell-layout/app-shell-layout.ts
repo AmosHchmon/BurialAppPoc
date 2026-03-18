@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from "@angular/router";
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from "@angular/router";
 import { MatIcon } from "@angular/material/icon";
 
 @Component({
@@ -10,9 +10,9 @@ import { MatIcon } from "@angular/material/icon";
 })
 export class AppShellLayout {
 
+  router = inject(Router);
 
   openScanner() {
-    alert('פותח מצלמה לסריקה...');
-    // כאן תבוא הקריאה לספריית הסריקה (למשל ngx-scanner)
+    this.router.navigate(['/scan']);
   }
 }
