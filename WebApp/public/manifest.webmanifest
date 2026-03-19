@@ -1,6 +1,6 @@
 {
-  "name": "ניהול חללים בחירום",
-  "short_name": "ניהול חללים",
+  "name": "שינוע חללים בחירום",
+  "short_name": "שינוע חללים",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
