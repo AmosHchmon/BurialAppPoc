@@ -5,7 +5,8 @@ import {
   Component,
   inject,
   OnDestroy,
-  OnInit
+  OnInit,
+  signal
 } from '@angular/core';
 import {
   ZXingScannerModule
@@ -25,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
 import {
   MatSnackBar,
 } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scanner',
@@ -49,12 +51,13 @@ export class ScannerComponent implements OnInit,OnDestroy {
   private scanTimer: any;
 
   qrResultString: string;
-  noCameraMode = false;
+noCameraMode = signal<boolean>(false);
 
   torchAvailable$ = new BehaviorSubject < boolean > (false);
   tryHarder = true;
 
-  constructor(public dialog: MatDialog, public snackBar: MatSnackBar) { }
+
+  constructor(public dialog: MatDialog, public snackBar: MatSnackBar,public router : Router) { }
 
   ngOnInit(): void {
   }
@@ -84,13 +87,12 @@ export class ScannerComponent implements OnInit,OnDestroy {
 
   // מה קורה אחרי 15 שניות ללא הצלחה
   handleScanTimeout() {
-    console.warn("חלפו 15 שניות ללא סריקה");
 
    this.snackBar.open('לא זוהה ברקוד. עובר להזנה ידנית לנוחיותך.', 'סגור', { duration: 3000 });
 
-    // this.noCameraMode = true;
+    this.noCameraMode.set(true);
 
-    }
+  }
 
   onCamerasFound(devices: MediaDeviceInfo[]): void {
     this.availableDevices = devices;
@@ -110,9 +112,13 @@ export class ScannerComponent implements OnInit,OnDestroy {
   }
 
   onCamerasNotFound(): void {
-   this.noCameraMode = true;
+   this.noCameraMode.set(true);
 
    this.snackBar.open('מצלמה לא נמצאה, עובר להזנה ידנית', 'סגור', { duration: 3000 });
+  }
+
+    openManualSelection() {
+    this.router.navigate(['/manual-selection']);
   }
 
 }
