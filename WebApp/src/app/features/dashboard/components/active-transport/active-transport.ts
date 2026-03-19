@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { TransportService } from 'src/app/layout/services/transport-service.service';
+import { TransportService } from 'src/app/features/dashboard/services/transport-service.service';
 
 @Component({
   selector: 'app-active-transport',

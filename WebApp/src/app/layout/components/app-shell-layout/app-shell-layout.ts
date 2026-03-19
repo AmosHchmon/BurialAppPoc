@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from "@angular/router";
 import { MatIcon } from "@angular/material/icon";
-import { TransportService } from '../../services/transport-service.service';
+import { TransportService } from '../../../features/dashboard/services/transport-service.service';
 
 @Component({
   selector: 'app-app-shell-layout',

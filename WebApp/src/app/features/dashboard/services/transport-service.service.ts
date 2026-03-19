@@ -17,14 +17,14 @@ export class TransportService {
     },
     {
       id: '102',
-      fullName: 'אברהם לוי',
+      fullName: 'מוחמד עלי',
       identityNumber: '055443322',
       bagNumber: '7290007654321',
       location: 'תר"ח'
     },
     {
       id: '103',
-      fullName: 'יוסי מזרחי',
+      fullName: 'אחמד חסן',
       identityNumber: '011223344',
       bagNumber: '7290009988776',
       location: 'תר"ח'
