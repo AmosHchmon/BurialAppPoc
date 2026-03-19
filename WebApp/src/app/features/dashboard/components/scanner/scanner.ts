@@ -4,6 +4,7 @@ import {
 import {
   Component,
   inject,
+  OnDestroy,
   OnInit
 } from '@angular/core';
 import {
@@ -21,7 +22,9 @@ import {
 } from '@angular/material/dialog';
 import { SelectedDeceasedBug } from '../dialogs/selected-deceased-bug/selected-deceased-bug';
 import { MatIconModule } from '@angular/material/icon';
-// import { SelectedDeceasedBug } from '../dialogs/selected-deceased-bug/selected-deceased-bug';
+import {
+  MatSnackBar,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-scanner',
@@ -30,7 +33,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './scanner.html',
   styleUrl: './scanner.scss',
 })
-export class ScannerComponent implements OnInit {
+export class ScannerComponent implements OnInit,OnDestroy {
 
   availableDevices: MediaDeviceInfo[];
   deviceCurrent: MediaDeviceInfo;
@@ -38,67 +41,78 @@ export class ScannerComponent implements OnInit {
 
   formatsEnabled: BarcodeFormat[] = [
     BarcodeFormat.CODE_128,
-    BarcodeFormat.DATA_MATRIX,
     BarcodeFormat.EAN_13,
-    BarcodeFormat.QR_CODE,
+    BarcodeFormat.UPC_A,
   ];
 
   hasDevices: boolean;
-  hasPermission: boolean;
+  private scanTimer: any;
 
   qrResultString: string;
+  noCameraMode = false;
 
-  torchEnabled = false;
   torchAvailable$ = new BehaviorSubject < boolean > (false);
   tryHarder = true;
 
-  dialog = inject(MatDialog);
+  constructor(public dialog: MatDialog, public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy() {
+    this.stopScanTimer();
   }
 
   clearResult(): void {
     this.qrResultString = null;
   }
 
+  startScanTimer() {
+    this.stopScanTimer(); // ניקוי טיימר קודם אם היה
+
+    this.scanTimer = setTimeout(() => {
+      this.handleScanTimeout();
+    }, 15000); // 15 שניות
+  }
+
+  // פונקציה לעצירת הטיימר
+  stopScanTimer() {
+    if (this.scanTimer) {
+      clearTimeout(this.scanTimer);
+    }
+  }
+
+  // מה קורה אחרי 15 שניות ללא הצלחה
+  handleScanTimeout() {
+    console.warn("חלפו 15 שניות ללא סריקה");
+
+   this.snackBar.open('לא זוהה ברקוד. עובר להזנה ידנית לנוחיותך.', 'סגור', { duration: 3000 });
+
+    // this.noCameraMode = true;
+
+    }
+
   onCamerasFound(devices: MediaDeviceInfo[]): void {
     this.availableDevices = devices;
     this.hasDevices = Boolean(devices && devices.length);
+    if (this.hasDevices) {
+      this.startScanTimer();
+    }
   }
 
   onCodeResult(resultString: string) {
     this.qrResultString = resultString;
-  }
-
-  onDeviceSelectChange(selected: string) {
-    const selectedStr = selected || '';
-    if (this.deviceSelected === selectedStr) {
-      return;
-    }
-    this.deviceSelected = selectedStr;
-    const device = this.availableDevices.find(x => x.deviceId === selected);
-    this.deviceCurrent = device || undefined;
-  }
-
-  onDeviceChange(device: MediaDeviceInfo) {
-    const selectedStr = device?.deviceId || '';
-    if (this.deviceSelected === selectedStr) {
-      return;
-    }
-    this.deviceSelected = selectedStr;
-    this.deviceCurrent = device || undefined;
-  }
-
-  onHasPermission(has: boolean) {
-    this.hasPermission = has;
-  }
-
-  onTorchCompatible(isCompatible: boolean): void {
-    this.torchAvailable$.next(isCompatible || false);
+    this.stopScanTimer();
   }
 
   onConfirmSelection(): void {
     this.dialog.open(SelectedDeceasedBug);
+  }
+
+  onCamerasNotFound(): void {
+   this.noCameraMode = true;
+
+   this.snackBar.open('מצלמה לא נמצאה, עובר להזנה ידנית', 'סגור', { duration: 3000 });
   }
 
 }

@@ -15,12 +15,8 @@
             <span class="fw-bold">{{ deceased.identityNumber || 'לא הוזן' }}</span>
           </div>
           <div class="col-6">
-            <label class="text-muted small d-block">שם פרטי</label>
-            <span class="fw-bold">{{ deceased.firstName }}</span>
-          </div>
-          <div class="col-6">
-            <label class="text-muted small d-block">שם משפחה</label>
-            <span class="fw-bold">{{ deceased.lastName }}</span>
+            <label class="text-muted small d-block">שם מלא</label>
+            <span class="fw-bold">{{ deceased.fullName }}</span>
           </div>
           <div class="col-6">
             <label class="text-muted small d-block">שם האב</label>
@@ -56,9 +52,6 @@
   </div>
 
   <div mat-dialog-actions class="d-flex gap-2 p-3 border-top bg-light justify-content-end">
-    <button class="btn btn-outline-secondary px-4 py-2" mat-dialog-close>
-      סגור
-    </button>
     <button class="btn btn-success px-4 py-2 fw-bold" (click)="onConfirmSelection()">
       אשר העמסה
     </button>

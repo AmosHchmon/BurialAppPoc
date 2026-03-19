@@ -1,0 +1,28 @@
+.border-dashed {
+  border-style: dashed !important;
+  background-color: rgba(13, 110, 253, 0.03);
+}
+
+.index-number {
+  min-width: 35px;
+  opacity: 0.5;
+}
+
+.status-box {
+  backdrop-filter: blur(5px);
+}
+
+.fixed-bottom {
+  z-index: 1050;
+  border-radius: 20px 20px 0 0;
+}
+
+// אנימציה קלה לכניסת כרטיסים
+.card {
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

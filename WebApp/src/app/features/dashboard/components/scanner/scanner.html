@@ -1,9 +1,7 @@
 <div class="scanner-wrapper d-flex flex-column align-items-center justify-content-center">
   <div class="scanner-viewport">
-    <zxing-scanner [torch]="torchEnabled" [device]="deviceCurrent" (deviceChange)="onDeviceChange($event)"
-      (scanSuccess)="onCodeResult($event)" [formats]="formatsEnabled" [tryHarder]="tryHarder"
-      (permissionResponse)="onHasPermission(true)" (camerasFound)="onCamerasFound($event)"
-      (torchCompatible)="onTorchCompatible($event)">
+    <zxing-scanner [device]="deviceCurrent" (camerasNotFound)="onCamerasNotFound()"
+      (scanSuccess)="onCodeResult($event)" [formats]="formatsEnabled" [tryHarder]="tryHarder" (camerasFound)="onCamerasFound($event)">
     </zxing-scanner>
 
     <div class="scanner-overlay">
@@ -38,4 +36,16 @@
   </div>
 
 </section>
+}
+
+@if (noCameraMode) {
+  <div class="alert alert-warning m-3 text-center shadow-sm">
+    <mat-icon class="d-block mx-auto mb-2">no_photography</mat-icon>
+    <strong>לא נמצאה מצלמה זמינה</strong>
+    <p class="small mb-3">לא ניתן לסרוק ברקוד במכשיר זה.</p>
+
+    <button class="btn btn-primary w-100 py-3" (click)="openManualSelection()">
+      מעבר לבחירה ידנית מרשימה
+    </button>
+  </div>
 }

@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from "@angular/router";
 import { MatIcon } from "@angular/material/icon";
+import { TransportService } from '../../services/transport-service.service';
 
 @Component({
   selector: 'app-app-shell-layout',
@@ -10,9 +11,20 @@ import { MatIcon } from "@angular/material/icon";
 })
 export class AppShellLayout {
 
-  router = inject(Router);
+  constructor(
+     public router : Router,
+     public transportService : TransportService,
+   ) { }
 
   openScanner() {
     this.router.navigate(['/scan']);
+  }
+
+  openManualSelection() {
+    this.router.navigate(['/manual-selection']);
+  }
+
+  openActiveTransport() {
+    this.router.navigate(['/active-transport']);
   }
 }

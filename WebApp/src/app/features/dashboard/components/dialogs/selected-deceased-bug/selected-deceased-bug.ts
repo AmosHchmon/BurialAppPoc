@@ -1,11 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { Deceased, Bag } from '../../../model/deceased';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-selected-deceased-bug',
-  imports: [MatIconModule],
+  imports: [MatIconModule, MatDialogActions, MatDialogClose],
   templateUrl: './selected-deceased-bug.html',
   styleUrl: './selected-deceased-bug.scss',
 })
@@ -20,8 +20,7 @@ export class SelectedDeceasedBug {
   deceased: Deceased = {
     id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
     identityNumber: '012345678',
-    firstName: 'ישראל',
-    lastName: 'ישראלי',
+    fullName: 'ישראל ישראלי',
     fatherName: 'אברהם'
   };
 

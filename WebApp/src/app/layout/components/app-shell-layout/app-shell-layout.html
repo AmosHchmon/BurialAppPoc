@@ -1,6 +1,6 @@
 <div class="app-wrapper d-flex flex-column vh-100 overflow-hidden" dir="rtl">
 
-  <header class="app-header d-flex justify-content-between align-items-center px-3 flex-shrink-0">
+  <!-- <header class="app-header d-flex justify-content-between align-items-center px-3 flex-shrink-0">
     <button class="btn p-0 text-white">
       <mat-icon>menu</mat-icon>
     </button>
@@ -11,7 +11,33 @@
     <button class="btn p-0 text-white">
       <mat-icon>account_circle</mat-icon>
     </button>
-  </header>
+  </header> -->
+  <header class="app-header d-flex justify-content-between align-items-center px-3 flex-shrink-0">
+
+    <div class="transport-status-wrapper" [class.active]="transportService.activeBags().length > 0">
+      <div class="icon-container position-relative">
+        <mat-icon [class.text-success]="transportService.activeBags().length > 0"
+                  [class.text-white-50]="transportService.activeBags().length === 0">
+          local_shipping
+        </mat-icon>
+
+        @if (transportService.activeBags().length > 0) {
+          <span class="bag-count-badge">
+            {{ transportService.activeBags().length }}
+          </span>
+        }
+      </div>
+    </div>
+
+    <div class="station-info text-center text-white">
+      <h1 class="fs-6 m-0">ניידת שינוע חללים</h1>
+      <span class="status-badge online">מחובר לסנכרון</span>
+    </div>
+
+    <button class="btn p-0 text-white">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+</header>
 
   <main class="flex-grow-1 overflow-y-auto p-3 bg-light">
     <router-outlet></router-outlet>
@@ -19,9 +45,9 @@
 
   <nav class="app-nav d-flex justify-content-around align-items-center bg-white border-top flex-shrink-0">
 
-    <button class="nav-item">
-      <mat-icon>search</mat-icon>
-      <span>חיפוש</span>
+    <button class="nav-item" (click)="openManualSelection()">
+      <mat-icon>touch_app</mat-icon>
+      <span>בחירה ידנית</span>
     </button>
 
     <div class="scan-wrapper">
@@ -31,9 +57,9 @@
       <span class="scan-label">סריקה</span>
     </div>
 
-    <button class="nav-item">
-      <mat-icon>list</mat-icon>
-      <span>רשימה</span>
+    <button class="nav-item" (click)="openActiveTransport()">
+      <mat-icon>local_shipping</mat-icon>
+      <span>שינוע נוכחי</span>
     </button>
 
   </nav>

@@ -1,0 +1,54 @@
+<div class="selection-page bg-light min-vh-100 p-3" dir="rtl">
+
+  <div class="bg-white shadow-sm rounded-4 p-3 mb-4 sticky-top">
+    <label class="text-muted small fw-bold mb-2 d-block">בחר גורם/מיקום לסינון:</label>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-select [(ngModel)]="selectedLocation">
+        @for (loc of locations; track loc) {
+          <mat-option [value]="loc">{{ loc }}</mat-option>
+        }
+      </mat-select>
+      <mat-icon matPrefix class="ms-2 text-primary">filter_alt</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <div class="results-list">
+    <div class="px-2 mb-3 d-flex align-items-center justify-content-between">
+      <span class="fw-bold text-dark">רשימת חללים ב{{ selectedLocation }}</span>
+      <span class="badge rounded-pill bg-secondary bg-opacity-10 text-secondary border">
+        {{ filteredList.length }} חללים
+      </span>
+    </div>
+
+    @if (filteredList.length > 0) {
+      @for (item of filteredList; track item.id) {
+        <div class="card mb-2 border-0 shadow-sm rounded-3 ripple"
+             (click)="onSelect(item)"
+             role="button">
+          <div class="card-body p-3 d-flex align-items-center">
+
+            <div class="bg-primary bg-opacity-10 rounded-circle p-2 ms-3 text-primary">
+              <mat-icon>account_circle</mat-icon>
+            </div>
+
+            <div class="flex-grow-1">
+              <div class="fw-bold fs-5 mb-0 text-dark">{{ item.fullName }}</div>
+              <div class="text-muted small">
+                ת"ז: <span class="fw-medium">{{ item.identityNumber }}</span>
+                <span class="mx-1">|</span>
+                שק: <span class="text-primary fw-bold">{{ item.bagNumber }}</span>
+              </div>
+            </div>
+
+            <mat-icon class="text-light-emphasis">chevron_left</mat-icon>
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="text-center py-5">
+        <mat-icon class="text-muted opacity-25" style="font-size: 4rem; width: 4rem; height: 4rem;">inventory_2</mat-icon>
+        <p class="text-muted mt-2">אין חללים רשומים במיקום זה</p>
+      </div>
+    }
+  </div>
+</div>
