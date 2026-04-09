@@ -18,11 +18,10 @@ export class ManualCodeEntry {
     length: 6,
     allowNumbersOnly: true,
     inputStyles: {
-    'width': '3rem',
-    'height': '3rem',
-    'font-size': '2rem'
+    'width': '2rem',
+    'height': '2rem',
+    'font-size': '1.5rem'
   }
-    // inputType: 'number'
   };
 
   constructor(
