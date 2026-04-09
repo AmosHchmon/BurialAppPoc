@@ -52,7 +52,7 @@ export class ScannerComponent implements OnInit,OnDestroy {
   private scanTimer: any;
 
   qrResultString: string;
-noCameraMode = signal<boolean>(false);
+  noCameraMode = signal<boolean>(false);
 
   torchAvailable$ = new BehaviorSubject < boolean > (false);
   tryHarder = true;
@@ -61,6 +61,7 @@ noCameraMode = signal<boolean>(false);
   constructor(public dialog: MatDialog, public snackBar: MatSnackBar,public router : Router) { }
 
   ngOnInit(): void {
+    this.noCameraMode.set(false);
   }
 
   ngOnDestroy() {
