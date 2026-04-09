@@ -76,7 +76,7 @@ noCameraMode = signal<boolean>(false);
 
     this.scanTimer = setTimeout(() => {
       this.handleScanTimeout();
-    }, 5000); // 15 שניות
+    }, 10000); // 15 שניות
   }
 
   // פונקציה לעצירת הטיימר
