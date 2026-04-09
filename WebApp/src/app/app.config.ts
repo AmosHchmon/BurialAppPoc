@@ -27,7 +27,6 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-bottom-right', // מומלץ למובייל/PWA
       preventDuplicates: true,
     }),
-    provideAnimationsAsync(),
     importProvidersFrom(MatIconModule)
   ]
 };

@@ -4,6 +4,7 @@ import { Home } from './features/dashboard/components/home/home';
 import { ScannerComponent } from './features/dashboard/components/scanner/scanner';
 import { ManualSelectionBug } from './features/dashboard/components/manual-selection-bug/manual-selection-bug';
 import { ActiveTransport } from './features/dashboard/components/active-transport/active-transport';
+import { ManualCodeEntry } from './features/dashboard/components/dialogs/manual-code-entry/manual-code-entry';
 
 export const routes: Route[] = [
   {
@@ -21,6 +22,10 @@ export const routes: Route[] = [
       {
         path: 'manual-selection',
         component: ManualSelectionBug
+      },
+      {
+        path: 'manual-entry',
+        component: ManualCodeEntry
       },
       {
         path: 'active-transport',

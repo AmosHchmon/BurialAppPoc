@@ -44,8 +44,24 @@
     <strong>לא נמצאה מצלמה זמינה</strong>
     <p class="small mb-3">לא ניתן לסרוק ברקוד במכשיר זה.</p>
 
-    <button class="btn btn-primary w-100 py-3" (click)="openManualSelection()">
-      מעבר לבחירה ידנית מרשימה
-    </button>
+   <div class="d-grid gap-3">
+      <button class="btn btn-primary btn-lg py-3 d-flex align-items-center shadow-sm"
+              (click)="openManualEntry()">
+        <mat-icon class="ms-3">dialpad</mat-icon>
+        <div class="text-end">
+          <div class="fw-bold">הזנה ידנית</div>
+          <small class="d-block opacity-75">הקלדת 6 ספרות הברקוד</small>
+        </div>
+      </button>
+
+      <button class="btn btn-primary btn-lg py-3 d-flex align-items-center shadow-sm"
+              (click)="openManualSelection()">
+        <mat-icon class="ms-3">format_list_bulleted</mat-icon>
+        <div class="text-end">
+          <div class="fw-bold">בחירה מרשימה</div>
+          <small class="d-block opacity-75">איתור חלל ברשימה הקיימת</small>
+        </div>
+      </button>
+    </div>
   </div>
 }

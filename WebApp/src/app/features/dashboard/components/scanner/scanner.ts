@@ -27,6 +27,7 @@ import {
   MatSnackBar,
 } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { ManualCodeEntry } from '../dialogs/manual-code-entry/manual-code-entry';
 
 @Component({
   selector: 'app-scanner',
@@ -75,7 +76,7 @@ noCameraMode = signal<boolean>(false);
 
     this.scanTimer = setTimeout(() => {
       this.handleScanTimeout();
-    }, 15000); // 15 שניות
+    }, 5000); // 15 שניות
   }
 
   // פונקציה לעצירת הטיימר
@@ -87,8 +88,6 @@ noCameraMode = signal<boolean>(false);
 
   // מה קורה אחרי 15 שניות ללא הצלחה
   handleScanTimeout() {
-
-   this.snackBar.open('לא זוהה ברקוד. עובר להזנה ידנית לנוחיותך.', 'סגור', { duration: 3000 });
 
     this.noCameraMode.set(true);
 
@@ -113,12 +112,14 @@ noCameraMode = signal<boolean>(false);
 
   onCamerasNotFound(): void {
    this.noCameraMode.set(true);
-
-   this.snackBar.open('מצלמה לא נמצאה, עובר להזנה ידנית', 'סגור', { duration: 3000 });
   }
 
-    openManualSelection() {
+  openManualSelection() {
     this.router.navigate(['/manual-selection']);
+  }
+
+  openManualEntry() {
+    this.dialog.open(ManualCodeEntry);
   }
 
 }

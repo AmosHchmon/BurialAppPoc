@@ -1,0 +1,25 @@
+<div class="manual-code-container p-4" dir="rtl">
+  <h2 class="h5 text-center fw-bold mb-3">הזנת קוד חלל</h2>
+
+  <p class="text-center text-muted small mb-4">
+    הזן את 6 הספרות המופיעות תחת הברקוד:
+  </p>
+
+  <div class="otp-wrapper d-flex justify-content-center" dir="ltr">
+    <ng-otp-input
+      [config]="otpConfig"
+      (onInputChange)="onCodeChange($event)">
+    </ng-otp-input>
+  </div>
+
+  <div class="mat-dialog-actions d-flex justify-content-center gap-3 mt-4">
+    <button mat-dialog-close  mat-raised-button color="primary" matButton="filled">
+      ביטול
+    </button>
+    <button mat-raised-button color="primary" matButton="filled"
+            [disabled]="currentCode.length < 5"
+            (click)="confirm()">
+      אישור
+    </button>
+  </div>
+</div>
