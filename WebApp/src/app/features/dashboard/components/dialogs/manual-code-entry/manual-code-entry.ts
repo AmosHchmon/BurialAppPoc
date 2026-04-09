@@ -17,7 +17,12 @@ export class ManualCodeEntry {
   otpConfig = {
     length: 6,
     allowNumbersOnly: true,
-    inputType: 'number'
+    inputStyles: {
+    'width': '3rem',
+    'height': '3rem',
+    'font-size': '2rem'
+  }
+    // inputType: 'number'
   };
 
   constructor(
